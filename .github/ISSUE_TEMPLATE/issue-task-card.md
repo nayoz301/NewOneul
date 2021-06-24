@@ -7,15 +7,17 @@ assignees: ''
 
 ---
 
-ISSUE
+## ISSUE
 Group: client, server, sr
 Type: bug, feature, delete
 Detail: fix actions from client redux
-TODO
- Job1
- Job2
- Job3
-Estimated time
+  
+## TODO
+- [x] Job1
+- [x] Job2
+- [x] Job3
+
+## Estimated time
 Pick one
 
 0.5h
@@ -24,7 +26,8 @@ Pick one
 2h
 2.5h
 3h
-Labels
+  
+## Labels
 Estimated time: E: 1h
 Group : client, server
 Sprint: Sprint__NUMBER__
