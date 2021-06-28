@@ -11,7 +11,8 @@ import {
   LdBtnWrapper,
   LdBtn,
 } from "../../styles/landing/LandingSection.style";
-import Signup from '../modals/Signup'
+import { Link } from "react-router-dom";
+import Signup from "../modals/Signup";
 
 const random = () => {
   return Math.ceil(Math.random() * 2) - 1;
@@ -37,10 +38,7 @@ const LandingSection = (props) => {
       </Overlay>
       <LandingNav>
         <h1>오늘 ,</h1>
-        <span onClick={handleModal}
-        >
-          로그인
-        </span>
+        <span onClick={handleModal}>로그인</span>
       </LandingNav>
       {isModal && <Signup handleModal={handleModal} />}
       <LdInnerSection>
@@ -58,7 +56,9 @@ const LandingSection = (props) => {
           <LdInnerSpan>글, 그림, 음악에 담아보세요</LdInnerSpan>
         </LdInnerSpanWrapper>
         <LdBtnWrapper>
-          <LdBtn first>시작하기</LdBtn>
+          <Link to="/main">
+            <LdBtn first>시작하기</LdBtn>
+          </Link>
           <LdBtn
             onClick={() => {
               window.scrollTo({ top: 1016, behavior: "smooth" });
@@ -68,7 +68,7 @@ const LandingSection = (props) => {
           </LdBtn>
         </LdBtnWrapper>
       </LdInnerSection>
-    </HeaderSection >
+    </HeaderSection>
   );
 };
 

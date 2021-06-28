@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import mypic from "../../images/mypic.jpeg";
+import gahyung from "../../images/kahyung.jpeg";
+import haesung from "../../images/haesung.jpeg";
 import Carousel, { consts } from "react-elastic-carousel";
 import {
   CardSection,
@@ -56,7 +58,11 @@ const LandingCard = () => {
             </Card>
             <Card>
               <CardFront>
-                <img src={mypic} alt="" />
+                <img
+                  src={gahyung}
+                  alt=""
+                  style={{ objectPosition: "-8px 55%" }}
+                />
                 <CardFrontHeader>취사병 1</CardFrontHeader>
               </CardFront>
               <CardBack>
@@ -69,7 +75,11 @@ const LandingCard = () => {
             </Card>
             <Card>
               <CardFront>
-                <img src={mypic} alt="" />
+                <img
+                  src={haesung}
+                  alt=""
+                  style={{ objectPosition: "-30px 60%" }}
+                />
                 <CardFrontHeader>취사병 2</CardFrontHeader>
               </CardFront>
               <CardBack>
