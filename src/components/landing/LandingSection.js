@@ -11,13 +11,19 @@ import {
   LdBtnWrapper,
   LdBtn,
 } from "../../styles/landing/LandingSection.style";
+import Signup from '../modals/Signup'
 
 const random = () => {
   return Math.ceil(Math.random() * 2) - 1;
 };
 
-const LandingSection = () => {
+const LandingSection = (props) => {
   const [video, setVideo] = useState(null);
+  const [isModal, setIsModal] = useState(false);
+
+  const handleModal = (e) => {
+    setIsModal(!isModal);
+  };
 
   useEffect(() => {
     const background = [writing, swing];
@@ -30,9 +36,13 @@ const LandingSection = () => {
         <video src={video} muted="muted" autoPlay loop />
       </Overlay>
       <LandingNav>
-        <h1>오늘 .</h1>
-        <span>로그인</span>
+        <h1>오늘 ,</h1>
+        <span onClick={handleModal}
+        >
+          로그인
+        </span>
       </LandingNav>
+      {isModal && <Signup handleModal={handleModal} />}
       <LdInnerSection>
         <LdInnerSpanWrapper>
           <LdInnerSpan first>오늘,</LdInnerSpan>
@@ -58,7 +68,7 @@ const LandingSection = () => {
           </LdBtn>
         </LdBtnWrapper>
       </LdInnerSection>
-    </HeaderSection>
+    </HeaderSection >
   );
 };
 
