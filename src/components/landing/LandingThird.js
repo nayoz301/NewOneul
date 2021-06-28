@@ -3,7 +3,7 @@ import { IoIosArrowUp } from "react-icons/io";
 import LandingCard from "./LandingCard";
 import Scroll from "react-scroll";
 import "aos/dist/aos.css";
-
+import { Link } from "react-router-dom";
 import {
   SecondDivForColor,
   MainSecondInnerSection,
@@ -40,7 +40,9 @@ const LandingThird = () => {
             <div className="second-line">김덕기 임해성</div>
           </LinkDiv>
           <FooterBtnDiv>
-            <button>일기쓰기</button>
+            <Link to="/main">
+              <button>일기쓰기</button>
+            </Link>
           </FooterBtnDiv>
         </Footer>
       </MainSecondInnerSection>

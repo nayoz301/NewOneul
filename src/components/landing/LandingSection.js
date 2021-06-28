@@ -11,6 +11,7 @@ import {
   LdBtnWrapper,
   LdBtn,
 } from "../../styles/landing/LandingSection.style";
+import { Link } from "react-router-dom";
 
 const random = () => {
   return Math.ceil(Math.random() * 2) - 1;
@@ -48,7 +49,9 @@ const LandingSection = () => {
           <LdInnerSpan>글, 그림, 음악에 담아보세요</LdInnerSpan>
         </LdInnerSpanWrapper>
         <LdBtnWrapper>
-          <LdBtn first>시작하기</LdBtn>
+          <Link to="/main">
+            <LdBtn first>시작하기</LdBtn>
+          </Link>
           <LdBtn
             onClick={() => {
               window.scrollTo({ top: 1016, behavior: "smooth" });
