@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.8.3",
     "aos": "^2.3.4",
     "axios": "^0.21.1",
+    "gitmoji-cli": "^4.1.0",
     "moment": "^2.29.1",
     "node-sass": "^6.0.1",
     "path-to-regexp": "^6.2.0",
