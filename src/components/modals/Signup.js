@@ -19,36 +19,36 @@ export default function Signup({ handleModal }) {
     setClickedType(e.target.innerText)
   };
 
-  // const checkValidation = (e) => {
-  //   e.preventDefault();
-  //   const { username, email, password, password2 } = values;
+  const checkValidation = (e) => {
+    e.preventDefault();
+    const { username, email, password, password2 } = values;
 
-  //   if (clickedType === '로그인') {
-  //     if (!values.email && !/\S+@\S+\.\S+/.test(values.email)) {
-  //       errors.email = '📢 이메일을 확인해주세요!';
-  //     } else if (!values.password) {
-  //       errors.password = '📢 비밀번호를 입력해주세요!';
-  //     } else if (values.password.length < 8) {
-  //       errors.password = '📢 비밀번호는 8자리 이상입니다!';
-  //     } else {
-  //       // handleLogin(email, password);
-  //       console.log('Login');
-  //     }
-  //   } else {
-  //     if (
-  //       username.length > 0 &&
-  //       email.length > 0 &&
-  //       password.length > 6 &&
-  //       password2 === password &&
-  //       email.includes('@')
-  //     ) {
-  //       console.log('Signup');
-  //       handleSignUp(username, email, password, password2);
-  //     } else {
-  //       alert('입력한 정보를 다시 확인하세요!');
-  //     }
-  //   }
-  // };
+    if (clickedType === '로그인') {
+      if (!values.email && !/\S+@\S+\.\S+/.test(values.email)) {
+        errors.email = '📢 이메일을 확인해주세요!';
+      } else if (!values.password) {
+        errors.password = '📢 비밀번호를 입력해주세요!';
+      } else if (values.password.length < 8) {
+        errors.password = '📢 비밀번호는 8자리 이상입니다!';
+      } else {
+        // handleLogin(email, password);
+        console.log('Login');
+      }
+    } else {
+      if (
+        username.length > 0 &&
+        email.length > 0 &&
+        password.length > 6 &&
+        password2 === password &&
+        email.includes('@')
+      ) {
+        console.log('Signup');
+        // handleSignUp(username, email, password, password2);
+      } else {
+        alert('입력한 정보를 다시 확인하세요!');
+      }
+    }
+  };
 
   // const handleSignUp = async (username, email, password, password2) => {
   //   await axios
