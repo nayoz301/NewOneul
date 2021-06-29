@@ -1,5 +1,6 @@
 import React from "react";
-import { IoIosArrowUp } from "react-icons/io";
+import { Icon } from "react-icons-kit";
+import { angleUp } from "react-icons-kit/fa/angleUp";
 import LandingCard from "./LandingCard";
 import Scroll from "react-scroll";
 import "aos/dist/aos.css";
@@ -27,7 +28,7 @@ const LandingThird = () => {
           오늘과 이용해주신 분들
         </MainSecondHeader>
         <ScrollTop onClick={scrollToTop}>
-          <IoIosArrowUp />
+          <Icon size={"35"} icon={angleUp} style={style} />
         </ScrollTop>
         <LandingCard />
         <Footer>
@@ -51,3 +52,5 @@ const LandingThird = () => {
 };
 
 export default LandingThird;
+
+const style = { position: "relative", bottom: "5px" };

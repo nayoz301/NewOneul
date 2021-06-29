@@ -1,8 +1,11 @@
 import React from "react";
-import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
+import { Icon } from "react-icons-kit";
+import { angleLeft } from "react-icons-kit/fa/angleLeft";
+import { angleRight } from "react-icons-kit/fa/angleRight";
 import mypic from "../../images/mypic.jpeg";
 import gahyung from "../../images/kahyung.jpeg";
 import haesung from "../../images/haesung.jpeg";
+import hoon from "../../images/hoon.jpeg";
 import Carousel, { consts } from "react-elastic-carousel";
 import {
   CardSection,
@@ -27,9 +30,9 @@ const LandingCard = () => {
   const myArrow = ({ type, onClick, isEdge }) => {
     const pointer =
       type === consts.PREV ? (
-        <BsChevronLeft fontSize="5rem" style={style} />
+        <Icon size={"60"} icon={angleLeft} style={style} />
       ) : (
-        <BsChevronRight fontSize="5rem" style={style} />
+        <Icon size={"60"} icon={angleRight} style={style} />
       );
     return (
       <Arrow onClick={onClick} disabled={isEdge}>
@@ -92,14 +95,17 @@ const LandingCard = () => {
             </Card>
             <Card>
               <CardFront>
-                <img src={mypic} alt="" />
+                <img
+                  src={hoon}
+                  alt=""
+                  style={{ objectPosition: "-15px 45%" }}
+                />
                 <CardFrontHeader>부사관 1.</CardFrontHeader>
               </CardFront>
               <CardBack>
                 <CardBackText>
-                  오늘을 사용하면 일기에 노래로 넣을 수 있고 그림도 그릴 수
-                  있어서 아주 편리해요. 매일 잠 자기 전에 일기 쓰기 좋은
-                  페이지를 찾고 있었느데 아주 좋은 거 같아요.
+                  이 비행의 끝이 보인다. 쉼 없이 날아온 것 같은데 여전히 이륙 중
+                  .. 나의 목적지를 향한 비행은 끝이 아닌 시작이었다 .
                 </CardBackText>
               </CardBack>
             </Card>
