@@ -41,6 +41,16 @@ export default function Signup({ handleModal }) {
     setClickedType(e.target.innerText);
   };
 
+  const handleSocialLogin = async (e, siteName) => {
+    e.preventDefault();
+    const loginUrl = await axios.post(`http://localhost:80/oauth/getCode`, {
+      siteName: siteName
+    }, {
+      withCredentials: true
+    })
+    window.location.href=loginUrl.data;
+  }
+
   // const checkValidation = (e) => {
   //   e.preventDefault();
   //   const { username, email, password, password2 } = values;
@@ -191,19 +201,19 @@ export default function Signup({ handleModal }) {
               </>
             )}
             <Or></Or>
-            <NaverBtn>
+            <NaverBtn onClick={(e) => handleSocialLogin(e, "naver")}>
               <ForBalanceNaver>
                 <NaverLogo alt="Naverlogo" src="/img/naverlogo.png" />
                 <NaverText>네이버 로그인</NaverText>
               </ForBalanceNaver>
             </NaverBtn>
-            <Kakaobtn>
+            <Kakaobtn onClick={(e) => handleSocialLogin(e, "kakao")}>
               <ForBlanceKakao>
                 <KakaoLogo alt="kakaologo" src="/img/kakaologo.png" />
                 <KakaoText>카카오 로그인</KakaoText>
               </ForBlanceKakao>
             </Kakaobtn>
-            <GoogleBtn>
+            <GoogleBtn onClick={(e) => handleSocialLogin(e, "google")}>
               <ForBalanceGoogle>
                 <GoogleLogo alt="googlelogo" src="/img/googlelogo.png" />
                 <GoogleText>구글 로그인</GoogleText>
