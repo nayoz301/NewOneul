@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react';
 
-export default function Modal(callback, validate) {
+export default function Modal() {
   const [values, setValues] = useState({
-    username: '',
+    nickname: '',
     email: '',
     password: '',
     password2: '',
   });
-  const [errors, setErrors] = useState({});
-  const [isSubmit, setIsSubmit] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,19 +18,9 @@ export default function Modal(callback, validate) {
 
   const handleSubmit = e => {
     e.preventDefault();
-
-    setErrors(validate(values));
-    setIsSubmit(true);
   };
 
-  useEffect(
-    () => {
-      if (Object.keys(errors).length === 0 && isSubmit) {
-        callback();
-      }
-    },
-    [errors]
-  );
 
-  return { handleChange, handleSubmit, values, errors };
+
+  return { handleChange, handleSubmit, values, setValues };
 };

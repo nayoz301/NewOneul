@@ -75,3 +75,62 @@
 .github {
   font-size: 1.4rem;
 } */
+.main-section {
+  padding-top: 60px;
+  border: 1px solid red;
+  z-index: 100;
+}
+
+@media only screen and (max-width: 767px) {
+  .card {
+    margin: 0.9rem;
+  }
+  .wrapper {
+    width: 80%;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .calendar {
+    min-width: 50rem;
+    /* min-height: 50rem; */
+  }
+
+  .wrapper {
+    width: 75%;
+  }
+  .card-wrapper {
+    height: calc(94vh - 18rem);
+    overflow: scroll;
+    overflow-x: hidden;
+  }
+  .card {
+    min-width: 19rem;
+    min-height: 25rem;
+    margin: 1.8rem;
+    border-radius: 10px;
+  }
+  .mycard {
+    min-height: 25rem;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .wrapper {
+    display: flex;
+  }
+  .main-section {
+    min-height: 100vh;
+    padding-top: 14vh;
+  }
+  .calendar-mycard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .card-wrapper {
+    height: calc(94vh - 26rem);
+    overflow: scroll;
+    overflow-x: hidden;
+  }
+}

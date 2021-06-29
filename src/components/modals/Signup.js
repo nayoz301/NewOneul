@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import validate from "./Validate";
 import useForm from "./useFrom";
 import "./Signup.scss";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import {
   BoxContainer,
@@ -34,88 +34,139 @@ import {
 
 // hooks
 export default function Signup({ handleModal }) {
-  const { handleChange, handleSubmit, values, errors } = useForm(validate);
+  const { handleChange, handleSubmit, values, setValues } = useForm();
+  // login <-> signup
   const [clickedType, setClickedType] = useState("로그인");
+  // signup, login
+  const [onLogin, setOnLogin] = useState(false);
+  const [onSignup, setOnSignup] = useState(false);
+  // token
+  const [accessToken, setAccessToken] = useState('');
+  const history = useHistory();
 
   const handleClickedType = (e) => {
     setClickedType(e.target.innerText);
+    setValues({
+      nickname: '',
+      email: '',
+      password: '',
+      password2: '',
+    })
   };
+
+  const onLoginSuccess = () => {
+    // true 일 때 메인페이지 이동
+    setOnLogin(true);
+    history.push("/main")
+    console.log('로그인 완료')
+  };
+
+  const onSignupSuccess = () => {
+    alert('안녕하세요! 회원가입이 완료되었습니다!');
+    setOnSignup(handleModal);
+  };
+  const handleSocialLogin = async (e, siteName) => {
+    e.preventDefault();
+    const loginUrl = await axios.post(`http://localhost:80/oauth/getCode`, {
+      siteName: siteName
+    }, {
+      withCredentials: true
+    })
+    window.location.href = loginUrl.data;
+  }
 
   // const checkValidation = (e) => {
   //   e.preventDefault();
   //   const { username, email, password, password2 } = values;
 
-  //   if (clickedType === '로그인') {
-  //     if (!values.email && !/\S+@\S+\.\S+/.test(values.email)) {
-  //       errors.email = '📢 이메일을 확인해주세요!';
-  //     } else if (!values.password) {
-  //       errors.password = '📢 비밀번호를 입력해주세요!';
-  //     } else if (values.password.length < 8) {
-  //       errors.password = '📢 비밀번호는 8자리 이상입니다!';
-  //     } else {
-  //       // handleLogin(email, password);
-  //       console.log('Login');
-  //     }
-  //   } else {
-  //     if (
-  //       username.length > 0 &&
-  //       email.length > 0 &&
-  //       password.length > 6 &&
-  //       password2 === password &&
-  //       email.includes('@')
-  //     ) {
-  //       console.log('Signup');
-  //       handleSignUp(username, email, password, password2);
-  //     } else {
-  //       alert('입력한 정보를 다시 확인하세요!');
-  //     }
-  //   }
-  // };
+  // 로그인, 회원가입 전환에 따른 유효성 검사
+  const checkValidation = (e) => {
+    e.preventDefault();
+    const { nickname, email, password, password2 } = values;
 
-  // const handleSignUp = async (username, email, password, password2) => {
-  //   await axios
-  //     .post("http://ec2-100-25-162-56.compute-1.amazonaws.com", {
-  //       username: username,
-  //       email: email,
-  //       password: password,
-  //       password2: password2,
-  //     },
-  //       {
-  //         headers: {
-  //           'Content-Type': 'application/json'
-  //         }, withCredentials: true
-  //       })
-  //     .then((res) => {
-  //       this.props.onSignupSuccess();
-  //       console.log("success")
-  //     })
-  //     .catch((err) => {
-  //       console.log("error")
-  //     })
-  // };
+    if (clickedType === '로그인') {
+      if (email.length > 0 && password.length > 7 && email.includes('@')) {
+        handleLogin(email, password);
+        console.log('Login');
+      } else {
+        alert('📢 로그인 정보를 정보를 입력하세요! 📢');
+      }
+    } else if (clickedType === '회원가입') {
+      if (
+        nickname.length > 0 &&
+        email.length > 0 &&
+        password.length > 7 &&
+        password2 === password &&
+        email.includes('@')
+      ) {
+        console.log('Signup');
+        handleSignUp(nickname, email, password);
+      }
+      else if (
+        nickname.length === 0) {
+        alert('📢 닉네임을 입력하세요! 📢');
+      }
+      else if (email.length === 0 || !/\S+@\S+\.\S+/) {
+        alert('📢 이메일 형식을 확인하세요! 📢')
+      }
+      else if (password.length < 8) {
+        alert('📢 비밀번호는 8자리 이상입니다! 📢')
+      }
+      else if (password2 !== password) {
+        alert('📢 비밀번호가 달라요! 😢 📢')
+      }
+    }
+  };
 
-  // const handleLogin = async (email, password) => {
-  //   await axios
-  //     .post(
-  //       "http://ec2-100-25-162-56.compute-1.amazonaws.com", {
-  //       email: email,
-  //       password: password
-  //     },
-  //       { headers: { "Content-Type": "application/json" }, withCredentials: true }
-  //     )
-  //     .then((res) => {
-  //       if (res.token) {
-  //         this.props.onLoginSuccess();
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log(err)
-  //     })
-  // };
+  const handleSignUp = async (nickname, email, password) => {
+    await axios
+      .post(
+        "https://oneul.site/O_NeulServer/user/signup", {
+        nickname: nickname,
+        email: email,
+        password: password
+      },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }, withCredentials: true
+        })
+      .then((res) => {
+        onSignupSuccess();
+        console.log("success")
+      })
+      .catch((err) => {
+        console.log("error")
+      })
+  };
+
+  const handleLogin = async (email, password) => {
+    await axios
+      .post(
+        "https://oneul.site/O_NeulServer/user/signin", {
+        email: email,
+        password: password
+      },
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }, withCredentials: true
+        }
+      )
+      .then((res) => {
+        onLoginSuccess();
+        // if (res.token) {
+        //   onLoginSuccess();
+        // }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  };
 
   return (
     <BoxContainer>
-      <FormContainer onSubmit={handleSubmit} noValidate>
+      <FormContainer onSubmit={handleSubmit}>
         <ModalContainer
           onClick={(e) => {
             e.stopPropagation();
@@ -130,15 +181,14 @@ export default function Signup({ handleModal }) {
               <Input
                 type="text"
                 className={
-                  clickedType === "로그인" ? "displayNone" : "username"
+                  clickedType === "로그인" ? "displayNone" : "nickname"
                 }
                 placeholder="닉네임"
                 onChange={handleChange}
-                value={values.username}
-                name="username"
+                value={values.nickname}
+                name="nickname"
                 autoComplete="off"
               />
-              {errors.username && <p>{errors.username}</p>}
               <Input
                 type="email"
                 placeholder="이메일"
@@ -147,7 +197,6 @@ export default function Signup({ handleModal }) {
                 name="email"
                 autoComplete="off"
               />
-              {errors.username && <p>{errors.username}</p>}
               <Input
                 type="password"
                 placeholder="비밀번호"
@@ -156,7 +205,6 @@ export default function Signup({ handleModal }) {
                 name="password"
                 autoComplete="off"
               />
-              {errors.username && <p>{errors.username}</p>}
               <Input
                 type="password"
                 className={
@@ -168,8 +216,7 @@ export default function Signup({ handleModal }) {
                 name="password2"
                 autoComplete="off"
               />
-              {errors.username && <p>{errors.username}</p>}
-              <SignupBtn onClick={() => console.log("hi")}>
+              <SignupBtn type="submit" onClick={checkValidation}>
                 {clickedType === "회원가입" ? "회원가입" : "로그인"}
               </SignupBtn>
             </SignupForm>
@@ -191,19 +238,19 @@ export default function Signup({ handleModal }) {
               </>
             )}
             <Or></Or>
-            <NaverBtn>
+            <NaverBtn onClick={(e) => handleSocialLogin(e, "naver")}>
               <ForBalanceNaver>
                 <NaverLogo alt="Naverlogo" src="/img/naverlogo.png" />
                 <NaverText>네이버 로그인</NaverText>
               </ForBalanceNaver>
             </NaverBtn>
-            <Kakaobtn>
+            <Kakaobtn onClick={(e) => handleSocialLogin(e, "kakao")}>
               <ForBlanceKakao>
                 <KakaoLogo alt="kakaologo" src="/img/kakaologo.png" />
                 <KakaoText>카카오 로그인</KakaoText>
               </ForBlanceKakao>
             </Kakaobtn>
-            <GoogleBtn>
+            <GoogleBtn onClick={(e) => handleSocialLogin(e, "google")}>
               <ForBalanceGoogle>
                 <GoogleLogo alt="googlelogo" src="/img/googlelogo.png" />
                 <GoogleText>구글 로그인</GoogleText>

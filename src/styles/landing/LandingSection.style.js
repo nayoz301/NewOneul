@@ -94,7 +94,7 @@ export const LdInnerSpan = styled.span`
 
       &:hover {
         &::before {
-          width: 13rem;
+          width: 16rem;
         }
       }
     `}
@@ -104,7 +104,7 @@ export const LdInnerSpan = styled.span`
   }
 
   @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
-    font-size: ${(props) => (props.first ? "8.5rem" : "4rem")};
+    font-size: ${(props) => (props.first ? "7rem" : "3.8rem")};
   }
 `;
 
