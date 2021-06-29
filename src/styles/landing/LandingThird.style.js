@@ -2,7 +2,6 @@ import styled from "styled-components";
 import {
   flexSpaceBtw,
   translateY,
-  BREAK_POINT_MD_SCREEN,
   BREAK_POINT_LG_SCREEN,
 } from "../global.style";
 
@@ -41,20 +40,15 @@ export const ScrollTop = styled.button`
   position: absolute;
   right: 4%;
   bottom: 18%;
-  padding: 5px 0.7rem;
-  font-size: 2.5rem;
+  padding: 0.5rem;
   border: none;
   border-radius: 50%;
   background-color: var(--primary-color);
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   animation: ${translateY} 2s infinite;
 
-  @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
-    font-size: 3rem;
-  }
-
   @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
-    font-size: 3.7rem;
+    padding: 0.6rem;
   }
 `;
 
