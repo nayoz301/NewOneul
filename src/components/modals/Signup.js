@@ -41,39 +41,43 @@ export default function Signup({ handleModal }) {
   const [onLogin, setOnLogin] = useState(false);
   const [onSignup, setOnSignup] = useState(false);
   // token
-  const [accessToken, setAccessToken] = useState('');
+  const [accessToken, setAccessToken] = useState("");
   const history = useHistory();
 
   const handleClickedType = (e) => {
     setClickedType(e.target.innerText);
     setValues({
-      nickname: '',
-      email: '',
-      password: '',
-      password2: '',
-    })
+      nickname: "",
+      email: "",
+      password: "",
+      password2: "",
+    });
   };
 
   const onLoginSuccess = () => {
     // true 일 때 메인페이지 이동
     setOnLogin(true);
-    history.push("/main")
-    console.log('로그인 완료')
+    history.push("/main");
+    console.log("로그인 완료");
   };
 
   const onSignupSuccess = () => {
-    alert('안녕하세요! 회원가입이 완료되었습니다!');
+    alert("안녕하세요! 회원가입이 완료되었습니다!");
     setOnSignup(handleModal);
   };
   const handleSocialLogin = async (e, siteName) => {
     e.preventDefault();
-    const loginUrl = await axios.post(`http://localhost:80/oauth/getCode`, {
-      siteName: siteName
-    }, {
-      withCredentials: true
-    })
+    const loginUrl = await axios.post(
+      `http://localhost:80/oauth/getCode`,
+      {
+        siteName: siteName,
+      },
+      {
+        withCredentials: true,
+      }
+    );
     window.location.href = loginUrl.data;
-  }
+  };
 
   // const checkValidation = (e) => {
   //   e.preventDefault();
@@ -84,36 +88,31 @@ export default function Signup({ handleModal }) {
     e.preventDefault();
     const { nickname, email, password, password2 } = values;
 
-    if (clickedType === '로그인') {
-      if (email.length > 0 && password.length > 7 && email.includes('@')) {
+    if (clickedType === "로그인") {
+      if (email.length > 0 && password.length > 7 && email.includes("@")) {
         handleLogin(email, password);
-        console.log('Login');
+        console.log("Login");
       } else {
-        alert('📢 로그인 정보를 정보를 입력하세요! 📢');
+        alert("📢 로그인 정보를 정보를 입력하세요! 📢");
       }
-    } else if (clickedType === '회원가입') {
+    } else if (clickedType === "회원가입") {
       if (
         nickname.length > 0 &&
         email.length > 0 &&
         password.length > 7 &&
         password2 === password &&
-        email.includes('@')
+        email.includes("@")
       ) {
-        console.log('Signup');
+        console.log("Signup");
         handleSignUp(nickname, email, password);
-      }
-      else if (
-        nickname.length === 0) {
-        alert('📢 닉네임을 입력하세요! 📢');
-      }
-      else if (email.length === 0 || !/\S+@\S+\.\S+/) {
-        alert('📢 이메일 형식을 확인하세요! 📢')
-      }
-      else if (password.length < 8) {
-        alert('📢 비밀번호는 8자리 이상입니다! 📢')
-      }
-      else if (password2 !== password) {
-        alert('📢 비밀번호가 달라요! 😢 📢')
+      } else if (nickname.length === 0) {
+        alert("📢 닉네임을 입력하세요! 📢");
+      } else if (email.length === 0 || !/\S+@\S+\.\S+/) {
+        alert("📢 이메일 형식을 확인하세요! 📢");
+      } else if (password.length < 8) {
+        alert("📢 비밀번호는 8자리 이상입니다! 📢");
+      } else if (password2 !== password) {
+        alert("📢 비밀번호가 달라요! 😢 📢");
       }
     }
   };
@@ -121,36 +120,41 @@ export default function Signup({ handleModal }) {
   const handleSignUp = async (nickname, email, password) => {
     await axios
       .post(
-        "https://oneul.site/O_NeulServer/user/signup", {
-        nickname: nickname,
-        email: email,
-        password: password
-      },
+        "https://oneul.site/O_NeulServer/user/signup",
+        {
+          nickname: nickname,
+          email: email,
+          password: password,
+        },
         {
           headers: {
-            'Content-Type': 'application/json'
-          }, withCredentials: true
-        })
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      )
       .then((res) => {
         onSignupSuccess();
-        console.log("success")
+        console.log("success");
       })
       .catch((err) => {
-        console.log("error")
-      })
+        console.log("error");
+      });
   };
 
   const handleLogin = async (email, password) => {
     await axios
       .post(
-        "https://oneul.site/O_NeulServer/user/signin", {
-        email: email,
-        password: password
-      },
+        "https://oneul.site/O_NeulServer/user/signin",
+        {
+          email: email,
+          password: password,
+        },
         {
           headers: {
-            "Content-Type": "application/json"
-          }, withCredentials: true
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
         }
       )
       .then((res) => {
@@ -160,8 +164,8 @@ export default function Signup({ handleModal }) {
         // }
       })
       .catch((err) => {
-        console.log(err)
-      })
+        console.log(err);
+      });
   };
 
   return (
@@ -223,7 +227,7 @@ export default function Signup({ handleModal }) {
             {clickedType === "로그인" ? (
               <>
                 <SignupToLoginText>
-                  계정이 없으신가요?
+                  계정이 없으신가요 ?
                   <SwitchSignup onClick={handleClickedType}>
                     회원가입
                   </SwitchSignup>
