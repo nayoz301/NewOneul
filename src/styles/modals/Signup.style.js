@@ -16,18 +16,18 @@ export const FormContainer = styled.form`
   right: 0;
   bottom: 0;
   background: #00000080;
-  z-index: 10000;
+  z-index: 1000;
 `;
 
 export const ModalContainer = styled.div`
   position: absolute;
-  width: 40rem;
+  width: 38rem;
   height: 70rem;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
-  padding: 2.8rem 4rem 4.8rem 4rem;
+  padding: 4.2rem 4.4rem 4.8rem 4.4rem;
   border-radius: 1.2rem;
   color: grey;
   font-family: var(--primary-font);
@@ -37,10 +37,7 @@ export const ModalContainer = styled.div`
 
 export const Close = styled.button`
   margin-left: 93%;
-  font-size: 2.5rem;
   border: none;
-  margin-top: 0;
-  padding: 0;
 `;
 
 export const Wrapper = styled.div`
@@ -114,21 +111,15 @@ export const SignupToLoginText = styled.div`
 `;
 
 export const SwitchSignup = styled.span`
-  color: #59a1ff;
+  color: #1a53ff;
   cursor: pointer;
-
-  &:hover {
-    color: #1a53ff;
-  }
+  margin-left: .5rem;
 `;
 
 export const SwitchLogin = styled.span`
-  color: #9cc3ff;
+  color: #1a53ff;
   cursor: pointer;
-
-  &:hover {
-    color: #1a53ff;
-  }
+  margin-left: .5rem;
 `;
 
 export const Or = styled.div`

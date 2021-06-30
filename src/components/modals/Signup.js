@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import useForm from "./useFrom";
+import useForm from "./useForm";
 import "./Signup.scss";
-import { useHistory } from "react-router-dom";
 import axios from "axios";
 import {
   BoxContainer,
@@ -31,57 +30,21 @@ import {
   NaverLogo,
   NaverText,
 } from "../../styles/modals/Signup.style";
+import { Icon } from "react-icons-kit";
+import { circle_delete } from "react-icons-kit/ikons/circle_delete";
+import Swal from "sweetalert2";
 
-// hooks
 export default function Signup({ handleModal }) {
-  const { handleChange, handleSubmit, values, setValues } = useForm();
-  // login <-> signup
-  const [clickedType, setClickedType] = useState("로그인");
-  // signup, login
-  const [onLogin, setOnLogin] = useState(false);
-  const [onSignup, setOnSignup] = useState(false);
-  // token
-  const [accessToken, setAccessToken] = useState("");
-  const history = useHistory();
-
-  const handleClickedType = (e) => {
-    setClickedType(e.target.innerText);
-    setValues({
-      nickname: "",
-      email: "",
-      password: "",
-      password2: "",
-    });
-  };
-
-  const onLoginSuccess = () => {
-    // true 일 때 메인페이지 이동
-    setOnLogin(true);
-    history.push("/main");
-    console.log("로그인 완료");
-  };
-
-  const onSignupSuccess = () => {
-    alert("안녕하세요! 회원가입이 완료되었습니다!");
-    setOnSignup(handleModal);
-  };
-  const handleSocialLogin = async (e, siteName) => {
-    e.preventDefault();
-    const loginUrl = await axios.post(
-      `http://localhost:80/oauth/getCode`,
-      {
-        siteName: siteName,
-      },
-      {
-        withCredentials: true,
-      }
-    );
-    window.location.href = loginUrl.data;
-  };
-
-  // const checkValidation = (e) => {
-  //   e.preventDefault();
-  //   const { username, email, password, password2 } = values;
+  const {
+    handleChange,
+    handleSubmit,
+    values,
+    clickedType,
+    handleClickedType,
+    onLoginSuccess,
+    onSignupSuccess,
+  } = useForm();
+  const [accessToken, setAccessToken] = useState(""); // token
 
   // 로그인, 회원가입 전환에 따른 유효성 검사
   const checkValidation = (e) => {
@@ -93,7 +56,12 @@ export default function Signup({ handleModal }) {
         handleLogin(email, password);
         console.log("Login");
       } else {
-        alert("📢 로그인 정보를 정보를 입력하세요! 📢");
+        Swal.fire({
+          icon: "error",
+          title: "로그인 정보를 정보를 입력하세요!🤔",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       }
     } else if (clickedType === "회원가입") {
       if (
@@ -106,17 +74,38 @@ export default function Signup({ handleModal }) {
         console.log("Signup");
         handleSignUp(nickname, email, password);
       } else if (nickname.length === 0) {
-        alert("📢 닉네임을 입력하세요! 📢");
+        Swal.fire({
+          icon: "error",
+          title: "닉네임을 입력하세요! 🤔",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       } else if (email.length === 0 || !/\S+@\S+\.\S+/) {
-        alert("📢 이메일 형식을 확인하세요! 📢");
+        Swal.fire({
+          icon: "error",
+          title: "이메일 확인하세요! 🤔",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       } else if (password.length < 8) {
-        alert("📢 비밀번호는 8자리 이상입니다! 📢");
+        Swal.fire({
+          icon: "error",
+          title: "비밀번호는 8자리 이상입니다! 🤔",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       } else if (password2 !== password) {
-        alert("📢 비밀번호가 달라요! 😢 📢");
+        Swal.fire({
+          icon: "error",
+          title: "비밀번호가 달라요! 😮",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       }
     }
   };
 
+  // Signup 시  axios.post
   const handleSignUp = async (nickname, email, password) => {
     await axios
       .post(
@@ -127,9 +116,7 @@ export default function Signup({ handleModal }) {
           password: password,
         },
         {
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           withCredentials: true,
         }
       )
@@ -142,6 +129,7 @@ export default function Signup({ handleModal }) {
       });
   };
 
+  // Login 시  axios.post
   const handleLogin = async (email, password) => {
     await axios
       .post(
@@ -151,9 +139,7 @@ export default function Signup({ handleModal }) {
           password: password,
         },
         {
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           withCredentials: true,
         }
       )
@@ -168,6 +154,20 @@ export default function Signup({ handleModal }) {
       });
   };
 
+  // 소셜로그인
+  const handleSocialLogin = async (e, siteName) => {
+    e.preventDefault();
+
+    const loginUrl = await axios.post(
+      `http://localhost:80/oauth/getCode`,
+      {
+        siteName: siteName,
+      },
+      { withCredentials: true }
+    );
+    window.location.href = loginUrl.data;
+  };
+
   return (
     <BoxContainer>
       <FormContainer onSubmit={handleSubmit}>
@@ -177,7 +177,9 @@ export default function Signup({ handleModal }) {
           }}
         >
           <Wrapper>
-            <Close onClick={handleModal}>x</Close>
+            <Close onClick={handleModal}>
+              <Icon size={25} icon={circle_delete} />
+            </Close>
             <SignupText>
               {clickedType === "로그인" ? "로그인" : "회원가입"}
             </SignupText>
@@ -191,7 +193,7 @@ export default function Signup({ handleModal }) {
                 onChange={handleChange}
                 value={values.nickname}
                 name="nickname"
-                autoComplete="off"
+                errorMessage="닉네임을 입력하세요!"
               />
               <Input
                 type="email"
@@ -199,7 +201,6 @@ export default function Signup({ handleModal }) {
                 onChange={handleChange}
                 value={values.email}
                 name="email"
-                autoComplete="off"
               />
               <Input
                 type="password"
@@ -207,39 +208,33 @@ export default function Signup({ handleModal }) {
                 onChange={handleChange}
                 value={values.password}
                 name="password"
-                autoComplete="off"
               />
               <Input
                 type="password"
                 className={
-                  clickedType === "로그인" ? "displayNone" : "password2"
+                  clickedType === "로그인" ? "displayNone" : "nickname"
                 }
                 placeholder="비밀번호 확인"
                 onChange={handleChange}
                 value={values.password2}
                 name="password2"
-                autoComplete="off"
               />
               <SignupBtn type="submit" onClick={checkValidation}>
                 {clickedType === "회원가입" ? "회원가입" : "로그인"}
               </SignupBtn>
             </SignupForm>
             {clickedType === "로그인" ? (
-              <>
-                <SignupToLoginText>
-                  계정이 없으신가요 ?
-                  <SwitchSignup onClick={handleClickedType}>
-                    회원가입
-                  </SwitchSignup>
-                </SignupToLoginText>
-              </>
+              <SignupToLoginText>
+                계정이 없으신가요 ?
+                <SwitchSignup onClick={handleClickedType}>
+                  회원가입
+                </SwitchSignup>
+              </SignupToLoginText>
             ) : (
-              <>
-                <LoginToSignupText>
-                  이미 가입하셨나요?
-                  <SwitchLogin onClick={handleClickedType}>로그인</SwitchLogin>
-                </LoginToSignupText>
-              </>
+              <LoginToSignupText>
+                이미 가입하셨나요 ?
+                <SwitchLogin onClick={handleClickedType}>로그인</SwitchLogin>
+              </LoginToSignupText>
             )}
             <Or></Or>
             <NaverBtn onClick={(e) => handleSocialLogin(e, "naver")}>
@@ -265,5 +260,4 @@ export default function Signup({ handleModal }) {
       </FormContainer>
     </BoxContainer>
   );
-  // }
 }

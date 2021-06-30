@@ -3,6 +3,7 @@ import Landing from "./components/landing/Landing";
 import Main from "./components/main/Main";
 import Loading from "./components/loading/Loading"
 import { GlobalStyle } from "./styles/global.style";
+import Mypage from "./components/mypage/Mypage";
 
 function App() {
   return (
@@ -17,6 +18,9 @@ function App() {
         </Route>
         <Route path="/loading">
           <Loading />
+        </Route>
+        <Route path="/mypage">
+          <Mypage />
         </Route>
       </Switch>
     </>
