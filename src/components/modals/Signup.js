@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import useForm from "./useForm";
-import "./Signup.scss";
 import axios from "axios";
 import {
   BoxContainer,
