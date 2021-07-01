@@ -30,12 +30,13 @@ import {
   NaverLogo,
   NaverText,
 } from "../../styles/modals/Signup.style";
-import { Icon } from 'react-icons-kit';
-import { circle_delete } from 'react-icons-kit/ikons/circle_delete'
-import Swal from 'sweetalert2';
+import { Icon } from "react-icons-kit";
+import { circle_delete } from "react-icons-kit/ikons/circle_delete";
+import Swal from "sweetalert2";
 
 export default function Signup({ handleModal }) {
-  const { handleChange,
+  const {
+    handleChange,
     handleSubmit,
     values,
     clickedType,
@@ -43,66 +44,62 @@ export default function Signup({ handleModal }) {
     onLoginSuccess,
     onSignupSuccess,
   } = useForm();
-  const [accessToken, setAccessToken] = useState('');  // token
+  const [accessToken, setAccessToken] = useState(""); // token
 
   // 로그인, 회원가입 전환에 따른 유효성 검사
   const checkValidation = (e) => {
     e.preventDefault();
     const { nickname, email, password, password2 } = values;
 
-    if (clickedType === '로그인') {
-      if (email.length > 0 && password.length > 7 && email.includes('@')) {
+    if (clickedType === "로그인") {
+      if (email.length > 0 && password.length > 7 && email.includes("@")) {
         handleLogin(email, password);
-        console.log('Login');
+        console.log("Login");
       } else {
         Swal.fire({
-          icon: 'error',
-          title: '로그인 정보를 정보를 입력하세요!🤔',
+          icon: "error",
+          title: "로그인 정보를 정보를 입력하세요!🤔",
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
         });
       }
-    } else if (clickedType === '회원가입') {
-      if (nickname.length > 0 &&
+    } else if (clickedType === "회원가입") {
+      if (
+        nickname.length > 0 &&
         email.length > 0 &&
         password.length > 7 &&
         password2 === password &&
-        email.includes('@')
+        email.includes("@")
       ) {
-        console.log('Signup');
+        console.log("Signup");
         handleSignUp(nickname, email, password);
-      }
-      else if (
-        nickname.length === 0) {
+      } else if (nickname.length === 0) {
         Swal.fire({
-          icon: 'error',
-          title: '닉네임을 입력하세요! 🤔',
+          icon: "error",
+          title: "닉네임을 입력하세요! 🤔",
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
         });
-      }
-      else if (email.length === 0 || !/\S+@\S+\.\S+/) {
+      } else if (email.length === 0 || !/\S+@\S+\.\S+/) {
         Swal.fire({
-          icon: 'error',
-          title: '이메일 확인하세요! 🤔',
+          icon: "error",
+          title: "이메일 확인하세요! 🤔",
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
         });
-      }
-      else if (password.length < 8) {
+      } else if (password.length < 8) {
         Swal.fire({
-          icon: 'error',
-          title: '비밀번호는 8자리 이상입니다! 🤔',
+          icon: "error",
+          title: "비밀번호는 8자리 이상입니다! 🤔",
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
         });
-      }
-      else if (password2 !== password) {
+      } else if (password2 !== password) {
         Swal.fire({
-          icon: 'error',
-          title: '비밀번호가 달라요! 😮',
+          icon: "error",
+          title: "비밀번호가 달라요! 😮",
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
         });
       }
     }
@@ -111,34 +108,39 @@ export default function Signup({ handleModal }) {
   // Signup 시  axios.post
   const handleSignUp = async (nickname, email, password) => {
     await axios
-      .post("https://oneul.site/O_NeulServer/user/signup", {
-        nickname: nickname,
-        email: email,
-        password: password
-      },
+      .post(
+        "https://oneul.site/O_NeulServer/user/signup",
         {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true
-        })
+          nickname: nickname,
+          email: email,
+          password: password,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      )
       .then((res) => {
         onSignupSuccess();
-        console.log("success")
+        console.log("success");
       })
       .catch((err) => {
-        console.log("error")
-      })
+        console.log("error");
+      });
   };
 
   // Login 시  axios.post
   const handleLogin = async (email, password) => {
     await axios
-      .post("https://oneul.site/O_NeulServer/user/signin", {
-        email: email,
-        password: password
-      },
+      .post(
+        "https://oneul.site/O_NeulServer/user/signin",
+        {
+          email: email,
+          password: password,
+        },
         {
           headers: { "Content-Type": "application/json" },
-          withCredentials: true
+          withCredentials: true,
         }
       )
       .then((res) => {
@@ -148,24 +150,32 @@ export default function Signup({ handleModal }) {
         // }
       })
       .catch((err) => {
-        console.log(err)
-      })
+        console.log(err);
+      });
   };
 
   // 소셜로그인
   const handleSocialLogin = async (e, siteName) => {
     e.preventDefault();
 
-    const loginUrl = await axios.post(`http://localhost:80/oauth/getCode`, {
-      siteName: siteName
-    }, { withCredentials: true })
+    const loginUrl = await axios.post(
+      `http://localhost:80/oauth/getCode`,
+      {
+        siteName: siteName,
+      },
+      { withCredentials: true }
+    );
     window.location.href = loginUrl.data;
-  }
+  };
 
   return (
     <BoxContainer>
       <FormContainer onSubmit={handleSubmit}>
-        <ModalContainer onClick={(e) => { e.stopPropagation() }}>
+        <ModalContainer
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
           <Wrapper>
             <Close onClick={handleModal}>
               <Icon size={25} icon={circle_delete} />
@@ -176,7 +186,9 @@ export default function Signup({ handleModal }) {
             <SignupForm>
               <Input
                 type="text"
-                className={clickedType === "로그인" ? "displayNone" : "nickname"}
+                className={
+                  clickedType === "로그인" ? "displayNone" : "nickname"
+                }
                 placeholder="닉네임"
                 onChange={handleChange}
                 value={values.nickname}
@@ -199,7 +211,9 @@ export default function Signup({ handleModal }) {
               />
               <Input
                 type="password"
-                className={clickedType === "로그인" ? "displayNone" : "nickname"}
+                className={
+                  clickedType === "로그인" ? "displayNone" : "nickname"
+                }
                 placeholder="비밀번호 확인"
                 onChange={handleChange}
                 value={values.password2}
@@ -212,7 +226,9 @@ export default function Signup({ handleModal }) {
             {clickedType === "로그인" ? (
               <SignupToLoginText>
                 계정이 없으신가요 ?
-                <SwitchSignup onClick={handleClickedType}>회원가입</SwitchSignup>
+                <SwitchSignup onClick={handleClickedType}>
+                  회원가입
+                </SwitchSignup>
               </SignupToLoginText>
             ) : (
               <LoginToSignupText>
