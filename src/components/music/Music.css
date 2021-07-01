@@ -1,4 +1,4 @@
-html {
+/* html {
   font-size: 62.5%;
   margin: 0;
   padding: 0;
@@ -10,8 +10,8 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background: white;
-}
+  background: #000;
+} */
 
 body .player-wrapper {
   /*전체 바디*/

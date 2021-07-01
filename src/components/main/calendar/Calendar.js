@@ -12,13 +12,17 @@ const Calendar = ({ value, modalHandle }) => {
         fontSize: "1.6rem",
         display: "flex",
         flexDirection: "column",
-        border: "1px solid tomato",
         flexGrow: 1,
       }}
     >
       {calendar &&
         calendar.map((week) => (
-          <Week week={week} modalHandle={modalHandle} key={uniqueId()} />
+          <Week
+            value={value}
+            week={week}
+            modalHandle={modalHandle}
+            key={uniqueId()}
+          />
         ))}
     </article>
   );

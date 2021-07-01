@@ -1,13 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import { flexCenter } from "../../styles/global.style";
-
+import MusicHook from "../music/MusicHook";
 const Diary = ({ modalHandle, clickmoment }) => {
   console.log(clickmoment.format("L"));
 
   return (
     <Diarybackground>
-      <Button onClick={modalHandle}>닫을려면 이거 눌러주세요</Button>
+      <Button onClick={modalHandle}>
+        닫을려면 이거 눌러주세요 {clickmoment.format("YYYY-MM-DD")}
+      </Button>
+      {/* <MusicHook /> */}
     </Diarybackground>
   );
 };

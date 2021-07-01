@@ -2,17 +2,21 @@ import React from "react";
 import Day from "./Day";
 import uniqueId from "lodash/uniqueId";
 
-const Week = ({ week, modalHandle }) => {
+const Week = ({ value, week, modalHandle }) => {
   return (
     <div
       style={{
         display: "flex",
-        border: "4px solid green",
         flexGrow: 1,
       }}
     >
       {week.map((day) => (
-        <Day day={day} modalHandle={modalHandle} key={uniqueId()} />
+        <Day
+          value={value}
+          day={day}
+          modalHandle={modalHandle}
+          key={uniqueId()}
+        />
       ))}
     </div>
   );
