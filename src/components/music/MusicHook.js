@@ -12,7 +12,7 @@ import {
   volumeHigh,
 } from "react-icons-kit/icomoon";
 
-import "./Music.css";
+// import "./Music.css";
 import SelectBar from "./SelectBar";
 import musics from "./musics";
 
@@ -88,10 +88,13 @@ const MusicHook = () => {
     };
   }, []);
 
+  console.log(timelineRef.current);
+
   const changeCurrentTime = (e) => {
     //재생시간바 시간 이동하기
     const duration = playerRef.current.duration; //duration 동영상의 길이
     const playheadWidth = timelineRef.current.offsetWidth; //offsetWidth CSS상으로 재생시간바의 길이
+    // console.log(offsetWidth);
     const offsetWidth = timelineRef.current.offsetLeft; //offsetLeft CSS상으로 body박스의 가로 길이 right은 없나봄.
     console.log("offsetWidth", offsetWidth);
     console.log("e.clientX", e.clientX);
@@ -133,7 +136,7 @@ const MusicHook = () => {
     const duration = playerRef.current.duration;
     const timelineWidth =
       timelineRef.current.offsetWidth - playheadRef.current.offsetWidth;
-    const playPercent = 100 * (playerRef.currentTime / duration);
+    const playPercent = 100 * (playerRef.current.currentTime / duration);
     playheadRef.current.style.width = playPercent + "%";
     const currentTime = formatTime(parseInt(playerRef.current.currentTime));
     setCurrentTime(currentTime);
@@ -194,6 +197,7 @@ const MusicHook = () => {
     }
   };
   const currentSong = musicList[index];
+
   return (
     <div className="player-wrapper">
       <div className="current-song">

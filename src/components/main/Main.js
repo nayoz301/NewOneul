@@ -4,7 +4,8 @@ import "../../style.css";
 import Calendar from "./calendar/Calendar";
 import CalendarHeader from "./calendar/CalendarHeader";
 import Diary from "../modals/Diary";
-import { MainHeader, HeaderWrapper } from "../../styles/main/Main.style";
+import styled from "styled-components";
+import MainHeaderCompo from "./MainHeaderCompo";
 
 const Main = () => {
   const [value, setValue] = useState(moment());
@@ -18,40 +19,29 @@ const Main = () => {
 
   const next = () => {
     setValue(value.add(1, "month").clone());
+    console.log(value.format("M"));
   };
 
   const before = () => {
     setValue(value.subtract(1, "month").clone());
+    console.log(value.format("M"));
   };
-  // fffdfa
+
   return (
     <>
       {isClick && <Diary modalHandle={modalHandle} clickmoment={clickmoment} />}
-      <section style={{ minHeight: "100vh", background: "#fffdfa" }}>
-        <MainHeader>
-          <HeaderWrapper>
-            <h1>오늘 ,</h1>
-            <button onClick={() => console.log("안녕")}>마이페이지</button>
-          </HeaderWrapper>
-        </MainHeader>
+      <MainSection>
+        <MainHeaderCompo />
         <section className="main-section">
           <div
             className="wrapper"
             style={{
-              border: "1px solid orange",
-              margin: "0 auto",
-              padding: "2px",
+              // border: "1px solid orange",
+              margin: "4rem auto",
               height: "100%",
             }}
           >
-            <div
-              className="calendar"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                textAlign: "center",
-              }}
-            >
+            <div className="calendar">
               <CalendarHeader value={value} next={next} before={before} />
               <Calendar value={value} modalHandle={modalHandle} />
             </div>
@@ -249,9 +239,15 @@ const Main = () => {
             </div>
           </div>
         </section>
-      </section>
+      </MainSection>
     </>
   );
 };
 
 export default Main;
+
+const MainSection = styled.section`
+  min-height: 100vh;
+  background: #fffdfa;
+  font-family: var(--primary-font);
+`;
