@@ -1,9 +1,10 @@
 import { Switch, Route } from "react-router-dom";
 import Landing from "./components/landing/Landing";
 import Main from "./components/main/Main";
-import Loading from "./components/loading/Loading"
+import Loading from "./components/loading/Loading";
 import { GlobalStyle } from "./styles/global.style";
 import Mypage from "./components/mypage/Mypage";
+import Painting from "./components/painting/Painting";
 
 function App() {
   return (
@@ -11,8 +12,11 @@ function App() {
       <GlobalStyle />
       <Switch>
         <Route path="/" exact>
-          <Landing />
+          <Painting />
         </Route>
+        {/* <Route path="/" exact>
+          <Landing />
+        </Route> */}
         <Route path="/main">
           <Main />
         </Route>
