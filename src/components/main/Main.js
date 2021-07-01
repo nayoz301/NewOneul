@@ -5,11 +5,34 @@ import Calendar from "./calendar/Calendar";
 import CalendarHeader from "./calendar/CalendarHeader";
 import Diary from "../modals/Diary";
 import { MainHeader, HeaderWrapper } from "../../styles/main/Main.style";
+import { useHistory } from "react-router-dom";
+import axios from 'axios';
 
 const Main = () => {
   const [value, setValue] = useState(moment());
   const [isClick, setIsClick] = useState(false);
   const [clickmoment, setClickmoment] = useState(null);
+  const [isLogin, setIsLogin] = useState(!null)
+  const history = useHistory();
+
+  const handleMypage = async (accessToken) => {
+    // console.log(accessToken);
+    // await axios
+    //   .post("https://oneul.site/O_NeulServer/user/getUserInfo", {
+    //     accessToken: accessToken
+    //   }, {
+    //     headers: { "Content-Type": "application/json" },
+    //     withCredentials: true,
+    //   })
+    //   .then((res) => {
+    //     console.log(res.data);
+    //     history.push("/mypage");
+    //   })
+    //   .catch((err) => {
+    //     console.log("error");
+    //   })
+    history.push("/mypage");
+  }
 
   const modalHandle = (day) => {
     setIsClick((prev) => setIsClick(!prev));
@@ -31,7 +54,7 @@ const Main = () => {
         <MainHeader>
           <HeaderWrapper>
             <h1>오늘 ,</h1>
-            <button onClick={() => console.log("안녕")}>마이페이지</button>
+            <button onClick={() => handleMypage()}>마이페이지</button>
           </HeaderWrapper>
         </MainHeader>
         <section className="main-section">
