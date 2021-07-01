@@ -5,8 +5,12 @@ import { pause2 } from "react-icons-kit/icomoon/pause2";
 import { ic_close } from "react-icons-kit/md/ic_close";
 import { download, filePlus } from "react-icons-kit/feather";
 import { square_add } from "react-icons-kit/ikons/square_add";
+import { plus } from "react-icons-kit/feather/plus";
+import { mediaRecordOutline } from "react-icons-kit/typicons/mediaRecordOutline";
+
 import {
   volumeMedium,
+  volumeMute,
   volumeMute2,
   volumeLow,
   volumeHigh,
@@ -24,13 +28,16 @@ const MusicHook = () => {
   const [genre, setGenre] = useState("");
   const [selectedSong, setSelectedSong] = useState(null);
 
-  const [volume, setVolume] = useState(0.5);
+  const [volume, setVolume] = useState(0.2);
+
   const [muteState, setMuteState] = useState(false);
 
   let playerRef = useRef();
   let timelineRef = useRef();
   let hoverPlayheadRef = useRef();
   let playheadRef = useRef();
+
+  let volumeControllerRef = useRef(); //볼륨 슬라이더 보임 안보임 효과 때문에 넣었음
 
   const getGenre = (genreFromSelectBar) => {
     setGenre(genreFromSelectBar);
@@ -44,44 +51,20 @@ const MusicHook = () => {
   };
   // console.log("해당 장르 몇번째 곡?::", selectedSong, genre);
 
-  const volumeMuteHandler = () => {
-    if (muteState === false) {
-      setMuteState(true);
-      playerRef.current.muted = muteState;
-    } else {
-      setMuteState(false);
-      playerRef.current.muted = muteState;
-    }
-  };
-
-  const volumeChange = (e) => {
-    playerRef.current.volume = e.target.value;
-    console.log(playerRef.current.volume);
-  };
-
-  const volumeEmoji = () => {
-    if (volume === 0) return volumeMute2;
-    else if (volume < 4) return volumeLow;
-    else if (volume < 8) return volumeMedium;
-    else return volumeHigh;
-  };
+  useEffect(() => {
+    playerRef.current.volume = volume;
+    playerRef.current.muted = muteState;
+  }, [volume, muteState]);
 
   useEffect(() => {
-    // const onVolume = () => setVolume(playerRef.current.volume);
-    const onVolume = () => setVolume(playerRef.current.volume);
-
     playerRef.current.addEventListener("timeupdate", timeUpdate, false);
-    console.log("재생시간:", playerRef.current.duration);
     playerRef.current.addEventListener("ended", nextSong, false);
-    playerRef.current.addEventListener("volumechange", onVolume, false);
     timelineRef.current.addEventListener("click", changeCurrentTime, false);
-    console.log(timelineRef.current.offsetLeft);
     timelineRef.current.addEventListener("mousemove", hoverTimeLine, false);
     timelineRef.current.addEventListener("mouseout", resetTimeLine, false);
     return () => {
       playerRef.current.removeEventListener("timeupdate", timeUpdate);
       playerRef.current.removeEventListener("ended", nextSong);
-      playerRef.current.addEventListener("volumechange", onVolume);
       timelineRef.current.removeEventListener("click", changeCurrentTime);
       timelineRef.current.removeEventListener("mousemove", hoverTimeLine);
       timelineRef.current.removeEventListener("mouseout", resetTimeLine);
@@ -96,16 +79,28 @@ const MusicHook = () => {
     const playheadWidth = timelineRef.current.offsetWidth; //offsetWidth CSS상으로 재생시간바의 길이
     // console.log(offsetWidth);
     const offsetWidth = timelineRef.current.offsetLeft; //offsetLeft CSS상으로 body박스의 가로 길이 right은 없나봄.
-    console.log("offsetWidth", offsetWidth);
+    const userClickWidth = e.clientX - offsetWidth; //e.clientX(body박스 가로 길의 전체 중 내가 클릭한 좌표의 x값 - 재생시간바의 길이
     console.log("e.clientX", e.clientX);
-    const userClickWidht = e.clientX - offsetWidth; //e.clientX(body박스 가로 길의 전체 중 내가 클릭한 좌표의 x값 - 재생시간바의 길이
+    console.log("offsetWidth", offsetWidth);
+    console.log(
+      "timelineRef.current.offsetLeft",
+      timelineRef.current.offsetLeft
+    );
+    const userClickWidthInPercent = (userClickWidth * 100) / playheadWidth; //재생시간바 대비 몇 퍼센트인지 계산해서 CSS에 효과주기
 
-    const userClickWidhtInPercent = (userClickWidht * 100) / playheadWidth; //재생시간바 대비 몇 퍼센트인지 계산해서 CSS에 효과주기
+    playheadRef.current.style.width = userClickWidthInPercent + "%"; //CSS style.width에 %로 나타내줌
 
-    playheadRef.current.style.width = userClickWidhtInPercent + "%"; //CSS style.width에 %로 나타내줌
-    console.log("style.width", playheadRef.current.style.width);
-    playerRef.current.currentTime = (duration * userClickWidhtInPercent) / 100; //플레이어에도 진척도 마찬가지로 넣어줌 CSS가 보여주는 것이랑 실제랑 같게 해야하므로
-    console.log("currentTime", playerRef.current.currentTime);
+    playerRef.current.currentTime = (duration * userClickWidthInPercent) / 100; //플레이어에도 진척도 마찬가지로 넣어줌 CSS가 보여주는 것이랑 실제랑 같게 해야하므로
+  };
+
+  const timeUpdate = () => {
+    const duration = playerRef.current.duration;
+    const timelineWidth =
+      timelineRef.current.offsetWidth - playheadRef.current.offsetWidth;
+    const playPercent = 100 * (playerRef.current.currentTime / duration);
+    playheadRef.current.style.width = playPercent + "%";
+    const currentTime = formatTime(parseInt(playerRef.current.currentTime));
+    setCurrentTime(currentTime);
   };
 
   const hoverTimeLine = (e) => {
@@ -114,14 +109,14 @@ const MusicHook = () => {
     const playheadWidth = timelineRef.current.offsetWidth;
 
     const offsetWidth = timelineRef.current.offsetLeft;
-    const userClickWidht = e.clientX - offsetWidth;
-    const userClickWidhtInPercent = (userClickWidht * 100) / playheadWidth;
+    const userClickWidth = e.clientX - offsetWidth;
+    const userClickWidthInPercent = (userClickWidth * 100) / playheadWidth;
 
-    if (userClickWidhtInPercent <= 100) {
-      hoverPlayheadRef.current.style.width = userClickWidhtInPercent + "%";
+    if (userClickWidthInPercent <= 100) {
+      hoverPlayheadRef.current.style.width = userClickWidthInPercent + "%";
     }
 
-    const time = (duration * userClickWidhtInPercent) / 100;
+    const time = (duration * userClickWidthInPercent) / 100;
 
     if (time >= 0 && time <= duration) {
       hoverPlayheadRef.current.dataset.content = formatTime(time);
@@ -196,23 +191,25 @@ const MusicHook = () => {
       playerRef.current.play();
     }
   };
+
   const currentSong = musicList[index];
 
   return (
     <div className="player-wrapper">
       <div className="current-song">
         <Icon className="close-btn" icon={ic_close} />
+
+        <SelectBar getGenre={getGenre} />
+
         <audio ref={playerRef}>
           <source src={currentSong.audio} type="audio/ogg" />
           Your browser does not support the audio element.
         </audio>
-        {/* <div className="img-wrap"> */}
-        {/* <img src={currentSong.img} /> */}
 
-        <SelectBar getGenre={getGenre} />
-        {/* </div> */}
-        <span className="song-name">{currentSong.name}</span>
-        <span className="song-autor">{currentSong.author}</span>
+        <div className="song-info">
+          <span className="song-name">{currentSong.name}</span>
+          <span className="song-author">{currentSong.author}</span>
+        </div>
 
         <div className="time">
           <div className="current-time">{currentTime}</div>
@@ -229,41 +226,66 @@ const MusicHook = () => {
         </div>
 
         <div className="controls">
-          <button onClick={prevSong} className="prev prev-next current-btn">
-            <Icon icon={stepBackward} />
-          </button>
+          <div>
+            <button onClick={prevSong} className="prev prev-next current-btn">
+              <Icon icon={stepBackward} />
+            </button>
 
-          <button onClick={playOrPause} className="play current-btn">
-            {!pause ? (
-              <Icon size={23} icon={circle} />
-            ) : (
-              <Icon size={20} icon={pause2} />
-            )}
-          </button>
-          <button onClick={nextSong} className="next prev-next current-btn">
-            <Icon icon={stepForward} />
-          </button>
-          <span className="volume-controler-wrapper">
-            <Icon
-              icon={
-                volume === 0
-                  ? volumeMute2
-                  : volume < 4
-                  ? volumeLow
-                  : volume < 8
-                  ? volumeMedium
-                  : volumeHigh
-              }
-              onClick={volumeMuteHandler}
-            />
+            <button onClick={playOrPause} className="play current-btn">
+              {!pause ? (
+                <Icon size={23} icon={circle} />
+              ) : (
+                <Icon size={20} icon={pause2} />
+              )}
+            </button>
+            <button onClick={nextSong} className="next prev-next current-btn">
+              <Icon icon={stepForward} />
+            </button>
+          </div>
+
+          <span className="volume-controller-wrapper">
+            <button
+              className="mute-btn"
+              onClick={() => {
+                setMuteState(!muteState);
+              }}
+              onMouseOver={() => {
+                volumeControllerRef.current.style.opacity = 1;
+              }}
+            >
+              <Icon
+                size={12}
+                icon={
+                  muteState
+                    ? volumeMute2
+                    : volume < 0.01 //0으로 하면 안먹음
+                    ? volumeMute
+                    : volume < 0.34
+                    ? volumeLow
+                    : volume < 0.67
+                    ? volumeMedium
+                    : volumeHigh
+                }
+              />
+            </button>
+
             <input
-              className="volume-controler"
+              ref={volumeControllerRef}
+              className="volume-controller"
               type="range"
               min={0}
               max={1}
               step={0.01}
-              value={volume}
-              onChange={volumeChange}
+              value={muteState ? 0 : volume}
+              onChange={(e) => {
+                if (muteState) {
+                  setMuteState(false);
+                }
+                setVolume(e.target.value);
+              }}
+              onMouseOut={() => {
+                volumeControllerRef.current.style.opacity = 0;
+              }}
             />
           </span>
         </div>
@@ -281,22 +303,24 @@ const MusicHook = () => {
               }
             >
               <img className="track-img" src={music.img} />
-              <div className="track-discr">
+              <div className="track-info">
                 <span className="track-name">{music.name}</span>
                 <span className="track-author">{music.author}</span>
               </div>
               <span className="track-duration">
                 {index === key ? currentTime : music.duration}
               </span>
+              <button
+                className="track-select"
+                onClick={(e) => {
+                  e.stopPropagation(); //버튼 클릭할 때 재생 곡이 바뀌는 걸 방지해준다. 버블링 캡쳐링 금지
+                  songSelectedWithGenre(e);
+                }}
+                title={key}
+              >
+                <Icon size={22} icon={plus} />
+              </button>
             </div>
-
-            <button
-              className="track-select"
-              onClick={songSelectedWithGenre}
-              title={key}
-            >
-              <Icon size={15} icon={square_add} />
-            </button>
           </div>
         ))}
       </div>
