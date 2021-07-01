@@ -1,0 +1,133 @@
+/* @import "reset.css"; */
+html {
+  font-size: 62.5%;
+}
+
+body {
+  /* background-color: #f6f9fc; */
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* align-items: center; */
+  padding: 0rem;
+}
+
+.canvas {
+  width: 70rem;
+  height: 40rem;
+  background-color: white;
+  border-radius: 5 rem;
+  box-shadow: 0 0.4rem 0.6rem rgba(50, 50, 93, 0.11),
+    0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+#controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 70rem;
+}
+
+.controls .controls_btns {
+  margin-bottom: 3rem;
+}
+
+.controls_btns span {
+  width: 8rem;
+  height: 10rem;
+  background-color: black;
+  border-radius: 5rem; /*height의 절반으로 radius를 줄 경우 동그라미가 된다*/
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.controls_btns button:active {
+  /*액티브 넣으니까 버튼 누르면  작아졌따 커짐 스케일 안의 배율 만큼 작아졌다가 다시 커짐.*/
+  transform: scale(0.95);
+}
+
+.controls_btns button {
+  all: unset; /*이거 하면 버튼이 풀리고 경계가 사라지고 글씨처럼 되버림*/
+  cursor: pointer; /* 닿으면 손모양으로 바뀜 */
+  background-color: white;
+  padding: 0.5rem 0rem;
+  width: 8rem;
+  text-align: center;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  border: 2px solid rgba(0, 0, 0, 0.08); /*마지막 4번째는 선의 옅은 정도 1이면 진하고 그 이하는 연하다*/
+  color: rgba(
+    0,
+    0,
+    0,
+    0.8
+  ); /*마지막 4번째는 글씨 선의 옅은 정도 1이면 진하고 그 이하는 연하다*/
+  text-transform: uppercase; /*안의 텍스트가 대문자로 바뀜*/
+  font-weight: 600; /*글씨 두께*/
+  font-size: 1.2rem;
+}
+
+.input-file-button {
+  all: unset; /*이거 하면 버튼이 풀리고 경계가 사라지고 글씨처럼 되버림*/
+  cursor: pointer; /* 닿으면 손모양으로 바뀜 */
+  background-color: #ff6600;
+  padding: 0.5rem 0rem;
+  width: 8rem;
+  text-align: center;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  border: 2px solid rgba(0, 0, 0, 0.08); /*마지막 4번째는 선의 옅은 정도 1이면 진하고 그 이하는 연하다*/
+  color: white; /*마지막 4번째는 글씨 선의 옅은 정도 1이면 진하고 그 이하는 연하다*/
+  text-transform: uppercase; /*안의 텍스트가 대문자로 바뀜*/
+  font-weight: 600; /*글씨 두께*/
+  font-size: 1.2rem;
+}
+
+#lineWeightRange {
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0rem;
+  border: 2px solid rgba(0, 0, 0, 0.08); /*마지막 4번째는 선의 옅은 정도 1이면 진하고 그 이하는 연하다*/
+  border-radius: 0.5rem;
+}
+
+.colors {
+  max-width: 70rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.colors span:active {
+  transform: scale(0.95);
+}
+
+.color {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1rem; /*height의 절반으로 radius를 줄 경우 동그라미가 된다*/
+  cursor: pointer; /*이거하면 커서 댔을 때 손가락 모양으로 바뀜*/
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.imgPreviewDiv {
+  text-align: center;
+  margin: 5px 15px;
+  height: 400px;
+  width: 700px;
+  border-left: 1px solid gray;
+  border-right: 1px solid gray;
+  border-top: 5px solid gray;
+  border-bottom: 5px solid gray;
+}
+
+.imgPreviewDiv > img {
+  /*이렇게 해야 원하는 div사이즈 안으로 맞춰진다*/
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.imgPreviewDiv {
+  justify-content: center;
+  align-items: center;
+}
