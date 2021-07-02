@@ -82,7 +82,7 @@ export const CardBackText = styled.h2`
 
 export const Card = styled.div`
   min-width: 25rem;
-  height: 33.3rem;
+  min-height: 33.3rem;
   transform-style: preserve-3d;
   &:not(:first-child) {
     margin-left: 3rem;

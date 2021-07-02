@@ -127,16 +127,6 @@ const MusicHook = () => {
     hoverPlayheadRef.current.style.width = 0;
   };
 
-  const timeUpdate = () => {
-    const duration = playerRef.current.duration;
-    const timelineWidth =
-      timelineRef.current.offsetWidth - playheadRef.current.offsetWidth;
-    const playPercent = 100 * (playerRef.current.currentTime / duration);
-    playheadRef.current.style.width = playPercent + "%";
-    const currentTime = formatTime(parseInt(playerRef.current.currentTime));
-    setCurrentTime(currentTime);
-  };
-
   const formatTime = (currentTime) => {
     const minutes = Math.floor(currentTime / 60);
     let seconds = Math.floor(currentTime % 60);

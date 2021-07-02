@@ -2,19 +2,13 @@ import React from "react";
 import Week from "./Week";
 import uniqueId from "lodash/uniqueId";
 import { makecalendar } from "./calendarFuntion";
+import styled from "styled-components";
 
 const Calendar = ({ value, modalHandle }) => {
   let calendar = makecalendar(value);
 
   return (
-    <article
-      style={{
-        fontSize: "1.6rem",
-        display: "flex",
-        flexDirection: "column",
-        flexGrow: 1,
-      }}
-    >
+    <CalendarArticle>
       {calendar &&
         calendar.map((week) => (
           <Week
@@ -24,8 +18,15 @@ const Calendar = ({ value, modalHandle }) => {
             key={uniqueId()}
           />
         ))}
-    </article>
+    </CalendarArticle>
   );
 };
 
 export default Calendar;
+
+const CalendarArticle = styled.article`
+  font-size: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+`;

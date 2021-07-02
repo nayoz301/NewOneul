@@ -11,9 +11,11 @@ import {
 } from "react-icons-kit/noto_emoji_regular";
 import { sleepy } from "react-icons-kit/icomoon/sleepy";
 import { cool } from "react-icons-kit/icomoon/cool";
-import styled, { css } from "styled-components";
-import { flexCenter } from "../../../styles/global.style";
-
+import {
+  DayWarpper,
+  DaySpan,
+  Emoji,
+} from "../../../styles/main/calendar/Day.style";
 const emoji = [
   { id: 1, emj: <Icon icon={u1F604} /> },
   { id: 2, emj: <Icon icon={u1F601} /> },
@@ -49,36 +51,3 @@ const Day = ({ value, day, modalHandle }) => {
 };
 
 export default Day;
-
-const DayWarpper = styled.div`
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-  flex-grow: 1;
-  flex: 1;
-  transition: background-color 0.18s;
-  background-color: ${({ today }) => today && "#fdfae5"};
-  &:not(:last-child) {
-    border-right: 1px solid #666;
-  }
-
-  &:hover {
-    background-color: #669db3;
-  }
-`;
-
-const DaySpan = styled.span`
-  color: ${({ today }) => today && "white"};
-  position: relative;
-  display: inline-block;
-  padding: 0.3rem 0;
-  border-top: 1px solid #666;
-  font-family: Noto Sans KR;
-  color: ${({ sunday, saturday, lastmonth }) =>
-    lastmonth ? "lightgrey" : sunday ? "red" : saturday ? "blue" : "black"};
-`;
-
-const Emoji = styled.div`
-  height: 100%;
-  ${flexCenter}
-`;
