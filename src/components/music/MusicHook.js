@@ -3,10 +3,8 @@ import { Icon } from "react-icons-kit";
 import { circle, stepBackward, stepForward } from "react-icons-kit/iconic/";
 import { pause2 } from "react-icons-kit/icomoon/pause2";
 import { ic_close } from "react-icons-kit/md/ic_close";
-import { download, filePlus } from "react-icons-kit/feather";
-import { square_add } from "react-icons-kit/ikons/square_add";
 import { plus } from "react-icons-kit/feather/plus";
-import { mediaRecordOutline } from "react-icons-kit/typicons/mediaRecordOutline";
+import axios from "axios";
 
 import {
   volumeMedium,
@@ -16,40 +14,95 @@ import {
   volumeHigh,
 } from "react-icons-kit/icomoon";
 
-// import "./Music.css";
+import "./Music.css";
 import SelectBar from "./SelectBar";
 import musics from "./musics";
 
+const music = [
+  {
+    id: 1,
+    name: "장르를 선택하고",
+    author: "음악을 선택해주세요",
+    img: "https://www.bensound.com/bensound-img/thejazzpiano.jpg",
+    audio: "https://www.bensound.com/bensound-music/bensound-thejazzpiano.mp3",
+    duration: "0:00",
+    genre: { genre_name: "오늘" },
+  },
+];
+
 const MusicHook = () => {
   const [pause, setPause] = useState(false);
-  const [index, setIndex] = useState(1);
+  const [index, setIndex] = useState(0);
   const [currentTime, setCurrentTime] = useState("0:00");
-  const [musicList, setMusicList] = useState(musics);
+  const [musicList, setMusicList] = useState(music);
   const [genre, setGenre] = useState("");
   const [selectedSong, setSelectedSong] = useState(null);
 
-  const [volume, setVolume] = useState(0.2);
-
+  const [volume, setVolume] = useState(0.03);
   const [muteState, setMuteState] = useState(false);
+
+  const [genreList, setGenreList] = useState("");
+  const [filtered, setFiltered] = useState(music);
+
+  const [currentSong, setCurrentSong] = useState(musics[index]);
 
   let playerRef = useRef();
   let timelineRef = useRef();
   let hoverPlayheadRef = useRef();
   let playheadRef = useRef();
-
   let volumeControllerRef = useRef(); //볼륨 슬라이더 보임 안보임 효과 때문에 넣었음
 
-  const getGenre = (genreFromSelectBar) => {
-    setGenre(genreFromSelectBar);
-    console.log("셀렉바에서 받아온 장르::", genre);
-    // return genre;
+  //실험 7월 1일 10시
+  useEffect(() => {
+    getGenreHandler();
+  }, []);
+
+  useEffect(() => {
+    setCurrentSong(filtered[index]);
+  }, [index]);
+
+  const getGenreHandler = async () => {
+    return await axios
+      .get("http://localhost:4000/genre", {
+        headers: { "content-type": "application/json", withCredentials: true },
+      })
+      .then((data) => {
+        //data === musics 배열인셈
+        let dataLists = genreKinds(data.data); //dataLists에 장르만 추출
+        setGenreList(dataLists);
+        setMusicList(data.data);
+        setFiltered(data.data);
+        console.log("받아온 데이터", data.data);
+      })
+      .catch((err) => {
+        alert("장르를 받아오지 못헀습니다");
+      });
   };
 
-  const songSelectedWithGenre = (e) => {
-    console.log("콘솔", e.target.title);
-    setSelectedSong(e.target.title);
+  const genreKinds = (data) => {
+    //장르 종류 추출해서 셀렉트바에 보내줘야함
+    let kinds = [];
+    for (let i = 0; i < data.length; i++) {
+      if (kinds.includes(data[i].genre.genre_name) === false) {
+        kinds = [...kinds, data[i].genre.genre_name];
+      }
+      kinds = kinds;
+    }
+    return kinds;
   };
-  // console.log("해당 장르 몇번째 곡?::", selectedSong, genre);
+
+  const getGenre = (selectedGenre) => {
+    setGenre(selectedGenre);
+    // console.log("셀렉바에서 선택된 장르::", selectedGenre);
+  };
+
+  const sendSongInfo = (e) => {
+    setSelectedSong(e.target.title);
+    console.log(e.target.title);
+  };
+
+  console.log("인덱스", index);
+  console.log("커렌트 송", currentSong);
 
   useEffect(() => {
     playerRef.current.volume = volume;
@@ -57,6 +110,7 @@ const MusicHook = () => {
   }, [volume, muteState]);
 
   useEffect(() => {
+    console.log("타임라인, 플레이어::", timelineRef.current, playerRef.current);
     playerRef.current.addEventListener("timeupdate", timeUpdate, false);
     playerRef.current.addEventListener("ended", nextSong, false);
     timelineRef.current.addEventListener("click", changeCurrentTime, false);
@@ -71,13 +125,10 @@ const MusicHook = () => {
     };
   }, []);
 
-  console.log(timelineRef.current);
-
   const changeCurrentTime = (e) => {
     //재생시간바 시간 이동하기
     const duration = playerRef.current.duration; //duration 동영상의 길이
     const playheadWidth = timelineRef.current.offsetWidth; //offsetWidth CSS상으로 재생시간바의 길이
-    // console.log(offsetWidth);
     const offsetWidth = timelineRef.current.offsetLeft; //offsetLeft CSS상으로 body박스의 가로 길이 right은 없나봄.
     const userClickWidth = e.clientX - offsetWidth; //e.clientX(body박스 가로 길의 전체 중 내가 클릭한 좌표의 x값 - 재생시간바의 길이
     console.log("e.clientX", e.clientX);
@@ -95,8 +146,8 @@ const MusicHook = () => {
 
   const timeUpdate = () => {
     const duration = playerRef.current.duration;
-    const timelineWidth =
-      timelineRef.current.offsetWidth - playheadRef.current.offsetWidth;
+    // const timelineWidth =
+    //   timelineRef.current.offsetWidth - playheadRef.current.offsetWidth;
     const playPercent = 100 * (playerRef.current.currentTime / duration);
     playheadRef.current.style.width = playPercent + "%";
     const currentTime = formatTime(parseInt(playerRef.current.currentTime));
@@ -127,16 +178,6 @@ const MusicHook = () => {
     hoverPlayheadRef.current.style.width = 0;
   };
 
-  const timeUpdate = () => {
-    const duration = playerRef.current.duration;
-    const timelineWidth =
-      timelineRef.current.offsetWidth - playheadRef.current.offsetWidth;
-    const playPercent = 100 * (playerRef.current.currentTime / duration);
-    playheadRef.current.style.width = playPercent + "%";
-    const currentTime = formatTime(parseInt(playerRef.current.currentTime));
-    setCurrentTime(currentTime);
-  };
-
   const formatTime = (currentTime) => {
     const minutes = Math.floor(currentTime / 60);
     let seconds = Math.floor(currentTime % 60);
@@ -149,8 +190,8 @@ const MusicHook = () => {
   };
 
   const updatePlayer = () => {
-    const currentSong = musicList[index];
-    const audio = new Audio(currentSong.audio);
+    setCurrentSong(filtered[index]);
+    // const audio = new Audio(currentSong.audio);
     playerRef.current.load();
   };
 
@@ -172,7 +213,7 @@ const MusicHook = () => {
 
   const playOrPause = () => {
     //스테이트 고치기
-    const currentSong = musicList[index];
+    setCurrentSong(filtered[index]);
     const audio = new Audio(currentSong.audio);
     if (!pause) {
       playerRef.current.play();
@@ -192,30 +233,51 @@ const MusicHook = () => {
     }
   };
 
-  const currentSong = musicList[index];
+  const filterListByGenre = (allList) => {
+    //장르에 맞춰서 필터해주는 함수
+    let filteredList = allList.filter((el) => el.genre.genre_name === genre);
+    return filteredList;
+  };
+  //실험
+  useEffect(() => {
+    let filteredList = filterListByGenre(musicList);
+    console.log("장르 바뀔 때마다 필터한 리스트", filteredList);
+    // setMusicList(filteredList);
+    setFiltered(filteredList);
+    setIndex(0);
+  }, [genre]);
 
   return (
     <div className="player-wrapper">
       <div className="current-song">
-        <Icon className="close-btn" icon={ic_close} />
+        <Icon
+          size={18}
+          className="close-btn"
+          icon={ic_close}
+          onClick={() => {
+            console.log("닫기");
+          }}
+        />
 
-        <SelectBar getGenre={getGenre} />
+        <SelectBar getGenre={getGenre} genreList={genreList} />
+        {currentSong && (
+          <>
+            <audio ref={playerRef}>
+              <source src={currentSong.audio} type="audio/ogg" />
+              Your browser does not support the audio element.
+            </audio>
 
-        <audio ref={playerRef}>
-          <source src={currentSong.audio} type="audio/ogg" />
-          Your browser does not support the audio element.
-        </audio>
+            <div className="song-info">
+              <span className="song-name">{currentSong.name}</span>
+              <span className="song-author">{currentSong.author}</span>
+            </div>
 
-        <div className="song-info">
-          <span className="song-name">{currentSong.name}</span>
-          <span className="song-author">{currentSong.author}</span>
-        </div>
-
-        <div className="time">
-          <div className="current-time">{currentTime}</div>
-          <div className="end-time">{currentSong.duration}</div>
-        </div>
-
+            <div className="time">
+              <div className="current-time">{currentTime}</div>
+              <div className="end-time">{currentSong.duration}</div>
+            </div>
+          </>
+        )}
         <div ref={timelineRef} id="timeline">
           <div ref={playheadRef} id="playhead"></div>
           <div
@@ -291,7 +353,7 @@ const MusicHook = () => {
         </div>
       </div>
       <div className="play-list">
-        {musicList.map((music, key = 0) => (
+        {filtered.map((music, key = 0) => (
           <div className="play-list-one" key={key}>
             <div
               key={key}
@@ -312,13 +374,14 @@ const MusicHook = () => {
               </span>
               <button
                 className="track-select"
+                title={music.id}
                 onClick={(e) => {
+                  console.log(e.target);
+                  sendSongInfo(e);
                   e.stopPropagation(); //버튼 클릭할 때 재생 곡이 바뀌는 걸 방지해준다. 버블링 캡쳐링 금지
-                  songSelectedWithGenre(e);
                 }}
-                title={key}
               >
-                <Icon size={22} icon={plus} />
+                <Icon size={22} icon={plus} style={{ pointerEvents: "none" }} />
               </button>
             </div>
           </div>
