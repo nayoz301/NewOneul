@@ -1,7 +1,7 @@
 import React from "react";
 import { Icon } from "react-icons-kit";
 import { angleUp } from "react-icons-kit/fa/angleUp";
-import LandingCard from "./LandingCard";
+import LandingCard from "./card/LandingCard";
 import Scroll from "react-scroll";
 import "aos/dist/aos.css";
 import { Link } from "react-router-dom";

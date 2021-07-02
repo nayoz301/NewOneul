@@ -1,12 +1,10 @@
 import React from "react";
-import { Icon } from "react-icons-kit";
-import { angleLeft } from "react-icons-kit/fa/angleLeft";
-import { angleRight } from "react-icons-kit/fa/angleRight";
-import mypic from "../../images/mypic.jpeg";
-import gahyung from "../../images/kahyung.jpeg";
-import haesung from "../../images/haesung.jpeg";
-import hoon from "../../images/hoon.jpeg";
-import Carousel, { consts } from "react-elastic-carousel";
+import mypic from "../../../images/mypic.jpeg";
+import gahyung from "../../../images/kahyung.jpeg";
+import haesung from "../../../images/haesung.jpeg";
+import hoon from "../../../images/hoon.jpeg";
+import Carousel from "react-elastic-carousel";
+import { responsive, myArrow } from "./carousel";
 import {
   CardSection,
   Cardul,
@@ -16,36 +14,19 @@ import {
   CardFrontHeader,
   CardBackText,
   Card,
-} from "../../styles/landing/LandingCard.style";
-import styled from "styled-components";
+} from "../../../styles/landing/LandingCard.style";
 import "aos/dist/aos.css";
 
 const LandingCard = () => {
-  const responsive = [
-    { width: 400, itemsToShow: 1 },
-    { width: 600, itemsToShow: 2 },
-    { width: 800, itemsToShow: 3 },
-  ];
-
-  const myArrow = ({ type, onClick, isEdge }) => {
-    const pointer =
-      type === consts.PREV ? (
-        <Icon size={"60"} icon={angleLeft} style={style} />
-      ) : (
-        <Icon size={"60"} icon={angleRight} style={style} />
-      );
-    return (
-      <Arrow onClick={onClick} disabled={isEdge}>
-        {pointer}
-      </Arrow>
-    );
-  };
-
   return (
     <CardSection>
       <Cardul data-aos="fade-up" data-aos-duration={"800"}>
         <CardWrapper>
-          <Carousel breakPoints={responsive} renderArrow={myArrow}>
+          <Carousel
+            breakPoints={responsive}
+            renderArrow={myArrow}
+            pagination={false}
+          >
             <Card>
               <CardFront>
                 <img src={mypic} alt="" />
@@ -130,13 +111,3 @@ const LandingCard = () => {
 };
 
 export default LandingCard;
-
-const style = {
-  cursor: "pointer",
-};
-
-const Arrow = styled.div`
-  position: relative;
-  top: 50%;
-  transform: translateY(-10%);
-`;
