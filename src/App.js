@@ -12,16 +12,16 @@ function App() {
       <GlobalStyle />
       <Switch>
         <Route path="/" exact>
-          <Painting />
-        </Route>
-        {/* <Route path="/" exact>
           <Landing />
-        </Route> */}
+        </Route>
         <Route path="/main">
           <Main />
         </Route>
         <Route path="/loading">
           <Loading />
+        </Route>
+        <Route path="/painting" exact>
+          <Painting />
         </Route>
         <Route path="/mypage">
           <Mypage />
