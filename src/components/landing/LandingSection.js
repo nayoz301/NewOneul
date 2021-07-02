@@ -12,7 +12,7 @@ import {
   LdBtn,
 } from "../../styles/landing/LandingSection.style";
 import { Link } from "react-router-dom";
-import Signup from "../modals/Signup";
+import Signup from "../modals/signup_in/Signup";
 
 const random = () => {
   return Math.ceil(Math.random() * 2) - 1;

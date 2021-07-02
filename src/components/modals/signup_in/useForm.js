@@ -8,12 +8,12 @@ export default function useForm() {
     email: '',
     password: '',
     password2: '',
-    errorMessage: ''
   });
   // login <-> signup
   const [clickedType, setClickedType] = useState("로그인");
   const [onLogin, setOnLogin] = useState(false);
   const [onSignup, setOnSignup] = useState(false);    // signup
+  const [clickedModify, setClickedModify] = useState("마이페이지");
   const history = useHistory();
 
   const handleChange = (e) => {
@@ -32,6 +32,10 @@ export default function useForm() {
       password: '',
       password2: '',
     })
+  };
+
+  const handleClickedModify = (e) => {
+    setClickedModify(e.target.innerText);
   };
 
   const handleSubmit = e => {
@@ -71,12 +75,6 @@ export default function useForm() {
     })
   };
 
-  // logout = () => {
-  //   localStorage.clear();
-  //   alert('로그아웃 완료');
-  //   this.setState({ userIsLoggedIn: false });
-  // };
-
   return {
     handleChange,
     handleSubmit,
@@ -85,5 +83,7 @@ export default function useForm() {
     handleClickedType,
     onLoginSuccess,
     onSignupSuccess,
+    handleClickedModify,
+    clickedModify,
   };
 };

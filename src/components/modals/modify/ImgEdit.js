@@ -1,14 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import imageCompression from 'browser-image-compression';
 import {
   ImgUpload,
   ImgView,
-} from '../../styles/mypage/ProfileImg.style';
+  ImgEdit,
+  ImgUploadBtn,
+} from '../../../styles/mypage/ProfileImg.style';
 
 const ProfileImg = () => {
   const [file, setFile] = useState('');
   const [previewURL, setPreviewURL] = useState('');
   const [preview, setPreview] = useState(null);
+  const fileRef = useRef();
   const [fileUrl, setFileUrl] = useState("");
 
   useEffect(() => {
@@ -25,7 +28,7 @@ const ProfileImg = () => {
 
     const options = {
       maxSizeMB: 2,
-      maxWidthOrHeight: 200
+      maxWidthOrHeight: 100
     }
 
     try {
@@ -49,22 +52,22 @@ const ProfileImg = () => {
       reader.readAsDataURL(file);
   }
 
-  // const handleFileButtonClick = (e) => {//버튼 대신 클릭하기
-  //   e.preventDefault();
-  //   fileRef.current.click(); // file 불러오는 버튼을 대신 클릭함
-  // }
+  const handleFileButtonClick = (e) => {//버튼 대신 클릭하기
+    e.preventDefault();
+    fileRef.current.click(); // file 불러오는 버튼을 대신 클릭함
+  }
 
   return (
     <>
       <ImgUpload>
-        <ImgView src={fileUrl} alt="profile_img" />
+        <ImgView name="Picture" src={fileUrl} alt="profile_img" />
       </ImgUpload>
-      {/* <ImgEdit>
+      <ImgEdit>
         <input ref={fileRef} hidden={true} type='file' accept='image/jpg,image/png,image/jpeg,image/gif'
           id='profile_img_upload' onChange={handleFileOnChange}
         />
         <ImgUploadBtn onClick={handleFileButtonClick}>파일선택</ImgUploadBtn>
-      </ImgEdit> */}
+      </ImgEdit>
     </>
   )
 }

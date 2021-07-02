@@ -1,43 +1,66 @@
-// import React from 'react'
-// import ProfileImg from './ProfileImg';
-// import {
-//   BoxContainer,
-//   HeaderContainer,
-//   LeftHeader,
-//   RightHeader,
-//   Nickname,
-//   LogoutBtn,
-//   FormContainer,
-//   ImgContainer,
-//   UserInfo,
-// } from '../../styles/mypage/Mypage.style';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import Modify from '../modals/modify/Modify';
+import MypageHeader from './MypageHeader';
+import ProfileImg from './ProfileImg';
+import {
+  BoxContainer,
+  FormContainer,
+  ImgContainer,
+  UserInfoForm,
+  Info,
+  PageName,
+  Input,
+  ModifyBtn,
+} from '../../styles/mypage/Mypage.style';
 
-// const Mypage = () => {
-//   return (
-//     <BoxContainer>
-//       <HeaderContainer>
-//         <LeftHeader>오늘 ,</LeftHeader>
-//         <RightHeader>
-//           <Nickname>test님</Nickname>
-//           <LogoutBtn>로그아웃</LogoutBtn>
-//         </RightHeader>
-//       </HeaderContainer>
-//       <FormContainer>
-//         <ImgContainer>
-//           <ProfileImg />
-//         </ImgContainer>
-//         <UserInfo>
-//           <div class="nickname">닉네임</div>
-//           <div class="value">test 님</div>
-//           <div class="email">이메일</div>
-//           <div class="value">test@test.com</div>
-//           <button>수정</button>
-//         </UserInfo>
 
-//       </FormContainer>
-//       <button class="save">저장</button>
-//     </BoxContainer>
-//   )
-// }
+const Mypage = () => {
+  const [modiModal, setModiModal] = useState(false);
+  // const [isLogin, setIsLogin] = localStorage.getItem('token') !== null;
+  // const [data, setData] = useState({ userInfo: [] });
+  const [modivalues, setModiValues] = useState({
+    nickname: 'test',
+    email: 'test@test.com',
+    nowPassword: '',
+    password: '',
+    password2: '',
+  });
 
-// export default Mypage
+  const clickModal = (e) => {
+    setModiModal(!modiModal);
+  };
+
+  return (
+    <BoxContainer>
+      <MypageHeader />
+      <PageName>
+        마이페이지
+        <FormContainer>
+          <ImgContainer>
+            <ProfileImg />
+            <Info>나의 프로필</Info>
+            <Input
+              type="text"
+              placeholder="닉네임"
+              value={modivalues.nickname}
+              name="nickname"
+              readOnly
+            />
+            <Input
+              type="email"
+              value={modivalues.email}
+              name="email"
+              readOnly
+            />
+            <ModifyBtn onClick={clickModal}>정보수정</ModifyBtn>
+            {modiModal && <Modify clickModal={clickModal} />}
+          </ImgContainer>
+          <UserInfoForm />
+        </FormContainer>
+      </PageName>
+    </BoxContainer>
+  )
+}
+export default Mypage
