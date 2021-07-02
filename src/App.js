@@ -19,6 +19,9 @@ function App() {
         <Route path="/loading">
           <Loading />
         </Route>
+        <Route path="/painting" exact>
+          <Painting />
+        </Route>
         <Route path="/mypage">
           <Mypage />
         </Route>

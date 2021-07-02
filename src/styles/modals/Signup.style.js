@@ -59,6 +59,10 @@ export const SignupForm = styled.form`
   flex-direction: column;
   width: 100%;
   height: 25rem;
+
+  & .displayNone {
+    display: none;
+  }
 `;
 
 export const Input = styled.input`

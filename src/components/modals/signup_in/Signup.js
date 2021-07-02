@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import useForm from "./useForm";
-import "./Signup.scss";
 import axios from "axios";
 import {
   BoxContainer,
@@ -29,7 +28,7 @@ import {
   ForBalanceNaver,
   NaverLogo,
   NaverText,
-} from "../../styles/modals/Signup.style";
+} from "../../../styles/modals/Signup.style";
 import { Icon } from "react-icons-kit";
 import { circle_delete } from "react-icons-kit/ikons/circle_delete";
 import Swal from "sweetalert2";
@@ -44,7 +43,6 @@ export default function Signup({ handleModal }) {
     onLoginSuccess,
     onSignupSuccess,
   } = useForm();
-  const [accessToken, setAccessToken] = useState(""); // token
 
   // 로그인, 회원가입 전환에 따른 유효성 검사
   const checkValidation = (e) => {
@@ -84,6 +82,13 @@ export default function Signup({ handleModal }) {
         Swal.fire({
           icon: "error",
           title: "이메일 확인하세요! 🤔",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } else if (password.length === 0 || password.length === 0) {
+        Swal.fire({
+          icon: "error",
+          title: "비밀번호를 입력해주세요! 🤔",
           showConfirmButton: false,
           timer: 1500,
         });
@@ -144,10 +149,8 @@ export default function Signup({ handleModal }) {
         }
       )
       .then((res) => {
+        console.log(res.data);
         onLoginSuccess();
-        // if (res.token) {
-        //   onLoginSuccess();
-        // }
       })
       .catch((err) => {
         console.log(err);

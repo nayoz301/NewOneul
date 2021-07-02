@@ -321,12 +321,12 @@ const MusicHook = () => {
                   muteState
                     ? volumeMute2
                     : volume < 0.01 //0으로 하면 안먹음
-                    ? volumeMute
-                    : volume < 0.34
-                    ? volumeLow
-                    : volume < 0.67
-                    ? volumeMedium
-                    : volumeHigh
+                      ? volumeMute
+                      : volume < 0.34
+                        ? volumeLow
+                        : volume < 0.67
+                          ? volumeMedium
+                          : volumeHigh
                 }
               />
             </button>

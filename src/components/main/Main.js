@@ -4,6 +4,7 @@ import "../../style.css";
 import Calendar from "./calendar/Calendar";
 import CalendarHeader from "./calendar/CalendarHeader";
 import Diary from "../modals/Diary";
+// import { MainHeader, HeaderWrapper } from "../../styles/main/Main.style";
 import styled from "styled-components";
 import MainHeaderCompo from "./MainHeaderCompo";
 import MyCards from "./cards/MyCards";
@@ -13,6 +14,7 @@ const Main = () => {
   const [value, setValue] = useState(moment());
   const [isClick, setIsClick] = useState(false);
   const [clickmoment, setClickmoment] = useState(null);
+  // const [isLogin, setIsLogin] = useState(!null)
 
   const modalHandle = (day) => {
     setIsClick((prev) => setIsClick(!prev));
