@@ -11,8 +11,6 @@ export default function useForm() {
   });
   // login <-> signup
   const [clickedType, setClickedType] = useState("로그인");
-  const [onLogin, setOnLogin] = useState(false);
-  const [onSignup, setOnSignup] = useState(false);    // signup
   const [clickedModify, setClickedModify] = useState("마이페이지");
   const history = useHistory();
 
@@ -43,14 +41,12 @@ export default function useForm() {
   };
 
   const onLoginSuccess = () => {
-    // true 일 때 메인페이지 이동
-    setOnLogin(!onLogin);
-    Swal.fire({
-      icon: 'success',
-      title: '✨✨✨ 로그인! ✨✨✨',
-      showConfirmButton: false,
-      timer: 2000
-    })
+    // Swal.fire({
+    //   icon: 'success',
+    //   title: '✨✨✨ 로그인! ✨✨✨',
+    //   showConfirmButton: false,
+    //   timer: 1500
+    // })
     history.push("/main")
     console.log('로그인 완료')
   };
@@ -61,7 +57,6 @@ export default function useForm() {
 
   // Signup success => Login Modal
   const onSignupSuccess = () => {
-    setOnSignup(!onSignup);
     changeType()
     setValues({
       email: '',
@@ -71,7 +66,7 @@ export default function useForm() {
       icon: 'success',
       title: '🎉회원가입 완료!🥰',
       showConfirmButton: false,
-      timer: 2500
+      timer: 1500
     })
   };
 
@@ -79,6 +74,7 @@ export default function useForm() {
     handleChange,
     handleSubmit,
     values,
+    setValues,
     clickedType,
     handleClickedType,
     onLoginSuccess,

@@ -2,13 +2,12 @@ import styled from 'styled-components';
 
 export const ImgUpload = styled.div`
   width: 20.5rem;
-  min-width: 25rem;
   height: 20.5rem;
   margin: 1rem;
   margin-top: 1.5rem;
-  border: 1px solid #000;
+  border:  3px groove #E6E6FF;
   display: flex;
-  margin-left: 2.2rem;
+  margin-left: 1rem;
   flex-direction: column;
 `;
 
@@ -23,7 +22,7 @@ export const ImgView = styled.img`
   justify-content: center;
   text-align: center;
   padding: 1rem;
-  font-size: 1.8rem;
+  font-size: 1.2rem;
 `;
 
 export const ImgUploadBtn = styled.button`
@@ -38,6 +37,7 @@ export const ImgUploadBtn = styled.button`
   margin-bottom: 1rem;
   border: none;
   border-radius: .7rem;
+  margin-right: .5rem;
 
   &:hover {
     background: #DB18B1;

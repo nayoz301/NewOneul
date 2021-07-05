@@ -3,7 +3,7 @@
 }
 
 * {
-  box-sizing: border-box;
+  font-size: 62.5%;
   margin: 0;
   padding: 0;
 }
@@ -14,6 +14,8 @@ body {
   /* align-items: center; */
   /* justify-content: center; */
 /* } */
+  /* box-sizing: border-box;
+} */
 
 .select {
   /*오늘 무드창 창*/
