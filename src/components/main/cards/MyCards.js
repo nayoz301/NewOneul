@@ -1,45 +1,47 @@
 import React from "react";
 import Carousel from "react-elastic-carousel";
-import styled from "styled-components";
 import {
-  Card,
-  CardFront,
-  CardFrontHeader,
   CardBack,
   CardBackText,
 } from "../../../styles/landing/LandingCard.style";
 import { myDiaryArrow, diaryResponsive } from "../../landing/card/carousel";
 import mypic from "../../../images/mypic.jpeg";
-import { BREAK_POINT_MOBILE } from "../../../styles/global.style";
 import { Icon } from "react-icons-kit";
-import { u1F506 } from "react-icons-kit/noto_emoji_regular/u1F506";
-import { cool } from "react-icons-kit/icomoon/cool";
+import { happy } from "react-icons-kit/icomoon";
+import {
+  iosSunny,
+  iosPartlysunny,
+  iosRainy,
+  iosCloud,
+  iosSnowy,
+} from "react-icons-kit/ionicons";
+import {
+  MyCardWrapper,
+  MyDiaryHeader,
+  MyDiary,
+  MyDiaryFrontHeader,
+  MyDiaryCardFront,
+  MyDiaryBack,
+  MyDiaryBackTextWrapper,
+  MyDiaryBackText,
+  IconWrapper,
+} from "../../../styles/main/cards/MyCards.style";
 
 const MyCards = () => {
   return (
-    <div className="mycard">
-      <h1
-        style={{
-          textAlign: "center",
-          marginTop: "1rem",
-          fontSize: "1.9rem",
-          fontFamily: "var(--thick-font)",
-        }}
-      >
-        나의 일기
-      </h1>
+    <MyCardWrapper>
+      <MyDiaryHeader>나의 오늘 .</MyDiaryHeader>
       <Carousel
         breakPoints={diaryResponsive}
         renderArrow={myDiaryArrow}
         pagination={false}
-        outerSpacing={20}
         itemPadding={[0, 50]}
       >
         <MyDiary>
           <MyDiaryCardFront>
-            <MyDiaryFrontHeader>2021-07-01</MyDiaryFrontHeader>
+            <MyDiaryFrontHeader>2021년 7월 1일</MyDiaryFrontHeader>
             <img src={mypic} alt="" />
-            <div
+            {/* <div
               style={{
                 position: "absolute",
                 bottom: "30%",
@@ -47,27 +49,29 @@ const MyCards = () => {
               }}
             >
               name or what
-            </div>
-            <div style={{ position: "absolute", bottom: "4%", right: "6%" }}>
-              <Icon icon={u1F506} size={27} style={{ color: "#f6a102" }}></Icon>
+            </div> */}
+            <IconWrapper>
               <Icon
-                icon={cool}
-                size={20}
-                style={{ color: "cornflowerblue" }}
+                icon={iosSnowy}
+                size={38}
+                style={{ color: "#5488c8" }}
               ></Icon>
-            </div>
+              <Icon icon={happy} size={26} style={{ color: "#22c0c1" }}></Icon>
+            </IconWrapper>
           </MyDiaryCardFront>
           <MyDiaryBack>
-            <MyDiaryBackText>
-              오늘을 사용하면 일기에 노래로 넣을 수 있고 그림도 그릴 수 있어서
-              아주 편리해요. 매일 잠 자기 전에 일기 쓰기 좋은 페이지를 찾고
-              있었느데 아주 좋은 거 같아요.
-            </MyDiaryBackText>
+            <MyDiaryBackTextWrapper>
+              <MyDiaryBackText>
+                오늘을 사용하면 일기에 노래로 넣을 수 있고 그림도 그릴 수 있어서
+                아주 편리해요. 매일 잠 자기 전에 일기 쓰기 좋은 페이지를 찾고
+                있었느데 아주 좋은 거 같아요.
+              </MyDiaryBackText>
+            </MyDiaryBackTextWrapper>
           </MyDiaryBack>
         </MyDiary>
         <MyDiary>
           <MyDiaryCardFront>
-            <MyDiaryFrontHeader>2021-07-01</MyDiaryFrontHeader>
+            <MyDiaryFrontHeader>2021년 7월 1일</MyDiaryFrontHeader>
             <img src={mypic} alt="" />
           </MyDiaryCardFront>
           <CardBack>
@@ -92,46 +96,8 @@ const MyCards = () => {
           </CardBack>
         </MyDiary>
       </Carousel>
-    </div>
+    </MyCardWrapper>
   );
 };
 
 export default MyCards;
-
-const MyDiary = styled(Card)`
-  min-width: 15rem;
-  min-height: 18rem;
-  margin: 1.5rem 0;
-
-  @media only screen and (min-width: ${BREAK_POINT_MOBILE}px) {
-    min-width: 17rem;
-    min-height: 23rem;
-  }
-`;
-
-const MyDiaryFrontHeader = styled(CardFrontHeader)`
-  font-family: Noto Sans KR;
-  font-weight: 300;
-  font-size: 1.3rem;
-  position: absolute;
-  top: 4%;
-  left: 6%;
-`;
-
-const MyDiaryCardFront = styled(CardFront)`
-  & img {
-    width: 13rem;
-    height: 6.5rem;
-  }
-`;
-
-const MyDiaryBack = styled(CardBack)`
-  overflow: hidden;
-`;
-
-const MyDiaryBackText = styled(CardBackText)`
-  font-size: 1.2rem;
-  width: 70%;
-  height: 90%;
-  line-height: 1.8;
-`;

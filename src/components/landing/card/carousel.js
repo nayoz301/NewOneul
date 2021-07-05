@@ -41,8 +41,12 @@ export const myArrow = ({ type, onClick, isEdge }) => {
   );
 };
 
-const DiaryArrow = styled(Arrow)`
-  transform: translateY(-20%);
+const DiaryArrow = styled.div`
+  & i {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 `;
 
 export const myDiaryArrow = ({ type, onClick, isEdge }) => {

@@ -25,7 +25,7 @@ const LandingThird = () => {
     <SecondDivForColor>
       <MainSecondInnerSection>
         <MainSecondHeader data-aos={"fade-down"} data-aos-duration={"800"}>
-          오늘과 이용해주신 분들
+          오늘을 이용해주신 분들
         </MainSecondHeader>
         <ScrollTop onClick={scrollToTop}>
           <Icon size={"35"} icon={angleUp} style={style} />

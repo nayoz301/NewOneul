@@ -1,16 +1,16 @@
 import React from "react";
 import { MainHeader, HeaderWrapper } from "../../styles/main/Main.style";
-import { useHistory } from "react-router-dom";
-import axios from 'axios';
+import { Link, useHistory } from "react-router-dom";
+import axios from "axios";
 import { useState, useEffect } from "react";
 
 const MainHeaderCompo = () => {
   const history = useHistory();
-  const [isLogin, setIsLogin] = useState(false)
+  const [isLogin, setIsLogin] = useState(false);
 
   const tokenRequest = () => {
     setIsLogin(true);
-  }
+  };
 
   useEffect(() => {
     async function token() {
@@ -23,23 +23,22 @@ const MainHeaderCompo = () => {
           withCredentials: true,
         })
         .then((res) => {
-          console.log(res.data)
+          console.log(res.data);
           tokenRequest();
         })
         .catch((err) => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     }
-
-  })
+  });
 
   const goHome = () => {
     history.push("/main");
-  }
+  };
 
-  const handleMypage = () => {
-    history.push("/mypage");
-  }
+  // const handleMypage = () => {
+  //   history.push("/mypage");
+  // };
 
   return (
     <MainHeader>

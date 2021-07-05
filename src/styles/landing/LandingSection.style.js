@@ -2,6 +2,8 @@ import styled, { css } from "styled-components";
 import {
   BREAK_POINT_MOBILE,
   BREAK_POINT_MD_SCREEN,
+  BREAK_POINT_LG_SCREEN,
+  BREAK_POINT_16LG_SCREEN,
   flexCenter,
 } from "../global.style";
 
@@ -35,6 +37,10 @@ export const LandingNav = styled.nav`
   height: 11rem;
   margin: 0 auto;
   z-index: 5;
+
+  & a {
+    color: var(--primary-color);
+  }
 
   & h1 {
     font-size: 4.4rem;
@@ -94,17 +100,49 @@ export const LdInnerSpan = styled.span`
 
       &:hover {
         &::before {
-          width: 16rem;
+          width: 13rem;
         }
       }
     `}
 
   @media only screen and (min-width: ${BREAK_POINT_MOBILE}px) {
-    font-size: ${(props) => (props.first ? "6rem" : "3rem")};
+    font-size: ${(props) => (props.first ? "5.8rem" : "3rem")};
+
+    ${({ first }) =>
+      first &&
+      css`
+        &:hover {
+          &::before {
+            width: 14rem;
+          }
+        }
+      `}
   }
 
-  @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
+  @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
+    font-size: ${(props) => (props.first ? "6.5rem" : "3.5rem")};
+    ${({ first }) =>
+      first &&
+      css`
+        &:hover {
+          &::before {
+            width: 14.9rem;
+          }
+        }
+      `}
+  }
+
+  @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN}px) {
     font-size: ${(props) => (props.first ? "7rem" : "3.8rem")};
+    ${({ first }) =>
+      first &&
+      css`
+        &:hover {
+          &::before {
+            width: 16rem;
+          }
+        }
+      `}
   }
 `;
 
