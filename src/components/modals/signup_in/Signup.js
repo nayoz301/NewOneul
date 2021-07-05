@@ -58,9 +58,8 @@ const Signup = ({ handleModal, login, logout }) => {
       } else {
         Swal.fire({
           icon: "error",
-          title: "로그인 정보를 정보를 입력하세요!🤔",
-          showConfirmButton: false,
-          timer: 1500,
+          title: "이메일과 비밀전호를 확인하세요!🤔",
+          showConfirmButton: true
         });
       }
     } else if (clickedType === "회원가입") {
@@ -137,7 +136,7 @@ const Signup = ({ handleModal, login, logout }) => {
   };
 
   // Login 시  axios.post
-  const handleLogin = async (email, password) => {
+  const handleLogin = async (email, password, message) => {
     await axios
       .post(
         "https://oneul.site/O_NeulServer/user/signin",
@@ -156,6 +155,13 @@ const Signup = ({ handleModal, login, logout }) => {
         onLoginSuccess();
       })
       .catch((err) => {
+        if ({ message: "invalid email!" || "password error!" }) {
+          Swal.fire({
+            icon: "error",
+            title: "이메일 또는 비밀번호가 다릅니다! 😮",
+            showConfirmButton: true
+          });
+        }
         console.log(err);
       });
   };

@@ -2,86 +2,121 @@ import styled from "styled-components";
 
 export const BoxContainer = styled.div`
   width: 100%;
-  height: 80rem;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   font-family: var(--thick-font);
-  background-color: var(--primary-color);
+  // background-color: var(--primary-color);
 `;
 
-export const PageName = styled.form`
+export const FormContainer = styled.form`
   font-size: 2rem;
   min-width: 80%;
-  height: 50rem;
+  height: 95rem;
   margin: 10rem 0 1rem 0;
   // border: 1px solid red;
-  background-color: #D4CDA3;
+  background-color: #DBC5CD;
   color: #000;
   font-weight: bold;
   padding: 1rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
-export const FormContainer = styled.div`
-  width: 95%;
-  height: 43rem;
+export const ContentContainer = styled.div`
+  min-width: 95%;
+  height: 95%;
   border: 1.5px dashed #fff;
   margin: 2rem;
-  padding: .3rem 2rem;
+  margin-top: 2rem;
+  padding-right: 2rem;
   display: flex;
   background-color: #DBD9DB;
   // box-shadow: 5px 5px lightgray;
-
 `;
 
-export const ImgContainer = styled.div`
-  min-width: 30rem;
-  height: 38rem;
+export const Div = styled.div`
+width: 8rem;
+height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+export const ContentTitle = styled.h1`
+  // min-width: 1%;
+  margin-top: 3rem;
+  margin-left: 1rem;
+  display: flex;
+  flex-direction: column;
+`;
+
+export const UserInfoForm = styled.div`
+  min-width: 45%;
+  height: 90%;
   border: 2px solid var(--primary-color);
   border-radius: .7rem;
-  display: block;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-item: center;
-  background-color: #c1b297;
+  align-items: center;
+  background-color: #FFFBF0;
   margin-top: 3rem;
   color: #000;
 `;
 
-export const UserInfoForm = styled.div`
+export const Frame = styled.div`
+  width: 95%;
+  height: 95%;
+  border: .5rem groove #99C5FF;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 38rem;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const UserContentForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-width: 45%;
+  height: 90%;
   margin-left: 1rem;
   border: 2px solid var(--primary-color);
   border-radius: .7rem;
   padding-left: 1rem;
-  background-color: #c1b297;
+  background-color: #FFFBF0;
   margin-top: 3rem;
 `;
 
+export const UserContent = styled.div`
+  display: flex;
+`;
+
 export const Info = styled.div`
-  font-size: 2rem;
-  margin: 2rem;
-  margin-bottom: 1.5rem;
-  width: 11rem;
-  display: block;
+  font-size: 2.5rem;
+  margin: 1rem;
+  margin-top: 3rem;
+  max-width: 14rem;
+  display: flex;
   flex-direction: column;
-  border-bottom: 2px solid #DBD9DB;
+  justify-content: center;
+  align-item: center;
+  border-bottom: 3px groove #99C5FF;
   corlor: #000;
 `;
 
 export const Input = styled.input`
 font-family: var(--thick-font);
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   border: none;
-  border-bottom: 2px solid #DBD9DB;
-  width: 25rem;
-  margin-left: 2rem;
-  margin-bottom: 1rem;
-  display: block;
-  background-color: #c1b297;
+  border-bottom:  3px groove #99C5FF;
+  width: 18rem;
+  margin-top: 2rem;
+  padding-left: 1rem;
+  display: flex;
+  background-color: #FFFBF0;
 
   &:focus {
     color: none;
@@ -89,41 +124,20 @@ font-family: var(--thick-font);
   }
 `;
 
-export const ModifyBtn = styled.button`
-  font-family: var(--primary-font);
-  font-size: 1.5rem;
-  font-weight: bold;
-  width: 8rem;
-  height: 2.5rem;
-  margin-left: 18rem;
-  display: felx;
-  justify-content: center;
-  background-color: #D4CDA3;
-  color: #000;
-  border: 1px solid #D4CDA3;
-  border-radius: .7rem;
+export const Button = styled.button`
+font-family: var(--thick-font);
+font-size: 1.2rem;
+font-weight: 500;
+width: 10rem;
+height: 2.5rem;
+background-color: #DB7DC5;
+color: #fff;
+padding: .5rem;
+margin-top: 1rem;
+border: none;
+border-radius: .7rem;
 
-  &:hover {
-    background: #DBD086;
-  }
+&:hover {
+  background: #DB18B1;
+}
 `;
-
-// export const SaveBtn = styled.button`
-//   font-family: var(--primary-font);
-//   font-size: 1.8rem;
-//   font-weight: bold;
-//   dispaly: flex;
-//   position: relative;
-//   align-item: center;
-//   width: 10rem;
-//   min-height: 3rem;
-//   margin: 1rem;
-//   background-color: #DBD9DB;
-//   color: #fff;
-//   border: 1px solid #DB7DC5;
-//   border-radius: .7rem;
-
-//   &:hover {
-//     background: #DB18B1;
-//   }
-// `;

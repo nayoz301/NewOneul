@@ -1,26 +1,31 @@
 import { useState, useEffect } from 'react';
+import { Switch, Route, Link } from "react-router-dom";
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import Modify from '../modals/modify/Modify';
+import Modify from './modify/Modify';
 import MypageHeader from './MypageHeader';
 import ProfileImg from './ProfileImg';
+import GetMyDiary from './GetMyDiary';
+import Nav from './Nav';
+import MyInfo from './MyInfo';
 import {
   BoxContainer,
   FormContainer,
-  ImgContainer,
   UserInfoForm,
+  UserContentForm,
+  ContentContainer,
+  ContentTitle,
+  Div,
+  Frame,
   Info,
-  PageName,
   Input,
-  ModifyBtn,
+  UserContent,
+  Button
 } from '../../styles/mypage/Mypage.style';
 
 
 const Mypage = () => {
-  const [modiModal, setModiModal] = useState(false);
-  // const [isLogin, setIsLogin] = localStorage.getItem('token') !== null;
-  // const [data, setData] = useState({ userInfo: [] });
-  const [modivalues, setModiValues] = useState({
+  const [modiValues, setModiValues] = useState({
     nickname: 'test',
     email: 'test@test.com',
     nowPassword: '',
@@ -28,39 +33,63 @@ const Mypage = () => {
     password2: '',
   });
 
-  const clickModal = (e) => {
-    setModiModal(!modiModal);
+  const handleSubmit = e => {
+    e.preventDefault();
   };
 
   return (
-    <BoxContainer>
-      <MypageHeader />
-      <PageName>
-        마이페이지
+    <>
+      <BoxContainer>
+        <MypageHeader onSubmit={handleSubmit} />
         <FormContainer>
-          <ImgContainer>
-            <ProfileImg />
-            <Info>나의 프로필</Info>
-            <Input
-              type="text"
-              placeholder="닉네임"
-              value={modivalues.nickname}
-              name="nickname"
-              readOnly
-            />
-            <Input
-              type="email"
-              value={modivalues.email}
-              name="email"
-              readOnly
-            />
-            <ModifyBtn onClick={clickModal}>정보수정</ModifyBtn>
-            {modiModal && <Modify clickModal={clickModal} />}
-          </ImgContainer>
-          <UserInfoForm />
+          <ContentContainer>
+            <Div>
+              <ContentTitle>나의 오늘,</ContentTitle>
+            </Div>
+            <UserInfoForm>
+              <Frame>
+                <Switch>
+                  <Route path="/mypage/modify" exact>
+                    <Modify />
+                  </Route>
+                  <ProfileImg />
+                </Switch>
+                <Info>나의 프로필</Info>
+                <Input
+                  type="text"
+                  value={modiValues.nickname}
+                  name="nickname"
+                  readOnly
+                />
+                <Input
+                  type="email"
+                  value={modiValues.email}
+                  name="email"
+                  readOnly
+                />
+                <Link to="/mypage/modify">
+                  <Button>나의 정보수정</Button>
+                </Link>
+              </Frame>
+            </UserInfoForm>
+            <UserContentForm>
+              <UserContent>
+                <Switch>
+                  <Route path="/mypage/myinfo" exact>
+                    <MyInfo />
+                  </Route>
+                  <Route path="/mypage/mydiary" exact>
+                    <GetMyDiary />
+                  </Route>
+                </Switch>
+                <Nav />
+              </UserContent>
+            </UserContentForm>
+          </ContentContainer>
         </FormContainer>
-      </PageName>
-    </BoxContainer>
+      </BoxContainer>
+
+    </>
   )
 }
 export default Mypage
