@@ -1,18 +1,8 @@
-html {
-  font-size: 62.5%;
-}
-
 * {
-  box-sizing: border-box;
+  font-size: 62.5%;
   margin: 0;
   padding: 0;
-}
-
-body {
-  height: calc(100vh - 24rem);
-  /* display: flex; */
-  /* align-items: center; */
-  /* justify-content: center; */
+  box-sizing: border-box;
 }
 
 .select {

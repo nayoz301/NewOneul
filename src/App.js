@@ -20,7 +20,7 @@ function App() {
           <Loading />
         </Route>
         <Route path="/painting" exact>
-          <Painting />
+          {/* <Painting /> */}
         </Route>
         <Route path="/mypage">
           <Mypage />
