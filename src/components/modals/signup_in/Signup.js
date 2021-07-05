@@ -32,8 +32,10 @@ import {
 import { Icon } from "react-icons-kit";
 import { circle_delete } from "react-icons-kit/ikons/circle_delete";
 import Swal from "sweetalert2";
+import { connect } from "react-redux";
+import { login, logout } from "../../../actions";
 
-export default function Signup({ handleModal }) {
+const Signup = ({ handleModal, login, logout }) => {
   const {
     handleChange,
     handleSubmit,
@@ -149,7 +151,8 @@ export default function Signup({ handleModal }) {
         }
       )
       .then((res) => {
-        console.log(res.data);
+        const { accessToken } = res.data.data;
+        login(accessToken);
         onLoginSuccess();
       })
       .catch((err) => {
@@ -263,4 +266,6 @@ export default function Signup({ handleModal }) {
       </FormContainer>
     </BoxContainer>
   );
-}
+};
+
+export default connect(null, { login, logout })(Signup);

@@ -80,50 +80,16 @@
   z-index: 100;
 }
 
-.calendar {
-  height: 50rem;
-  font-size: 3rem;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  border-bottom-left-radius: 110px 19px;
-  border-bottom-right-radius: 120px 24px;
-  border: solid 2px #6e7491;
-  box-shadow: 3px 15px 8px -10px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
-  margin-bottom: 3rem;
-}
-
 .wrapper {
   margin: 4rem auto;
-  height: 100%;
+  width: 80%;
 }
 
-.my-and-other-card-wrapper {
-  border: solid 2px #6e7491;
-  /* border-radius: 10px; */
-}
-
-.card-wrapper {
-  border-top: solid 2px #6e7491;
-  padding-top: 1rem;
-}
-
-@media only screen and (max-width: 767px) {
-  .card {
-    margin: 0.9rem;
-  }
-  .wrapper {
-    width: 80%;
-  }
+.card {
+  margin: 0.9rem;
 }
 
 @media only screen and (min-width: 768px) {
-  .calendar {
-    min-width: 55rem;
-    /* min-height: 50rem; */
-  }
-
   .wrapper {
     width: 75%;
   }
@@ -133,9 +99,6 @@
     min-height: 23rem;
     margin: 1.8rem;
     border-radius: 10px;
-  }
-  .mycard {
-    min-height: 25rem;
   }
 }
 
@@ -153,18 +116,10 @@
     flex-direction: column;
     justify-content: space-between;
   }
-  .card-wrapper {
-    height: 58vh;
-    overflow: scroll;
-    overflow-x: hidden;
-  }
 }
 
 @media only screen and (min-width: 1200px) {
   .wrapper {
     display: flex;
-  }
-  .calendar {
-    height: calc(54.6vh + 25rem);
   }
 }

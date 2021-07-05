@@ -1,18 +1,18 @@
-import { useState } from 'react';
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 export default function useForm() {
   const [values, setValues] = useState({
-    nickname: '',
-    email: '',
-    password: '',
-    password2: '',
+    nickname: "",
+    email: "",
+    password: "",
+    password2: "",
   });
   // login <-> signup
   const [clickedType, setClickedType] = useState("로그인");
   const [onLogin, setOnLogin] = useState(false);
-  const [onSignup, setOnSignup] = useState(false);    // signup
+  const [onSignup, setOnSignup] = useState(false); // signup
   const [clickedModify, setClickedModify] = useState("마이페이지");
   const history = useHistory();
 
@@ -20,25 +20,25 @@ export default function useForm() {
     const { name, value } = e.target;
     setValues({
       ...values,
-      [name]: value
+      [name]: value,
     });
   };
 
   const handleClickedType = (e) => {
     setClickedType(e.target.innerText);
     setValues({
-      nickname: '',
-      email: '',
-      password: '',
-      password2: '',
-    })
+      nickname: "",
+      email: "",
+      password: "",
+      password2: "",
+    });
   };
 
   const handleClickedModify = (e) => {
     setClickedModify(e.target.innerText);
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
   };
 
@@ -46,33 +46,33 @@ export default function useForm() {
     // true 일 때 메인페이지 이동
     setOnLogin(!onLogin);
     Swal.fire({
-      icon: 'success',
-      title: '✨✨✨ 로그인! ✨✨✨',
+      icon: "success",
+      title: "✨✨✨ 로그인! ✨✨✨",
       showConfirmButton: false,
-      timer: 2000
-    })
-    history.push("/main")
-    console.log('로그인 완료')
+      timer: 1000,
+    });
+    history.push("/main");
+    console.log("로그인 완료");
   };
 
   const changeType = () => {
-    setClickedType('로그인')
-  }
+    setClickedType("로그인");
+  };
 
   // Signup success => Login Modal
   const onSignupSuccess = () => {
     setOnSignup(!onSignup);
-    changeType()
+    changeType();
     setValues({
-      email: '',
-      password: '',
-    })
+      email: "",
+      password: "",
+    });
     Swal.fire({
-      icon: 'success',
-      title: '🎉회원가입 완료!🥰',
+      icon: "success",
+      title: "🎉회원가입 완료!🥰",
       showConfirmButton: false,
-      timer: 2500
-    })
+      timer: 2500,
+    });
   };
 
   return {
@@ -86,4 +86,4 @@ export default function useForm() {
     handleClickedModify,
     clickedModify,
   };
-};
+}

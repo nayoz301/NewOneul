@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import { MainHeader, HeaderWrapper } from "../../styles/main/Main.style";
 
 const MainHeaderCompo = () => {
@@ -10,12 +10,12 @@ const MainHeaderCompo = () => {
   const Logout = () => {
     // setIsLogout(!isLogout);
     localStorage.clear();
-    history.push("/")
+    history.push("/");
     Swal.fire({
-      title: '👋 로그아웃 🥲',
+      title: "👋 로그아웃 🥲",
       showConfirmButton: false,
-      timer: 2000
-    })
+      timer: 2000,
+    });
   };
 
   return (

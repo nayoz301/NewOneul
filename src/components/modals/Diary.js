@@ -8,7 +8,7 @@ const Diary = ({ modalHandle, clickmoment }) => {
   return (
     <Diarybackground>
       <Button onClick={modalHandle}>
-        닫을려면 이거 눌러주세요 {clickmoment.format("")}
+        닫을려면 이거 눌러주세요 {clickmoment.format("L")}
       </Button>
       {/* <MusicHook /> */}
     </Diarybackground>

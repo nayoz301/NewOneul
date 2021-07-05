@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import writing from "../../images/writing.mp4";
 import swing from "../../images/landing.mp4";
+import { connect } from "react-redux";
 import {
   HeaderSection,
   Overlay,
@@ -13,16 +14,17 @@ import {
 } from "../../styles/landing/LandingSection.style";
 import { Link } from "react-router-dom";
 import Signup from "../modals/signup_in/Signup";
+import { login, logout, modifyAccessToken } from "../../actions";
 
 const random = () => {
   return Math.ceil(Math.random() * 2) - 1;
 };
 
-const LandingSection = (props) => {
+const LandingSection = ({ userLogin, logout }) => {
   const [video, setVideo] = useState(null);
   const [isModal, setIsModal] = useState(false);
 
-  const handleModal = (e) => {
+  const handleModal = () => {
     setIsModal(!isModal);
   };
 
@@ -37,8 +39,20 @@ const LandingSection = (props) => {
         <video src={video} muted="muted" autoPlay loop />
       </Overlay>
       <LandingNav>
-        <h1>오늘 ,</h1>
-        <span onClick={handleModal}>로그인</span>
+        <Link to="/">
+          <h1>오늘 ,</h1>
+        </Link>
+        {userLogin.isLogin ? (
+          <span
+            onClick={() => {
+              logout();
+            }}
+          >
+            로그아웃
+          </span>
+        ) : (
+          <span onClick={handleModal}>로그인</span>
+        )}
       </LandingNav>
       {isModal && <Signup handleModal={handleModal} />}
       <LdInnerSection>
@@ -72,4 +86,12 @@ const LandingSection = (props) => {
   );
 };
 
-export default LandingSection;
+const mapStateToProps = ({ loginReducer }) => {
+  return {
+    userLogin: loginReducer.login,
+  };
+};
+
+export default connect(mapStateToProps, { login, logout, modifyAccessToken })(
+  LandingSection
+);

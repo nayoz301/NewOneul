@@ -53,6 +53,10 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
   }
+
+  a {
+    text-decoration: none;
+  }
   
   body{
     overflow-x: hidden;
@@ -64,7 +68,7 @@ export const GlobalStyle = createGlobalStyle`
     cursor: pointer;
     border: 1px solid black;
   }
-  
+
 `;
 
 export const flexCenter = css`

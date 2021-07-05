@@ -1,21 +1,25 @@
 import React from "react";
 import { MainHeader, HeaderWrapper } from "../../styles/main/Main.style";
-import { useHistory } from "react-router-dom";
-import axios from 'axios';
+import { Link, useHistory } from "react-router-dom";
+import axios from "axios";
 import { useState, useEffect } from "react";
 
 const MainHeaderCompo = () => {
-  const history = useHistory();
+  // const history = useHistory();
 
-  const handleMypage = () => {
-    history.push("/mypage");
-  }
+  // const handleMypage = () => {
+  //   history.push("/mypage");
+  // };
 
   return (
     <MainHeader>
       <HeaderWrapper>
-        <h1>오늘 ,</h1>
-        <button onClick={handleMypage}>MY PAGE</button>
+        <Link to="/">
+          <h1>오늘 ,</h1>
+        </Link>
+        <Link to="/mypage">
+          <button>MY PAGE</button>
+        </Link>
       </HeaderWrapper>
     </MainHeader>
   );
