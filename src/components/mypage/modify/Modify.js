@@ -7,9 +7,7 @@ import { Icon } from "react-icons-kit";
 import { circle_delete } from "react-icons-kit/ikons/circle_delete";
 import {
   BoxContainer,
-  FormContainer,
   ModalContainer,
-  Close,
   Wrapper,
   ModifyText,
   ModifyForm,

@@ -31,22 +31,13 @@ body {
   /* padding: 0 0.5rem; */
   /* margin-top: 9rem;
   border-radius: 2rem;
-<<<<<<< HEAD
-  color: rgba(105, 97, 97, 0.555); 배경글자색 */
-  /* font-weight: 350;
-  box-shadow: 0rem 0rem 7rem 0rem #193469; */
-  /* background: #f8f8fa; 재생목록 배경색 */
-  /* overflow: hidden; */
-/* } */
-=======
   color: rgba(105, 97, 97, 0.555); /*배경글자색*/
-  font-weight: 350;
+  /* font-weight: 350;
   box-shadow: 0rem 0rem 7rem 0rem #193469;
 
   background: #f8f8fa; /*재생목록 배경색*/
-  overflow: hidden;
-}
->>>>>>> 958754c95e2464566c13767499f64f1325c7c93a
+  /* overflow: hidden;
+} */
 
 .player-wrapper .current-song {
   display: flex;
