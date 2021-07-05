@@ -1,9 +1,21 @@
+/* html {
+  font-size: 62.5%;
+}
+
 * {
   font-size: 62.5%;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
+
+body {
+  height: calc(100vh - 24rem);
+  /* display: flex; */
+  /* align-items: center; */
+  /* justify-content: center; */
+/* } */
+  /* box-sizing: border-box;
+} */
 
 .select {
   /*오늘 무드창 창*/

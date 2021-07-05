@@ -168,10 +168,3 @@
     height: calc(54.6vh + 25rem);
   }
 }
-
-@media screen and (max-width: 1024px) {
-  /*해성*/
-  .modal-wrapper {
-    width: 41rem;
-  }
-}

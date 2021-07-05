@@ -1,22 +1,44 @@
-* {
+/* html {
+  font-size: 62.5%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  color: #303907;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: white;
+} */
+/* * {
   font-size: 62.5%;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
+} */
 
-body .player-wrapper {
+/* body .player-wrapper { */
   /*전체 바디*/
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: 35rem;
+  max-width: 35rem; */
   /* min-width: 32rem; */
-  min-height: 35vh;
+  /* min-height: 35vh; */
   /* padding: 0 0.5rem; */
-  margin-top: 9rem;
+  /* margin-top: 9rem;
   border-radius: 2rem;
+<<<<<<< HEAD
+  color: rgba(105, 97, 97, 0.555); 배경글자색 */
+  /* font-weight: 350;
+  box-shadow: 0rem 0rem 7rem 0rem #193469; */
+  /* background: #f8f8fa; 재생목록 배경색 */
+  /* overflow: hidden; */
+/* } */
+=======
   color: rgba(105, 97, 97, 0.555); /*배경글자색*/
   font-weight: 350;
   box-shadow: 0rem 0rem 7rem 0rem #193469;
@@ -24,6 +46,7 @@ body .player-wrapper {
   background: #f8f8fa; /*재생목록 배경색*/
   overflow: hidden;
 }
+>>>>>>> 958754c95e2464566c13767499f64f1325c7c93a
 
 .player-wrapper .current-song {
   display: flex;

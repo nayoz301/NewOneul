@@ -4,6 +4,7 @@ import Main from "./components/main/Main";
 import Loading from "./components/loading/Loading";
 import { GlobalStyle } from "./styles/global.style";
 import Mypage from "./components/mypage/Mypage";
+import Painting from "./components/painting/Painting";
 
 function App() {
   return (
