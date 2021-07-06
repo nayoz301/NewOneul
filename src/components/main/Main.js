@@ -17,7 +17,12 @@ import { connect } from "react-redux";
 import axios from "axios";
 import { fetchAllLoginDiary, fetchAllUnloginDiary } from "../../actions";
 
-const Main = ({ userInfo, main, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
+const Main = ({
+  userLogin,
+  main,
+  fetchAllLoginDiary,
+  fetchAllUnloginDiary,
+}) => {
   const [value, setValue] = useState(moment());
   const [isClick, setIsClick] = useState(false);
   const [clickmoment, setClickmoment] = useState(null);
@@ -27,7 +32,7 @@ const Main = ({ userInfo, main, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
       "https://oneul.site/O_NeulServer/main",
       {
         headers: {
-          authorization: "Bearer " + userInfo.accessToken,
+          authorization: "Bearer " + userLogin.login.accessToken,
         },
       },
       {
@@ -38,7 +43,7 @@ const Main = ({ userInfo, main, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
         return data.data.data;
       })
       .then((result) => {
-        if (userInfo.accessToken) {
+        if (userLogin.login.accessToken) {
           fetchAllLoginDiary(
             result.publicDiary,
             result.myDiary,
@@ -47,9 +52,6 @@ const Main = ({ userInfo, main, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
         } else {
           fetchAllUnloginDiary(result.publicDiary, result.musicList);
         }
-      })
-      .then(() => {
-        console.log(main);
       })
       .catch((err) => {
         console.log(err);
@@ -93,8 +95,7 @@ const Main = ({ userInfo, main, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
 
 const mapStateToProps = ({ loginReducer, mainReducer }) => {
   return {
-    userInfo: loginReducer.login,
-    main: mainReducer,
+    userLogin: loginReducer,
   };
 };
 
