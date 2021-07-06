@@ -24,14 +24,14 @@ import {
 } from '../../styles/mypage/Mypage.style';
 
 
-const Mypage = () => {
-  const [isMypage, setIsMypage] = useState({
-    nickname: "nickname",
-    email: "email",
-  });
+const Mypage = ({ userInfo }) => {
+  // const [isMypage, setIsMypage] = useState({
+  //   nickname: userInfo.nickname,
+  //   email: userInfo.email,
+  // });
 
   useEffect(() => {
-    async function userInfo() {
+    async function updateUserInfo() {
       await axios
         .get("https://oneul.site/O_NeulServer/user/getUserInfo", {
           headers: {
@@ -73,13 +73,13 @@ const Mypage = () => {
                 <Info>나의 프로필</Info>
                 <Input
                   type="text"
-                  value={isMypage.nickname}
+                  value={userInfo.nickname}
                   name="nickname"
                   readOnly
                 />
                 <Input
                   type="email"
-                  value={isMypage.email}
+                  value={userInfo.email}
                   name="email"
                   readOnly
                 />

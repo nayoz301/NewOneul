@@ -43,7 +43,7 @@ export const Div = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  font-size: 7rem;
+  font-size: 2rem;
 `;
 
 export const ContentTitle = styled.h1`
