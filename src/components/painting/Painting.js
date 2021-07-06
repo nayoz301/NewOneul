@@ -22,6 +22,7 @@ let arr_Colors = [
   "#0064d2",
   "#5856d6",
   "#833ab4",
+  "#631d76",
   "#8a7967",
   "#7f7f7f",
   "white",
@@ -38,8 +39,12 @@ const Painting = () => {
   const canvasRef = useRef(null);
   const ctx = useRef();
   const BASE_COLOR = "2c2c2c";
+  // const CANVAS_WIDTH = window.innerWidth;
+  // const CANVAS_HEIGHT = window.innerHeight;
   const CANVAS_WIDTH = 700;
   const CANVAS_HEIGHT = 400;
+
+  const canvas = canvasRef.current;
 
   //세이브파일 구현 완료
   const [selectedFile, setSelectedFile] = useState(null);
@@ -217,8 +222,7 @@ const Painting = () => {
   };
 
   const handleClearClick = () => {
-    ctx.current.fillStyle = "white";
-    ctx.current.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); //사이즈 수정 필요
+    ctx.current.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
   };
 
   function handleFillClick() {
@@ -239,28 +243,93 @@ const Painting = () => {
     );
   }
 
-  const onMouseMove = ({ nativeEvent }) => {
-    const x = nativeEvent.offsetX;
-    const y = nativeEvent.offsetY;
+  // function getMouesPosition(e) {
+  //   var mouseX = ((e.offsetX * canvas.width) / canvas.clientWidth) | 0;
+  //   var mouseY = ((e.offsetY * canvas.height) / canvas.clientHeight) | 0;
+  //   return { x: mouseX, y: mouseY };
+  // }
 
-    if (!painting && !erasing && ctx) {
+  const onMouseMove = ({ nativeEvent }) => {
+    const getMouesPosition = (nativeEvent) => {
+      var mouseX =
+        ((nativeEvent.offsetX * canvas.width) / canvas.clientWidth) | 0;
+      var mouseY =
+        ((nativeEvent.offsetY * canvas.height) / canvas.clientHeight) | 0;
+      return { x: mouseX, y: mouseY };
+    };
+    const canvas = canvasRef.current;
+    const canvasBounds = canvasRef.current.getBoundingClientRect();
+    // const x = getMouesPosition(nativeEvent).x;
+    // const y = getMouesPosition(nativeEvent).y;
+
+    // const x = nativeEvent.offsetX;
+    // const y = nativeEvent.offsetY;
+
+    // let x = nativeEvent.clientX - canvasBounds.left;
+    // let y = nativeEvent.clientY - canvasBounds.top;
+    // let x = nativeEvent.clientX - canvas.offsetLeft;
+    // let y = (nativeEvent.clientY - canvas.offsetTop)height;
+    // const x = (nativeEvent.offsetX / canvas.clientWidth) * 2 - 1;
+    // const y = (1 - nativeEvent.offsetY / canvas.clientHeight) * 2 - 1;
+    // let x = nativeEvent.clientX - canvas.offsetLeft;
+    // let y = (nativeEvent.clientY - canvas.offsetTop)height;
+
+    // var sx = canvas.width / window.innerWidth;
+    // var sy = canvas.height / window.innerHeight;
+
+    // let x = (nativeEvent.clientX - canvasBounds.left) / sx;
+    // let y = (nativeEvent.clientY - canvasBounds.top) / sy;
+
+    // var mouseX = nativeEvent.clientX - ctx.canvas.offsetLeft;
+    // var mouseY = nativeEvent.clientY - ctx.canvas.offsetTop;
+
+    console.log(
+      "무브마우스",
+      getMouesPosition(nativeEvent)
+      // canvas.offsetLeft,
+      // canvas.clientHeight,
+      // window.innerWidth,
+      // canvas.width,
+      // nativeEvent.offsetX,
+      // nativeEvent.clientX,
+      // canvasBounds
+      // canvasBounds.left
+      // canvas.offsetBottom //캔버스안에서 탑 레프트 무조건 0
+    );
+
+    if (ctx && !painting && !erasing) {
       ctx.current.beginPath();
       console.log("CTX", ctx.current.beginPath());
-      ctx.current.moveTo(x, y);
+      // ctx.current.moveTo(x, y);
     } else if (painting) {
       ctx.current.globalCompositeOperation = "source-over";
-      ctx.current.lineTo(x, y);
+      ctx.current.lineTo(
+        getMouesPosition(nativeEvent).x,
+        getMouesPosition(nativeEvent).y
+      );
       ctx.current.stroke();
-      console.log(ctx.current.globalCompositeOperation);
+      console.log("x,y", nativeEvent.offsetX, nativeEvent.offsetY);
     } else if (erasing) {
       ctx.current.globalCompositeOperation = "destination-out";
       ctx.current.lineWidth = 15;
       ctx.current.beginPath();
       console.log("비긴패스", ctx.current.beginPath());
-      ctx.current.arc(x, y, 10, 0, 4 * Math.PI);
+      ctx.current.arc(
+        getMouesPosition(nativeEvent).x,
+        getMouesPosition(nativeEvent).y,
+        10,
+        0,
+        4 * Math.PI
+      );
       ctx.current.fill();
-      ctx.current.moveTo(x, y);
-      ctx.current.lineTo(x, y);
+      ctx.current.moveTo(
+        getMouesPosition(nativeEvent).x,
+        getMouesPosition(nativeEvent).y
+      );
+      ctx.current.lineTo(
+        getMouesPosition(nativeEvent).x,
+        getMouesPosition(nativeEvent).y
+      );
       ctx.current.stroke();
     }
   };
@@ -296,15 +365,31 @@ const Painting = () => {
 
   useEffect(() => {
     const canvas = canvasRef.current;
+
+    // canvas.style.width = "70%";
+    // canvas.style.height = "40%";
+    // canvas.width = canvas.offsetWidth;
+    // canvas.height = canvas.offsetHeight;
+
+    canvas.width = 700;
+    canvas.height = 400;
+    canvas.style.width = "100%";
+    canvas.style.height = "100%";
+
     ctx.current = canvas.getContext("2d");
     ctx.current.strokeStyle = BASE_COLOR;
     ctx.current.fillStyle = BASE_COLOR;
   }, []);
 
+  useEffect(() => {
+    const canvasBounds = canvasRef.current.getBoundingClientRect();
+    console.log("유즈이팩트", canvasBounds);
+  });
+
   return (
-    <div>
+    <div id="canvas_wrapper">
       <section id="controls">
-        <span className="controls_btns">
+        <span className="btns_part1">
           {/* <button id={`button_${button}`}></button> */}
           {/* {whichOne==='picture' ? :} */}
           <button id="clearBtn" onClick={handleClearClick}>
@@ -320,57 +405,64 @@ const Painting = () => {
             eraser
           </button>
         </span>
-        <span id="lineWeightRange">
-          <input
-            type="range"
-            min="0.1"
-            max="5"
-            defaultValue={"2.5"}
-            step="0.1"
-            onChange={handleRangeChange}
-          />
-        </span>
-        {/* <button id="whichOneBtn" onClick={whichOneFunc}>
+        <span className="btns_part2">
+          <span id="lineWeightRange">
+            <input
+              type="range"
+              min="0.1"
+              max="5"
+              defaultValue={"2.5"}
+              step="0.1"
+              onChange={handleRangeChange}
+            />
+          </span>
+
+          <span>
+            <label
+              className="input_file_button"
+              for="input-file"
+              style={{ width: "7rem" }}
+            >
+              File
+            </label>
+            <input
+              type="file"
+              id="input-file"
+              name="file"
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={handleInsertImage}
+            />
+
+            <button
+              type="button"
+              className="input_file_button"
+              onClick={handleFileUpload}
+            >
+              upload
+            </button>
+          </span>
+          {/* <button id="whichOneBtn" onClick={whichOneFunc}>
             {whichOne}
           </button> */}
 
-        {/* <input
+          {/* <input
             type="file"
             name="file"
             onChange={handleUploadClick}
             className="picture"
             ref={picRef}
           /> */}
-        <span>
-          <label className="input-file-button" for="input-file">
-            Search File
-          </label>
-          <input
-            type="file"
-            id="input-file"
-            name="file"
-            accept="image/*"
-            style={{ display: "none" }}
-            onChange={handleInsertImage}
-          />
           {/* <button
             type="button"
-            className="input-file-button"
+            className="input_file_button"
             onClick={handlePost}
           >
             upload
           </button> */}
-          <button
-            type="button"
-            className="input-file-button"
-            onClick={handleFileUpload}
-          >
-            upload
-          </button>
         </span>
-        <div className="submit_btns"></div>
       </section>
-      <section className="colors">
+      <section id="colors">
         {arr_Colors.map((color, idx) => (
           <span
             className="color"
@@ -388,19 +480,21 @@ const Painting = () => {
       >
         {$preview}
       </div> */}
-      <canvas
-        className="canvas"
-        ref={canvasRef}
-        width="700" //수정 필요
-        height="400" //수정 필요
-        onMouseMove={onMouseMove}
-        onMouseDown={startPainting}
-        onMouseUp={stopPainting}
-        onMouseLeave={stopPainting}
-        onClick={handleCanvasClick}
-        onContextMenu={disableRightClick}
-        // style={{ display: previewURL === null ? "block" : "none" }}
-      ></canvas>
+      <section style={{ position: "relative" }}>
+        <canvas
+          id="canvas"
+          ref={canvasRef}
+          // width="700" //수정 필요
+          // height="400" //수정 필요
+          onMouseMove={onMouseMove}
+          onMouseDown={startPainting}
+          onMouseUp={stopPainting}
+          onMouseLeave={stopPainting}
+          onClick={handleCanvasClick}
+          onContextMenu={disableRightClick}
+          // style={{ display: previewURL === null ? "block" : "none" }}
+        ></canvas>
+      </section>
     </div>
   );
 };
