@@ -3,6 +3,7 @@ import styled from "styled-components";
 import WeatherModal from "./Weather";
 import Modal from "./Modal";
 import MusicHook from "../MusicHooks/MusicHook";
+import "./DiaryWriting.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMusic } from "@fortawesome/free-solid-svg-icons";
 import { faSmile as farSmile } from "@fortawesome/free-regular-svg-icons";
@@ -12,12 +13,23 @@ const ModalWrapper = styled.div`
   flex-direction: column;
   border: 1px solid black;
   height: 90vh;
-  width: 50%;
-  margin-top: 3rem;
+  margin-top: 2rem;
+
+  @media screen and (max-width: 1440px) {
+    & {
+      width: 60%;
+    }
+  }
 
   @media screen and (max-width: 1024px) {
     & {
-      width: 41rem;
+      width: 60%;
+    }
+  }
+
+  @media screen and (max-width: 670px) {
+    & {
+      width: 40rem;
     }
   }
 `;
@@ -34,7 +46,7 @@ const HeaderDate = styled.div`
   border: 1px solid black;
   flex: 5 1 auto;
   text-align: center;
-
+  width: 40%;
   margin: auto;
 `;
 
@@ -56,6 +68,7 @@ const Canvas = styled.div`
   border: 1px solid black;
   flex: 20 1 auto;
   width: 100%;
+  height: 50%;
 `;
 
 const TextArea = styled.textarea`
@@ -93,6 +106,7 @@ const DiaryWriting = () => {
   const [isOpen, setIsOpen] = useState(false); //모달창 오픈 클로즈
   const [emojiPresent, SetEmojiPresent] = useState(null); //선택한 이모티콘 정보 여기 담김
   const [isPrivate, SetIsPrivate] = useState(false);
+  const [writing, setWriting] = useState("");
 
   const ModalOnOff = () => {
     //모달창 끄고 닫기
@@ -106,12 +120,18 @@ const DiaryWriting = () => {
   };
 
   console.log(isPrivate);
+
   return (
     <>
       <Body>
         <ModalWrapper className="modal-wrapper">
           <Header className="header">
-            <HeaderDate className="date">2021년 7월 4일</HeaderDate>
+            <div
+              style={{ display: "flex", flexDirection: "column", width: "40%" }}
+            >
+              <HeaderDate className="date">2021년 7월 4일</HeaderDate>
+            </div>
+
             <HeaderEmoji className="emoji">
               <FontAwesomeIcon
                 icon={emojiPresent ? emojiPresent.emoji : farSmile}
@@ -140,11 +160,11 @@ const DiaryWriting = () => {
             여긴 그림판
             <FontAwesomeIcon
               icon={faMusic}
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer", fontSize: 20 }}
               onClick={() => {
                 console.log("music slide ");
               }}
-            ></FontAwesomeIcon>
+            />
             {/* <MusicHook /> */}
           </Canvas>
 
@@ -158,6 +178,9 @@ const DiaryWriting = () => {
                 return (textRef.current.style.backgroundColor = "black");
               }
               return (textRef.current.style.backgroundColor = "white");
+            }}
+            onChange={(e) => {
+              setWriting(e.target.value);
             }}
           ></TextArea>
 
