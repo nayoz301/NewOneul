@@ -4,31 +4,57 @@ import "../../style.css";
 import Calendar from "./calendar/Calendar";
 import CalendarHeader from "./calendar/CalendarHeader";
 import Diary from "../modals/Diary";
-import { MainSection, CalendarWrapper } from "../../styles/main/Main.style";
+import {
+  MainSection,
+  CalendarWrapper,
+  MainInnerSection,
+  MainInnerWrapper,
+} from "../../styles/main/Main.style";
 import MainHeaderCompo from "./MainHeaderCompo";
 import MyCards from "./cards/MyCards";
 import OtherCards from "./cards/OtherCards";
 import { connect } from "react-redux";
-import { login, logout, modifyAccessToken } from "../../actions";
 import axios from "axios";
+import { fetchAllLoginDiary, fetchAllUnloginDiary } from "../../actions";
 
-const Main = ({ userInfo }) => {
+const Main = ({ userInfo, main, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
   const [value, setValue] = useState(moment());
   const [isClick, setIsClick] = useState(false);
   const [clickmoment, setClickmoment] = useState(null);
-  // const [isLogin, setIsLogin] = useState(!null)
 
-  // useEffect(async () => {
-  //   const result = await axios.get(
-  //     "https://oneul.site/O_NeulServer/user/renewToken",
-  //     {
-  //       headers: { "Content-Type": "application/json" },
-  //       withCredentials: true,
-  //     }
-  //   );
-
-  //   console.log(result);
-  // }, []);
+  useEffect(() => {
+    return axios(
+      "https://oneul.site/O_NeulServer/main",
+      {
+        headers: {
+          authorization: "Bearer " + userInfo.accessToken,
+        },
+      },
+      {
+        withCredentials: true,
+      }
+    )
+      .then((data) => {
+        return data.data.data;
+      })
+      .then((result) => {
+        if (userInfo.accessToken) {
+          fetchAllLoginDiary(
+            result.publicDiary,
+            result.myDiary,
+            result.musicList
+          );
+        } else {
+          fetchAllUnloginDiary(result.publicDiary, result.musicList);
+        }
+      })
+      .then(() => {
+        console.log(main);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const modalHandle = (day) => {
     setIsClick((prev) => setIsClick(!prev));
@@ -48,8 +74,8 @@ const Main = ({ userInfo }) => {
       {isClick && <Diary modalHandle={modalHandle} clickmoment={clickmoment} />}
       <MainSection>
         <MainHeaderCompo />
-        <section className="main-section">
-          <div className="wrapper">
+        <MainInnerSection>
+          <MainInnerWrapper>
             <CalendarWrapper>
               <CalendarHeader value={value} next={next} before={before} />
               <Calendar value={value} modalHandle={modalHandle} />
@@ -58,19 +84,21 @@ const Main = ({ userInfo }) => {
               <MyCards />
               <OtherCards />
             </div>
-          </div>
-        </section>
+          </MainInnerWrapper>
+        </MainInnerSection>
       </MainSection>
     </>
   );
 };
 
-const mapStateToProps = ({ loginReducer }) => {
+const mapStateToProps = ({ loginReducer, mainReducer }) => {
   return {
     userInfo: loginReducer.login,
+    main: mainReducer,
   };
 };
 
-export default connect(mapStateToProps, { login, logout, modifyAccessToken })(
-  Main
-);
+export default connect(mapStateToProps, {
+  fetchAllLoginDiary,
+  fetchAllUnloginDiary,
+})(Main);

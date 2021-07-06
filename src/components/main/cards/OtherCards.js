@@ -1,194 +1,35 @@
 import React from "react";
 import styled from "styled-components";
 import {
+  BREAK_POINT_MOBILE,
   BREAK_POINT_MD_SCREEN,
   BREAK_POINT_LG_SCREEN,
 } from "../../../styles/global.style";
-import { MyDiaryHeader } from "../../../styles/main/cards/MyCards.style";
-
-// 1200px에서 wrap
+import {
+  Card,
+  OtherDiaryHeader,
+  OtherDiaryInnerWrapper,
+} from "../../../styles/main/cards/OtherCards.style";
 
 const OtherCards = () => {
   return (
     <OtherDiaryWrapper>
       <OtherDiaryHeader>타인의 오늘 .</OtherDiaryHeader>
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "center",
-        }}
-      >
-        <div
-          className="card"
-          style={{
-            width: "15rem",
-            height: "18rem",
-            background: "tomato",
-            fontSize: "1.6rem",
-            border: "1px solid yellow",
-            // margin: ".9rem",
-          }}
-        >
-          김덕기님
-        </div>
-        <div
-          className="card"
-          style={{
-            width: "15rem",
-            height: "18rem",
-            background: "tomato",
-            fontSize: "1.6rem",
-            border: " 1px solid yellow",
-            // margin: ".9rem",
-          }}
-        >
-          김덕기님
-        </div>
-        <div
-          className="card"
-          style={{
-            width: "15rem",
-            height: "18rem",
-            background: "tomato",
-            fontSize: "1.6rem",
-            border: " 1px solid yellow",
-            // margin: ".9rem",
-          }}
-        >
-          김덕기님
-        </div>
-        <div
-          className="card"
-          style={{
-            width: "15rem",
-            height: "18rem",
-            background: "tomato",
-            fontSize: "1.6rem",
-            border: " 1px solid yellow",
-            // margin: ".9rem",
-          }}
-        >
-          김덕기님
-        </div>
-        <div
-          className="card"
-          style={{
-            width: "15rem",
-            height: "18rem",
-            background: "tomato",
-            fontSize: "1.6rem",
-            border: " 1px solid yellow",
-            // margin: ".9rem",
-          }}
-        >
-          김덕기님
-        </div>
-        <div
-          className="card"
-          style={{
-            width: "15rem",
-            height: "18rem",
-            background: "tomato",
-            fontSize: "1.6rem",
-            border: " 1px solid yellow",
-            // margin: ".9rem",
-          }}
-        >
-          김덕기님
-        </div>
-        <div
-          className="card"
-          style={{
-            width: "15rem",
-            height: "18rem",
-            background: "tomato",
-            fontSize: "1.6rem",
-            border: " 1px solid yellow",
-            // margin: ".9rem",
-          }}
-        >
-          김덕기님
-        </div>
-        <div
-          className="card"
-          style={{
-            width: "15rem",
-            height: "18rem",
-            background: "tomato",
-            fontSize: "1.6rem",
-            border: " 1px solid yellow",
-            // margin: ".9rem",
-          }}
-        >
-          김덕기님
-        </div>
-        <div
-          className="card"
-          style={{
-            width: "15rem",
-            height: "18rem",
-            background: "tomato",
-            fontSize: "1.6rem",
-            border: " 1px solid yellow",
-            // margin: ".9rem",
-          }}
-        >
-          김덕기님
-        </div>
-        <div
-          className="card"
-          style={{
-            width: "15rem",
-            height: "18rem",
-            background: "tomato",
-            fontSize: "1.6rem",
-            border: " 1px solid yellow",
-            // margin: ".9rem",
-          }}
-        >
-          김덕기님
-        </div>
-        <div
-          className="card"
-          style={{
-            width: "15rem",
-            height: "18rem",
-            background: "tomato",
-            fontSize: "1.6rem",
-            border: " 1px solid yellow",
-            // margin: ".9rem",
-          }}
-        >
-          김덕기님
-        </div>
-        <div
-          className="card"
-          style={{
-            width: "15rem",
-            height: "18rem",
-            background: "tomato",
-            fontSize: "1.6rem",
-            border: " 1px solid yellow",
-            // margin: ".9rem",
-          }}
-        >
-          김덕기님
-        </div>
-        <div
-          className="card"
-          style={{
-            width: "15rem",
-            height: "18rem",
-            background: "tomato",
-            fontSize: "1.6rem",
-            border: " 1px solid yellow",
-            // margin: ".9rem",
-          }}
-        >
-          김덕기님
-        </div>
-      </div>
+      <OtherDiaryInnerWrapper>
+        <Card>김덕기님</Card>
+        <Card>김덕기님</Card>
+        <Card>김덕기님</Card>
+        <Card>김덕기님</Card>
+        <Card>김덕기님</Card>
+        <Card>김덕기님</Card>
+        <Card>김덕기님</Card>
+        <Card>김덕기님</Card>
+        <Card>김덕기님</Card>
+        <Card>김덕기님</Card>
+        <Card>김덕기님</Card>
+        <Card>김덕기님</Card>
+        <Card>김덕기님</Card>
+      </OtherDiaryInnerWrapper>
     </OtherDiaryWrapper>
   );
 };
@@ -219,8 +60,4 @@ const OtherDiaryWrapper = styled.div`
       background-color: #888;
     }
   }
-`;
-
-const OtherDiaryHeader = styled(MyDiaryHeader)`
-  margin-top: 0;
 `;

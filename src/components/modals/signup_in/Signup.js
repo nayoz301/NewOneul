@@ -59,7 +59,7 @@ const Signup = ({ handleModal, login, logout }) => {
         Swal.fire({
           icon: "error",
           title: "이메일과 비밀전호를 확인하세요!🤔",
-          showConfirmButton: true
+          showConfirmButton: true,
         });
       }
     } else if (clickedType === "회원가입") {
@@ -150,8 +150,9 @@ const Signup = ({ handleModal, login, logout }) => {
         }
       )
       .then((res) => {
-        const { accessToken } = res.data.data;
-        login(accessToken);
+        console.log(res.data.data);
+        const { accessToken, user } = res.data.data;
+        login(accessToken, user);
         onLoginSuccess();
         console.log(res.data)
       })
@@ -160,7 +161,7 @@ const Signup = ({ handleModal, login, logout }) => {
           Swal.fire({
             icon: "error",
             title: "이메일 또는 비밀번호가 다릅니다! 😮",
-            showConfirmButton: true
+            showConfirmButton: true,
           });
         }
         console.log(err);
@@ -172,7 +173,7 @@ const Signup = ({ handleModal, login, logout }) => {
     e.preventDefault();
 
     const loginUrl = await axios.post(
-      `http://localhost:80/oauth/getCode`,
+      `https://oneul.site/O_NeulServer/oauth/getCode`,
       {
         siteName: siteName,
       },

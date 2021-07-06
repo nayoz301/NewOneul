@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 import {
   Boxcontainer,
@@ -10,7 +10,7 @@ import MySympathyCard from './dummy/OtherCards';
 
 const MyInfo = () => {
   return (
-    <Boxcontainer >
+    <Boxcontainer>
       <ListName>이 달의 나의 감정</ListName>
       <MyEmotion />
       <ListName>내가 공감한 일기</ListName>
@@ -21,4 +21,4 @@ const MyInfo = () => {
   )
 }
 
-export default MyInfo
+export default MyInfo;

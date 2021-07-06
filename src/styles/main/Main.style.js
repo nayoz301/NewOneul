@@ -3,6 +3,7 @@ import {
   BREAK_POINT_MOBILE,
   flexSpaceBtw,
   BREAK_POINT_LG_SCREEN,
+  BREAK_POINT_MD_SCREEN,
 } from "../global.style";
 
 export const MainHeader = styled.header`
@@ -45,6 +46,28 @@ export const MainSection = styled.section`
   min-height: 100vh;
   background: #fffdfa;
   font-family: var(--primary-font);
+`;
+
+export const MainInnerSection = styled.section`
+  padding-top: 60px;
+  z-index: 100;
+
+  @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
+    min-height: 100vh;
+  }
+`;
+
+export const MainInnerWrapper = styled.div`
+  margin: 4rem auto;
+  width: 80%;
+
+  @media only screen and (min-width: ${BREAK_POINT_MOBILE}px) {
+    width: 75%;
+  }
+
+  @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
+    display: flex;
+  }
 `;
 
 export const CalendarWrapper = styled.div`
