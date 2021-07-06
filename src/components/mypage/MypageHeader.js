@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 import { useHistory } from "react-router-dom";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import { MainHeader, HeaderWrapper } from "../../styles/main/Main.style";
 
 const MainHeaderCompo = () => {
@@ -9,24 +9,24 @@ const MainHeaderCompo = () => {
 
   const Logout = async () => {
     await axios
-      .delete("https://oneul.site/O_NeulServer/user/logout")
+      .get("https://oneul.site/O_NeulServer/user/signout")
       .then((res) => {
-        console.log("로그아웃")
-        history.push("/")
+        console.log("로그아웃");
+        history.push("/");
         Swal.fire({
-          title: '👋 로그아웃 🥲',
+          title: "👋 로그아웃 🥲",
           showConfirmButton: true,
-          timer: 5000
-        })
+          timer: 5000,
+        });
       })
       .catch((err) => {
-        console.log(err)
-      })
+        console.log(err);
+      });
   };
 
   const goHome = () => {
     history.push("/main");
-  }
+  };
 
   return (
     <MainHeader>

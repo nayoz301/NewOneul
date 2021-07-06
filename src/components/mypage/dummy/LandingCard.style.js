@@ -3,7 +3,7 @@ import {
   BREAK_POINT_MD_SCREEN,
   BREAK_POINT_LG_SCREEN,
   flexCenter,
-} from "../global.style";
+} from "../../../styles/global.style";
 
 export const CardSection = styled.section`
   width: 80%;
@@ -13,7 +13,7 @@ export const CardSection = styled.section`
 export const Cardul = styled.ul`
   width: 50rem;
   height: 33.3rem;
-  overflow: hidden;
+  overflow: scroll;
 
   @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
     width: 75rem;
@@ -27,27 +27,27 @@ export const Cardul = styled.ul`
 export const CardWrapper = styled.section`
   position: relative;
   display: flex;
-  width: 100%;
+  width: 40%;
 `;
 
 export const CardFace = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 30%;
+  height: 80%;
   transform-style: preserve-3d;
   ${flexCenter}
   transition: 1s all ease-out;
   backface-visibility: hidden;
   border-radius: 5px;
-  flex-direction: column;
+  // flex-direction: column;
 `;
 
 export const CardFront = styled(CardFace)`
   background: var(--primary-color);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 
   & img {
     clip-path: circle();

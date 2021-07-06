@@ -13,7 +13,7 @@ const ProfileImg = () => {
   const [previewURL, setPreviewURL] = useState('');
   const [preview, setPreview] = useState(null);
   const fileRef = useRef();
-  const [fileUrl, setFileUrl] = useState("");
+  const [fileUrl, setFileUrl] = useState("https://oneulfile.s3.amazonaws.com/profile/default.jpeg");
 
   useEffect(() => {
     if (file !== '') //처음 파일 등록하지 않았을 때를 방지
@@ -58,13 +58,13 @@ const ProfileImg = () => {
     fileRef.current.click(); // file 불러오는 버튼을 대신 클릭함
   }
 
-  const handleImgSubmit = async (picture, accessToken) => {
+  const handleImgUpload = async ({ fileUrl }) => {
     await axios
-      .patch("https://oneul.site/O_NeulServer/user/edit", {
-        picture: picture
+      .patch("https://oneul.site/O_NeulServer/user/updatePicture", {
+        picture: { setFileUrl }
       }, {
         headers: {
-          accessToken: accessToken,
+          accessToken: "accessToken",
           "Content-Type": "application/json"
         },
         withCredentials: true,
@@ -87,7 +87,7 @@ const ProfileImg = () => {
           id='profile_img_upload' onChange={handleFileOnChange}
         />
         <ImgUploadBtn onClick={handleFileButtonClick}>파일선택</ImgUploadBtn>
-        <ImgUploadBtn onClick={handleImgSubmit}>저장</ImgUploadBtn>
+        <ImgUploadBtn type="button" onClick={handleImgUpload}>저장</ImgUploadBtn>
       </ImgEdit>
     </>
   )

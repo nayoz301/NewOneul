@@ -4,7 +4,7 @@ import {
   Boxcontainer,
   ListName,
   MyEmotion,
-  MySympathyList
+  MySympathyList,
 } from '../../styles/mypage/MyInfo.style';
 import MySympathyCard from './dummy/OtherCards';
 
@@ -15,7 +15,7 @@ const MyInfo = () => {
       <MyEmotion />
       <ListName>내가 공감한 일기</ListName>
       <MySympathyList>
-        {/* <MySympathyCard /> */}
+        <MySympathyCard />
       </MySympathyList>
     </Boxcontainer >
   )

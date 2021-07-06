@@ -2,6 +2,7 @@ import styled from "styled-components";
 import {
   flexSpaceBtw,
   translateY,
+  BREAK_POINT_MD_SCREEN,
   BREAK_POINT_LG_SCREEN,
 } from "../global.style";
 
@@ -34,6 +35,21 @@ export const Footer = styled.footer`
   ${flexSpaceBtw}
   justify-content: space-around;
   background-color: var(--primary-color);
+
+  @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
+    & h2 {
+      font-size: 1.6rem;
+    }
+    & p {
+      font-size: 1.2rem;
+    }
+  }
+
+  @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
+    & h2 {
+      font-size: 1.9rem;
+    }
+  }
 `;
 
 export const ScrollTop = styled.button`
@@ -58,11 +74,17 @@ export const LinkDiv = styled.div`
 
 export const FooterBtnDiv = styled.div`
   & button {
-    padding: 0.9rem;
-    border: 1px solid black;
-    font-size: 1.6rem;
+    padding: 0.9rem 1.9rem;
+    /* border: 2px solid gray; */
+    font-size: 1.7rem;
     font-family: var(--primary-font);
     border-radius: 4px;
-    transition: 0.5s all ease-out;
+    transition: 0.25s all;
+    background-color: var(--third-color);
+    border: none;
+  }
+
+  & button:hover {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   }
 `;

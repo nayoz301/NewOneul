@@ -39,10 +39,11 @@ export const ContentContainer = styled.div`
 `;
 
 export const Div = styled.div`
-width: 8rem;
-height: 100%;
+  width: 8rem;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  font-size: 7rem;
 `;
 
 export const ContentTitle = styled.h1`
@@ -83,7 +84,7 @@ export const UserContentForm = styled.div`
   min-width: 45%;
   height: 90%;
   margin-left: 1rem;
-  border: 2px solid var(--primary-color);
+  // border: 2px solid var(--primary-color);
   border-radius: .7rem;
   padding-left: 1rem;
   background-color: #FFFBF0;

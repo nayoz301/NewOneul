@@ -25,13 +25,29 @@ import {
 
 
 const Mypage = () => {
-  const [modiValues, setModiValues] = useState({
-    nickname: 'test',
-    email: 'test@test.com',
-    nowPassword: '',
-    password: '',
-    password2: '',
+  const [isMypage, setIsMypage] = useState({
+    nickname: "nickname",
+    email: "email",
   });
+
+  useEffect(() => {
+    async function userInfo() {
+      await axios
+        .get("https://oneul.site/O_NeulServer/user/getUserInfo", {
+          headers: {
+            Authorization: "Bearer" + userInfo.accessToken,
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        })
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, []);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -57,13 +73,13 @@ const Mypage = () => {
                 <Info>나의 프로필</Info>
                 <Input
                   type="text"
-                  value={modiValues.nickname}
+                  value={isMypage.nickname}
                   name="nickname"
                   readOnly
                 />
                 <Input
                   type="email"
-                  value={modiValues.email}
+                  value={isMypage.email}
                   name="email"
                   readOnly
                 />
@@ -88,7 +104,6 @@ const Mypage = () => {
           </ContentContainer>
         </FormContainer>
       </BoxContainer>
-
     </>
   )
 }

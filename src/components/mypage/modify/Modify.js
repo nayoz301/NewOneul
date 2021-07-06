@@ -19,9 +19,8 @@ import {
 const Modify = () => {
   const history = useHistory();
   const [modiValues, setModiValues] = useState({
-    nickname: 'test',
-    email: 'test@test.com',
-    nowPassword: '',
+    nickname: 'nickname',
+    email: 'email',
     password: '',
     password2: '',
   });
@@ -67,7 +66,7 @@ const Modify = () => {
     }
   }
 
-  const handleModify = async (nickname, password, accessToken) => {
+  const handleModify = async (nickname, password) => {
     console.log("WoW")
     await axios
       .patch("https://oneul.site/O_NeulServer/user/edit",
@@ -77,7 +76,7 @@ const Modify = () => {
         },
         {
           headers: {
-            accessToken: accessToken,
+            authorization: "accessToken",
             "Content-Type": "application/json"
           },
           withCredentials: true,
@@ -101,43 +100,43 @@ const Modify = () => {
   return (
     <BoxContainer>
       <ModalContainer>
-        <Wrapper>
-          <ModifyText>나의 정보수정</ModifyText>
-          <ModifyForm>
-            <Input
-              type="text"
-              placeholder="닉네임"
-              onChange={handleModiChange}
-              value={modiValues.nickname}
-              name="nickname"
-            />
-            <Input
-              type="email"
-              onChange={handleModiChange}
-              value={modiValues.email}
-              name="email"
-              readOnly
-            />
-            <Input
-              type="password"
-              placeholder="비밀번호"
-              onChange={handleModiChange}
-              value={modiValues.password}
-              name="password"
-            />
-            <Input
-              type="password"
-              placeholder="비밀번호 확인"
-              onChange={handleModiChange}
-              value={modiValues.password2}
-              name="password2"
-            />
-            <ModifyBtn type="button" onClick={handleValidation}>저 장</ModifyBtn>
-            <Link to="/mypage">
-              <ModifyBtn type="button">뒤로가기</ModifyBtn>
-            </Link>
-          </ModifyForm>
-        </Wrapper>
+        {/* <Wrapper> */}
+        <ModifyText>나의 정보수정</ModifyText>
+        <ModifyForm>
+          <Input
+            type="text"
+            placeholder="닉네임"
+            onChange={handleModiChange}
+            value={modiValues.nickname}
+            name="nickname"
+          />
+          <Input
+            type="email"
+            onChange={handleModiChange}
+            value={modiValues.email}
+            name="email"
+            readOnly
+          />
+          <Input
+            type="password"
+            placeholder="비밀번호"
+            onChange={handleModiChange}
+            value={modiValues.password}
+            name="password"
+          />
+          <Input
+            type="password"
+            placeholder="비밀번호 확인"
+            onChange={handleModiChange}
+            value={modiValues.password2}
+            name="password2"
+          />
+          <ModifyBtn type="button" onClick={handleValidation}>저 장</ModifyBtn>
+          <Link to="/mypage">
+            <ModifyBtn type="button">뒤로가기</ModifyBtn>
+          </Link>
+        </ModifyForm>
+        {/* </Wrapper> */}
       </ModalContainer>
     </BoxContainer>
   )

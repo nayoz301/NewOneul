@@ -1,10 +1,18 @@
 import React from "react";
+import styled from 'styled-components';
+
+
+const Scroll = styled.div`
+overflow: scroll;
+height: 100%;
+border: 1px solid black;
+`;
 
 // 1200px에서 wrap
 
 const OtherCards = () => {
   return (
-    <div className="card-wrapper">
+    <Scroll>
       <h1
         // mycard 를 가져와서 그냥 쓰자
         style={{
@@ -13,7 +21,7 @@ const OtherCards = () => {
           fontFamily: "var(--thick-font)",
         }}
       >
-        남의 일기
+        나의 공감일기
       </h1>
       <div
         style={{
@@ -25,8 +33,8 @@ const OtherCards = () => {
         <div
           className="card"
           style={{
-            width: "15rem",
-            height: "18rem",
+            width: "11rem",
+            height: "14rem",
             background: "tomato",
             fontSize: "1.6rem",
             border: "1px solid yellow",
@@ -38,8 +46,8 @@ const OtherCards = () => {
         <div
           className="card"
           style={{
-            width: "15rem",
-            height: "18rem",
+            width: "10rem",
+            height: "14rem",
             background: "tomato",
             fontSize: "1.6rem",
             border: " 1px solid yellow",
@@ -49,7 +57,7 @@ const OtherCards = () => {
           김덕기님
         </div>
       </div>
-    </div>
+    </Scroll>
   );
 };
 

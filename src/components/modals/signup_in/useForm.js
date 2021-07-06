@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 export default function useForm() {
   const [values, setValues] = useState({
-    nickname: '',
-    email: '',
-    password: '',
-    password2: '',
+    nickname: "",
+    email: "",
+    password: "",
+    password2: "",
   });
   // login <-> signup
   const [clickedType, setClickedType] = useState("로그인");
@@ -18,25 +18,25 @@ export default function useForm() {
     const { name, value } = e.target;
     setValues({
       ...values,
-      [name]: value
+      [name]: value,
     });
   };
 
   const handleClickedType = (e) => {
     setClickedType(e.target.innerText);
     setValues({
-      nickname: '',
-      email: '',
-      password: '',
-      password2: '',
-    })
+      nickname: "",
+      email: "",
+      password: "",
+      password2: "",
+    });
   };
 
   const handleClickedModify = (e) => {
     setClickedModify(e.target.innerText);
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
   };
 
@@ -47,27 +47,27 @@ export default function useForm() {
     //   showConfirmButton: false,
     //   timer: 1500
     // })
-    history.push("/main")
-    console.log('로그인 완료')
+    history.push("/main");
+    console.log("로그인 완료");
   };
 
   const changeType = () => {
-    setClickedType('로그인')
-  }
+    setClickedType("로그인");
+  };
 
   // Signup success => Login Modal
   const onSignupSuccess = () => {
-    changeType()
+    changeType();
     setValues({
-      email: '',
-      password: '',
-    })
+      email: "",
+      password: "",
+    });
     Swal.fire({
-      icon: 'success',
-      title: '🎉회원가입 완료!🥰',
+      icon: "success",
+      title: "🎉회원가입 완료!🥰",
       showConfirmButton: false,
-      timer: 1500
-    })
+      timer: 1500,
+    });
   };
 
   return {
@@ -82,4 +82,4 @@ export default function useForm() {
     handleClickedModify,
     clickedModify,
   };
-};
+}

@@ -17,24 +17,25 @@ import { cool } from "react-icons-kit/icomoon/cool";
 
 const MyCards = () => {
   return (
-    <div className="mycard">
-      <h1
-        style={{
-          textAlign: "center",
-          marginTop: "1rem",
-          fontSize: "1.9rem",
-          fontFamily: "var(--thick-font)",
-        }}
-      >
-        나의 일기
-      </h1>
-      <Carousel
-        breakPoints={diaryResponsive}
-        renderArrow={myDiaryArrow}
-        pagination={false}
-        outerSpacing={20}
-        itemPadding={[0, 50]}
-      >
+    <Scroll>
+      <div className="mycard">
+        <h1
+          style={{
+            textAlign: "center",
+            marginTop: "1rem",
+            fontSize: "1.9rem",
+            fontFamily: "var(--thick-font)",
+          }}
+        >
+          나의 일기
+        </h1>
+        {/* <Carousel
+          breakPoints={diaryResponsive}
+          renderArrow={myDiaryArrow}
+          pagination={false}
+          outerSpacing={20}
+          itemPadding={[0, 50]}
+        > */}
         <MyDiary>
           <MyDiaryCardFront>
             <MyDiaryFrontHeader>2021-07-01</MyDiaryFrontHeader>
@@ -73,8 +74,8 @@ const MyCards = () => {
           <CardBack>
             <MyDiaryBackText>
               {/* 오늘을 사용하면 일기에 노래로 넣을 수 있고 그림도 그릴 수 있어서
-              아주 편리해요. 매일 잠 자기 전에 일기 쓰기 좋은 페이지를 찾고
-              있었느데 아주 좋은 거 같아요. */}
+                아주 편리해요. 매일 잠 자기 전에 일기 쓰기 좋은 페이지를 찾고
+                있었느데 아주 좋은 거 같아요. */}
             </MyDiaryBackText>
           </CardBack>
         </MyDiary>
@@ -86,13 +87,15 @@ const MyCards = () => {
           <CardBack>
             <CardBackText>
               {/* 오늘을 사용하면 일기에 노래로 넣을 수 있고 그림도 그릴 수 있어서
-              아주 편리해요. 매일 잠 자기 전에 일기 쓰기 좋은 페이지를 찾고
-              있었느데 아주 좋은 거 같아요. */}
+                아주 편리해요. 매일 잠 자기 전에 일기 쓰기 좋은 페이지를 찾고
+                있었느데 아주 좋은 거 같아요. */}
             </CardBackText>
           </CardBack>
         </MyDiary>
-      </Carousel>
-    </div>
+        {/* </Carousel> */}
+      </div >
+    </Scroll >
+
   );
 };
 
@@ -134,4 +137,11 @@ const MyDiaryBackText = styled(CardBackText)`
   width: 70%;
   height: 90%;
   line-height: 1.8;
+`;
+
+
+const Scroll = styled.div`
+overflow: scroll;
+height: 100%;
+border: 1px solid black;
 `;
