@@ -1,8 +1,11 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import { connect } from "react-redux";
+import { login } from "../../actions";
+import styled from "styled-components";
 
-const Loading = () => {
+const Loading = ({ login, setLoading }) => {
   const history = useHistory();
 
   useEffect(async () => {
@@ -10,6 +13,7 @@ const Loading = () => {
 
     if (link.indexOf("?") !== -1) {
       const query = link.split("?")[1].split("&");
+      // setLoading(true);
 
       let state, code;
       if (query[0].slice(0, 5) === "state") {
@@ -26,7 +30,10 @@ const Loading = () => {
           code: code,
           state: state,
         })
-        .then(() => {
+        .then((res) => {
+          console.log(res.data.data);
+          login(res.data.data.accessToken, res.data.data.user);
+          // setLoading(false);
           history.push("/main");
         })
         .catch((err) => {
@@ -35,7 +42,11 @@ const Loading = () => {
     }
   });
 
-  return <div>로딩 중 입니다.</div>;
+  return <LoadingH>로딩 중 입니다.</LoadingH>;
 };
 
-export default Loading;
+export default connect(null, { login })(Loading);
+
+const LoadingH = styled.h1`
+  font-size: 5rem;
+`;
