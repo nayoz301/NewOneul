@@ -22,25 +22,21 @@ import {
   UserContent,
   Button
 } from '../../styles/mypage/Mypage.style';
+import { connect } from "react-redux";
+import { login } from '../../actions';
 
 
-const Mypage = () => {
-  const [modiValues, setModiValues] = useState({
-    nickname: 'test',
-    email: 'test@test.com',
-    nowPassword: '',
-    password: '',
-    password2: '',
+const Mypage = ({ login, userLogin }) => {
+  const [users, setusers] = useState({
+    nickname: userLogin.userInfo.nickname,
+    email: userLogin.userInfo.email
   });
-
-  const handleSubmit = e => {
-    e.preventDefault();
-  };
+  console.log(userLogin.userInfo)
 
   return (
     <>
       <BoxContainer>
-        <MypageHeader onSubmit={handleSubmit} />
+        <MypageHeader />
         <FormContainer>
           <ContentContainer>
             <Div>
@@ -57,13 +53,13 @@ const Mypage = () => {
                 <Info>나의 프로필</Info>
                 <Input
                   type="text"
-                  value={modiValues.nickname}
+                  value={users.nickname}
                   name="nickname"
                   readOnly
                 />
                 <Input
                   type="email"
-                  value={modiValues.email}
+                  value={users.email}
                   name="email"
                   readOnly
                 />
@@ -88,8 +84,14 @@ const Mypage = () => {
           </ContentContainer>
         </FormContainer>
       </BoxContainer>
-
     </>
   )
 }
-export default Mypage
+
+const mapStateToProps = ({ loginReducer }) => {
+  return {
+    userLogin: loginReducer,
+  };
+};
+
+export default connect(mapStateToProps, { login })(Mypage);

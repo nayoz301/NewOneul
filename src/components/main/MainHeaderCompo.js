@@ -1,5 +1,7 @@
 import React from "react";
 import { MainHeader, HeaderWrapper } from "../../styles/main/Main.style";
+import axios from "axios";
+import { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { DiaryLogin } from "../../styles/main/cards/MyCards.style";
