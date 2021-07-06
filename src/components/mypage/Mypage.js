@@ -22,41 +22,21 @@ import {
   UserContent,
   Button
 } from '../../styles/mypage/Mypage.style';
+import { connect } from "react-redux";
+import { login } from '../../actions';
 
 
-const Mypage = ({ userInfo }) => {
-  // const [isMypage, setIsMypage] = useState({
-  //   nickname: userInfo.nickname,
-  //   email: userInfo.email,
-  // });
-
-  useEffect(() => {
-    async function updateUserInfo() {
-      await axios
-        .get("https://oneul.site/O_NeulServer/user/getUserInfo", {
-          headers: {
-            Authorization: "Bearer" + userInfo.accessToken,
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        })
-        .then((res) => {
-          console.log(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, []);
-
-  const handleSubmit = e => {
-    e.preventDefault();
-  };
+const Mypage = ({ login, userLogin }) => {
+  const [users, setusers] = useState({
+    nickname: userLogin.userInfo.nickname,
+    email: userLogin.userInfo.email
+  });
+  console.log(userLogin.userInfo)
 
   return (
     <>
       <BoxContainer>
-        <MypageHeader onSubmit={handleSubmit} />
+        <MypageHeader />
         <FormContainer>
           <ContentContainer>
             <Div>
@@ -73,13 +53,13 @@ const Mypage = ({ userInfo }) => {
                 <Info>나의 프로필</Info>
                 <Input
                   type="text"
-                  value={userInfo.nickname}
+                  value={users.nickname}
                   name="nickname"
                   readOnly
                 />
                 <Input
                   type="email"
-                  value={userInfo.email}
+                  value={users.email}
                   name="email"
                   readOnly
                 />
@@ -107,4 +87,11 @@ const Mypage = ({ userInfo }) => {
     </>
   )
 }
-export default Mypage
+
+const mapStateToProps = ({ loginReducer }) => {
+  return {
+    userLogin: loginReducer,
+  };
+};
+
+export default connect(mapStateToProps, { login })(Mypage);

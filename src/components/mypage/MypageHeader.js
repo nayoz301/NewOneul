@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import { MainHeader, HeaderWrapper } from "../../styles/main/Main.style";
+import { connect } from "react-redux";
+import { login } from '../../actions';
 
-const MainHeaderCompo = () => {
+const MainHeaderCompo = ({ login, userLogin }) => {
   const history = useHistory();
 
-  const Logout = async () => {
-    await axios
+  const Logout = () => {
+    return axios
       .get("https://oneul.site/O_NeulServer/user/signout")
       .then((res) => {
         console.log("로그아웃");
@@ -24,18 +26,22 @@ const MainHeaderCompo = () => {
       });
   };
 
-  const goHome = () => {
-    history.push("/main");
-  };
-
   return (
     <MainHeader>
       <HeaderWrapper>
-        <h1 onClick={goHome}>오늘 ,</h1>
+        <Link to="/main">
+          <h1>오늘 ,</h1>
+        </Link>
         <button onClick={Logout}>로그아웃</button>
       </HeaderWrapper>
     </MainHeader>
   );
 };
 
-export default MainHeaderCompo;
+const mapStateToProps = ({ loginReducer }) => {
+  return {
+    userLogin: loginReducer,
+  };
+};
+
+export default connect(mapStateToProps, { login })(MainHeaderCompo);

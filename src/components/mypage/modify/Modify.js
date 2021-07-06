@@ -1,10 +1,8 @@
 import { useState } from 'react';
-import { useHistory, Switch, Route, Link } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import useModify from './useModify';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { Icon } from "react-icons-kit";
-import { circle_delete } from "react-icons-kit/ikons/circle_delete";
 import {
   BoxContainer,
   ModalContainer,
@@ -14,13 +12,15 @@ import {
   Input,
   ModifyBtn
 } from '../../../styles/mypage/Modify.style';
+import { connect } from "react-redux";
+import { login } from '../../../actions';
 
 
-const Modify = () => {
+const Modify = ({ login, userLogin }) => {
   const history = useHistory();
   const [modiValues, setModiValues] = useState({
-    nickname: 'nickname',
-    email: 'email',
+    nickname: userLogin.userInfo.nickname,
+    email: userLogin.userInfo.email,
     password: '',
     password2: '',
   });
@@ -66,9 +66,9 @@ const Modify = () => {
     }
   }
 
-  const handleModify = async (nickname, password) => {
+  const handleModify = (nickname, password) => {
     console.log("WoW")
-    await axios
+    return axios
       .patch("https://oneul.site/O_NeulServer/user/edit",
         {
           nickname: nickname,
@@ -76,12 +76,13 @@ const Modify = () => {
         },
         {
           headers: {
-            authorization: "accessToken",
+            authorization: userLogin.login.accessToken,
             "Content-Type": "application/json"
           },
           withCredentials: true,
         })
       .then((res) => {
+        console.log(res.data)
         history.push("/mypage")
         Swal.fire({
           icon: 'success',
@@ -89,7 +90,6 @@ const Modify = () => {
           showConfirmButton: true,
           timer: 2000
         })
-        console.log(res.data)
       })
       .catch((err) => {
         console.log("error");
@@ -141,4 +141,11 @@ const Modify = () => {
     </BoxContainer>
   )
 }
-export default Modify
+
+const mapStateToProps = ({ loginReducer }) => {
+  return {
+    userLogin: loginReducer,
+  };
+};
+
+export default connect(mapStateToProps, { login })(Modify);
