@@ -36,7 +36,7 @@ function App({ login, userLogin }) {
     <>
       <GlobalStyle />
       {loading ? (
-        <Loading />
+        <Loading setLoading={setLoading} />
       ) : (
         <Switch>
           <Route path="/" exact>
