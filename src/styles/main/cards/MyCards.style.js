@@ -10,10 +10,11 @@ import {
 
 export const MyCardWrapper = styled.div`
   /* border: 1px solid grey; */
+  position: relative;
   padding-top: 1.4rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  min-height: 25rem;
   @media only screen and (min-width: ${BREAK_POINT_MOBILE}px) {
-    min-height: 25rem;
   }
 `;
 
@@ -73,5 +74,29 @@ export const IconWrapper = styled.div`
   right: 8%;
 
   & svg {
+  }
+`;
+
+export const DiaryLogin = styled.button`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  padding: 1.2rem 4rem;
+  font-size: 1.7rem;
+  font-family: var(--thick-font);
+  border-radius: 0rem;
+  outline: none;
+  transition: all 0.35s;
+  & svg {
+    width: 19px;
+    height: 19px;
+    color: var(--black-color);
+    margin-left: 1rem;
+  }
+
+  &:hover {
+    border-radius: 3rem;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   }
 `;

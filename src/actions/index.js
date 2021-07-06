@@ -19,4 +19,19 @@ export const modifyAccessToken = (accessToken) => {
   };
 };
 
-export const fetchAllDiary = () => {};
+export const fetchAllUnloginDiary = (publicDiary, musicList) => {
+  return {
+    type: "FETCH_ALL_UNLOGIN_DATA",
+    publicDiary,
+    musicList,
+  };
+};
+
+export const fetchAllLoginDiary = (publicDiary, myDiary, musicList) => {
+  return {
+    type: "FETCH_ALL_UNLOGIN_DATA",
+    publicDiary,
+    myDiary,
+    musicList,
+  };
+};

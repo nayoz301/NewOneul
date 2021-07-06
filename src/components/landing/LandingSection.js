@@ -14,8 +14,10 @@ import {
 } from "../../styles/landing/LandingSection.style";
 import { Link } from "react-router-dom";
 import Signup from "../modals/signup_in/Signup";
-import { login, logout, modifyAccessToken } from "../../actions";
+import { login, logout } from "../../actions";
+import axios from "axios";
 
+// for palying a random background video
 const random = () => {
   return Math.ceil(Math.random() * 2) - 1;
 };
@@ -33,6 +35,14 @@ const LandingSection = ({ userLogin, logout }) => {
     setVideo(background[random()]);
   }, []);
 
+  const signout = () => {
+    return axios("https://oneul.site/O_NeulServer/user/signOut", {
+      withCredentials: true,
+    }).then(() => {
+      logout();
+    });
+  };
+
   return (
     <HeaderSection>
       <Overlay>
@@ -42,14 +52,8 @@ const LandingSection = ({ userLogin, logout }) => {
         <Link to="/">
           <h1>오늘 ,</h1>
         </Link>
-        {userLogin.isLogin ? (
-          <span
-            onClick={() => {
-              logout();
-            }}
-          >
-            로그아웃
-          </span>
+        {userLogin.accessToken ? (
+          <span onClick={signout}>로그아웃</span>
         ) : (
           <span onClick={handleModal}>로그인</span>
         )}
@@ -92,6 +96,4 @@ const mapStateToProps = ({ loginReducer }) => {
   };
 };
 
-export default connect(mapStateToProps, { login, logout, modifyAccessToken })(
-  LandingSection
-);
+export default connect(mapStateToProps, { login, logout })(LandingSection);

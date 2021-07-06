@@ -6,17 +6,17 @@ const loginReducer = (
 ) => {
   switch (type) {
     case "LOG_IN":
-      return { ...state, login: { isLogin: true, accessToken }, userInfo };
+      return { ...state, login: { accessToken }, userInfo };
 
     case "LOG_OUT":
       return {
         ...state,
-        login: { isLogin: false, accessToken: null },
+        login: { accessToken: "" },
         userInfo: {},
       };
 
     case "MODIFY_ACCESS_TOKEN":
-      return { ...state, login: { ...state.login, accessToken } };
+      return { ...state, login: { accessToken } };
 
     default:
       return state;
