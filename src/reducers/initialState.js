@@ -29,13 +29,12 @@ const makeWeatherIcon = (iconName, color) => {
 
 export const initialState = {
   login: {
-    isLogin: false,
-    accessToken: null,
+    accessToken: "",
   },
   userInfo: {},
-  diary: [],
+  publicDiary: [],
   myDiary: [],
-  music: [],
+  musicList: [],
   faceIcons: [
     { id: 1, icon: makeFaceIcon(happy) },
     { id: 2, icon: makeFaceIcon(smile) },

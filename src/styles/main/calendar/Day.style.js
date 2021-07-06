@@ -7,7 +7,7 @@ export const DayWarpper = styled.div`
   flex-direction: column;
   flex-grow: 1;
   flex: 1;
-  background-color: ${({ today }) => today && "#fff8c6"};
+  background-color: ${({ today }) => today && "#e1e7ef"};
   cursor: pointer;
   &:not(:last-child) {
     border-right: 1px solid #666;

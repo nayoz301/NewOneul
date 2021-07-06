@@ -1,15 +1,19 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Switch, Route } from "react-router-dom";
 import Landing from "./components/landing/Landing";
 import Main from "./components/main/Main";
 import Loading from "./components/loading/Loading";
 import { GlobalStyle } from "./styles/global.style";
 import Mypage from "./components/mypage/Mypage";
-import Painting from "./components/painting/Painting";
 import axios from "axios";
+import { connect } from "react-redux";
+import { login } from "./actions";
 
-function App() {
+function App({ login }) {
+  const [loading, setLoading] = useState(false);
+
   useEffect(async () => {
+    setLoading(true);
     try {
       const result = await axios(
         "https://oneul.site/O_NeulServer/user/renewToken",
@@ -18,32 +22,41 @@ function App() {
           withCredentials: true,
         }
       );
+      const { accessToken, user } = result.data.data;
+      login(accessToken, user);
+      setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.log("err:::" + error);
     }
   }, []);
+
   return (
     <>
       <GlobalStyle />
-      <Switch>
-        <Route path="/" exact>
-          <Landing />
-        </Route>
-        <Route path="/main">
-          <Main />
-        </Route>
-        <Route path="/loading">
-          <Loading />
-        </Route>
-        <Route path="/painting">
-          <Painting />
-        </Route>
-        <Route path="/mypage">
-          <Mypage />
-        </Route>
-      </Switch>
+      {loading ? (
+        <Loading />
+      ) : (
+        <Switch>
+          <Route path="/" exact>
+            <Landing />
+          </Route>
+          <Route path="/main">
+            <Main />
+          </Route>
+          <Route path="/mypage">
+            <Mypage />
+          </Route>
+        </Switch>
+      )}
     </>
   );
 }
 
-export default App;
+// for test
+// const mapStateToProps = ({ loginReducer }) => {
+//   return {
+//     userLogin: loginReducer.login,
+//   };
+// };
+
+export default connect(null, { login })(App);
