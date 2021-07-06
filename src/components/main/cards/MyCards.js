@@ -12,9 +12,9 @@ import {
 import { connect } from "react-redux";
 import MyCard from "./card/MyCard";
 
-const MyCards = ({ userInfo, myDiary }) => {
+const MyCards = ({ userInfo }) => {
   const content =
-    myDiary.length === 0 ? (
+    userInfo.myDiary.length === 0 ? (
       <DiaryLogin>
         첫 일기 남기기
         <Icon icon={pencil} />
@@ -26,7 +26,7 @@ const MyCards = ({ userInfo, myDiary }) => {
         pagination={false}
         itemPadding={[0, 50]}
       >
-        {myDiary.map((diary) => (
+        {userInfo.myDiary.map((diary) => (
           <MyCard />
         ))}
       </Carousel>
@@ -34,7 +34,7 @@ const MyCards = ({ userInfo, myDiary }) => {
   return (
     <MyCardWrapper>
       <MyDiaryHeader>나의 오늘 .</MyDiaryHeader>
-      {userInfo.accessToken === "" ? (
+      {userInfo.login.accessToken === "" ? (
         <DiaryLogin>
           로그인
           <Icon icon={unlock} />
@@ -48,8 +48,8 @@ const MyCards = ({ userInfo, myDiary }) => {
 
 const mapStateToProps = ({ loginReducer, mainReducer }) => {
   return {
-    userInfo: loginReducer.login,
-    myDiary: mainReducer.myDiary,
+    userInfo: loginReducer,
+    // myDiary: mainReducer.myDiary,
   };
 };
 

@@ -9,7 +9,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { login } from "./actions";
 
-function App({ login }) {
+function App({ login, userLogin }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(async () => {
@@ -29,6 +29,8 @@ function App({ login }) {
       console.log("err:::" + error);
     }
   }, []);
+
+  console.log(userLogin);
 
   return (
     <>
@@ -53,10 +55,10 @@ function App({ login }) {
 }
 
 // for test
-// const mapStateToProps = ({ loginReducer }) => {
-//   return {
-//     userLogin: loginReducer.login,
-//   };
-// };
+const mapStateToProps = ({ loginReducer }) => {
+  return {
+    userLogin: loginReducer,
+  };
+};
 
-export default connect(null, { login })(App);
+export default connect(mapStateToProps, { login })(App);
