@@ -11,24 +11,29 @@ import {
 import { connect } from "react-redux";
 import { login } from '../../actions';
 
-const ProfileImg = ({ userLogin }) => {
+const ProfileImg = ({ login, userLogin }) => {
   const [file, setFile] = useState('');
-  const [previewURL, setPreviewURL] = useState('');
+  const [previewURL, setPreviewURL] = useState({ picture: userLogin.login.picture });
   const [preview, setPreview] = useState(null);
+  const [fileUrl, setFileUrl] = useState('');
   const fileRef = useRef();
   const [fileUrl, setFileUrl] = useState(userLogin.userInfo.picture);
 
+  //처음 파일 등록하지 않았을 때를 방지
   useEffect(() => {
-    if (file !== '') //처음 파일 등록하지 않았을 때를 방지
+    if (file !== '')
       setPreview(<img src={previewURL}></img>);
     return () => {
     }
   }, [previewURL])
 
-  const handleFileOnChange = async (event) => {//파일 불러오기
+  //파일 불러오기
+  const handleFileOnChange = async (event) => {
     event.preventDefault();
     let file = event.target.files[0];
     let reader = new FileReader();
+
+    console.log({ file: file })
 
     const options = {
       maxSizeMB: 2,
@@ -89,7 +94,6 @@ const ProfileImg = ({ userLogin }) => {
           console.log(err)
         })
     });
-  }
 
   return (
     <>

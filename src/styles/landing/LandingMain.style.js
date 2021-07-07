@@ -2,6 +2,7 @@ import styled from "styled-components";
 import {
   BREAK_POINT_MD_SCREEN,
   BREAK_POINT_LG_SCREEN,
+  BREAK_POINT_16LG_SCREEN,
   flexCenter,
 } from "../global.style";
 
@@ -16,56 +17,76 @@ export const MainDivForColor = styled.div`
 `;
 
 export const MainInnerSection = styled.section`
-  width: 75%;
+  width: 90%;
   height: 100vh;
   margin: 0 auto;
   ${flexCenter}
+  flex-direction: column;
 `;
 
 export const MainInnerWrapper = styled.div`
   ${flexCenter}
   width: 100%;
+  min-height: 80vh;
   flex-direction: column;
 
+  justify-content: center;
+  align-items: center;
+
+  /* 768px */
   @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+  }
+
+  @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
+    width: 80%;
   }
 `;
 
 export const MainInnerArticle = styled.article`
   display: flex;
   flex-direction: column;
-  max-width: 40rem;
+  justify-content: center;
+  min-height: 63%;
   color: var(--black-color);
   z-index: 100;
   flex-shrink: 0;
   & h2 {
-    font-size: 3.7rem;
-    margin-bottom: 3rem;
+    font-size: 2.5rem;
+    margin-bottom: 0.7em;
     line-height: 1.6;
     font-family: var(--thick-font);
   }
   & p {
-    font-size: 1.8rem;
-    line-height: 2;
-    position: relative;
-    z-index: 1;
-    margin-bottom: 3rem;
+    font-size: 1.7rem;
+    line-height: 1.85;
   }
+
+  /* 1200px */
   @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
     & h2 {
-      font-size: 4.3rem;
+      font-size: 3rem;
     }
     & p {
-      font-size: 2rem;
+      font-size: 1.9rem;
+    }
+  }
+
+  @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN + 1}px) {
+    & h2 {
+      font-size: 3.3rem;
+    }
+    & p {
+      font-size: 2.1rem;
     }
   }
 `;
 
 export const VideoContainer = styled.div`
-  min-width: 40rem;
-  max-width: 83rem;
+  width: 100%;
+  max-width: 43rem;
   & video {
     width: 100%;
     object-fit: cover;

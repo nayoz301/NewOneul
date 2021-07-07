@@ -21,10 +21,10 @@ export const FormContainer = styled.form`
 
 export const ModalContainer = styled.div`
   position: absolute;
-  width: 32rem;
+  min-width: 13%;
   height: 50rem;
   left: 32%;
-  top: 50%;
+  top: 55%;
   transform: translate(-50%, -50%);
   background-color: #FFFBF0;
   padding: 4.2rem 4.4rem 4.8rem 4.4rem;
@@ -96,6 +96,24 @@ export const ModifyBtn = styled.button`
   border: none;
   border-radius: .7rem;
   margin-top: 2rem;
+
+  &:hover {
+    background: #DB18B1;
+  }
+`;
+
+export const GoBackBtn = styled.button`
+  font-family: var(--primary-font);
+  font-size: 1.8rem;
+  font-weight: 500;
+  width: 100%;
+  min-height: 4rem;
+  background-color: #DB7DC5;
+  color: white;
+  border: none;
+  border-radius: .7rem;
+  margin-top: 1rem;
+  padding: 0 2rem;
 
   &:hover {
     background: #DB18B1;

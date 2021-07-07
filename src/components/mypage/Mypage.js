@@ -71,9 +71,9 @@ const Mypage = ({ login, userLogin }) => {
             <UserContentForm>
               <UserContent>
                 <Switch>
-                  <Route path="/mypage/myinfo" exact>
+                  {/* <Route path="/mypage/myinfo" exact>
                     <MyInfo />
-                  </Route>
+                  </Route> */}
                   <Route path="/mypage/mydiary" exact>
                     <GetMyDiary />
                   </Route>

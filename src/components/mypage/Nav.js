@@ -32,9 +32,9 @@ function MainMenu() {
   return (
     <Nav>
       <ul>
-        <Link to='/mypage/myinfo'>
+        {/* <Link to='/mypage/myinfo'>
           <li>내정보</li>
-        </Link>
+        </Link> */}
         <Link to='/mypage/mydiary'>
           <li>일기장</li>
         </Link>
