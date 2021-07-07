@@ -15,7 +15,6 @@ const ProfileImg = ({ login, userLogin }) => {
   const [file, setFile] = useState('');
   const [previewURL, setPreviewURL] = useState({ picture: userLogin.login.picture });
   const [preview, setPreview] = useState(null);
-  const [fileUrl, setFileUrl] = useState('');
   const fileRef = useRef();
   const [fileUrl, setFileUrl] = useState(userLogin.userInfo.picture);
 
@@ -94,6 +93,8 @@ const ProfileImg = ({ login, userLogin }) => {
           console.log(err)
         })
     });
+  }
+  
 
   return (
     <>
