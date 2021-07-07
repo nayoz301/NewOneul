@@ -136,7 +136,7 @@ const Signup = ({ handleModal, login, logout }) => {
   };
 
   // Login 시  axios.post
-  const handleLogin = async (email, password, message) => {
+  const handleLogin = async (email, password) => {
     await axios
       .post(
         "https://oneul.site/O_NeulServer/user/signin",
@@ -154,6 +154,7 @@ const Signup = ({ handleModal, login, logout }) => {
         const { accessToken, user } = res.data.data;
         login(accessToken, user);
         onLoginSuccess();
+        console.log(res.data)
       })
       .catch((err) => {
         if ({ message: "invalid email!" || "password error!" }) {

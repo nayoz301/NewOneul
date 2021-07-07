@@ -1,11 +1,3 @@
-/* @import "reset.css"; */
-* {
-  font-size: 62.5%;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 #canvas_wrapper {
   display: flex;
   flex-direction: column;
@@ -20,33 +12,20 @@
   align-items: center;
 }
 
-#controls .btns_part1 span {
-  background-color: black;
-  border-radius: 5rem; /*height의 절반으로 radius를 줄 경우 동그라미가 된다*/
-  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-
 #controls .btns_part1 button:active {
   /*액티브 넣으니까 버튼 누르면  작아졌따 커짐 스케일 안의 배율 만큼 작아졌다가 다시 커짐.*/
   transform: scale(0.95);
 }
 
 #controls .btns_part1 button {
-  all: unset; /*이거 하면 버튼이 풀리고 경계가 사라지고 글씨처럼 되버림*/
   cursor: pointer; /* 닿으면 손모양으로 바뀜 */
   background-color: white;
+  width: 8.7rem;
   padding: 0.5rem 0rem;
-  width: 7rem;
   text-align: center;
-  border-radius: 5px;
-  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-  border: none;
-  color: rgba(
-    0,
-    0,
-    0,
-    0.8
-  ); /*마지막 4번째는 글씨 선의 옅은 정도 1이면 진하고 그 이하는 연하다*/
+  border-radius: 0.5rem;
+  border: 1px solid black;
+  color: rgb(27, 27, 27);
   text-transform: uppercase; /*안의 텍스트가 대문자로 바뀜*/
   font-weight: 600; /*글씨 두께*/
   font-size: 1.2rem;
@@ -59,32 +38,49 @@
 }
 
 #controls .btns_part2 .input_file_button {
-  all: unset; /*이거 하면 버튼이 풀리고 경계가 사라지고 글씨처럼 되버림*/
   cursor: pointer; /* 닿으면 손모양으로 바뀜 */
-  background-color: #ffb7b7;
-  width: 7rem;
+  background-color: rgba(255, 204, 204, 0.4);
+  width: 7.25em;
   padding: 0.5rem 0rem;
   text-align: center;
   border-radius: 0.5rem;
-  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-  border: none;
-  color: rgb(
-    107,
-    86,
-    86
-  ); /*마지막 4번째는 글씨 선의 옅은 정도 1이면 진하고 그 이하는 연하다*/
+  border: 1px solid black;
+  color: #80594a;
   text-transform: uppercase; /*안의 텍스트가 대문자로 바뀜*/
   font-weight: 600; /*글씨 두께*/
   font-size: 1.2rem;
-  place-items: center;
+}
+
+#controls .btns_part2 #wrapper {
+  /* border: 1px solid black; */
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+  padding: 0.95rem 0rem;
+  border-radius: 0.5rem;
 }
 
 #controls .btns_part2 #lineWeightRange {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 0.5rem 0rem;
-  border: 2px solid rgba(0, 0, 0, 0.08); /*마지막 4번째는 선의 옅은 정도 1이면 진하고 그 이하는 연하다*/
+  -webkit-appearance: none;
+  height: 0.5rem;
+  width: 17.4rem;
   border-radius: 0.5rem;
+  background: #ebd9d1;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+}
+
+#controls .btns_part2 #lineWeightRange::-webkit-slider-thumb {
+  appearance: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: #ffa2a2;
+  cursor: pointer;
 }
 
 #colors {
@@ -127,4 +123,16 @@
 .imgPreviewDiv {
   justify-content: center;
   align-items: center;
+}
+
+@media screen and (max-width: 710px) {
+  #controls {
+    display: flex;
+    flex-flow: column wrap;
+  }
+  #colors {
+    width: 35rem;
+    display: flex;
+    flex-flow: row wrap;
+  }
 }

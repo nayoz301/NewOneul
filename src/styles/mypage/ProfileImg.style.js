@@ -5,7 +5,7 @@ export const ImgUpload = styled.div`
   height: 20.5rem;
   margin: 1rem;
   margin-top: 1.5rem;
-  border:  3px groove #E6E6FF;
+  border:  none;
   display: flex;
   margin-left: 1rem;
   flex-direction: column;

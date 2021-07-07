@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import '../global.style';
 
 export const Boxcontainer = styled.div`
   display: block;
@@ -27,7 +28,7 @@ export const ListName = styled.h3`
 export const MySympathyList = styled.div`
   margin-top: 1rem;
   width: 100%;
-  height: 27.5%;
+  height: 32%;
   backgroud-color: #fff;
   border: 1px solid red;
   padding-top: 1rem;

@@ -2,25 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faAngry,
-  faFlushed,
-  faGrimace,
-  faDizzy,
-  faMeh,
-  faFrown,
-  faSmile,
-  faGrinBeamSweat,
-  faGrinHearts,
-  faTired,
-  faSadTear,
-  faSadCry,
-  faMehRollingEyes,
-  faGrinStars,
-  faSurprise,
-  faLaughBeam,
-  faKissWinkHeart,
-} from "@fortawesome/free-solid-svg-icons";
-import {
   faAngry as farAngry,
   faFlushed as farFlushed,
   faGrimace as farGrimace,
@@ -38,93 +19,72 @@ import {
   faSurprise as farSurprise,
   faLaughBeam as farLaughBeam,
   faKissWinkHeart as farKissWinkHeart,
+  faLaughSquint as farLaughSquint,
+  faGrinSquintTears as farGrinSquintTears,
+  faGrinTongueWink as farGrinTongueWink,
 } from "@fortawesome/free-regular-svg-icons";
 
 const emojis = [
-  { id: 0, emoji: faAngry, color: "#ea3e23" },
-  { id: 1, emoji: farAngry, color: "#ea3e23" },
-  { id: 2, emoji: faGrimace, color: "#ea3e23" },
-  { id: 3, emoji: farGrimace, color: "#ea3e23" },
-  { id: 4, emoji: faFrown, color: "#ff7b00" },
-  { id: 5, emoji: farFrown, color: "#ff7b00" },
-
-  { id: 6, emoji: faGrinStars, color: "#ff9900" },
-  { id: 7, emoji: farGrinStars, color: "#ff9900" },
-  { id: 8, emoji: faLaughBeam, color: "#ffc845" },
-  { id: 9, emoji: farLaughBeam, color: "#ffc845" },
-  { id: 10, emoji: faSmile, color: "#ffc845" },
-  { id: 11, emoji: farSmile, color: "#ffc845" },
-
-  { id: 12, emoji: faDizzy, color: "#97a2a2" },
-  { id: 13, emoji: farDizzy, color: "#97a2a2" },
-  { id: 14, emoji: faTired, color: "#97a2a2" },
-  { id: 15, emoji: farTired, color: "#97a2a2" },
+  { id: 1, emoji: farMeh, color: "#a1a1a4" },
+  { id: 2, emoji: farSmile, color: "#ffdb00" },
+  { id: 3, emoji: farLaughBeam, color: "#fdca30" },
+  { id: 4, emoji: farLaughSquint, color: "#ffcb00" },
+  { id: 5, emoji: farGrinSquintTears, color: "#fdbb30" },
   {
-    id: 16,
-    emoji: faMehRollingEyes,
-
-    color: "#8a8acb",
-  },
-  {
-    id: 17,
-    emoji: farMehRollingEyes,
-
-    color: "#8a8acb",
-  },
-
-  { id: 18, emoji: faFlushed, color: "#7cbb00" },
-  { id: 19, emoji: farFlushed, color: "#7cbb00" },
-  { id: 20, emoji: faSurprise, color: "#7cbb00" },
-  { id: 21, emoji: farSurprise, color: "#7cbb00" },
-  { id: 22, emoji: faGrinBeamSweat, color: "#7acef4" },
-  {
-    id: 23,
-    emoji: farGrinBeamSweat,
-
-    color: "#7acef4",
-  },
-  { id: 24, emoji: faGrinHearts, color: "#ea4c89" },
-  { id: 25, emoji: farGrinHearts, color: "#ea4c89" },
-
-  { id: 26, emoji: faSadTear, color: "#168de2" },
-  { id: 27, emoji: farSadTear, color: "#168de2" },
-  { id: 28, emoji: faSadCry, color: "#168de2" },
-  { id: 29, emoji: farSadCry, color: "#168de2" },
-
-  { id: 30, emoji: faKissWinkHeart, color: "#ea4c89" },
-  {
-    id: 31,
+    id: 6,
     emoji: farKissWinkHeart,
-
     color: "#ea4c89",
   },
-  { id: 32, emoji: faMeh, color: "#1d2d3b" },
-  { id: 33, emoji: farMeh, color: "#1d2d3b" },
+  { id: 7, emoji: farGrinHearts, color: "#ea4c89" },
+  { id: 8, emoji: farGrinStars, color: "#6b5aed" },
+  { id: 9, emoji: farGrinTongueWink, color: "#2d72d9" },
+  {
+    id: 10,
+    emoji: farGrinBeamSweat,
+    color: "#7acef4",
+  },
+  { id: 11, emoji: farFrown, color: "#ff8200" },
+  { id: 12, emoji: farAngry, color: "#fe423f" },
+  { id: 13, emoji: farGrimace, color: "#e32119" },
+  { id: 14, emoji: farTired, color: "#97a2a2" },
+  { id: 15, emoji: farDizzy, color: "#8a8b8c" },
+  { id: 16, emoji: farSurprise, color: "#8ee000" },
+  { id: 17, emoji: farFlushed, color: "#6cc24a" },
+  {
+    id: 18,
+    emoji: farMehRollingEyes,
+    color: "#8a8acb",
+  },
+  { id: 19, emoji: farSadTear, color: "#2bb3f3" },
+  { id: 20, emoji: farSadCry, color: "#147efb" },
 ];
 
 const EmojiWrapper = styled.div`
   position: absolute;
   background-color: white;
-  width: 13rem;
+  width: 18rem;
   height: 15rem;
   display: flex;
   flex-direction: columm;
   border-radius: 0.5rem;
+  z-index: 500;
 `;
 
 const EmojisHeaders = styled.div`
   border: none;
-  border-top-right-radius: 0.5rem;
   border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
   text-align: center;
   background-color: #ffd4d4;
   padding: 0.2rem;
   margin-bottom: 0.3rem;
+  font-size: 1.3rem;
 `;
 
 const EmojisBody = styled.div`
   display: flex;
   flex-flow: row wrap;
+  margin-top: 0.5rem;
 `;
 
 const EmojiUnit = styled.div`
@@ -138,9 +98,8 @@ const EmojiUnit = styled.div`
   }
 `;
 
-const EmojiModal = ({ ModalOnOff, whatEmoji }) => {
+const Emojis = ({ emojiModalOnOff, whatEmoji }) => {
   const [emojiChosen, setEmojiChosen] = useState(null);
-  console.log("바깥 콘솔", emojiChosen);
 
   return (
     <>
@@ -156,7 +115,7 @@ const EmojiModal = ({ ModalOnOff, whatEmoji }) => {
                   onClick={() => {
                     setEmojiChosen(idx);
                     whatEmoji(emoji);
-                    ModalOnOff();
+                    emojiModalOnOff();
                   }}
                   style={{
                     fontSize: 25,
@@ -173,4 +132,4 @@ const EmojiModal = ({ ModalOnOff, whatEmoji }) => {
   );
 };
 
-export default EmojiModal;
+export default Emojis;

@@ -1,29 +1,26 @@
 import { useState } from 'react';
-import { useHistory, Switch, Route, Link } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import useModify from './useModify';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { Icon } from "react-icons-kit";
-import { circle_delete } from "react-icons-kit/ikons/circle_delete";
 import {
   BoxContainer,
-  FormContainer,
   ModalContainer,
-  Close,
   Wrapper,
   ModifyText,
   ModifyForm,
   Input,
   ModifyBtn
 } from '../../../styles/mypage/Modify.style';
+import { connect } from "react-redux";
+import { login } from '../../../actions';
 
 
-const Modify = () => {
+const Modify = ({ login, userLogin }) => {
   const history = useHistory();
   const [modiValues, setModiValues] = useState({
-    nickname: 'test',
-    email: 'test@test.com',
-    nowPassword: '',
+    nickname: userLogin.userInfo.nickname,
+    email: userLogin.userInfo.email,
     password: '',
     password2: '',
   });
@@ -69,9 +66,9 @@ const Modify = () => {
     }
   }
 
-  const handleModify = async (nickname, password, accessToken) => {
+  const handleModify = (nickname, password) => {
     console.log("WoW")
-    await axios
+    return axios
       .patch("https://oneul.site/O_NeulServer/user/edit",
         {
           nickname: nickname,
@@ -79,12 +76,13 @@ const Modify = () => {
         },
         {
           headers: {
-            accessToken: accessToken,
+            authorization: userLogin.login.accessToken,
             "Content-Type": "application/json"
           },
           withCredentials: true,
         })
       .then((res) => {
+        console.log(res.data)
         history.push("/mypage")
         Swal.fire({
           icon: 'success',
@@ -92,7 +90,6 @@ const Modify = () => {
           showConfirmButton: true,
           timer: 2000
         })
-        console.log(res.data)
       })
       .catch((err) => {
         console.log("error");
@@ -103,45 +100,52 @@ const Modify = () => {
   return (
     <BoxContainer>
       <ModalContainer>
-        <Wrapper>
-          <ModifyText>나의 정보수정</ModifyText>
-          <ModifyForm>
-            <Input
-              type="text"
-              placeholder="닉네임"
-              onChange={handleModiChange}
-              value={modiValues.nickname}
-              name="nickname"
-            />
-            <Input
-              type="email"
-              onChange={handleModiChange}
-              value={modiValues.email}
-              name="email"
-              readOnly
-            />
-            <Input
-              type="password"
-              placeholder="비밀번호"
-              onChange={handleModiChange}
-              value={modiValues.password}
-              name="password"
-            />
-            <Input
-              type="password"
-              placeholder="비밀번호 확인"
-              onChange={handleModiChange}
-              value={modiValues.password2}
-              name="password2"
-            />
-            <ModifyBtn type="button" onClick={handleValidation}>저 장</ModifyBtn>
-            <Link to="/mypage">
-              <ModifyBtn type="button">뒤로가기</ModifyBtn>
-            </Link>
-          </ModifyForm>
-        </Wrapper>
+        {/* <Wrapper> */}
+        <ModifyText>나의 정보수정</ModifyText>
+        <ModifyForm>
+          <Input
+            type="text"
+            placeholder="닉네임"
+            onChange={handleModiChange}
+            value={modiValues.nickname}
+            name="nickname"
+          />
+          <Input
+            type="email"
+            onChange={handleModiChange}
+            value={modiValues.email}
+            name="email"
+            readOnly
+          />
+          <Input
+            type="password"
+            placeholder="비밀번호"
+            onChange={handleModiChange}
+            value={modiValues.password}
+            name="password"
+          />
+          <Input
+            type="password"
+            placeholder="비밀번호 확인"
+            onChange={handleModiChange}
+            value={modiValues.password2}
+            name="password2"
+          />
+          <ModifyBtn type="button" onClick={handleValidation}>저 장</ModifyBtn>
+          <Link to="/mypage">
+            <ModifyBtn type="button">뒤로가기</ModifyBtn>
+          </Link>
+        </ModifyForm>
+        {/* </Wrapper> */}
       </ModalContainer>
     </BoxContainer>
   )
 }
-export default Modify
+
+const mapStateToProps = ({ loginReducer }) => {
+  return {
+    userLogin: loginReducer,
+  };
+};
+
+export default connect(mapStateToProps, { login })(Modify);
