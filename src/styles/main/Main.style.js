@@ -11,7 +11,7 @@ export const MainHeader = styled.header`
   top: 0;
   right: 0;
   left: 0;
-  height: 6vh;
+  height: 6rem;
   background: white;
   z-index: 200;
   background: #fffdfa;

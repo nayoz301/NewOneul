@@ -13,8 +13,10 @@ export const HeaderSection = styled.header`
   width: 100%;
   color: white;
   /* for the swing background */
-  /* background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.25)); */
   background: linear-gradient(to top, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 export const Overlay = styled.div`
@@ -34,7 +36,7 @@ export const LandingNav = styled.nav`
   justify-content: space-between;
   align-items: center;
   width: 70%;
-  height: 11rem;
+  height: 9rem;
   margin: 0 auto;
   z-index: 5;
 
@@ -43,13 +45,13 @@ export const LandingNav = styled.nav`
   }
 
   & h1 {
-    font-size: 4.4rem;
+    font-size: 3.3rem;
   }
 
   & span {
-    font-size: 1.7rem;
+    font-size: 1.6rem;
     border: 1px solid var(--primary-color);
-    padding: 0.5rem 2rem;
+    padding: 0.4em 1.5em;
     border-radius: 4px;
     cursor: pointer;
     transition: 0.45s all;
@@ -60,28 +62,49 @@ export const LandingNav = styled.nav`
     background-color: var(--primary-color);
   }
 
+  /* 768px */
   @media only screen and (min-width: ${BREAK_POINT_MOBILE}px) {
+    & h1 {
+      font-size: 3.5rem;
+    }
     & span {
-      font-size: 2rem;
+      font-size: 1.8rem;
+    }
+  }
+
+  @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
+    & h1 {
+      font-size: 3.8rem;
+    }
+  }
+
+  @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
+    & h1 {
+      font-size: 4.2rem;
     }
   }
 `;
 
 export const LdInnerSection = styled.section`
-  height: calc(100vh - 11rem);
+  /* border: 5px solid white; */
+  height: 100%;
+  width: 100%;
   overflow: hidden;
   ${flexCenter}
   flex-direction: column;
 `;
 
 export const LdInnerSpanWrapper = styled.div`
-  margin-top: -10rem;
+  /* margin-top: -10rem; */
+  position: relative;
+  top: -5%;
+  color: var(--primary-color);
 `;
 
 export const LdInnerSpan = styled.span`
-  font-size: ${(props) => (props.first ? "5.5rem" : "2.5rem")};
-  line-height: ${(props) => (props.first ? "2.1" : "1.4")};
-  letter-spacing: 0.2rem;
+  font-size: ${(props) => (props.first ? "3.6rem" : "2rem")};
+  line-height: ${(props) => (props.first ? "2.1" : "1.7")};
+  letter-spacing: 0.1rem;
   position: ${(props) => props.first && "relative"};
   font-family: ${(props) => props.first && "var(--thick-font)"};
 
@@ -90,7 +113,7 @@ export const LdInnerSpan = styled.span`
     css`
       &::before {
         content: "";
-        width: 0rem;
+        width: 0;
         height: 3px;
         background-color: var(--primary-color);
         position: absolute;
@@ -100,54 +123,27 @@ export const LdInnerSpan = styled.span`
 
       &:hover {
         &::before {
-          width: 13rem;
+          width: 100%;
         }
       }
     `}
 
   @media only screen and (min-width: ${BREAK_POINT_MOBILE}px) {
-    font-size: ${(props) => (props.first ? "5.8rem" : "3rem")};
-
-    ${({ first }) =>
-      first &&
-      css`
-        &:hover {
-          &::before {
-            width: 14rem;
-          }
-        }
-      `}
+    font-size: ${(props) => (props.first ? "4.2rem" : "2.3rem")};
   }
 
   @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
-    font-size: ${(props) => (props.first ? "6.5rem" : "3.5rem")};
-    ${({ first }) =>
-      first &&
-      css`
-        &:hover {
-          &::before {
-            width: 14.9rem;
-          }
-        }
-      `}
+    font-size: ${(props) => (props.first ? "4.7rem" : "2.6rem")};
   }
 
-  @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN}px) {
-    font-size: ${(props) => (props.first ? "7rem" : "3.8rem")};
-    ${({ first }) =>
-      first &&
-      css`
-        &:hover {
-          &::before {
-            width: 16rem;
-          }
-        }
-      `}
+  @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN + 1}px) {
+    font-size: ${(props) => (props.first ? "5.5rem" : "3.3rem")};
+    line-height: ${(props) => (props.first ? "2.1" : "1.5")};
   }
 `;
 
 export const LdBtnWrapper = styled.div`
-  margin-top: 10rem;
+  margin-top: 8rem;
   display: flex;
   justify-content: space-around;
 `;
@@ -155,8 +151,8 @@ export const LdBtnWrapper = styled.div`
 export const LdBtn = styled.button`
   color: var(--primary-color);
   border: 1px solid var(--primary-color);
-  font-size: 2rem;
-  padding: 0.9rem 4rem;
+  font-size: 1.8rem;
+  padding: 0.5em 1.5em;
   font-family: var(--primary-font);
   border-radius: 4px;
   transition: 0.5s all ease-out;
@@ -168,10 +164,14 @@ export const LdBtn = styled.button`
   }
 
   @media only screen and (min-width: ${BREAK_POINT_MOBILE}px) {
-    font-size: 2.3rem;
+    font-size: 2.1rem;
   }
 
   @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
-    font-size: 2.6rem;
+    font-size: 2.3rem;
+  }
+
+  @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
+    font-size: 2.5rem;
   }
 `;
