@@ -30,7 +30,9 @@ const music = [
   },
 ];
 
-const MusicHook = () => {
+const Music = (props) => {
+  const { musicModalOnOff } = props;
+
   const [pause, setPause] = useState(false);
   const [index, setIndex] = useState(0);
   const [currentTime, setCurrentTime] = useState("0:00");
@@ -254,9 +256,7 @@ const MusicHook = () => {
           size={18}
           className="close-btn"
           icon={ic_close}
-          onClick={() => {
-            console.log("닫기");
-          }}
+          onClick={musicModalOnOff}
         />
 
         <SelectBar getGenre={getGenre} genreList={genreList} />
@@ -321,12 +321,12 @@ const MusicHook = () => {
                   muteState
                     ? volumeMute2
                     : volume < 0.01 //0으로 하면 안먹음
-                      ? volumeMute
-                      : volume < 0.34
-                        ? volumeLow
-                        : volume < 0.67
-                          ? volumeMedium
-                          : volumeHigh
+                    ? volumeMute
+                    : volume < 0.34
+                    ? volumeLow
+                    : volume < 0.67
+                    ? volumeMedium
+                    : volumeHigh
                 }
               />
             </button>
@@ -391,4 +391,4 @@ const MusicHook = () => {
   );
 };
 
-export default MusicHook;
+export default Music;

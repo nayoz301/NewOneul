@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
 import axios from "axios";
-// import Canvas from "./Canvas";
 import "./style.css";
 let arr_Colors = [
   "#e32119",
@@ -15,7 +14,7 @@ let arr_Colors = [
   "#a4c639",
   "#7cbb00",
   "#34a853",
-  "#008200",
+  "#5ec6f2",
   "#00a4e4",
   "#4285f4",
   "#147efb",

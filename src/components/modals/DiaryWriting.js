@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import WeatherModal from "./Weather";
-import Modal from "./Modal";
-import MusicHook from "../MusicHooks/MusicHook";
+import EmojiModal from "./EmojiModal";
+import Music from "../music/Music";
+import MusicModal from "./MusicModal";
+import Painting from "../painting/Painting";
 import "./DiaryWriting.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMusic } from "@fortawesome/free-solid-svg-icons";
@@ -12,26 +14,45 @@ const ModalWrapper = styled.div`
   display: flex;
   flex-direction: column;
   border: 1px solid black;
-  height: 90vh;
-  margin-top: 2rem;
+  width: 50%;
+  height: 90%;
+  margin-top: 1.5rem;
 
-  @media screen and (max-width: 1440px) {
+  @media screen and (max-width: 1400px) {
     & {
-      width: 60%;
+      width: 50%;
+      height: 80%;
+    }
+  }
+
+  @media screen and (max-width: 1220px) {
+    & {
+      width: 50%;
+      height: 70%;
     }
   }
 
   @media screen and (max-width: 1024px) {
     & {
-      width: 60%;
+      width: 50%;
+      height: 70%;
     }
   }
 
-  @media screen and (max-width: 670px) {
+  @media screen and (max-width: 825px) {
     & {
       width: 40rem;
+      height: 60%;
     }
   }
+`;
+
+const ModalBtn = styled.button`
+  border: 1px solid black;
+  position: absolute;
+  width: 4rem;
+  height: 4rem;
+  right: 31.7rem;
 `;
 
 const Header = styled.div`
@@ -40,26 +61,26 @@ const Header = styled.div`
   flex-flow: row wrap;
   align-items: center;
   flex: 1 1 auto;
+  margin: 0.5rem;
 `;
 
 const HeaderDate = styled.div`
-  border: 1px solid black;
-  flex: 5 1 auto;
+  // border: 1px solid black;
+  flex: 4 1 40%;
   text-align: center;
-  width: 40%;
-  margin: auto;
+  font-size: 1.7rem;
 `;
 
 const HeaderEmoji = styled.div`
-  border: 1px solid black;
-  flex: 1 1 auto;
+  // border: 1px solid black;
+  flex: 1 1 20%;
   text-align: center;
   margin: auto;
 `;
 
 const HeaderWeather = styled.div`
-  border: 1px solid black;
-  flex: 5 1 auto;
+  // border: 1px solid black;
+  flex: 4 1 40%;
   text-align: center;
   margin: auto;
 `;
@@ -72,10 +93,11 @@ const Canvas = styled.div`
 `;
 
 const TextArea = styled.textarea`
-  border: 1px solid black;
+  // border: 1px solid black;
   flex: 10 1 auto;
+  height: 15vh;
   resize: none;
-  font-size: 1.5rem;
+  font-size: 2rem;
   outline: none;
   background-color: white;
   color: rgb(39, 37, 37);
@@ -97,20 +119,29 @@ const FooterPrivate = styled.input`
 `;
 
 const FooterPost = styled.button`
-  margin: 0 1rem;
+  margin: 1rem 1rem;
 `;
 
 const DiaryWriting = () => {
   const textRef = useRef();
 
-  const [isOpen, setIsOpen] = useState(false); //모달창 오픈 클로즈
+  const [emojiOpen, setEmojiOpen] = useState(false); //모달창 오픈 클로즈
   const [emojiPresent, SetEmojiPresent] = useState(null); //선택한 이모티콘 정보 여기 담김
+
+  const [musicOpen, setMusicOpen] = useState(false);
+
   const [isPrivate, SetIsPrivate] = useState(false);
   const [writing, setWriting] = useState("");
 
-  const ModalOnOff = () => {
-    //모달창 끄고 닫기
-    setIsOpen(!isOpen);
+  const emojiModalOnOff = () => {
+    //이모지 모달창 끄고 닫기
+    setEmojiOpen(!emojiOpen);
+  };
+
+  const musicModalOnOff = () => {
+    //뮤직 모달창 끄고 닫기
+    console.log("일기장에서 뮤직모달 온오프 실험", musicOpen);
+    setMusicOpen(!musicOpen);
   };
 
   const whatEmoji = (emoji) => {
@@ -119,24 +150,24 @@ const DiaryWriting = () => {
     console.log("emoji.color", emojiPresent);
   };
 
-  console.log(isPrivate);
-
   return (
     <>
-      <Body>
+      <Body
+        style={{ display: "flex", flexDirection: "row", position: "relative" }}
+      >
         <ModalWrapper className="modal-wrapper">
           <Header className="header">
             <div
               style={{ display: "flex", flexDirection: "column", width: "40%" }}
             >
-              <HeaderDate className="date">2021년 7월 4일</HeaderDate>
+              <HeaderDate className="date">2021년 7월 4일 월요일</HeaderDate>
             </div>
 
             <HeaderEmoji className="emoji">
               <FontAwesomeIcon
                 icon={emojiPresent ? emojiPresent.emoji : farSmile}
                 onClick={(e) => {
-                  ModalOnOff();
+                  emojiModalOnOff();
                   console.log(emojiPresent);
                 }}
                 style={{
@@ -145,11 +176,11 @@ const DiaryWriting = () => {
                   color: emojiPresent ? emojiPresent.color : "#86888a",
                 }}
               />
-              <Modal
-                ModalOnOff={ModalOnOff}
-                isOpen={isOpen}
+              <EmojiModal
+                emojiModalOnOff={emojiModalOnOff}
+                emojiOpen={emojiOpen}
                 whatEmoji={whatEmoji}
-              ></Modal>
+              ></EmojiModal>
             </HeaderEmoji>
             <HeaderWeather className="weather">
               <WeatherModal />
@@ -157,15 +188,15 @@ const DiaryWriting = () => {
           </Header>
 
           <Canvas className="canvas">
-            여긴 그림판
-            <FontAwesomeIcon
+            <Painting musicModalOnOff={musicModalOnOff} musicOpen={musicOpen} />
+            {/* <FontAwesomeIcon
               icon={faMusic}
               style={{ cursor: "pointer", fontSize: 20 }}
               onClick={() => {
                 console.log("music slide ");
               }}
             />
-            {/* <MusicHook /> */}
+            <MusicHook /> */}
           </Canvas>
 
           <TextArea
@@ -199,6 +230,21 @@ const DiaryWriting = () => {
             <FooterPost className="post">등록하기</FooterPost>
           </Footer>
         </ModalWrapper>
+
+        {/* <ModalBtn
+          onClick={() => {
+            console.log("모달시험");
+          }}
+        >
+          <FontAwesomeIcon
+            icon={faMusic}
+            style={{
+              fontSize: "20",
+              cursor: "pointer",
+            }}
+          />
+        </ModalBtn> */}
+        <MusicModal musicOpen={musicOpen} musicModalOnOff={musicModalOnOff} />
       </Body>
     </>
   );

@@ -25,15 +25,6 @@ const weathers = [
   { id: 3, weather: weatherShower, color: "#0099e5" },
   { id: 4, weather: weatherSnow, color: "#90cef1" },
 ];
-const WeathersHeaders = styled.div`
-  border: none;
-  border-top-right-radius: 0.5rem;
-  border-top-left-radius: 0.5rem;
-  text-align: center;
-  background-color: #ffd4d4;
-  padding: 0.2rem;
-  margin-bottom: 0.3rem;
-`;
 
 const WeathersBody = styled.div`
   display: flex;
@@ -51,23 +42,9 @@ const WeatherUnit = styled.div`
   &:hover {
     transform: scale(1.2);
   }
+
   &:active {
     transform: scale(1);
-  }
-`;
-
-const WeatherButton = styled.button`
-  border: none;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
-    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-  background-color: white;
-  border-radius: 0.3rem;
-  cursor: pointer;
-  text-align: center;
-  margin: 0.2rem;
-
-  &:active {
-    transform: scale(0.95);
   }
 `;
 
@@ -80,11 +57,8 @@ const WeatherModal = () => {
       <div
         className="weather-wrapper"
         style={{
-          minWidth: "15rem",
           display: "flex",
           flexDirection: "column",
-          boxShadow:
-            "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
         }}
       >
         <WeathersBody className="weathers-body">
@@ -93,7 +67,7 @@ const WeatherModal = () => {
               <WeatherUnit key={idx}>
                 <Icon
                   icon={weather.weather}
-                  size={idx === weatherChosen ? 30 : 25}
+                  size={idx === weatherChosen ? 30 : 26}
                   onClick={() => {
                     setWeatherChosen(idx);
                   }}
