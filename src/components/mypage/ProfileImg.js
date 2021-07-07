@@ -1,19 +1,22 @@
 import { useState, useEffect, useRef } from 'react'
 import imageCompression from 'browser-image-compression';
 import axios from 'axios';
+import s3 from '../../upload/s3'
 import {
   ImgUpload,
   ImgView,
   ImgEdit,
   ImgUploadBtn,
 } from '../../styles/mypage/ProfileImg.style';
+import { connect } from "react-redux";
+import { login } from '../../actions';
 
-const ProfileImg = () => {
+const ProfileImg = ({ userLogin }) => {
   const [file, setFile] = useState('');
   const [previewURL, setPreviewURL] = useState('');
   const [preview, setPreview] = useState(null);
   const fileRef = useRef();
-  const [fileUrl, setFileUrl] = useState("https://oneulfile.s3.amazonaws.com/profile/default.jpeg");
+  const [fileUrl, setFileUrl] = useState(userLogin.userInfo.picture);
 
   useEffect(() => {
     if (file !== '') //처음 파일 등록하지 않았을 때를 방지
@@ -59,22 +62,33 @@ const ProfileImg = () => {
   }
 
   const handleImgUpload = async ({ fileUrl }) => {
-    await axios
-      .patch("https://oneul.site/O_NeulServer/user/updatePicture", {
-        picture: { setFileUrl }
-      }, {
-        headers: {
-          accessToken: "accessToken",
-          "Content-Type": "application/json"
-        },
-        withCredentials: true,
-      })
-      .then((res) => {
-        console.log(res.data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    const param = {
+      'Bucket': 'oneulfile',
+      'Key': 'profile/' + userLogin.userInfo.nickname,
+      'ACL':'public-read',
+      'Body': file,
+      'ContentType':'image/'
+    }
+
+    s3.upload(param, function(err, data){
+      console.log(data.Location);
+      axios
+        .patch("https://oneul.site/O_NeulServer/user/updatePicture", {
+            picture: data.Location
+          }, {
+          headers: {
+            authorization: 'Bearer ' + userLogin.login.accessToken,
+            "Content-Type": "application/json"
+          },
+          withCredentials: true,
+        })
+        .then((res) => {
+          console.log(res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    });
   }
 
   return (
@@ -93,4 +107,10 @@ const ProfileImg = () => {
   )
 }
 
-export default ProfileImg
+const mapStateToProps = ({ loginReducer }) => {
+  return {
+    userLogin: loginReducer,
+  };
+};
+
+export default connect(mapStateToProps, { login })(ProfileImg);
