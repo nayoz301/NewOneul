@@ -2,6 +2,7 @@ import styled from "styled-components";
 import {
   flexSpaceBtw,
   translateY,
+  BREAK_POINT_MOBILE,
   BREAK_POINT_MD_SCREEN,
   BREAK_POINT_LG_SCREEN,
 } from "../global.style";
@@ -21,12 +22,18 @@ export const MainSecondInnerSection = styled.section`
 `;
 
 export const MainSecondHeader = styled.h2`
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-family: var(--thick-font);
   color: var(--black-color);
   position: relative;
   top: 13%;
   margin-bottom: 9rem;
+
+  @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
+    & {
+      font-size: 2.8rem;
+    }
+  }
 `;
 
 export const Footer = styled.footer`
