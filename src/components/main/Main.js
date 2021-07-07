@@ -9,6 +9,7 @@ import {
   CalendarWrapper,
   MainInnerSection,
   MainInnerWrapper,
+  DiaryWrapper,
 } from "../../styles/main/Main.style";
 import MainHeaderCompo from "./MainHeaderCompo";
 import MyCards from "./cards/MyCards";
@@ -17,12 +18,7 @@ import { connect } from "react-redux";
 import axios from "axios";
 import { fetchAllLoginDiary, fetchAllUnloginDiary } from "../../actions";
 
-const Main = ({
-  userLogin,
-  main,
-  fetchAllLoginDiary,
-  fetchAllUnloginDiary,
-}) => {
+const Main = ({ userLogin, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
   const [value, setValue] = useState(moment());
   const [isClick, setIsClick] = useState(false);
   const [clickmoment, setClickmoment] = useState(null);
@@ -82,10 +78,10 @@ const Main = ({
               <CalendarHeader value={value} next={next} before={before} />
               <Calendar value={value} modalHandle={modalHandle} />
             </CalendarWrapper>
-            <div className="my-and-other-card-wrapper">
+            <DiaryWrapper>
               <MyCards />
               <OtherCards />
-            </div>
+            </DiaryWrapper>
           </MainInnerWrapper>
         </MainInnerSection>
       </MainSection>
@@ -93,7 +89,7 @@ const Main = ({
   );
 };
 
-const mapStateToProps = ({ loginReducer, mainReducer }) => {
+const mapStateToProps = ({ loginReducer }) => {
   return {
     userLogin: loginReducer,
   };

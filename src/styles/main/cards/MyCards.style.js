@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BREAK_POINT_MOBILE } from "../../global.style";
+import { BREAK_POINT_MOBILE, BREAK_POINT_MD_SCREEN } from "../../global.style";
 import {
   Card,
   CardBack,
@@ -19,13 +19,18 @@ export const MyCardWrapper = styled.div`
 `;
 
 export const MyDiary = styled(Card)`
-  min-width: 15rem;
-  min-height: 18rem;
+  min-width: 17rem;
+  min-height: 23rem;
   margin: 1.5rem 0;
 
   @media only screen and (min-width: ${BREAK_POINT_MOBILE}px) {
-    min-width: 17rem;
-    min-height: 23rem;
+    min-width: 18rem;
+    min-height: 24.352rem;
+  }
+
+  @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
+    min-width: 19rem;
+    min-height: 25.705rem;
   }
 `;
 
@@ -62,10 +67,10 @@ export const MyDiaryBackTextWrapper = styled.div`
 `;
 
 export const MyDiaryBackText = styled(CardBackText)`
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   width: 100%;
   height: 100%;
-  line-height: 1.8;
+  line-height: 1.9;
 `;
 
 export const IconWrapper = styled.div`

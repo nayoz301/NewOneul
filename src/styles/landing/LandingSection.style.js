@@ -13,7 +13,7 @@ export const HeaderSection = styled.header`
   width: 100%;
   color: white;
   /* for the swing background */
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
   display: flex;
   flex-direction: column;
   justify-content: space-between;

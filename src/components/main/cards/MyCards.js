@@ -14,7 +14,7 @@ import MyCard from "./card/MyCard";
 
 const MyCards = ({ userInfo }) => {
   const content =
-    userInfo.myDiary.length === 0 ? (
+    userInfo.myDiary.length !== 0 ? (
       <DiaryLogin>
         첫 일기 남기기
         <Icon icon={pencil} />
@@ -26,9 +26,9 @@ const MyCards = ({ userInfo }) => {
         pagination={false}
         itemPadding={[0, 50]}
       >
-        {userInfo.myDiary.map((diary) => (
-          <MyCard />
-        ))}
+        {/* {userInfo.myDiary.map((diary) => ( */}
+        <MyCard />
+        {/* ))} */}
       </Carousel>
     );
   return (

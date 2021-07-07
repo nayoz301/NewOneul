@@ -58,7 +58,7 @@ export const MainInnerArticle = styled.article`
   & h2 {
     font-size: 2rem;
     margin-bottom: 0.7em;
-    line-height: 1.6;
+    line-height: 1.8;
     font-family: var(--thick-font);
   }
   & p {
@@ -69,17 +69,17 @@ export const MainInnerArticle = styled.article`
 
   @media only screen and (min-width: ${BREAK_POINT_MOBILE}px) {
     & h2 {
-      font-size: 2.2rem;
+      font-size: 2.4rem;
     }
     & p {
-      /* font-size: 1.9rem; */
+      font-size: 1.7rem;
     }
   }
 
   /* 1200px */
   @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
     & h2 {
-      font-size: 2.5rem;
+      font-size: 2.8rem;
     }
     & p {
       font-size: 1.9rem;
