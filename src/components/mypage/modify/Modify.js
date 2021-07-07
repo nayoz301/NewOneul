@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useHistory, Link } from "react-router-dom";
-import useModify from './useModify';
+// import useModify from './useModify';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import {
@@ -10,7 +10,8 @@ import {
   ModifyText,
   ModifyForm,
   Input,
-  ModifyBtn
+  ModifyBtn,
+  GoBackBtn
 } from '../../../styles/mypage/Modify.style';
 import { connect } from "react-redux";
 import { login } from '../../../actions';
@@ -41,7 +42,7 @@ const Modify = ({ login, userLogin }) => {
       (password.length === 0 || password.length > 7) &&
       password2 === password) {
       console.log("Modify");
-      handleModify();
+      handleModify(nickname, password);
     } else if (nickname.length === 0) {
       Swal.fire({
         icon: "error",
@@ -66,9 +67,9 @@ const Modify = ({ login, userLogin }) => {
     }
   }
 
-  const handleModify = (nickname, password) => {
+  const handleModify = async (nickname, password) => {
     console.log("WoW")
-    return axios
+    await axios
       .patch("https://oneul.site/O_NeulServer/user/edit",
         {
           nickname: nickname,
@@ -76,10 +77,10 @@ const Modify = ({ login, userLogin }) => {
         },
         {
           headers: {
-            authorization: userLogin.login.accessToken,
+            authorization: "Bearer " + userLogin.login.accessToken,
             "Content-Type": "application/json"
           },
-          withCredentials: true,
+          withCredentials: true
         })
       .then((res) => {
         console.log(res.data)
@@ -112,7 +113,6 @@ const Modify = ({ login, userLogin }) => {
           />
           <Input
             type="email"
-            onChange={handleModiChange}
             value={modiValues.email}
             name="email"
             readOnly
@@ -131,9 +131,9 @@ const Modify = ({ login, userLogin }) => {
             value={modiValues.password2}
             name="password2"
           />
-          <ModifyBtn type="button" onClick={handleValidation}>저 장</ModifyBtn>
+          <ModifyBtn onClick={handleValidation}>저 장</ModifyBtn>
           <Link to="/mypage">
-            <ModifyBtn type="button">뒤로가기</ModifyBtn>
+            <GoBackBtn type="button">뒤로가기</GoBackBtn>
           </Link>
         </ModifyForm>
         {/* </Wrapper> */}

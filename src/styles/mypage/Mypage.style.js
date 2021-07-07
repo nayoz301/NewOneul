@@ -8,7 +8,6 @@ export const BoxContainer = styled.div`
   justify-content: center;
   align-items: center;
   font-family: var(--thick-font);
-  // background-color: var(--primary-color);
 `;
 
 export const FormContainer = styled.form`
@@ -16,8 +15,8 @@ export const FormContainer = styled.form`
   min-width: 80%;
   height: 95rem;
   margin: 10rem 0 1rem 0;
-  // border: 1px solid red;
-  background-color: #DBC5CD;
+  // background-color: #DBC5CD;
+  background-color: #fff;
   color: #000;
   font-weight: bold;
   padding: 1rem;
@@ -34,7 +33,7 @@ export const ContentContainer = styled.div`
   margin-top: 2rem;
   padding-right: 2rem;
   display: flex;
-  background-color: #DBD9DB;
+  background-color: #fff;
   // box-shadow: 5px 5px lightgray;
 `;
 
@@ -79,16 +78,18 @@ export const Frame = styled.div`
 `;
 
 export const UserContentForm = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-width: 45%;
-  height: 90%;
-  margin-left: 1rem;
-  // border: 2px solid var(--primary-color);
-  border-radius: .7rem;
-  padding-left: 1rem;
-  background-color: #FFFBF0;
-  margin-top: 3rem;
+min-width: 45%;
+height: 90%;
+border: 2px solid var(--primary-color);
+border-radius: .7rem;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+background-color: #FFFBF0;
+margin-top: 3rem;
+margin-left: 1rem;
+color: #000;
 `;
 
 export const UserContent = styled.div`
