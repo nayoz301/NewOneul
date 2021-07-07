@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import imageCompression from 'browser-image-compression';
 import axios from 'axios';
+import s3 from '../../upload/s3'
 import {
   ImgUpload,
   ImgView,
@@ -16,6 +17,7 @@ const ProfileImg = ({ login, userLogin }) => {
   const [preview, setPreview] = useState(null);
   const [fileUrl, setFileUrl] = useState('');
   const fileRef = useRef();
+  const [fileUrl, setFileUrl] = useState(userLogin.userInfo.picture);
 
   //처음 파일 등록하지 않았을 때를 방지
   useEffect(() => {
@@ -64,28 +66,34 @@ const ProfileImg = ({ login, userLogin }) => {
     fileRef.current.click(); // file 불러오는 버튼을 대신 클릭함
   }
 
-  const handleImgUpload = async (picture) => {
-    const formdata = new FormData()
-    formdata.append('picture', file)
+  const handleImgUpload = async ({ fileUrl }) => {
+    const param = {
+      'Bucket': 'oneulfile',
+      'Key': 'profile/' + userLogin.userInfo.nickname,
+      'ACL':'public-read',
+      'Body': file,
+      'ContentType':'image/'
+    }
 
-
-    await axios
-      .post("s3://practice-bucket-deploy210602/out.png", formdata, {
-        picture: picture
-      }, {
-        headers: {
-          accessToken: "Bearer" + userLogin.login.accesstoken,
-          "Content-Type": "multipart/form-data"
-        },
-        withCredentials: true,
-      })
-      .then((res) => {
-        console.log(res)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
+    s3.upload(param, function(err, data){
+      console.log(data.Location);
+      axios
+        .patch("https://oneul.site/O_NeulServer/user/updatePicture", {
+            picture: data.Location
+          }, {
+          headers: {
+            authorization: 'Bearer ' + userLogin.login.accessToken,
+            "Content-Type": "application/json"
+          },
+          withCredentials: true,
+        })
+        .then((res) => {
+          console.log(res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    });
 
   return (
     <>
@@ -102,7 +110,6 @@ const ProfileImg = ({ login, userLogin }) => {
     </>
   )
 }
-
 
 const mapStateToProps = ({ loginReducer }) => {
   return {
