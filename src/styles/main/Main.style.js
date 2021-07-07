@@ -60,13 +60,16 @@ export const MainInnerSection = styled.section`
 export const MainInnerWrapper = styled.div`
   margin: 4rem auto;
   width: 80%;
+  display: flex;
+  flex-direction: column;
 
   @media only screen and (min-width: ${BREAK_POINT_MOBILE}px) {
     width: 75%;
   }
 
   @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
-    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   }
 `;
 
@@ -92,5 +95,12 @@ export const CalendarWrapper = styled.div`
 
   @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
     min-height: calc(54.6vh + 25rem);
+  }
+`;
+
+export const DiaryWrapper = styled.section`
+  @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
+    flex: 1;
+    margin-left: 3rem;
   }
 `;

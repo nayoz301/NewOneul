@@ -77,10 +77,6 @@
 } */
 
 @media only screen and (min-width: 1024px) {
-  .my-and-other-card-wrapper {
-    margin-left: 3rem;
-  }
-
   .calendar-mycard {
     display: flex;
     flex-direction: column;
