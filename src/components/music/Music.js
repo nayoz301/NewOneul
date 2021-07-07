@@ -112,19 +112,20 @@ const Music = (props) => {
   }, [volume, muteState]);
 
   useEffect(() => {
+    // playerRef.current.pause();
     console.log("타임라인, 플레이어::", timelineRef.current, playerRef.current);
-    playerRef.current.addEventListener("timeupdate", timeUpdate, false);
+    playerRef.current.addEventListener("timeupdate", timeUpdate);
     playerRef.current.addEventListener("ended", nextSong, false);
     timelineRef.current.addEventListener("click", changeCurrentTime, false);
     timelineRef.current.addEventListener("mousemove", hoverTimeLine, false);
     timelineRef.current.addEventListener("mouseout", resetTimeLine, false);
-    return () => {
-      playerRef.current.removeEventListener("timeupdate", timeUpdate);
-      playerRef.current.removeEventListener("ended", nextSong);
-      timelineRef.current.removeEventListener("click", changeCurrentTime);
-      timelineRef.current.removeEventListener("mousemove", hoverTimeLine);
-      timelineRef.current.removeEventListener("mouseout", resetTimeLine);
-    };
+    // return () => {
+    //   playerRef.current.removeEventListener("timeupdate", timeUpdate);
+    //   playerRef.current.removeEventListener("ended", nextSong);
+    //   timelineRef.current.removeEventListener("click", changeCurrentTime);
+    //   timelineRef.current.removeEventListener("mousemove", hoverTimeLine);
+    //   timelineRef.current.removeEventListener("mouseout", resetTimeLine);
+    // };
   }, []);
 
   const changeCurrentTime = (e) => {
@@ -158,9 +159,7 @@ const Music = (props) => {
 
   const hoverTimeLine = (e) => {
     const duration = playerRef.current.duration;
-
     const playheadWidth = timelineRef.current.offsetWidth;
-
     const offsetWidth = timelineRef.current.offsetLeft;
     const userClickWidth = e.clientX - offsetWidth;
     const userClickWidthInPercent = (userClickWidth * 100) / playheadWidth;
@@ -256,7 +255,14 @@ const Music = (props) => {
           size={18}
           className="close-btn"
           icon={ic_close}
-          onClick={musicModalOnOff}
+          onClick={() => {
+            playerRef.current.removeEventListener("timeupdate", timeUpdate);
+            playerRef.current.removeEventListener("ended", nextSong);
+            timelineRef.current.removeEventListener("click", changeCurrentTime);
+            timelineRef.current.removeEventListener("mousemove", hoverTimeLine);
+            timelineRef.current.removeEventListener("mouseout", resetTimeLine);
+            musicModalOnOff();
+          }}
         />
 
         <SelectBar getGenre={getGenre} genreList={genreList} />

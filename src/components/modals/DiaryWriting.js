@@ -28,21 +28,21 @@ const ModalWrapper = styled.div`
   @media screen and (max-width: 1220px) {
     & {
       width: 50%;
-      height: 70%;
+      height: 80%;
     }
   }
 
   @media screen and (max-width: 1024px) {
     & {
       width: 50%;
-      height: 70%;
+      height: 80%;
     }
   }
 
   @media screen and (max-width: 825px) {
     & {
       width: 40rem;
-      height: 60%;
+      height: 80%;
     }
   }
 `;
