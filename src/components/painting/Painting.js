@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
 import axios from "axios";
-// import Canvas from "./Canvas";
 import "./style.css";
 let arr_Colors = [
   "#e32119",
@@ -15,7 +14,7 @@ let arr_Colors = [
   "#a4c639",
   "#7cbb00",
   "#34a853",
-  "#008200",
+  "#5ec6f2",
   "#00a4e4",
   "#4285f4",
   "#147efb",
@@ -38,6 +37,8 @@ const Painting = () => {
 
   const canvasRef = useRef(null);
   const ctx = useRef();
+  const fileRef = useRef();
+
   const BASE_COLOR = "2c2c2c";
   // const CANVAS_WIDTH = window.innerWidth;
   // const CANVAS_HEIGHT = window.innerHeight;
@@ -359,9 +360,15 @@ const Painting = () => {
     }
   };
 
-  function disableRightClick(e) {
+  const disableRightClick = (e) => {
     e.preventDefault(); //우클릭 방지 ㅋㅋ
-  }
+  };
+
+  const handleFileButtonClick = (e) => {
+    //파일업로드 버튼
+    e.preventDefault();
+    fileRef.current.click(); // file 불러오는 버튼을 대신 클릭함
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -392,7 +399,11 @@ const Painting = () => {
         <span className="btns_part1">
           {/* <button id={`button_${button}`}></button> */}
           {/* {whichOne==='picture' ? :} */}
-          <button id="clearBtn" onClick={handleClearClick}>
+          <button
+            id="clearBtn"
+            onClick={handleClearClick}
+            // style={{ top: "50%", left: "0%", tranform: "translate(-50%" }}
+          >
             clear
           </button>
           <button id="paintBtn" onClick={handlePaintClick}>
@@ -406,8 +417,9 @@ const Painting = () => {
           </button>
         </span>
         <span className="btns_part2">
-          <span id="lineWeightRange">
+          <span id="wrapper">
             <input
+              id="lineWeightRange"
               type="range"
               min="0.1"
               max="5"
@@ -418,19 +430,22 @@ const Painting = () => {
           </span>
 
           <span>
-            <label
+            {/* <label className="input_file_button" for="input-file">
+              File
+            </label> //이렇게 라벨써도 되는데 CSS가 안먹어서 버튼으로 대체 */}
+            <button
               className="input_file_button"
-              for="input-file"
-              style={{ width: "7rem" }}
+              onClick={handleFileButtonClick}
             >
               File
-            </label>
+            </button>
             <input
+              ref={fileRef}
               type="file"
               id="input-file"
               name="file"
               accept="image/*"
-              style={{ display: "none" }}
+              hidden={true}
               onChange={handleInsertImage}
             />
 

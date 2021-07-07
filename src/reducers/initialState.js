@@ -1,23 +1,35 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faAngry as farAngry,
+  faFlushed as farFlushed,
+  faGrimace as farGrimace,
+  faDizzy as farDizzy,
+  faMeh as farMeh,
+  faFrown as farFrown,
+  faSmile as farSmile,
+  faGrinBeamSweat as farGrinBeamSweat,
+  faGrinHearts as farGrinHearts,
+  faTired as farTired,
+  faSadTear as farSadTear,
+  faSadCry as farSadCry,
+  faMehRollingEyes as farMehRollingEyes,
+  faGrinStars as farGrinStars,
+  faSurprise as farSurprise,
+  faLaughBeam as farLaughBeam,
+  faKissWinkHeart as farKissWinkHeart,
+  faLaughSquint as farLaughSquint,
+  faGrinSquintTears as farGrinSquintTears,
+  faGrinTongueWink as farGrinTongueWink,
+} from "@fortawesome/free-regular-svg-icons";
 import { Icon } from "react-icons-kit";
+
 import {
-  happy,
-  smile,
-  sad,
-  cool,
-  angry,
-  shocked,
-  baffled,
-  neutral,
-  frustrated,
-  crying,
-} from "react-icons-kit/icomoon/";
-import {
-  iosSunny,
-  iosPartlysunny,
-  iosRainy,
-  iosSnowy,
-  iosCloud,
-} from "react-icons-kit/ionicons";
+  weatherSunny,
+  weatherCloudy,
+  weatherPartlySunny,
+  weatherShower,
+  weatherSnow,
+} from "react-icons-kit/typicons/";
 
 const makeFaceIcon = (iconName, color) => {
   return <Icon face icon={iconName} style={{ color: `#${color}` }} />;
@@ -36,22 +48,47 @@ export const initialState = {
   myDiary: [],
   musicList: [],
   faceIcons: [
-    { id: 1, icon: makeFaceIcon(happy) },
-    { id: 2, icon: makeFaceIcon(smile) },
-    { id: 3, icon: makeFaceIcon(sad) },
-    { id: 4, icon: makeFaceIcon(cool) },
-    { id: 5, icon: makeFaceIcon(angry) },
-    { id: 6, icon: makeFaceIcon(shocked) },
-    { id: 7, icon: makeFaceIcon(baffled) },
-    { id: 8, icon: makeFaceIcon(neutral) },
-    { id: 9, icon: makeFaceIcon(frustrated) },
-    { id: 10, icon: makeFaceIcon(crying) },
+    { id: 1, icon: makeFaceIcon(farMeh, "a1a1a4") },
+    { id: 2, icon: makeFaceIcon(farSmile, "ffdb00") },
+    { id: 3, icon: makeFaceIcon(farLaughBeam, "fdca30") },
+    { id: 4, icon: makeFaceIcon(farLaughSquint, "ffcb00") },
+    {
+      id: 5,
+      icon: makeFaceIcon(farGrinSquintTears, "fdbb30"),
+    },
+    {
+      id: 6,
+      icon: makeFaceIcon(farKissWinkHeart, "ea4c89"),
+    },
+    { id: 7, icon: makeFaceIcon(farGrinHearts, "ea4c89") },
+    { id: 8, icon: makeFaceIcon(farGrinStars, "6b5aed") },
+    {
+      id: 9,
+      icon: makeFaceIcon(farGrinTongueWink, "2d72d9"),
+    },
+    {
+      id: 10,
+      icon: makeFaceIcon(farGrinBeamSweat, "7acef4"),
+    },
+    { id: 11, icon: makeFaceIcon(farFrown, "ff8200") },
+    { id: 12, icon: makeFaceIcon(farAngry, "fe423f") },
+    { id: 13, icon: makeFaceIcon(farGrimace, "e32119") },
+    { id: 14, icon: makeFaceIcon(farTired, "97a2a2") },
+    { id: 15, icon: makeFaceIcon(farDizzy, "8a8b8c") },
+    { id: 16, icon: makeFaceIcon(farSurprise, "8ee000") },
+    { id: 17, icon: makeFaceIcon(farFlushed, "6cc24a") },
+    {
+      id: 18,
+      icon: makeFaceIcon(farMehRollingEyes, "8a8acb"),
+    },
+    { id: 19, icon: makeFaceIcon(farSadTear, "2bb3f3") },
+    { id: 20, icon: makeFaceIcon(farSadCry, "147efb") },
   ],
   weatherIcons: [
-    { id: 1, icon: makeWeatherIcon(iosSunny, "f6a102") },
-    { id: 2, icon: makeWeatherIcon(iosPartlysunny, "aaa") },
-    { id: 3, icon: makeWeatherIcon(iosCloud, "aaa") },
-    { id: 4, icon: makeWeatherIcon(iosRainy, "86c9d9") },
-    { id: 5, icon: makeWeatherIcon(iosSnowy, "5488c8") },
+    { id: 1, icon: makeWeatherIcon(weatherSunny, "f96854") },
+    { id: 2, icon: makeWeatherIcon(weatherCloudy, "ffb900") },
+    { id: 3, icon: makeWeatherIcon(weatherPartlySunny, "a5a9ab") },
+    { id: 4, icon: makeWeatherIcon(weatherShower, "0099e5") },
+    { id: 5, icon: makeWeatherIcon(weatherSnow, "90cef1") },
   ],
 };
