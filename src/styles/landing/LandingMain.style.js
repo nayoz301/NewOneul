@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import {
+  BREAK_POINT_MOBILE,
   BREAK_POINT_MD_SCREEN,
   BREAK_POINT_LG_SCREEN,
   BREAK_POINT_16LG_SCREEN,
@@ -34,7 +35,7 @@ export const MainInnerWrapper = styled.div`
   align-items: center;
 
   /* 768px */
-  @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
+  @media only screen and (min-width: ${BREAK_POINT_MOBILE}px) {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -53,21 +54,32 @@ export const MainInnerArticle = styled.article`
   color: var(--black-color);
   z-index: 100;
   flex-shrink: 0;
+
   & h2 {
-    font-size: 2.5rem;
+    font-size: 2rem;
     margin-bottom: 0.7em;
     line-height: 1.6;
     font-family: var(--thick-font);
   }
   & p {
-    font-size: 1.7rem;
+    font-size: 1.6rem;
     line-height: 1.85;
+    padding-bottom: 1rem;
+  }
+
+  @media only screen and (min-width: ${BREAK_POINT_MOBILE}px) {
+    & h2 {
+      font-size: 2.2rem;
+    }
+    & p {
+      /* font-size: 1.9rem; */
+    }
   }
 
   /* 1200px */
   @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
     & h2 {
-      font-size: 3rem;
+      font-size: 2.5rem;
     }
     & p {
       font-size: 1.9rem;
@@ -76,7 +88,7 @@ export const MainInnerArticle = styled.article`
 
   @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN + 1}px) {
     & h2 {
-      font-size: 3.3rem;
+      font-size: 3rem;
     }
     & p {
       font-size: 2.1rem;
