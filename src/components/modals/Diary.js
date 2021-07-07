@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { flexCenter } from "../../styles/global.style";
-import MusicHook from "../music/MusicHook";
+import Music from "../music/Music";
 const Diary = ({ modalHandle, clickmoment }) => {
   console.log(clickmoment.format("L"));
 
