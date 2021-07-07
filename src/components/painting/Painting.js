@@ -1,6 +1,20 @@
 import React, { useRef, useEffect, useState } from "react";
 import axios from "axios";
-import "./style.css";
+import MusicModal from "../DiaryWriting/MusicModal";
+import "./Painting.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPaintBrush,
+  faFillDrip,
+  faEraser,
+} from "@fortawesome/free-solid-svg-icons";
+import { faMusic } from "@fortawesome/free-solid-svg-icons";
+import {
+  faImage as farImage,
+  faFile as farFile,
+  faStickyNote as farStickyNote,
+} from "@fortawesome/free-regular-svg-icons";
+import { fontSize } from "react-icons-kit/icomoon";
 let arr_Colors = [
   "#e32119",
   "#ff3b30",
@@ -10,10 +24,11 @@ let arr_Colors = [
   "#fdbd10",
   "#ffcc00",
   "#ffdd00",
-  "#c1d82f",
-  "#a4c639",
-  "#7cbb00",
-  "#34a853",
+  "#d2ea32",
+  "#8ee000",
+  "#6cc644",
+  "#2dbe60",
+  "#00b22d",
   "#5ec6f2",
   "#00a4e4",
   "#4285f4",
@@ -21,14 +36,13 @@ let arr_Colors = [
   "#0064d2",
   "#5856d6",
   "#833ab4",
-  "#631d76",
   "#8a7967",
   "#7f7f7f",
   "white",
   "#2c2c2c",
 ];
 
-const Painting = () => {
+const Painting = (props) => {
   const [filling, setFilling] = useState(false);
   const [painting, setPainting] = useState(false);
   const [eraser, setEraser] = useState(false);
@@ -40,10 +54,8 @@ const Painting = () => {
   const fileRef = useRef();
 
   const BASE_COLOR = "2c2c2c";
-  // const CANVAS_WIDTH = window.innerWidth;
-  // const CANVAS_HEIGHT = window.innerHeight;
-  const CANVAS_WIDTH = 700;
-  const CANVAS_HEIGHT = 400;
+  const CANVAS_WIDTH = 1000;
+  const CANVAS_HEIGHT = 600;
 
   const canvas = canvasRef.current;
 
@@ -231,17 +243,6 @@ const Painting = () => {
     setPainting(false);
     setEraser(false);
     setErasing(false);
-    console.log(
-      "페인팅:",
-      painting,
-      "필링:",
-      filling,
-
-      "Eraser::",
-      eraser,
-      "Erasing:",
-      erasing
-    );
   }
 
   // function getMouesPosition(e) {
@@ -284,19 +285,20 @@ const Painting = () => {
     // var mouseX = nativeEvent.clientX - ctx.canvas.offsetLeft;
     // var mouseY = nativeEvent.clientY - ctx.canvas.offsetTop;
 
-    console.log(
-      "무브마우스",
-      getMouesPosition(nativeEvent)
-      // canvas.offsetLeft,
-      // canvas.clientHeight,
-      // window.innerWidth,
-      // canvas.width,
-      // nativeEvent.offsetX,
-      // nativeEvent.clientX,
-      // canvasBounds
-      // canvasBounds.left
-      // canvas.offsetBottom //캔버스안에서 탑 레프트 무조건 0
-    );
+    // console.log(
+    //   "무브마우스",
+    //   getMouesPosition(nativeEvent),
+    //   window.innerWidth,
+    //   canvas.offsetLeft,
+    //   canvas.clientHeight,
+    //   window.innerWidth,
+    //   canvas.width,
+    //   nativeEvent.offsetX,
+    //   nativeEvent.clientX,
+    //   canvasBounds,
+    //   canvasBounds.left,
+    //   canvas.offsetBottom //캔버스안에서 탑 레프트 무조건 0
+    // );
 
     if (ctx && !painting && !erasing) {
       ctx.current.beginPath();
@@ -373,13 +375,6 @@ const Painting = () => {
   useEffect(() => {
     const canvas = canvasRef.current;
 
-    // canvas.style.width = "70%";
-    // canvas.style.height = "40%";
-    // canvas.width = canvas.offsetWidth;
-    // canvas.height = canvas.offsetHeight;
-
-    canvas.width = 700;
-    canvas.height = 400;
     canvas.style.width = "100%";
     canvas.style.height = "100%";
 
@@ -388,90 +383,79 @@ const Painting = () => {
     ctx.current.fillStyle = BASE_COLOR;
   }, []);
 
-  useEffect(() => {
-    const canvasBounds = canvasRef.current.getBoundingClientRect();
-    console.log("유즈이팩트", canvasBounds);
-  });
-
   return (
     <div id="canvas_wrapper">
       <section id="controls">
-        <span className="btns_part1">
-          {/* <button id={`button_${button}`}></button> */}
-          {/* {whichOne==='picture' ? :} */}
-          <button
-            id="clearBtn"
-            onClick={handleClearClick}
-            // style={{ top: "50%", left: "0%", tranform: "translate(-50%" }}
-          >
-            clear
+        <span className="control_btns">
+          <button id="clearBtn" onClick={handleClearClick}>
+            <FontAwesomeIcon
+              icon={farStickyNote}
+              style={{ fontSize: 20, border: "none", padding: "0 0" }}
+            />
           </button>
-          <button id="paintBtn" onClick={handlePaintClick}>
-            paint
+          <button id="paint_btn" onClick={handlePaintClick}>
+            <FontAwesomeIcon
+              icon={faPaintBrush}
+              style={{ fontSize: 20, border: "none", padding: "0 0" }}
+            />
           </button>
-          <button id="fillBtn" onClick={handleFillClick}>
-            fill
+          <button id="fill_btn" onClick={handleFillClick}>
+            <FontAwesomeIcon
+              icon={faFillDrip}
+              style={{ fontSize: 20, border: "none", padding: "0 0" }}
+            />
           </button>
-          <button id="eraserBtn" onClick={handleEraserClick}>
-            eraser
+          <button id="eraser_btn" onClick={handleEraserClick}>
+            <FontAwesomeIcon
+              icon={faEraser}
+              style={{ fontSize: 20, border: "none", padding: "0 0" }}
+            />
           </button>
-        </span>
-        <span className="btns_part2">
-          <span id="wrapper">
+
+          <button id="input_btn" onClick={handleFileButtonClick}>
+            <FontAwesomeIcon
+              icon={farImage}
+              style={{ fontSize: 20, border: "none", padding: "0 0" }}
+            />
+          </button>
+          <input
+            ref={fileRef}
+            type="file"
+            id="input_file"
+            name="file"
+            accept="image/*"
+            hidden={true}
+            onChange={handleInsertImage}
+          />
+
+          <span>
             <input
               id="lineWeightRange"
               type="range"
               min="0.1"
-              max="5"
-              defaultValue={"2.5"}
+              max="15"
+              defaultValue={"3"}
               step="0.1"
               onChange={handleRangeChange}
             />
           </span>
 
-          <span>
-            {/* <label className="input_file_button" for="input-file">
-              File
-            </label> //이렇게 라벨써도 되는데 CSS가 안먹어서 버튼으로 대체 */}
-            <button
-              className="input_file_button"
-              onClick={handleFileButtonClick}
-            >
-              File
-            </button>
-            <input
-              ref={fileRef}
-              type="file"
-              id="input-file"
-              name="file"
-              accept="image/*"
-              hidden={true}
-              onChange={handleInsertImage}
+          <button id="clearBtn" onClick={props.musicModalOnOff}>
+            <FontAwesomeIcon
+              icon={faMusic}
+              style={{ fontSize: 20, border: "none", padding: "0 0" }}
             />
+            {/* <MusicModal
+              musicOpen={musicOpen}
+              musicModalOnOff={musicModalOnOff}
+              header="Modal heading"
+            /> */}
+          </button>
 
-            <button
-              type="button"
-              className="input_file_button"
-              onClick={handleFileUpload}
-            >
-              upload
-            </button>
-          </span>
-          {/* <button id="whichOneBtn" onClick={whichOneFunc}>
-            {whichOne}
-          </button> */}
-
-          {/* <input
-            type="file"
-            name="file"
-            onChange={handleUploadClick}
-            className="picture"
-            ref={picRef}
-          /> */}
           {/* <button
             type="button"
             className="input_file_button"
-            onClick={handlePost}
+            onClick={handleFileUpload}
           >
             upload
           </button> */}
@@ -487,27 +471,19 @@ const Painting = () => {
           ></span>
         ))}
       </section>
-      {/* <div
-        className="imgPreviewDiv"
-        width="700" //수정 필요
-        height="400" //수정 필요
-        style={{ display: previewURL === null ? "none" : "block" }}
-      >
-        {$preview}
-      </div> */}
+
       <section style={{ position: "relative" }}>
         <canvas
           id="canvas"
           ref={canvasRef}
-          // width="700" //수정 필요
-          // height="400" //수정 필요
+          width={`${CANVAS_WIDTH}`}
+          height={`${CANVAS_HEIGHT}`}
           onMouseMove={onMouseMove}
           onMouseDown={startPainting}
           onMouseUp={stopPainting}
           onMouseLeave={stopPainting}
           onClick={handleCanvasClick}
           onContextMenu={disableRightClick}
-          // style={{ display: previewURL === null ? "block" : "none" }}
         ></canvas>
       </section>
     </div>
