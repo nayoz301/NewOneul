@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import axios from "axios";
-import MusicModal from "../DiaryWriting/MusicModal";
+import MusicModal from "../modals/MusicModal";
 import "./Painting.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {

@@ -8,6 +8,7 @@ import Mypage from "./components/mypage/Mypage";
 import axios from "axios";
 import { connect } from "react-redux";
 import { login } from "./actions";
+import DiaryWriting from "./components/modals/DiaryWriting";
 
 function App({ login, userLogin }) {
   const [loading, setLoading] = useState(false);
@@ -40,7 +41,8 @@ function App({ login, userLogin }) {
       ) : (
         <Switch>
           <Route path="/" exact>
-            <Landing />
+            <DiaryWriting />
+            {/* <Landing /> */}
           </Route>
           <Route path="/main">
             <Main />
