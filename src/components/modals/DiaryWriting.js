@@ -5,30 +5,45 @@ import EmojiModal from "./EmojiModal";
 import Music from "../music/Music";
 import MusicModal from "./MusicModal";
 import Painting from "../painting/Painting";
+import { flexCenter } from "../../styles/global.style";
 import "./DiaryWriting.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMusic } from "@fortawesome/free-solid-svg-icons";
 import { faSmile as farSmile } from "@fortawesome/free-regular-svg-icons";
 
+const Diarybackground = styled.div`
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100000;
+  background: rgba(0, 0, 0, 0.4);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const ModalWrapper = styled.div`
+  background-color: white;
   display: flex;
   flex-direction: column;
   border: 1px solid black;
   width: 50%;
-  height: 90%;
-  margin-top: 1.5rem;
+  height: 90vh;
 
   @media screen and (max-width: 1400px) {
     & {
       width: 50%;
-      height: 80%;
+      height: 90%;
     }
   }
 
   @media screen and (max-width: 1220px) {
     & {
       width: 50%;
-      height: 80%;
+      height: 85%;
     }
   }
 
@@ -95,7 +110,8 @@ const Canvas = styled.div`
 const TextArea = styled.textarea`
   // border: 1px solid black;
   flex: 10 1 auto;
-  height: 15vh;
+  height: ${window.innerWidth / 7}px;
+  // height: 15vh;
   resize: none;
   font-size: 2rem;
   outline: none;
@@ -116,6 +132,7 @@ const FooterPrivate = styled.input`
   display: inline-block;
   vertical-align: middle;
   margin: 0.5rem;
+  font-size: 1.2rem;
 `;
 
 const FooterPost = styled.button`
@@ -152,13 +169,16 @@ const DiaryWriting = () => {
 
   return (
     <>
-      <Body
-        style={{ display: "flex", flexDirection: "row", position: "relative" }}
-      >
+      <Diarybackground>
+        {/* <Body style={{ display: "flex", flexDirection: "row" }}> */}
         <ModalWrapper className="modal-wrapper">
           <Header className="header">
             <div
-              style={{ display: "flex", flexDirection: "column", width: "40%" }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                width: "40%",
+              }}
             >
               <HeaderDate className="date">2021년 7월 4일 월요일</HeaderDate>
             </div>
@@ -187,7 +207,10 @@ const DiaryWriting = () => {
             </HeaderWeather>
           </Header>
 
-          <Canvas className="canvas">
+          <Canvas
+            className="canvas"
+            //  style={{ display: "none" }}
+          >
             <Painting musicModalOnOff={musicModalOnOff} musicOpen={musicOpen} />
             {/* <FontAwesomeIcon
               icon={faMusic}
@@ -195,8 +218,7 @@ const DiaryWriting = () => {
               onClick={() => {
                 console.log("music slide ");
               }}
-            />
-            <MusicHook /> */}
+            /> */}
           </Canvas>
 
           <TextArea
@@ -216,16 +238,15 @@ const DiaryWriting = () => {
           ></TextArea>
 
           <Footer className="footer">
-            <label>
+            <span className="private">
               <FooterPrivate
                 type="checkbox"
-                className="private"
                 onClick={() => {
                   SetIsPrivate(!isPrivate);
                 }}
               />
-              비밀일기
-            </label>
+              공개하기
+            </span>
 
             <FooterPost className="post">등록하기</FooterPost>
           </Footer>
@@ -244,8 +265,14 @@ const DiaryWriting = () => {
             }}
           />
         </ModalBtn> */}
-        <MusicModal musicOpen={musicOpen} musicModalOnOff={musicModalOnOff} />
-      </Body>
+        <MusicModal
+          musicOpen={musicOpen}
+          musicModalOnOff={musicModalOnOff}
+          style={{ display: "flex", position: "relative" }}
+        />
+        {/* </Body> */}
+      </Diarybackground>
+      <div className="asdsd"></div>
     </>
   );
 };
@@ -253,6 +280,7 @@ const DiaryWriting = () => {
 const Body = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
 `;
 
 export default DiaryWriting;

@@ -1,21 +1,41 @@
 import React from "react";
 import Music from "../music/Music";
+import styled from "styled-components";
+import { music } from "react-icons-kit/icomoon";
 
 const MusicModal = (props) => {
-  // 열기, 닫기, 모달 헤더 텍스트를 부모로부터 받아옴
-  const { musicOpen, musicModalOnOff, header } = props;
+  const { musicOpen, musicModalOnOff } = props;
 
   return (
-    // 모달이 열릴때 openModal 클래스가 생성된다.
-    <div className={musicOpen ? "openModal modal" : "modal"}>
-      {musicOpen ? (
-        <section>
-          <main>
-            <Music musicModalOnOff={musicModalOnOff} />
-          </main>
-        </section>
-      ) : null}
-    </div>
+    <section
+      className="mainNav"
+      style={musicOpen ? { transform: "translateX(0)" } : null}
+    >
+      <Music musicModalOnOff={musicModalOnOff} />
+      {/* <div
+        onClick={musicModalOnOff}
+        className={`overlay ${musicOpen ? "open" : ""}`}
+      /> */}
+    </section>
   );
 };
 export default MusicModal;
+
+// import React from "react";
+// import Music from "../music/Music";
+// import styled from "styled-components";
+
+// const MusicModal = (props) => {
+//   const { musicOpen, musicModalOnOff } = props;
+
+//   return (
+//     <div className={musicOpen ? "openModal modal" : "modal"}>
+//       <section>
+//         <main>
+//           <Music musicModalOnOff={musicModalOnOff} />
+//         </main>
+//       </section>
+//     </div>
+//   );
+// };
+// export default MusicModal;

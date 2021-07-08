@@ -31,7 +31,7 @@ const music = [
 ];
 
 const Music = (props) => {
-  const { musicModalOnOff } = props;
+  const { musicModalOnOff, musicOpen } = props;
 
   const [pause, setPause] = useState(false);
   const [index, setIndex] = useState(0);
@@ -74,7 +74,7 @@ const Music = (props) => {
         setGenreList(dataLists);
         setMusicList(data.data);
         setFiltered(data.data);
-        console.log("받아온 데이터", data.data);
+        // console.log("받아온 데이터", data.data);
       })
       .catch((err) => {
         alert("장르를 받아오지 못헀습니다");
@@ -103,8 +103,8 @@ const Music = (props) => {
     console.log(e.target.title);
   };
 
-  console.log("인덱스", index);
-  console.log("커렌트 송", currentSong);
+  // console.log("인덱스", index);
+  // console.log("커렌트 송", currentSong);
 
   useEffect(() => {
     playerRef.current.volume = volume;
@@ -112,8 +112,7 @@ const Music = (props) => {
   }, [volume, muteState]);
 
   useEffect(() => {
-    // playerRef.current.pause();
-    console.log("타임라인, 플레이어::", timelineRef.current, playerRef.current);
+    // console.log("타임라인, 플레이어::", timelineRef.current, playerRef.current);
     playerRef.current.addEventListener("timeupdate", timeUpdate);
     playerRef.current.addEventListener("ended", nextSong, false);
     timelineRef.current.addEventListener("click", changeCurrentTime, false);
@@ -143,18 +142,19 @@ const Music = (props) => {
     const userClickWidthInPercent = (userClickWidth * 100) / playheadWidth; //재생시간바 대비 몇 퍼센트인지 계산해서 CSS에 효과주기
 
     playheadRef.current.style.width = userClickWidthInPercent + "%"; //CSS style.width에 %로 나타내줌
-
     playerRef.current.currentTime = (duration * userClickWidthInPercent) / 100; //플레이어에도 진척도 마찬가지로 넣어줌 CSS가 보여주는 것이랑 실제랑 같게 해야하므로
   };
 
   const timeUpdate = () => {
-    const duration = playerRef.current.duration;
-    // const timelineWidth =
-    //   timelineRef.current.offsetWidth - playheadRef.current.offsetWidth;
-    const playPercent = 100 * (playerRef.current.currentTime / duration);
-    playheadRef.current.style.width = playPercent + "%";
-    const currentTime = formatTime(parseInt(playerRef.current.currentTime));
-    setCurrentTime(currentTime);
+    if (playerRef.current !== null) {
+      const duration = playerRef.current.duration;
+      // const timelineWidth =
+      //   timelineRef.current.offsetWidth - playheadRef.current.offsetWidth;
+      const playPercent = 100 * (playerRef.current.currentTime / duration);
+      playheadRef.current.style.width = playPercent + "%";
+      const currentTime = formatTime(parseInt(playerRef.current.currentTime));
+      setCurrentTime(currentTime);
+    }
   };
 
   const hoverTimeLine = (e) => {
@@ -242,7 +242,7 @@ const Music = (props) => {
   //실험
   useEffect(() => {
     let filteredList = filterListByGenre(musicList);
-    console.log("장르 바뀔 때마다 필터한 리스트", filteredList);
+    // console.log("장르 바뀔 때마다 필터한 리스트", filteredList);
     // setMusicList(filteredList);
     setFiltered(filteredList);
     setIndex(0);
@@ -253,14 +253,26 @@ const Music = (props) => {
       <div className="current-song">
         <Icon
           size={18}
-          className="close-btn"
+          // className="close-btn"
+          className={`close-btn ${musicOpen ? "open" : null}`}
           icon={ic_close}
           onClick={() => {
-            playerRef.current.removeEventListener("timeupdate", timeUpdate);
-            playerRef.current.removeEventListener("ended", nextSong);
-            timelineRef.current.removeEventListener("click", changeCurrentTime);
-            timelineRef.current.removeEventListener("mousemove", hoverTimeLine);
-            timelineRef.current.removeEventListener("mouseout", resetTimeLine);
+            if (playerRef.current !== null && timelineRef.current !== null) {
+              playerRef.current.removeEventListener("timeupdate", timeUpdate);
+              playerRef.current.removeEventListener("ended", nextSong);
+              timelineRef.current.removeEventListener(
+                "click",
+                changeCurrentTime
+              );
+              timelineRef.current.removeEventListener(
+                "mousemove",
+                hoverTimeLine
+              );
+              timelineRef.current.removeEventListener(
+                "mouseout",
+                resetTimeLine
+              );
+            }
             musicModalOnOff();
           }}
         />
@@ -382,7 +394,7 @@ const Music = (props) => {
                 className="track-select"
                 title={music.id}
                 onClick={(e) => {
-                  console.log(e.target);
+                  console.log("누르면", e.target.title);
                   sendSongInfo(e);
                   e.stopPropagation(); //버튼 클릭할 때 재생 곡이 바뀌는 걸 방지해준다. 버블링 캡쳐링 금지
                 }}
