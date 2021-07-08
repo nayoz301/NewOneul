@@ -31,8 +31,18 @@ import {
   weatherSnow,
 } from "react-icons-kit/typicons/";
 
+import {
+  iosSunnyOutline,
+  iosPartlysunnyOutline,
+  iosCloudyOutline,
+  iosRainyOutline,
+  iosSnowy,
+} from "react-icons-kit/ionicons/";
+
 const makeFaceIcon = (iconName, color) => {
-  return <Icon face icon={iconName} style={{ color: `#${color}` }} />;
+  return (
+    <FontAwesomeIcon face icon={iconName} style={{ color: `#${color}` }} />
+  );
 };
 
 const makeWeatherIcon = (iconName, color) => {
@@ -44,6 +54,7 @@ export const initialState = {
     login: {
       accessToken: "",
     },
+
     userInfo: {},
   },
   diaryState: {
@@ -90,11 +101,11 @@ export const initialState = {
       { id: 20, icon: makeFaceIcon(farSadCry, "147efb") },
     ],
     weatherIcons: [
-      { id: 1, icon: makeWeatherIcon(weatherSunny, "f96854") },
-      { id: 2, icon: makeWeatherIcon(weatherCloudy, "ffb900") },
-      { id: 3, icon: makeWeatherIcon(weatherPartlySunny, "a5a9ab") },
-      { id: 4, icon: makeWeatherIcon(weatherShower, "0099e5") },
-      { id: 5, icon: makeWeatherIcon(weatherSnow, "90cef1") },
+      { id: 1, icon: makeWeatherIcon(iosSunnyOutline, "f96854") },
+      { id: 2, icon: makeWeatherIcon(iosCloudyOutline, "ffb900") },
+      { id: 3, icon: makeWeatherIcon(iosPartlysunnyOutline, "a5a9ab") },
+      { id: 4, icon: makeWeatherIcon(iosRainyOutline, "0099e5") },
+      { id: 5, icon: makeWeatherIcon(iosSnowy, "90cef1") },
     ],
   },
 };

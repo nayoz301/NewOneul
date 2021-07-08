@@ -9,6 +9,14 @@ import {
   weatherSnow,
 } from "react-icons-kit/typicons/";
 
+import {
+  iosSunnyOutline,
+  iosPartlysunnyOutline,
+  iosCloudyOutline,
+  iosRainyOutline,
+  iosSnowy,
+} from "react-icons-kit/ionicons/";
+
 // const weathers = [
 //   {
 //     id: 0,
@@ -19,11 +27,11 @@ import {
 // ];
 
 const weathers = [
-  { id: 0, weather: weatherSunny, color: "#f96854" },
-  { id: 1, weather: weatherPartlySunny, color: "#ffb900" },
-  { id: 2, weather: weatherCloudy, color: "#a5a9ab" },
-  { id: 3, weather: weatherShower, color: "#0099e5" },
-  { id: 4, weather: weatherSnow, color: "#90cef1" },
+  { id: 0, weather: iosSunnyOutline, color: "#f96854" },
+  { id: 1, weather: iosPartlysunnyOutline, color: "#ffb900" },
+  { id: 2, weather: iosCloudyOutline, color: "#a5a9ab" },
+  { id: 3, weather: iosRainyOutline, color: "#0099e5" },
+  { id: 4, weather: iosSnowy, color: "#90cef1" },
 ];
 
 const WeathersBody = styled.div`
@@ -67,12 +75,13 @@ const WeatherModal = () => {
               <WeatherUnit key={idx}>
                 <Icon
                   icon={weather.weather}
-                  size={idx === weatherChosen ? 30 : 26}
+                  size={idx === weatherChosen ? 30 : 28}
                   onClick={() => {
                     setWeatherChosen(idx);
                   }}
                   style={{
                     color: idx === weatherChosen ? weather.color : "#c6d6df",
+                    fontWeight: 400,
                   }}
                 />
               </WeatherUnit>

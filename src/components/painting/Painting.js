@@ -55,9 +55,10 @@ const Painting = (props) => {
 
   const BASE_COLOR = "2c2c2c";
   const CANVAS_WIDTH = 1000;
-  const CANVAS_HEIGHT = 600;
-
+  const CANVAS_HEIGHT = 400;
   const canvas = canvasRef.current;
+
+  // console.log("가로/세로:", window.innerWidth / 2, window.innerWidth / 4);
 
   //세이브파일 구현 완료
   const [selectedFile, setSelectedFile] = useState(null);
@@ -300,9 +301,9 @@ const Painting = (props) => {
     //   canvas.offsetBottom //캔버스안에서 탑 레프트 무조건 0
     // );
 
-    if (ctx && !painting && !erasing) {
+    if (ctx.current && !painting && !erasing) {
       ctx.current.beginPath();
-      console.log("CTX", ctx.current.beginPath());
+      // console.log("CTX", ctx.current.beginPath());
       // ctx.current.moveTo(x, y);
     } else if (painting) {
       ctx.current.globalCompositeOperation = "source-over";
@@ -440,18 +441,6 @@ const Painting = (props) => {
             />
           </span>
 
-          <button id="clearBtn" onClick={props.musicModalOnOff}>
-            <FontAwesomeIcon
-              icon={faMusic}
-              style={{ fontSize: 20, border: "none", padding: "0 0" }}
-            />
-            {/* <MusicModal
-              musicOpen={musicOpen}
-              musicModalOnOff={musicModalOnOff}
-              header="Modal heading"
-            /> */}
-          </button>
-
           {/* <button
             type="button"
             className="input_file_button"
@@ -485,6 +474,16 @@ const Painting = (props) => {
           onClick={handleCanvasClick}
           onContextMenu={disableRightClick}
         ></canvas>
+
+        <button id="music_btn" onClick={props.musicModalOnOff}>
+          <FontAwesomeIcon
+            icon={faMusic}
+            style={{ fontSize: 20, border: "none" }}
+            onClick={(e) => {
+              console.log("뭐 눌렀니", e.target);
+            }}
+          />
+        </button>
       </section>
     </div>
   );
