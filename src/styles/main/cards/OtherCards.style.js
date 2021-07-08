@@ -2,12 +2,14 @@ import styled from "styled-components";
 import {
   BREAK_POINT_MOBILE,
   BREAK_POINT_MD_SCREEN,
+  BREAK_POINT_16LG_SCREEN,
   flexCenter,
   flexSpaceBtw,
 } from "../../global.style";
 import { IconWrapper, MyDiaryHeader } from "./MyCards.style";
 
 export const OtherDiaryHeader = styled(MyDiaryHeader)`
+  font-size: 1.9rem;
   margin-top: 0;
 `;
 
@@ -45,11 +47,16 @@ export const OtherDiary = styled.div`
 
   @media only screen and (min-width: ${BREAK_POINT_MOBILE}px) {
     margin: 1.8rem;
-    min-width: 18rem;
-    min-height: 24.352rem;
+    /* min-width: 18rem;
+    min-height: 24.352rem; */
   }
 
-  @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
+  /* @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
+    min-width: 19rem;
+    min-height: 25.705rem;
+  } */
+
+  @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN}px) {
     min-width: 19rem;
     min-height: 25.705rem;
   }
