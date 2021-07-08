@@ -2,11 +2,9 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import WeatherModal from "./Weather";
 import EmojiModal from "./EmojiModal";
-import Music from "../music/Music";
+import "moment/locale/ko";
 import MusicModal from "./MusicModal";
 import Painting from "../painting/Painting";
-import "moment/locale/ko";
-import { flexCenter } from "../../styles/global.style";
 import "./DiaryWriting.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMusic } from "@fortawesome/free-solid-svg-icons";
@@ -53,7 +51,9 @@ const DiaryWriting = (props) => {
               width: "40%",
             }}
           >
-            <HeaderDate className="date">{clickmoment.format("LL")}</HeaderDate>
+            <HeaderDate className="date">
+              {clickmoment.format("LL dddd")}
+            </HeaderDate>
           </div>
 
           <HeaderEmoji className="emoji">
@@ -68,7 +68,13 @@ const DiaryWriting = (props) => {
                 color: emojiPresent ? emojiPresent.color : "#86888a",
               }}
             />
+            <EmojiModal
+              emojiModalOnOff={emojiModalOnOff}
+              emojiOpen={emojiOpen}
+              whatEmoji={whatEmoji}
+            ></EmojiModal>
           </HeaderEmoji>
+
           <HeaderWeather className="weather">
             <WeatherModal />
           </HeaderWeather>
@@ -146,11 +152,7 @@ const DiaryWriting = (props) => {
         musicModalOnOff={musicModalOnOff}
         style={{ display: "flex", position: "relative" }}
       />
-      <EmojiModal
-        emojiModalOnOff={emojiModalOnOff}
-        emojiOpen={emojiOpen}
-        whatEmoji={whatEmoji}
-      ></EmojiModal>
+
       {/* </Body> */}
     </>
   );
@@ -169,6 +171,7 @@ const ModalWrapper = styled.div`
   border: 1px solid black;
   width: 50%;
   height: 90vh;
+  // z-index: 50;
 
   @media screen and (max-width: 1400px) {
     & {
@@ -202,21 +205,22 @@ const ModalWrapper = styled.div`
 const Header = styled.div`
   border: 1px solid black;
   display: flex;
-  flex-flow: row wrap;
   align-items: center;
-  flex: 1 1 auto;
-  margin: 0.5rem;
+  justify-content: space-between;
+  height: 4rem;
+  padding: 0.12rem;
 `;
 
 const HeaderDate = styled.div`
   // border: 1px solid black;
-  flex: 4 1 40%;
+  flex: 5 1 40%;
   text-align: center;
   font-size: 1.7rem;
 `;
 
 const HeaderEmoji = styled.div`
   // border: 1px solid black;
+  position: relative;
   flex: 1 1 20%;
   text-align: center;
   margin: auto;
@@ -224,23 +228,24 @@ const HeaderEmoji = styled.div`
 
 const HeaderWeather = styled.div`
   // border: 1px solid black;
-  flex: 4 1 40%;
+  flex: 5 1 40%;
   text-align: center;
   margin: auto;
 `;
 
 const Canvas = styled.div`
   border: 1px solid black;
-  flex: 20 1 auto;
   width: 100%;
-  height: 50%;
+  height: calc(calc(100% - 8rem) * 0.6);
 `;
 
 const TextArea = styled.textarea`
   // border: 1px solid black;
-  flex: 10 1 auto;
-  height: ${window.innerWidth / 7}px;
+  // height: ${window.innerWidth / 7}px;
+  height: calc(calc(100% - 8rem) * 0.4);
+  // height: calc(calc(601px - 125px) * calc(21.25% * 4))
   resize: none;
+  // z-index: 1;
   font-size: 2rem;
   outline: none;
   background-color: white;
@@ -250,8 +255,7 @@ const TextArea = styled.textarea`
 const Footer = styled.div`
   border: 1px solid black;
   display: flex;
-  flex-flow: row wrap;
-  flex: 1 1 auto;
+  height: 4rem;
   justify-content: space-between;
   align-items: center;
 `;

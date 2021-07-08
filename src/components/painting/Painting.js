@@ -55,8 +55,11 @@ const Painting = (props) => {
 
   const BASE_COLOR = "2c2c2c";
   const CANVAS_WIDTH = 1000;
-  const CANVAS_HEIGHT = 500;
+  const CANVAS_HEIGHT = 450;
   const canvas = canvasRef.current;
+
+  // const CANVAS_WIDTH = window.innerWidth / 2;
+  // const CANVAS_HEIGHT = window.innerWidth / 4;
 
   // console.log("가로/세로:", window.innerWidth / 2, window.innerWidth / 4);
 
@@ -391,32 +394,57 @@ const Painting = (props) => {
           <button id="clearBtn" onClick={handleClearClick}>
             <FontAwesomeIcon
               icon={farStickyNote}
-              style={{ fontSize: 20, border: "none", padding: "0 0" }}
+              style={{
+                fontSize: 20,
+                border: "none",
+                padding: "0 0",
+                color: "#47525d",
+              }}
             />
           </button>
           <button id="paint_btn" onClick={handlePaintClick}>
             <FontAwesomeIcon
               icon={faPaintBrush}
-              style={{ fontSize: 20, border: "none", padding: "0 0" }}
+              style={{
+                fontSize: 20,
+                border: "none",
+                padding: "0 0",
+                color: "#47525d",
+              }}
             />
           </button>
           <button id="fill_btn" onClick={handleFillClick}>
             <FontAwesomeIcon
               icon={faFillDrip}
-              style={{ fontSize: 20, border: "none", padding: "0 0" }}
+              style={{
+                fontSize: 20,
+                border: "none",
+                padding: "0 0",
+                color: "#47525d",
+              }}
             />
           </button>
           <button id="eraser_btn" onClick={handleEraserClick}>
             <FontAwesomeIcon
               icon={faEraser}
-              style={{ fontSize: 20, border: "none", padding: "0 0" }}
+              style={{
+                fontSize: 20,
+                border: "none",
+                padding: "0 0",
+                color: "#47525d",
+              }}
             />
           </button>
 
           <button id="input_btn" onClick={handleFileButtonClick}>
             <FontAwesomeIcon
               icon={farImage}
-              style={{ fontSize: 20, border: "none", padding: "0 0" }}
+              style={{
+                fontSize: 20,
+                border: "none",
+                padding: "0 0",
+                color: "#47525d",
+              }}
             />
           </button>
           <input

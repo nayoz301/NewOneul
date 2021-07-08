@@ -80,9 +80,6 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
   return (
     <>
       {isClick && <Diary modalHandle={modalHandle} clickmoment={clickmoment} />}
-      {/* {isClick && (
-        <DiaryWriting DiaryModalOnOff={DiaryModalOnOff} diaryOpen={diaryOpen} />
-      )} */}
 
       <MainSection>
         <MainHeaderCompo />
