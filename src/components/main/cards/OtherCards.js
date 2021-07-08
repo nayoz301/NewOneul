@@ -112,12 +112,12 @@ const OtherCards = () => {
 export default OtherCards;
 
 const OtherDiaryWrapper = styled.div`
-  padding-top: 1.4rem;
+  padding-top: 1rem;
   margin-top: 1rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   /* box-shadow: rgba(0, 0, 0, 0.2) 0px 10px 20px, rgba(0, 0, 0, 0.2) 0px 6px 6px; */
   @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
-    height: 50vh;
+    height: 45vh;
     overflow: scroll;
     overflow-x: hidden;
 

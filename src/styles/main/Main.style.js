@@ -4,6 +4,8 @@ import {
   flexSpaceBtw,
   BREAK_POINT_LG_SCREEN,
   BREAK_POINT_MD_SCREEN,
+  BREAK_POINT_16LG_SCREEN,
+  flexCenter,
 } from "../global.style";
 
 export const MainHeader = styled.header`
@@ -11,11 +13,15 @@ export const MainHeader = styled.header`
   top: 0;
   right: 0;
   left: 0;
-  height: 6rem;
+  height: 5.5rem;
   background: white;
   z-index: 200;
-  background: #fffdfa;
+  /* background: #fffdfa; */
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.24);
+
+  @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN + 1}px) {
+    height: 6rem;
+  }
 `;
 
 export const HeaderWrapper = styled.div`
@@ -43,17 +49,17 @@ export const HeaderWrapper = styled.div`
 `;
 
 export const MainSection = styled.section`
-  min-height: 100vh;
-  background: #fffdfa;
+  height: 100vh;
   font-family: var(--primary-font);
 `;
 
 export const MainInnerSection = styled.section`
-  padding-top: 60px;
+  padding-top: 4.2rem;
   z-index: 100;
 
-  @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
-    min-height: 100vh;
+  @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN + 1}px) {
+    ${flexSpaceBtw}
+    padding-top: 7em;
   }
 `;
 
@@ -70,6 +76,12 @@ export const MainInnerWrapper = styled.div`
   @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
     flex-direction: row;
     justify-content: space-between;
+    margin: 2rem auto;
+    height: calc(100vh - 9rem);
+    padding: 1rem;
+  }
+  @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN}px) {
+    height: auto;
   }
 `;
 
@@ -94,12 +106,19 @@ export const CalendarWrapper = styled.div`
   }
 
   @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
+    /* min-height: calc(54.6vh + 18rem); */
+    min-height: 100%;
+    min-width: 45rem;
+  }
+  @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN + 1}px) {
     min-height: calc(54.6vh + 25rem);
+    /* min-height: 100%; */
+    min-width: 55rem;
   }
 `;
 
 export const DiaryWrapper = styled.section`
-  @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
+  @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
     flex: 1;
     margin-left: 3rem;
   }
