@@ -31,9 +31,6 @@ export const MainInnerWrapper = styled.div`
   min-height: 80vh;
   flex-direction: column;
 
-  justify-content: center;
-  align-items: center;
-
   /* 768px */
   @media only screen and (min-width: ${BREAK_POINT_MOBILE}px) {
     flex-direction: row;
@@ -91,7 +88,7 @@ export const MainInnerArticle = styled.article`
       font-size: 3rem;
     }
     & p {
-      font-size: 2.1rem;
+      /* font-size: 2.1rem; */
       line-height: 2;
     }
   }

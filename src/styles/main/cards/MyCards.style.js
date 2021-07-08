@@ -27,11 +27,6 @@ export const MyDiary = styled(Card)`
   min-height: 23rem;
   margin: 1.5rem 0;
 
-  /* @media only screen and (min-width: ${BREAK_POINT_MOBILE}px) {
-    min-width: 18rem;
-    min-height: 24.352rem;
-  } */
-
   @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN}px) {
     min-width: 19rem;
     min-height: 25.705rem;
@@ -42,6 +37,10 @@ export const MyDiaryHeader = styled.h1`
   text-align: center;
   font-size: 1.9rem;
   font-family: var(--thick-font);
+
+  @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN}px) {
+    font-size: 2.1rem;
+  }
 `;
 
 export const MyDiaryFrontHeader = styled(CardFrontHeader)`

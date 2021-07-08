@@ -76,11 +76,11 @@
   font-size: 1.4rem;
 } */
 
-@media only screen and (min-width: 1024px) {
+/* @media only screen and (min-width: 1024px) {
   .calendar-mycard {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     background-color: coral;
   }
-}
+} */
