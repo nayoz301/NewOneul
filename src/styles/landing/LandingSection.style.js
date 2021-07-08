@@ -13,7 +13,7 @@ export const HeaderSection = styled.header`
   width: 100%;
   color: white;
   /* for the swing background */
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -36,7 +36,7 @@ export const LandingNav = styled.nav`
   justify-content: space-between;
   align-items: center;
   width: 70%;
-  height: 9rem;
+  height: 11rem;
   margin: 0 auto;
   z-index: 5;
 
@@ -49,7 +49,7 @@ export const LandingNav = styled.nav`
   }
 
   & span {
-    font-size: 1.6rem;
+    font-size: 1.7rem;
     border: 1px solid var(--primary-color);
     padding: 0.4em 1.5em;
     border-radius: 4px;

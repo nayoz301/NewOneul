@@ -4,11 +4,14 @@ import "../../style.css";
 import Calendar from "./calendar/Calendar";
 import CalendarHeader from "./calendar/CalendarHeader";
 import Diary from "../modals/Diary";
+import DiaryWriting from "../modals/DiaryWriting";
+import MusicModal from "../modals/MusicModal";
 import {
   MainSection,
   CalendarWrapper,
   MainInnerSection,
   MainInnerWrapper,
+  DiaryWrapper,
 } from "../../styles/main/Main.style";
 import MainHeaderCompo from "./MainHeaderCompo";
 import MyCards from "./cards/MyCards";
@@ -17,22 +20,25 @@ import { connect } from "react-redux";
 import axios from "axios";
 import { fetchAllLoginDiary, fetchAllUnloginDiary } from "../../actions";
 
-const Main = ({
-  userLogin,
-  main,
-  fetchAllLoginDiary,
-  fetchAllUnloginDiary,
-}) => {
+const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
   const [value, setValue] = useState(moment());
   const [isClick, setIsClick] = useState(false);
   const [clickmoment, setClickmoment] = useState(null);
+  //
+  const [diaryOpen, setDiaryOpen] = useState(false);
+
+  const DiaryModalOnOff = () => {
+    setDiaryOpen(!diaryOpen);
+    console.log("콘솔", diaryOpen);
+  };
+  //
 
   useEffect(() => {
     return axios(
       "https://oneul.site/O_NeulServer/main",
       {
         headers: {
-          authorization: "Bearer " + userLogin.login.accessToken,
+          authorization: "Bearer " + userInfo.login.accessToken,
         },
       },
       {
@@ -43,7 +49,7 @@ const Main = ({
         return data.data.data;
       })
       .then((result) => {
-        if (userLogin.login.accessToken) {
+        if (userInfo.login.accessToken) {
           fetchAllLoginDiary(
             result.publicDiary,
             result.myDiary,
@@ -73,7 +79,13 @@ const Main = ({
 
   return (
     <>
-      {isClick && <Diary modalHandle={modalHandle} clickmoment={clickmoment} />}
+      {/* {isClick && (
+        <Diary modalHandle={modalHandle} clickmoment={clickmoment} />
+      )} */}
+      {isClick && (
+        <DiaryWriting DiaryModalOnOff={DiaryModalOnOff} diaryOpen={diaryOpen} />
+      )}
+      {/* <MusicModal diaryOpen={diaryOpen} DiaryModalOnOff={DiaryModalOnOff} /> */}
       <MainSection>
         <MainHeaderCompo />
         <MainInnerSection>
@@ -82,10 +94,10 @@ const Main = ({
               <CalendarHeader value={value} next={next} before={before} />
               <Calendar value={value} modalHandle={modalHandle} />
             </CalendarWrapper>
-            <div className="my-and-other-card-wrapper">
+            <DiaryWrapper>
               <MyCards />
               <OtherCards />
-            </div>
+            </DiaryWrapper>
           </MainInnerWrapper>
         </MainInnerSection>
       </MainSection>
@@ -93,9 +105,9 @@ const Main = ({
   );
 };
 
-const mapStateToProps = ({ loginReducer, mainReducer }) => {
+const mapStateToProps = ({ loginReducer }) => {
   return {
-    userLogin: loginReducer,
+    userInfo: loginReducer,
   };
 };
 

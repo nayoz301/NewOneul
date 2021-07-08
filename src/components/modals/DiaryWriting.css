@@ -1,3 +1,37 @@
+.mainNav {
+  display: flex;
+  position: fixed;
+  /* background-color: rgba(0, 0, 0, 0.2); */
+  z-index: 200;
+  transform: translateY(-100%);
+  transition: transform 0.4s ease-in-out;
+  /* overflow-y: auto; */
+  top: -10%;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  height: 0;
+  width: 0;
+  background-color: rgba(31, 216, 154, 0.75);
+  opacity: 0;
+  transition: opacity 1s ease 0.1s;
+}
+.overlay.open {
+  opacity: 3;
+  width: 100%;
+  height: 120%;
+}
+
 .modal {
   display: none;
   position: fixed;
@@ -15,16 +49,14 @@
   margin: -11rem auto 0 auto;
   border-radius: 0.5rem;
   background-color: transparent;
-  /* 팝업이 열릴때 스르륵 열리는 효과 */
-  animation: modal-show 0.3s;
   overflow: hidden;
 }
 
 .modal.openModal {
   display: flex;
   align-items: center;
-  /* 팝업이 열릴때 스르륵 열리는 효과 */
-  animation: modal-bg-show 0.3s;
+  justify-content: center;
+  animation: modal-show 0.3s;
 }
 
 @keyframes modal-show {
@@ -33,14 +65,14 @@
   }
   to {
     opacity: 1;
-    /* margin-top: 0; */
   }
 }
-@keyframes modal-bg-show {
+
+@keyframes modal-close {
   from {
-    opacity: 0;
+    opacity: 1;
   }
   to {
-    opacity: 1;
+    opacity: 0;
   }
 }

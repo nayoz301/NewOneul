@@ -108,20 +108,22 @@ const Emojis = ({ emojiModalOnOff, whatEmoji }) => {
         <EmojisBody className="emojis-body">
           {emojis.map((emoji, idx) => {
             return (
-              <EmojiUnit key={idx}>
+              <EmojiUnit
+                key={idx}
+                onClick={() => {
+                  setEmojiChosen(idx);
+                  whatEmoji(emoji);
+                  emojiModalOnOff();
+                }}
+                style={{
+                  fontSize: 25,
+                  color: emoji.color,
+                  // color: idx === emojiChosen ? emoji.color : "#c6d6df",
+                }}
+              >
                 <FontAwesomeIcon
                   icon={emoji.emoji}
                   // size={idx === emojiChosen ? 30 : 25}
-                  onClick={() => {
-                    setEmojiChosen(idx);
-                    whatEmoji(emoji);
-                    emojiModalOnOff();
-                  }}
-                  style={{
-                    fontSize: 25,
-                    color: emoji.color,
-                    // color: idx === emojiChosen ? emoji.color : "#c6d6df",
-                  }}
                 />
               </EmojiUnit>
             );
