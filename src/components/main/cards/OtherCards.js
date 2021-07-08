@@ -1,14 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  BREAK_POINT_MOBILE,
-  BREAK_POINT_MD_SCREEN,
-  BREAK_POINT_LG_SCREEN,
-} from "../../../styles/global.style";
-import {
-  MyDiaryFrontHeader,
-  IconWrapper,
-} from "../../../styles/main/cards/MyCards.style";
+import { BREAK_POINT_LG_SCREEN } from "../../../styles/global.style";
+import { MyDiaryFrontHeader } from "../../../styles/main/cards/MyCards.style";
 import {
   OtherDiary,
   OtherDiaryHeader,

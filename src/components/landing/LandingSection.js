@@ -22,7 +22,7 @@ const random = () => {
   return Math.ceil(Math.random() * 2) - 1;
 };
 
-const LandingSection = ({ userLogin, logout }) => {
+const LandingSection = ({ userInfo, logout }) => {
   const [video, setVideo] = useState(null);
   const [isModal, setIsModal] = useState(false);
 
@@ -52,7 +52,7 @@ const LandingSection = ({ userLogin, logout }) => {
         <Link to="/">
           <h1>오늘 ,</h1>
         </Link>
-        {userLogin.accessToken ? (
+        {userInfo.login.accessToken ? (
           <span onClick={signout}>로그아웃</span>
         ) : (
           <span onClick={handleModal}>로그인</span>
@@ -92,7 +92,7 @@ const LandingSection = ({ userLogin, logout }) => {
 
 const mapStateToProps = ({ loginReducer }) => {
   return {
-    userLogin: loginReducer.login,
+    userInfo: loginReducer,
   };
 };
 
