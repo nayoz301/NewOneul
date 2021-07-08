@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import useForm from "./useForm";
 import axios from "axios";
 import {
@@ -131,7 +131,21 @@ const Signup = ({ handleModal, login, logout }) => {
         console.log("success");
       })
       .catch((err) => {
-        console.log("error");
+        const { message } = err.response.data
+        if (message === "email already existed!") {
+          Swal.fire({
+            icon: "error",
+            title: "이메일이 존재합니다! 😮",
+            showConfirmButton: true,
+          });
+        } else if (message === "nickname already existed!") {
+          Swal.fire({
+            icon: "error",
+            title: "닉네임이 존재합니다! 😮",
+            showConfirmButton: true,
+          });
+        }
+        console.log(err.response.data);
       });
   };
 
