@@ -131,7 +131,9 @@ const Signup = ({ handleModal, login, logout }) => {
         console.log("success");
       })
       .catch((err) => {
-        console.log("error");
+        console.log(Object.keys(err));
+        console.log(err.config);
+        // console.log(err.response.data.message);
       });
   };
 
@@ -154,7 +156,7 @@ const Signup = ({ handleModal, login, logout }) => {
         const { accessToken, user } = res.data.data;
         login(accessToken, user);
         onLoginSuccess();
-        console.log(res.data)
+        console.log(res.data);
       })
       .catch((err) => {
         if ({ message: "invalid email!" || "password error!" }) {

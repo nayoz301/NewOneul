@@ -26,10 +26,14 @@ const Loading = ({ login, setLoading }) => {
 
       console.log(code, state);
       axios
-        .post("https://oneul.site/O_NeulServer/oauth/login", {
-          code: code,
-          state: state,
-        })
+        .post(
+          "https://oneul.site/O_NeulServer/oauth/login",
+          {
+            code: code,
+            state: state,
+          },
+          { withCredentials: true }
+        )
         .then((res) => {
           console.log(res.data.data);
           login(res.data.data.accessToken, res.data.data.user);
