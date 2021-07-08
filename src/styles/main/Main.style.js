@@ -13,7 +13,7 @@ export const MainHeader = styled.header`
   top: 0;
   right: 0;
   left: 0;
-  height: 5.5rem;
+  height: 4.8rem;
   background: white;
   z-index: 200;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.24);
@@ -35,15 +35,26 @@ export const HeaderWrapper = styled.div`
   }
 
   & h1 {
-    font-size: 2.4rem;
+    font-size: 2rem;
   }
 
   & button {
-    padding: 0.8rem 1.4rem;
+    padding: 0.4em 1em;
     font-family: var(--thick-font);
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     border-radius: 3px;
     border-color: grey;
+  }
+
+  @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN + 1}px) {
+    & h1 {
+      font-size: 2.4rem;
+    }
+
+    & button {
+      padding: 0.5em 1em;
+      font-size: 1.7rem;
+    }
   }
 `;
 
@@ -58,9 +69,7 @@ export const MainInnerSection = styled.section`
   z-index: 100;
 
   @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    ${flexCenter}
   }
 
   @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN + 1}px) {
