@@ -1,6 +1,4 @@
-import React, { useEffect } from "react";
-import styled from "styled-components";
-import { BREAK_POINT_LG_SCREEN } from "../../../styles/global.style";
+import React from "react";
 import { MyDiaryFrontHeader } from "../../../styles/main/cards/MyCards.style";
 import {
   OtherDiary,
@@ -15,14 +13,8 @@ import { Icon } from "react-icons-kit";
 import { happy } from "react-icons-kit/icomoon";
 import { iosSnowy } from "react-icons-kit/ionicons";
 import { heart, heartO } from "react-icons-kit/fa";
-import AOS from "aos";
-import "aos/dist/aos.css";
 
 const OtherCards = () => {
-  useEffect(() => {
-    AOS.init();
-  }, []);
-
   return (
     <OtherDiaryWrapper>
       <OtherDiaryHeader>타인의 오늘 .</OtherDiaryHeader>
