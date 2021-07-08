@@ -59,8 +59,14 @@ const emojis = [
   { id: 20, emoji: farSadCry, color: "#147efb" },
 ];
 
+const Body = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const EmojiWrapper = styled.div`
-  position: absolute;
+  position: relative;
   background-color: white;
   width: 18rem;
   height: 15rem;
@@ -68,6 +74,20 @@ const EmojiWrapper = styled.div`
   flex-direction: columm;
   border-radius: 0.5rem;
   z-index: 500;
+  top: 8.5rem;
+  right: 62.3rem;
+  border: 1px solid red;
+
+  &:before {
+    content: "";
+    position: relative;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -1rem;
+    border-width: 1rem;
+    border-style: solid;
+    border-color: transparent transparent red transparent;
+  }
 `;
 
 const EmojisHeaders = styled.div`
@@ -88,7 +108,6 @@ const EmojisBody = styled.div`
 `;
 
 const EmojiUnit = styled.div`
-  font-size: 1.5rem;
   text-align: center;
   width: 20%;
   cursor: pointer;
@@ -103,33 +122,35 @@ const Emojis = ({ emojiModalOnOff, whatEmoji }) => {
 
   return (
     <>
-      <EmojiWrapper className="emoji-wrapper">
-        <EmojisHeaders className="emojis-header">오늘의 기분</EmojisHeaders>
-        <EmojisBody className="emojis-body">
-          {emojis.map((emoji, idx) => {
-            return (
-              <EmojiUnit
-                key={idx}
-                onClick={() => {
-                  setEmojiChosen(idx);
-                  whatEmoji(emoji);
-                  emojiModalOnOff();
-                }}
-                style={{
-                  fontSize: 25,
-                  color: emoji.color,
-                  // color: idx === emojiChosen ? emoji.color : "#c6d6df",
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={emoji.emoji}
-                  // size={idx === emojiChosen ? 30 : 25}
-                />
-              </EmojiUnit>
-            );
-          })}
-        </EmojisBody>
-      </EmojiWrapper>
+      <Body>
+        <EmojiWrapper className="emoji-wrapper">
+          <EmojisHeaders className="emojis-header">오늘의 기분</EmojisHeaders>
+          <EmojisBody className="emojis-body">
+            {emojis.map((emoji, idx) => {
+              return (
+                <EmojiUnit
+                  key={idx}
+                  onClick={() => {
+                    setEmojiChosen(idx);
+                    whatEmoji(emoji);
+                    emojiModalOnOff();
+                  }}
+                  style={{
+                    fontSize: 25,
+                    color: emoji.color,
+                    // color: idx === emojiChosen ? emoji.color : "#c6d6df",
+                  }}
+                >
+                  <FontAwesomeIcon
+                    icon={emoji.emoji}
+                    // size={idx === emojiChosen ? 30 : 25}
+                  />
+                </EmojiUnit>
+              );
+            })}
+          </EmojisBody>
+        </EmojiWrapper>
+      </Body>
     </>
   );
 };

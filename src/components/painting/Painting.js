@@ -55,7 +55,7 @@ const Painting = (props) => {
 
   const BASE_COLOR = "2c2c2c";
   const CANVAS_WIDTH = 1000;
-  const CANVAS_HEIGHT = 400;
+  const CANVAS_HEIGHT = 500;
   const canvas = canvasRef.current;
 
   // console.log("가로/세로:", window.innerWidth / 2, window.innerWidth / 4);
