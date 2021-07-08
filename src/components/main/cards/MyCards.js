@@ -12,9 +12,9 @@ import {
 import { connect } from "react-redux";
 import MyCard from "./card/MyCard";
 
-const MyCards = ({ userInfo }) => {
+const MyCards = ({ diary, userInfo }) => {
   const content =
-    userInfo.myDiary.length !== 0 ? (
+    diary.myDiary.length !== 0 ? (
       <DiaryLogin>
         첫 일기 남기기
         <Icon icon={pencil} />
@@ -49,7 +49,7 @@ const MyCards = ({ userInfo }) => {
 const mapStateToProps = ({ loginReducer, mainReducer }) => {
   return {
     userInfo: loginReducer,
-    // myDiary: mainReducer.myDiary,
+    diary: mainReducer,
   };
 };
 

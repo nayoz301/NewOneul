@@ -92,6 +92,7 @@ export const MainInnerArticle = styled.article`
     }
     & p {
       font-size: 2.1rem;
+      line-height: 2;
     }
   }
 `;
