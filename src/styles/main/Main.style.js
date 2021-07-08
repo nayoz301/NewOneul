@@ -16,7 +16,6 @@ export const MainHeader = styled.header`
   height: 5.5rem;
   background: white;
   z-index: 200;
-  /* background: #fffdfa; */
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.24);
 
   @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN + 1}px) {
@@ -54,11 +53,17 @@ export const MainSection = styled.section`
 `;
 
 export const MainInnerSection = styled.section`
+  height: 100%;
   padding-top: 4.2rem;
   z-index: 100;
 
+  @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN + 1}px) {
-    ${flexSpaceBtw}
     padding-top: 7em;
   }
 `;
@@ -77,12 +82,11 @@ export const MainInnerWrapper = styled.div`
     flex-direction: row;
     justify-content: space-between;
     margin: 2rem auto;
-    height: calc(100vh - 9rem);
     padding: 1rem;
   }
-  @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN}px) {
-    height: auto;
-  }
+  /* @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN}px) {
+    height: 100%;
+  } */
 `;
 
 export const CalendarWrapper = styled.div`
@@ -96,7 +100,6 @@ export const CalendarWrapper = styled.div`
   border-top: solid 2px #666;
   border-right: solid 2px #666;
   border-left: solid 2px #666;
-  /* border-bottom: solid 1px #666; */
   box-shadow: 3px 15px 8px -10px rgba(0, 0, 0, 0.3);
   overflow: hidden;
   margin-bottom: 3rem;
@@ -106,13 +109,11 @@ export const CalendarWrapper = styled.div`
   }
 
   @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
-    /* min-height: calc(54.6vh + 18rem); */
-    min-height: 100%;
+    min-height: calc(54.6vh + 20rem);
     min-width: 45rem;
   }
   @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN + 1}px) {
     min-height: calc(54.6vh + 25rem);
-    /* min-height: 100%; */
     min-width: 55rem;
   }
 `;
