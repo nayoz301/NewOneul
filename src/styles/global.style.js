@@ -68,7 +68,6 @@ export const GlobalStyle = createGlobalStyle`
     cursor: pointer;
     border: 1px solid black;
   }
-
 `;
 
 export const flexCenter = css`
