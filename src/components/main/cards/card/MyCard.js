@@ -8,7 +8,6 @@ import {
   MyDiaryBackText,
   IconWrapper,
 } from "../../../../styles/main/cards/MyCards.style";
-
 import mypic from "../../../../images/mypic.jpeg";
 import { Icon } from "react-icons-kit";
 import { happy } from "react-icons-kit/icomoon";

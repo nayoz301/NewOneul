@@ -4,6 +4,8 @@ import {
   flexSpaceBtw,
   BREAK_POINT_LG_SCREEN,
   BREAK_POINT_MD_SCREEN,
+  BREAK_POINT_16LG_SCREEN,
+  flexCenter,
 } from "../global.style";
 
 export const MainHeader = styled.header`
@@ -11,11 +13,14 @@ export const MainHeader = styled.header`
   top: 0;
   right: 0;
   left: 0;
-  height: 6rem;
+  height: 4.8rem;
   background: white;
   z-index: 200;
-  background: #fffdfa;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.24);
+
+  @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN + 1}px) {
+    height: 6rem;
+  }
 `;
 
 export const HeaderWrapper = styled.div`
@@ -30,30 +35,45 @@ export const HeaderWrapper = styled.div`
   }
 
   & h1 {
-    font-size: 2.4rem;
+    font-size: 2rem;
   }
 
   & button {
-    padding: 0.8rem 1.4rem;
+    padding: 0.4em 1em;
     font-family: var(--thick-font);
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     border-radius: 3px;
     border-color: grey;
+  }
+
+  @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN + 1}px) {
+    & h1 {
+      font-size: 2.4rem;
+    }
+
+    & button {
+      padding: 0.5em 1em;
+      font-size: 1.7rem;
+    }
   }
 `;
 
 export const MainSection = styled.section`
-  min-height: 100vh;
-  background: #fffdfa;
+  height: 100vh;
   font-family: var(--primary-font);
 `;
 
 export const MainInnerSection = styled.section`
-  padding-top: 60px;
+  height: 100%;
+  padding-top: 4.2rem;
   z-index: 100;
 
-  @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
-    min-height: 100vh;
+  @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
+    ${flexCenter}
+  }
+
+  @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN + 1}px) {
+    padding-top: 7em;
   }
 `;
 
@@ -70,7 +90,12 @@ export const MainInnerWrapper = styled.div`
   @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
     flex-direction: row;
     justify-content: space-between;
+    margin: 2rem auto;
+    padding: 1rem;
   }
+  /* @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN}px) {
+    height: 100%;
+  } */
 `;
 
 export const CalendarWrapper = styled.div`
@@ -84,7 +109,6 @@ export const CalendarWrapper = styled.div`
   border-top: solid 2px #666;
   border-right: solid 2px #666;
   border-left: solid 2px #666;
-  /* border-bottom: solid 1px #666; */
   box-shadow: 3px 15px 8px -10px rgba(0, 0, 0, 0.3);
   overflow: hidden;
   margin-bottom: 3rem;
@@ -94,12 +118,17 @@ export const CalendarWrapper = styled.div`
   }
 
   @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
+    min-height: calc(54.6vh + 20rem);
+    min-width: 45rem;
+  }
+  @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN + 1}px) {
     min-height: calc(54.6vh + 25rem);
+    min-width: 55rem;
   }
 `;
 
 export const DiaryWrapper = styled.section`
-  @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
+  @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
     flex: 1;
     margin-left: 3rem;
   }

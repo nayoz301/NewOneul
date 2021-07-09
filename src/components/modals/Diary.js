@@ -1,14 +1,12 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { flexCenter } from "../../styles/global.style";
-import Music from "../music/Music";
+import DiaryWriting from "../modals/DiaryWriting";
 const Diary = ({ modalHandle, clickmoment }) => {
   console.log(clickmoment.format("L"));
   return (
     <Diarybackground>
-      <Button onClick={modalHandle}>
-        닫을려면 이거 눌러주세요 {clickmoment.format("L")}
-      </Button>
+      <DiaryWriting modalHandle={modalHandle} clickmoment={clickmoment} />
     </Diarybackground>
   );
 };
@@ -22,7 +20,7 @@ const Diarybackground = styled.div`
   left: 0;
   right: 0;
   z-index: 100000;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.4);
   text-align: center;
   ${flexCenter}
 `;

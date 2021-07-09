@@ -68,7 +68,6 @@ export const GlobalStyle = createGlobalStyle`
     cursor: pointer;
     border: 1px solid black;
   }
-
 `;
 
 export const flexCenter = css`
@@ -94,3 +93,12 @@ export const translateY = keyframes`
     transform: translateY(-20%);
   }
 `;
+
+export const emojiModalShow = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+ `;

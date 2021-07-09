@@ -1,5 +1,9 @@
 import styled from "styled-components";
-import { BREAK_POINT_MOBILE, BREAK_POINT_MD_SCREEN } from "../../global.style";
+import {
+  BREAK_POINT_MOBILE,
+  BREAK_POINT_MD_SCREEN,
+  BREAK_POINT_16LG_SCREEN,
+} from "../../global.style";
 import {
   Card,
   CardBack,
@@ -11,7 +15,7 @@ import {
 export const MyCardWrapper = styled.div`
   /* border: 1px solid grey; */
   position: relative;
-  padding-top: 1.4rem;
+  padding-top: 1rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   min-height: 25rem;
   @media only screen and (min-width: ${BREAK_POINT_MOBILE}px) {
@@ -23,12 +27,7 @@ export const MyDiary = styled(Card)`
   min-height: 23rem;
   margin: 1.5rem 0;
 
-  @media only screen and (min-width: ${BREAK_POINT_MOBILE}px) {
-    min-width: 18rem;
-    min-height: 24.352rem;
-  }
-
-  @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
+  @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN}px) {
     min-width: 19rem;
     min-height: 25.705rem;
   }
@@ -36,8 +35,12 @@ export const MyDiary = styled(Card)`
 
 export const MyDiaryHeader = styled.h1`
   text-align: center;
-  font-size: 2.1rem;
+  font-size: 1.9rem;
   font-family: var(--thick-font);
+
+  @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN}px) {
+    font-size: 2.1rem;
+  }
 `;
 
 export const MyDiaryFrontHeader = styled(CardFrontHeader)`
