@@ -103,7 +103,7 @@ const Music = (props) => {
     console.log(e.target.title);
   };
 
-  // console.log("인덱스", index);
+  // console.log("곡이름 실험", musicList[selectedSong]);
   // console.log("커렌트 송", currentSong);
 
   useEffect(() => {
@@ -321,6 +321,14 @@ const Music = (props) => {
             <button onClick={nextSong} className="next prev-next current-btn">
               <Icon icon={stepForward} />
             </button>
+          </div>
+
+          <div className="song_alert_wrapper">
+            <span className="song_alert">
+              {selectedSong &&
+                musicList &&
+                `${musicList[selectedSong].name} 곡이 배경음악으로 설정되었습니다.`}
+            </span>
           </div>
 
           <span className="volume-controller-wrapper">

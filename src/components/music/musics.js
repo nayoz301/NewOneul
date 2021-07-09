@@ -2,7 +2,7 @@ import { database } from "react-icons-kit/feather";
 
 const musics = [
   {
-    id: 1,
+    id: 0,
     name: "Nice piano and ukulele",
     author: "Royalty",
     img: "https://cdn.notefolio.net/img/6d/72/6d726d99987bfe6eef13749b00437d70de0729b4e80164fc2b1fbf598d1030de_v1.jpg",
@@ -11,7 +11,7 @@ const musics = [
     genre: { genre_name: "Jazz" },
   },
   {
-    id: 2,
+    id: 1,
     name: "Gentle acoustic",
     author: "Acoustic",
     img: "https://www.bensound.com/bensound-img/beyondtheline.jpg",
@@ -20,7 +20,7 @@ const musics = [
     genre: { genre_name: "Rock" },
   },
   {
-    id: 3,
+    id: 2,
     name: "Corporate motivational",
     author: "Corporate",
     img: "https://www.bensound.com/bensound-img/memories.jpg",
@@ -29,7 +29,7 @@ const musics = [
     genre: { genre_name: "Cinematic" },
   },
   {
-    id: 4,
+    id: 3,
     name: "Slow cinematic",
     author: "Royalty",
     img: "https://www.bensound.com/bensound-img/slowmotion.jpg",
@@ -38,7 +38,7 @@ const musics = [
     genre: { genre_name: "Rap" },
   },
   {
-    id: 5,
+    id: 4,
     name: "CREEPY",
     author: "Benjamin Tissot",
     img: "https://www.bensound.com/bensound-img/creepy.jpg",
@@ -47,7 +47,7 @@ const musics = [
     genre: { genre_name: "ETC" },
   },
   {
-    id: 6,
+    id: 5,
     name: "SCI-FI",
     author: "Benjamin Tissot",
     img: "https://www.bensound.com/bensound-img/scifi.jpg",
@@ -56,7 +56,7 @@ const musics = [
     genre: { genre_name: "Electronica" },
   },
   {
-    id: 7,
+    id: 6,
     name: "MOOSE",
     author: "Benjamin Tissot",
     img: "https://www.bensound.com/bensound-img/moose.jpg",
@@ -65,7 +65,7 @@ const musics = [
     genre: { genre_name: "Electronica" },
   },
   {
-    id: 8,
+    id: 7,
     name: "E.R.F.",
     author: "Benjamin Tissot",
     img: "https://www.bensound.com/bensound-img/erf.jpg",
@@ -74,7 +74,7 @@ const musics = [
     genre: { genre_name: "Electronica" },
   },
   {
-    id: 9,
+    id: 8,
     name: "JAZZY FRENCHY",
     author: "Benjamin Tissot",
     img: "https://www.bensound.com/bensound-img/jazzyfrenchy.jpg",
@@ -83,7 +83,7 @@ const musics = [
     genre: { genre_name: "Jazz" },
   },
   {
-    id: 10,
+    id: 9,
     name: "LOVE",
     author: "Benjamin Tissot",
     img: "https://www.bensound.com/bensound-img/love.jpg",
@@ -92,7 +92,7 @@ const musics = [
     genre: { genre_name: "Jazz" },
   },
   {
-    id: 11,
+    id: 10,
     name: "DON'T FORGET",
     author: "Yari",
     img: "https://www.bensound.com/bensound-img/yari.jpg",
@@ -101,7 +101,7 @@ const musics = [
     genre: { genre_name: "Jazz" },
   },
   {
-    id: 12,
+    id: 11,
     name: "CHARLIE'S MOOD",
     author: "Ponymusic",
     img: "https://www.bensound.com/bensound-img/ponymusic.jpg",
@@ -110,7 +110,7 @@ const musics = [
     genre: { genre_name: "Jazz" },
   },
   {
-    id: 13,
+    id: 12,
     name: "GOOD TOGETHER",
     author: "TwinsMusic",
     img: "https://www.bensound.com/bensound-img/twinsmusic.jpg",
@@ -119,7 +119,7 @@ const musics = [
     genre: { genre_name: "Acoustic" },
   },
   {
-    id: 14,
+    id: 13,
     name: "BLUE FIELDS",
     author: "StereoChipz",
     img: "https://www.bensound.com/bensound-img/stereochipz2.jpg",
@@ -128,7 +128,7 @@ const musics = [
     genre: { genre_name: "Acoustic" },
   },
   {
-    id: 15,
+    id: 14,
     name: "ALONG THE RIVER",
     author: "Evert Zeevalkink",
     img: "https://www.bensound.com/bensound-img/evertzeevalkink.jpg",
@@ -137,7 +137,7 @@ const musics = [
     genre: { genre_name: "Acoustic" },
   },
   {
-    id: 16,
+    id: 15,
     name: "TENDERNESS",
     author: "Benjamin Tissot",
     img: "https://www.bensound.com/bensound-img/tenderness.jpg",
@@ -146,7 +146,7 @@ const musics = [
     genre: { genre_name: "Acoustic" },
   },
   {
-    id: 17,
+    id: 16,
     name: "NOVEMBER",
     author: "Benjamin Tissot",
     img: "https://www.bensound.com/bensound-img/november.jpg",
@@ -155,7 +155,7 @@ const musics = [
     genre: { genre_name: "Cinematic" },
   },
   {
-    id: 18,
+    id: 17,
     name: "PIANO MOMENT",
     author: "Benjamin Tissot",
     img: "https://www.bensound.com/bensound-img/pianomoment.jpg",
@@ -164,7 +164,7 @@ const musics = [
     genre: { genre_name: "Cinematic" },
   },
   {
-    id: 19,
+    id: 18,
     name: "TOMORROW",
     author: "Benjamin Tissot",
     img: "https://www.bensound.com/bensound-img/tomorrow.jpg",
@@ -173,7 +173,7 @@ const musics = [
     genre: { genre_name: "Cinematic" },
   },
   {
-    id: 20,
+    id: 19,
     name: "BETTER DAYS",
     author: "Benjamin Tissot",
     img: "https://www.bensound.com/bensound-img/betterdays.jpg",

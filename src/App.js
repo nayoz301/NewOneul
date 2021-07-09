@@ -41,6 +41,7 @@ function App({ login, userLogin }) {
       ) : (
         <Switch>
           <Route path="/" exact>
+            {/* <DiaryWriting /> */}
             <Landing />
           </Route>
           <Route path="/main">

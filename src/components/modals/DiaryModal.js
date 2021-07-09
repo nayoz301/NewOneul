@@ -1,6 +1,4 @@
 import React from "react";
-import Music from "../music/Music";
-import styled from "styled-components";
 import DiaryWriting from "./DiaryWriting";
 
 const DiaryModal = (props) => {

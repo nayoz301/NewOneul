@@ -94,3 +94,12 @@ export const translateY = keyframes`
     transform: translateY(-20%);
   }
 `;
+
+export const emojiModalShow = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+ `;
