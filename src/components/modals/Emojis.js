@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngry as farAngry,
@@ -25,7 +25,7 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import AOS from "aos";
 import { useEffect } from "react";
-import { opacityIn } from "../../styles/global.style";
+import { translateY } from "../../styles/global.style";
 
 const emojis = [
   { id: 1, emoji: farMeh, color: "#a1a1a4" },
@@ -62,27 +62,53 @@ const emojis = [
   { id: 20, emoji: farSadCry, color: "#147efb" },
 ];
 
+const modal_show = keyframes`
+ from {
+      transform: translateY(-20%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0%);
+      opacity: 1;
+    }
+  }
+`;
+
 const EmojiWrapper = styled.div`
+  display: flex;
   position: absolute;
   background-color: white;
-  width: 18rem;
-  height: 15rem;
-  display: flex;
-  flex-direction: columm;
+  width: 22rem;
+  height: 16.6 rem;
+  flex-direction: column;
   border-radius: 0.5rem;
-  z-index: 500;
-  animation: ${opacityIn} 0.5s ease;
+  padding: 0.5rem;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+  animation: ${modal_show} 0.5s ease-in;
+
+  &:before {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -1rem;
+    border-width: 1rem;
+    border-style: solid;
+    border-color: transparent transparent #80594a transparent;
+  }
 `;
 
 const EmojisHeaders = styled.div`
+  color: #80594a;
+  background-color: rgba(255, 204, 204, 0.4);
+  font-size: 1.7rem;
   border: none;
-  border-top-left-radius: 0.5rem;
-  border-bottom-left-radius: 0.5rem;
+  border-radius: 0.5rem;
   text-align: center;
-  background-color: #ffd4d4;
   padding: 0.2rem;
   margin-bottom: 0.3rem;
-  font-size: 1.3rem;
 `;
 
 const EmojisBody = styled.div`
@@ -92,7 +118,6 @@ const EmojisBody = styled.div`
 `;
 
 const EmojiUnit = styled.div`
-  font-size: 1.5rem;
   text-align: center;
   width: 20%;
   cursor: pointer;
@@ -103,27 +128,16 @@ const EmojiUnit = styled.div`
 `;
 
 const Emojis = ({ emojiModalOnOff, whatEmoji }) => {
-  const [emojiChosen, setEmojiChosen] = useState(null);
-
-  useEffect(() => {
-    AOS.init();
-  }, []);
-
   return (
     <>
-      <EmojiWrapper
-        className="emoji-wrapper"
-        // data-aos={"fade"}
-        // data-aos-duration={"800"}
-      >
-        <EmojisHeaders className="emojis-header">오늘의 기분</EmojisHeaders>
+      <EmojiWrapper className="emoji-wrapper">
+        <EmojisHeaders className="emojis-header">오늘의 나</EmojisHeaders>
         <EmojisBody className="emojis-body">
           {emojis.map((emoji, idx) => {
             return (
               <EmojiUnit
                 key={idx}
                 onClick={() => {
-                  setEmojiChosen(idx);
                   whatEmoji(emoji);
                   emojiModalOnOff();
                 }}

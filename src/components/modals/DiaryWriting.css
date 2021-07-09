@@ -1,11 +1,10 @@
 .mainNav {
   display: flex;
   position: fixed;
-  /* background-color: rgba(0, 0, 0, 0.2); */
   z-index: 200;
-  transform: translateY(-20%);
+  transform: translateY(-90%);
   opacity: 0;
-  transition: all 0.5s ease-in;
+  transition: all 0.4s ease-in-out;
   top: -10%;
   right: 0;
   bottom: 0;
@@ -15,37 +14,9 @@
   justify-content: center;
 }
 
-.overlay {
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 1;
-  height: 0;
-  width: 0;
-  background-color: rgba(31, 216, 154, 0.75);
-  opacity: 0;
-  transition: opacity 1s ease 0.1s;
-}
-.overlay.open {
-  opacity: 3;
-  width: 100%;
-  height: 120%;
-}
-
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 99;
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-.modal > section {
+/* .modal > section {
   display: flex;
-  top: -3rem;
+  top: 0;
   margin: -11rem auto 0 auto;
   border-radius: 0.5rem;
   background-color: transparent;
@@ -59,32 +30,39 @@
   animation: modal-show 0.3s;
 }
 
-@keyframes modal-show {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.modal {
+  display: none;
+  position: fixed;
 }
 
-@keyframes modal-close {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+.modal > section {
+  display: flex;
+  top: 0;
+  margin: -11rem auto 0 auto;
+  border-radius: 0.5rem;
+  background-color: transparent;
+  overflow: hidden;
+} */
+
+/* 
+이대로 하면 됌
+.modal {
+  display: none;
+  position: fixed;
 }
 
-@keyframes opacityIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20%);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0%);
-  }
+.modal > section {
+  display: flex;
+  top: 0;
+  margin: -11rem auto 0 auto;
+  border-radius: 0.5rem;
+  background-color: transparent;
+  overflow: hidden;
 }
+
+.modal.openModal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: modal-show 0.3s;
+} */

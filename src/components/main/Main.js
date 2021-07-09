@@ -24,12 +24,6 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
   const [value, setValue] = useState(moment());
   const [isClick, setIsClick] = useState(false);
   const [clickmoment, setClickmoment] = useState(null);
-  const [diaryOpen, setDiaryOpen] = useState(false);
-  console.log(userInfo);
-  const DiaryModalOnOff = () => {
-    setDiaryOpen(!diaryOpen);
-    console.log("콘솔", diaryOpen);
-  };
 
   useEffect(() => {
     return axios(
@@ -79,13 +73,8 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
 
   return (
     <>
-      {/* {isClick && (
-        <Diary modalHandle={modalHandle} clickmoment={clickmoment} />
-      )} */}
-      {isClick && (
-        <DiaryWriting DiaryModalOnOff={DiaryModalOnOff} diaryOpen={diaryOpen} />
-      )}
-      {/* <MusicModal diaryOpen={diaryOpen} DiaryModalOnOff={DiaryModalOnOff} /> */}
+      {isClick && <Diary modalHandle={modalHandle} clickmoment={clickmoment} />}
+
       <MainSection>
         <MainHeaderCompo />
         <MainInnerSection>
