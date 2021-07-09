@@ -537,9 +537,6 @@ const Painting = (props) => {
           <FontAwesomeIcon
             icon={faMusic}
             style={{ fontSize: 20, border: "none", pointerEvents: "none" }}
-            onClick={(e) => {
-              console.log("뭐 눌렀니", e.target);
-            }}
           />
         </button>
       </section>
