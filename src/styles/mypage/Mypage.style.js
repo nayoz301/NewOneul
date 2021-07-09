@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const BoxContainer = styled.div`
   width: 100%;
-  height: 100%;
+  // height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -12,11 +12,10 @@ export const BoxContainer = styled.div`
 
 export const FormContainer = styled.form`
   font-size: 2rem;
-  min-width: 80%;
-  height: 95rem;
+  width: 75vmax;
+  // min-height: 50%;
   margin: 10rem 0 1rem 0;
   // background-color: #DBC5CD;
-  background-color: #fff;
   color: #000;
   font-weight: bold;
   padding: 1rem;
@@ -25,37 +24,33 @@ export const FormContainer = styled.form`
   align-items: center;
 `;
 
-export const ContentContainer = styled.div`
-  min-width: 95%;
-  height: 95%;
-  border: 1.5px dashed #fff;
-  margin: 2rem;
-  margin-top: 2rem;
-  padding-right: 2rem;
-  display: flex;
-  background-color: #fff;
-  // box-shadow: 5px 5px lightgray;
-`;
-
-export const Div = styled.div`
-  width: 8rem;
-  height: 100%;
+export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  font-size: 2rem;
+  align-items: center;
+  width: 100%;
 `;
+
+export const ContentContainer = styled.div`
+  width: 70vmax;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+`;
+
 
 export const ContentTitle = styled.h1`
-  // min-width: 1%;
-  margin-top: 3rem;
-  margin-left: 1rem;
+  width: 10vmax;
+  margin-left: 12rem;
+  margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
+  justify-content: center;
 `;
 
 export const UserInfoForm = styled.div`
-  min-width: 45%;
-  height: 90%;
+  width: 30vmax;
+  height: 80vh;
   border: 2px solid var(--primary-color);
   border-radius: .7rem;
   display: flex;
@@ -63,7 +58,7 @@ export const UserInfoForm = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #FFFBF0;
-  margin-top: 3rem;
+  // margin-top: 3rem;
   color: #000;
 `;
 
@@ -78,8 +73,8 @@ export const Frame = styled.div`
 `;
 
 export const UserContentForm = styled.div`
-min-width: 45%;
-height: 90%;
+width: 37vmax;
+height: 80vh;
 border: 2px solid var(--primary-color);
 border-radius: .7rem;
 display: flex;
@@ -87,7 +82,7 @@ flex-direction: column;
 justify-content: center;
 align-items: center;
 background-color: #FFFBF0;
-margin-top: 3rem;
+// margin-top: 3rem;
 margin-left: 1rem;
 color: #000;
 `;
@@ -111,7 +106,7 @@ export const Info = styled.div`
 
 export const Input = styled.input`
 font-family: var(--thick-font);
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   border: none;
   border-bottom:  3px groove #99C5FF;
   width: 18rem;

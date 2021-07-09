@@ -25,11 +25,3 @@ export const ListName = styled.h3`
 `;
 
 
-export const Select = styled.select`
-  width: 7rem;
-  height: 2.1rem;
-  font-size: 1.5rem;
-  margin-right: .3rem;
-  float: right;
-  font-family: var(--primary-font);
-`;
