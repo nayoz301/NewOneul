@@ -38,23 +38,39 @@ const DiaryWriting = (props) => {
     SetEmojiPresent({ emoji: emoji.emoji, color: emoji.color });
     console.log("emoji.color", emojiPresent);
   };
+  const canvasHeight = (window.innerWidth / 2) * 0.45;
+  const textAreaHeight = (window.innerHeight - 135 - canvasHeight) * 0.9;
 
+  // const [textHeight, setTextHeight] = useState();
+
+  // const getTextAreaHeight = () => {
+  //   let canvasWidth = window.innerWidth / 2;
+  //   let canvasHeight = canvasWidth * 0.45;
+  //   let textHeight = (window.innerHeight - 135 - canvasHeight) * 0.9;
+  //   if (textHeight > canvasHeight) return canvasHeight;
+  //   return textHeight;
+  // };
+
+  // const textAreaHeight = getTextAreaHeight();
+  // useEffect(() => {}, []);
+
+  console.log("윈도우", textAreaHeight);
   return (
     <>
       {/* <Body> */}
       <ModalWrapper className="modal-wrapper">
         <Header className="header">
-          <div
+          {/* <div
             style={{
               display: "flex",
               flexDirection: "column",
               width: "40%",
             }}
-          >
-            <HeaderDate className="date">
-              {clickmoment.format("LL dddd")}
-            </HeaderDate>
-          </div>
+          > */}
+          <HeaderDate className="date">
+            {clickmoment.format("LL dddd")}
+          </HeaderDate>
+          {/* </div> */}
 
           <HeaderEmoji className="emoji">
             <FontAwesomeIcon
@@ -66,6 +82,7 @@ const DiaryWriting = (props) => {
                 fontSize: 30,
                 cursor: "pointer",
                 color: emojiPresent ? emojiPresent.color : "#86888a",
+                backgroundColor: "transparent",
               }}
             />
             <EmojiModal
@@ -80,22 +97,11 @@ const DiaryWriting = (props) => {
           </HeaderWeather>
         </Header>
 
-        <Canvas
-          className="canvas"
-          //  style={{ display: "none" }}
-        >
-          <Painting musicModalOnOff={musicModalOnOff} musicOpen={musicOpen} />
-          {/* <FontAwesomeIcon
-              icon={faMusic}
-              style={{ cursor: "pointer", fontSize: 20 }}
-              onClick={() => {
-                console.log("music slide ");
-              }}
-            /> */}
-        </Canvas>
+        <Painting musicModalOnOff={musicModalOnOff} musicOpen={musicOpen} />
 
         <TextArea
           className="textarea"
+          textAreaHeight={textAreaHeight}
           ref={textRef}
           placeholder="오늘의 일기를 남겨주세요"
           onClick={(e) => {
@@ -168,54 +174,54 @@ const ModalWrapper = styled.div`
   background-color: white;
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
+  // border: 1px solid black;
   width: 50%;
-  height: 90vh;
+  max-height: 95vh;
   // z-index: 50;
+  border-radius: 0.5rem;
 
-  @media screen and (max-width: 1400px) {
+  @media screen and (max-width: 1340px) {
     & {
-      width: 50%;
+      width: 55%;
       height: 90%;
     }
   }
 
-  @media screen and (max-width: 1220px) {
+  @media screen and (max-width: 1110px) {
     & {
-      width: 50%;
-      height: 85%;
+      width: 60%;
+      height: 80%;
     }
   }
 
   @media screen and (max-width: 1024px) {
     & {
-      width: 50%;
+      width: 60%;
       height: 80%;
     }
   }
 
   @media screen and (max-width: 825px) {
     & {
-      width: 40rem;
+      width: 60rem;
       height: 80%;
     }
   }
 `;
 
 const Header = styled.div`
-  border: 1px solid black;
+  // border: 1px solid black;
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 4rem;
-  padding: 0.12rem;
 `;
 
 const HeaderDate = styled.div`
   // border: 1px solid black;
   flex: 5 1 40%;
-  text-align: center;
   font-size: 1.7rem;
+  text-align: center;
 `;
 
 const HeaderEmoji = styled.div`
@@ -223,29 +229,27 @@ const HeaderEmoji = styled.div`
   position: relative;
   flex: 1 1 20%;
   text-align: center;
-  margin: auto;
 `;
 
 const HeaderWeather = styled.div`
   // border: 1px solid black;
   flex: 5 1 40%;
   text-align: center;
-  margin: auto;
 `;
 
 const Canvas = styled.div`
-  border: 1px solid black;
+  // border: 1px solid black;
   width: 100%;
   height: calc(calc(100% - 8rem) * 0.6);
 `;
 
 const TextArea = styled.textarea`
   // border: 1px solid black;
-  // height: ${window.innerWidth / 7}px;
-  height: calc(calc(100% - 8rem) * 0.4);
-  // height: calc(calc(601px - 125px) * calc(21.25% * 4))
+  // height: calc(calc(100% - 8rem) * 0.4);
+  height: ${(props) => props.textAreaHeight}px;
   resize: none;
   // z-index: 1;
+  padding: 2.5rem;
   font-size: 2rem;
   outline: none;
   background-color: white;
@@ -253,7 +257,7 @@ const TextArea = styled.textarea`
 `;
 
 const Footer = styled.div`
-  border: 1px solid black;
+  // border: 1px solid black;
   display: flex;
   height: 4rem;
   justify-content: space-between;
@@ -261,13 +265,13 @@ const Footer = styled.div`
 `;
 
 const FooterClose = styled.button`
-  border: 1px solid rgb(27, 27, 27, 0.2);
+  // border: 1px solid rgb(27, 27, 27, 0.2);
   margin: 1rem 1rem;
   padding: 0.5rem;
   border-radius: 0.5rem;
   font-weight: 400;
   font-size: 1.4rem;
-
+  z-index: 201; //뮤직창이 200이다
   &:active {
     transform: scale(0.95);
   }
@@ -285,7 +289,7 @@ const FooterPrivate = styled.input`
 `;
 
 const FooterPost = styled.button`
-  border: 1px solid rgb(27, 27, 27, 0.2);
+  // border: 1px solid rgb(27, 27, 27, 0.2);
   margin: 1rem 1rem;
   padding: 0.5rem;
   border-radius: 0.5rem;

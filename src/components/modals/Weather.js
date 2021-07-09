@@ -48,7 +48,7 @@ const WeatherUnit = styled.div`
   cursor: pointer;
 
   &:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
   }
 
   &:active {
@@ -75,12 +75,13 @@ const WeatherModal = () => {
               <WeatherUnit key={idx}>
                 <Icon
                   icon={weather.weather}
-                  size={idx === weatherChosen ? 35 : 32}
+                  // size={idx === weatherChosen ? 35 : 32}
+                  size={32}
                   onClick={() => {
                     setWeatherChosen(idx);
                   }}
                   style={{
-                    color: idx === weatherChosen ? weather.color : "#9ba5a8",
+                    color: idx === weatherChosen ? weather.color : "#8a959e",
                     backgroundColor:
                       idx === weatherChosen
                         ? weather.color + "45"

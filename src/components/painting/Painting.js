@@ -49,14 +49,20 @@ const Painting = (props) => {
   const [erasing, setErasing] = useState(false);
   const [lineWeight, setLineWeight] = useState(2.5);
 
+  const [buttonClicked, setButtonClicked] = useState(null);
+
+  const buttonClickHandler = (e) => {
+    setButtonClicked(e.target.id);
+  };
+  console.log(buttonClicked);
+
   const canvasRef = useRef(null);
   const ctx = useRef();
   const fileRef = useRef();
 
   const BASE_COLOR = "2c2c2c";
   const CANVAS_WIDTH = 1000;
-  const CANVAS_HEIGHT = 450;
-  const canvas = canvasRef.current;
+  const CANVAS_HEIGHT = 500;
 
   // const CANVAS_WIDTH = window.innerWidth / 2;
   // const CANVAS_HEIGHT = window.innerWidth / 4;
@@ -225,17 +231,6 @@ const Painting = (props) => {
     setFilling(false);
     setEraser(false);
     setErasing(false);
-    console.log(
-      "페인팅:",
-      painting,
-      "필링:",
-      filling,
-
-      "Eraser::",
-      eraser,
-      "Erasing:",
-      erasing
-    );
   };
 
   const handleClearClick = () => {
@@ -399,10 +394,21 @@ const Painting = (props) => {
                 border: "none",
                 padding: "0 0",
                 color: "#47525d",
+                pointerEvents: "none",
               }}
             />
           </button>
-          <button id="paint_btn" onClick={handlePaintClick}>
+          <button
+            id="paint_btn"
+            onClick={(e) => {
+              handlePaintClick();
+              buttonClickHandler(e);
+            }}
+            style={{
+              backgroundColor:
+                buttonClicked === "paint_btn" ? "#c3c3c360" : "white", //자기 엘리먼트에 id를 불러오는 방법없나?
+            }}
+          >
             <FontAwesomeIcon
               icon={faPaintBrush}
               style={{
@@ -410,10 +416,21 @@ const Painting = (props) => {
                 border: "none",
                 padding: "0 0",
                 color: "#47525d",
+                pointerEvents: "none",
               }}
             />
           </button>
-          <button id="fill_btn" onClick={handleFillClick}>
+          <button
+            id="fill_btn"
+            onClick={(e) => {
+              handleFillClick();
+              buttonClickHandler(e);
+            }}
+            style={{
+              backgroundColor:
+                buttonClicked === "fill_btn" ? "#c3c3c360" : "white",
+            }}
+          >
             <FontAwesomeIcon
               icon={faFillDrip}
               style={{
@@ -421,10 +438,21 @@ const Painting = (props) => {
                 border: "none",
                 padding: "0 0",
                 color: "#47525d",
+                pointerEvents: "none",
               }}
             />
           </button>
-          <button id="eraser_btn" onClick={handleEraserClick}>
+          <button
+            id="eraser_btn"
+            onClick={(e) => {
+              handleEraserClick();
+              buttonClickHandler(e);
+            }}
+            style={{
+              backgroundColor:
+                buttonClicked === "eraser_btn" ? "#c3c3c360" : "white",
+            }}
+          >
             <FontAwesomeIcon
               icon={faEraser}
               style={{
@@ -432,6 +460,7 @@ const Painting = (props) => {
                 border: "none",
                 padding: "0 0",
                 color: "#47525d",
+                pointerEvents: "none",
               }}
             />
           </button>
@@ -444,6 +473,7 @@ const Painting = (props) => {
                 border: "none",
                 padding: "0 0",
                 color: "#47525d",
+                pointerEvents: "none",
               }}
             />
           </button>
@@ -506,7 +536,7 @@ const Painting = (props) => {
         <button id="music_btn" onClick={props.musicModalOnOff}>
           <FontAwesomeIcon
             icon={faMusic}
-            style={{ fontSize: 20, border: "none" }}
+            style={{ fontSize: 20, border: "none", pointerEvents: "none" }}
             onClick={(e) => {
               console.log("뭐 눌렀니", e.target);
             }}
@@ -518,3 +548,31 @@ const Painting = (props) => {
 };
 
 export default Painting;
+
+// function handleFileUpload() {
+//   canvasRef.current.toBlob(
+//     function (blob) {
+//       const img = new FormData();
+//       img.append("file", blob, `${Date.now()}.jpeg`);
+//       console.log(blob);
+
+//       const param = {
+//         Bucket: "oneulfile",
+//         Key: "image/" + "abc",
+//         ACL: "public-read",
+//         Body: blob,
+//         ContentType: "image/",
+//       };
+
+//       s3.upload(param, function (err, data) {
+//         console.log(err);
+//         console.log(data);
+//       });
+//     },
+//     "image/jpeg",
+//     0.8
+//   );
+// }
+
+// S3에 파일 저장 , 이름은 닉네임 + date.now()
+// 저장 후 URL응답 받아서 서버에 다른 데이터들과 함께 전달.

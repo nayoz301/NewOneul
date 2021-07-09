@@ -21,12 +21,14 @@ body .player-wrapper {
   flex-direction: column;
   align-items: center;
   width: 100%;
+
   /* padding: 1rem 0rem; */
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
   color: #80594a; /*현재재생창 글씨색*/
   font-weight: 600;
   background: rgba(255, 204, 204, 0.4); /*현재재생창 배경*/
+  box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
 }
 
 .current-song .close-btn {
@@ -62,6 +64,7 @@ body .player-wrapper {
   font-size: 1.5rem;
   font-weight: 400;
 }
+
 .current-song .time {
   /*재생 시간 숫자 앞 뒤*/
   display: flex;
@@ -178,6 +181,33 @@ body .player-wrapper {
 .current-song .controls button.prev-next:active {
   /*이전 다음 버튼 액티브*/
   transform: scale(0.95);
+}
+
+.current-song .song_alert_wrapper {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  /* align-items: center; */
+}
+
+.current-song .song_alert_wrapper .song_alert {
+  position: absolute;
+  width: 33rem;
+  top: -0.4rem;
+  font-size: 1.2rem;
+  animation: opacityOnAndOff 3s infinite;
+}
+
+@keyframes opacityOnAndOff {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 .current-song .controls .volume-controller-wrapper .mute-btn {
