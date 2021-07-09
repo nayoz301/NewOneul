@@ -1,21 +1,19 @@
 import { useState, useEffect } from 'react';
 import { Switch, Route, Link } from "react-router-dom";
-import axios from 'axios';
-import Swal from 'sweetalert2';
 import Modify from './modify/Modify';
 import MypageHeader from './MypageHeader';
-import ProfileImg from './ProfileImg';
-import GetMyDiary from './GetMyDiary';
+import ProfileImg from './profile/ProfileImg';
+import DiaryPost from './diary/DiaryPost';
 import Nav from './Nav';
-import MyInfo from './MyInfo';
+import DiaryWrite from './dummy/DiaryWrite';
 import {
   BoxContainer,
   FormContainer,
+  Wrapper,
   UserInfoForm,
   UserContentForm,
   ContentContainer,
   ContentTitle,
-  Div,
   Frame,
   Info,
   Input,
@@ -27,7 +25,7 @@ import { login } from '../../actions';
 
 
 const Mypage = ({ login, userLogin }) => {
-  const [users, setusers] = useState({
+  const [users, setUsers] = useState({
     nickname: userLogin.userInfo.nickname,
     email: userLogin.userInfo.email
   });
@@ -37,52 +35,52 @@ const Mypage = ({ login, userLogin }) => {
     <>
       <BoxContainer>
         <MypageHeader />
-        <FormContainer>
-          <ContentContainer>
-            <Div>
-              <ContentTitle>나의 오늘,</ContentTitle>
-            </Div>
-            <UserInfoForm>
-              <Frame>
-                <Switch>
-                  <Route path="/mypage/modify" exact>
-                    <Modify />
-                  </Route>
-                  <ProfileImg />
-                </Switch>
-                <Info>나의 프로필</Info>
-                <Input
-                  type="text"
-                  value={users.nickname}
-                  name="nickname"
-                  readOnly
-                />
-                <Input
-                  type="email"
-                  value={users.email}
-                  name="email"
-                  readOnly
-                />
-                <Link to="/mypage/modify">
-                  <Button>나의 정보수정</Button>
-                </Link>
-              </Frame>
-            </UserInfoForm>
-            <UserContentForm>
-              <UserContent>
-                <Switch>
-                  {/* <Route path="/mypage/myinfo" exact>
-                    <MyInfo />
-                  </Route> */}
-                  <Route path="/mypage/mydiary" exact>
-                    <GetMyDiary />
-                  </Route>
-                </Switch>
-                <Nav />
-              </UserContent>
-            </UserContentForm>
-          </ContentContainer>
-        </FormContainer>
+        <Wrapper>
+          <FormContainer>
+            <ContentTitle>나의 오늘,</ContentTitle>
+            <ContentContainer>
+              <UserInfoForm>
+                <Frame>
+                  <Switch>
+                    <Route path="/mypage/modify" exact>
+                      <Modify />
+                    </Route>
+                    <ProfileImg />
+                  </Switch>
+                  <Info>나의 프로필</Info>
+                  <Input
+                    type="text"
+                    value={users.nickname}
+                    name="nickname"
+                    readOnly
+                  />
+                  <Input
+                    type="email"
+                    value={users.email}
+                    name="email"
+                    readOnly
+                  />
+                  <Link to="/mypage/modify">
+                    <Button>나의 정보수정</Button>
+                  </Link>
+                </Frame>
+              </UserInfoForm>
+              <UserContentForm>
+                <UserContent>
+                  <Switch>
+                    <Route path="/mypage/diarywrite" exact>
+                      <DiaryWrite />
+                    </Route>
+                    <Route path="/mypage/mydiary" exact>
+                      <DiaryPost />
+                    </Route>
+                  </Switch>
+                </UserContent>
+              </UserContentForm>
+              <Nav />
+            </ContentContainer>
+          </FormContainer>
+        </Wrapper>
       </BoxContainer>
     </>
   )

@@ -4,17 +4,18 @@ import { Link } from 'react-router-dom';
 
 const Nav = styled.nav`
   // z-index: 1;
-  width: 5%;
+  // width: 5%;
   ul {
-    margin-top: 2rem;
+    margin-top: 3rem;
     li {
-      display: block;
+      display: flex;
       width: 4rem;
       margin-bottom: .2rem;
       padding: 1rem;
       background: #fff;
       border: 3px inset #99C5FF;
-      border-right-radius: 10px;
+      border-top-right-radius: 1rem;
+      border-bottom-right-radius: 1rem;
       color: #000;
       font-size: 1.2rem;
       text-align: center;

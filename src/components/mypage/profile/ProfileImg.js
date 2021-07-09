@@ -1,15 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
 import imageCompression from 'browser-image-compression';
+import Swal from 'sweetalert2';
 import axios from 'axios';
-import s3 from '../../upload/s3'
+import s3 from '../../../upload/s3'
+import { login } from '../../../actions';
 import {
   ImgUpload,
   ImgView,
   ImgEdit,
   ImgUploadBtn,
-} from '../../styles/mypage/ProfileImg.style';
+} from '../../../styles/mypage/ProfileImg.style';
 import { connect } from "react-redux";
-import { login } from '../../actions';
 
 const ProfileImg = ({ login, userLogin }) => {
   const [file, setFile] = useState('');
@@ -69,17 +70,17 @@ const ProfileImg = ({ login, userLogin }) => {
     const param = {
       'Bucket': 'oneulfile',
       'Key': 'profile/' + userLogin.userInfo.nickname,
-      'ACL':'public-read',
+      'ACL': 'public-read',
       'Body': file,
-      'ContentType':'image/'
+      'ContentType': 'image/'
     }
 
-    s3.upload(param, function(err, data){
+    s3.upload(param, function (err, data) {
       console.log(data.Location);
       axios
         .patch("https://oneul.site/O_NeulServer/user/updatePicture", {
-            picture: data.Location
-          }, {
+          picture: data.Location
+        }, {
           headers: {
             authorization: 'Bearer ' + userLogin.login.accessToken,
             "Content-Type": "application/json"
@@ -88,13 +89,19 @@ const ProfileImg = ({ login, userLogin }) => {
         })
         .then((res) => {
           console.log(res.data)
+          Swal.fire({
+            icon: 'success',
+            title: '✨✨✨ 저장완료! ✨✨✨',
+            showConfirmButton: false,
+            timer: 1000
+          })
         })
         .catch((err) => {
           console.log(err)
         })
     });
   }
-  
+
 
   return (
     <>

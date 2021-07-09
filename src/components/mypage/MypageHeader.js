@@ -4,16 +4,19 @@ import { Link, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import { MainHeader, HeaderWrapper } from "../../styles/main/Main.style";
 import { connect } from "react-redux";
-import { login } from '../../actions';
+import { login, logout } from '../../actions';
 
-const MainHeaderCompo = ({ login, userLogin }) => {
+const MainHeaderCompo = ({ login, logout, userLogin }) => {
   const history = useHistory();
 
   const Logout = () => {
     return axios
-      .get("https://oneul.site/O_NeulServer/user/signout")
-      .then((res) => {
+      .get("https://oneul.site/O_NeulServer/user/signout", {
+        withCredentials: true,
+      })
+      .then(() => {
         console.log("로그아웃");
+        logout();
         history.push("/");
         Swal.fire({
           title: "👋 로그아웃 🥲",
@@ -21,9 +24,6 @@ const MainHeaderCompo = ({ login, userLogin }) => {
           timer: 5000,
         });
       })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   return (
@@ -44,4 +44,4 @@ const mapStateToProps = ({ loginReducer }) => {
   };
 };
 
-export default connect(mapStateToProps, { login })(MainHeaderCompo);
+export default connect(mapStateToProps, { login, logout })(MainHeaderCompo);
