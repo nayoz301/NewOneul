@@ -23,6 +23,9 @@ import {
   faGrinSquintTears as farGrinSquintTears,
   faGrinTongueWink as farGrinTongueWink,
 } from "@fortawesome/free-regular-svg-icons";
+import AOS from "aos";
+import { useEffect } from "react";
+import { opacityIn } from "../../styles/global.style";
 
 const emojis = [
   { id: 1, emoji: farMeh, color: "#a1a1a4" },
@@ -68,6 +71,7 @@ const EmojiWrapper = styled.div`
   flex-direction: columm;
   border-radius: 0.5rem;
   z-index: 500;
+  animation: ${opacityIn} 0.5s ease;
 `;
 
 const EmojisHeaders = styled.div`
@@ -101,9 +105,17 @@ const EmojiUnit = styled.div`
 const Emojis = ({ emojiModalOnOff, whatEmoji }) => {
   const [emojiChosen, setEmojiChosen] = useState(null);
 
+  useEffect(() => {
+    AOS.init();
+  }, []);
+
   return (
     <>
-      <EmojiWrapper className="emoji-wrapper">
+      <EmojiWrapper
+        className="emoji-wrapper"
+        // data-aos={"fade"}
+        // data-aos-duration={"800"}
+      >
         <EmojisHeaders className="emojis-header">오늘의 기분</EmojisHeaders>
         <EmojisBody className="emojis-body">
           {emojis.map((emoji, idx) => {

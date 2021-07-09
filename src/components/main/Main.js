@@ -24,14 +24,12 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
   const [value, setValue] = useState(moment());
   const [isClick, setIsClick] = useState(false);
   const [clickmoment, setClickmoment] = useState(null);
-  //
   const [diaryOpen, setDiaryOpen] = useState(false);
-
+  console.log(userInfo);
   const DiaryModalOnOff = () => {
     setDiaryOpen(!diaryOpen);
     console.log("콘솔", diaryOpen);
   };
-  //
 
   useEffect(() => {
     return axios(
@@ -50,14 +48,16 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
       })
       .then((result) => {
         if (userInfo.login.accessToken) {
-          fetchAllLoginDiary(
+          console.log(result);
+          return fetchAllLoginDiary(
             result.publicDiary,
             result.myDiary,
             result.musicList
           );
-        } else {
-          fetchAllUnloginDiary(result.publicDiary, result.musicList);
         }
+        // else {
+        //   return fetchAllUnloginDiary(result.publicDiary, result.musicList);
+        // }
       })
       .catch((err) => {
         console.log(err);

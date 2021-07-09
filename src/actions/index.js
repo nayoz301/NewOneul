@@ -29,7 +29,7 @@ export const fetchAllUnloginDiary = (publicDiary, musicList) => {
 
 export const fetchAllLoginDiary = (publicDiary, myDiary, musicList) => {
   return {
-    type: "FETCH_ALL_UNLOGIN_DATA",
+    type: "FETCH_ALL_LOGIN_DATA",
     publicDiary,
     myDiary,
     musicList,

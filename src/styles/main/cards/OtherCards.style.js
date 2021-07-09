@@ -36,6 +36,7 @@ export const OtherDiary = styled.div`
   transform: scale(0.97);
   background: #8ca4c159;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  cursor: pointer;
 
   & img {
     clip-path: circle();

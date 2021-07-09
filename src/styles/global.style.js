@@ -94,3 +94,15 @@ export const translateY = keyframes`
     transform: translateY(-20%);
   }
 `;
+
+export const opacityIn = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(-20%);
+  }
+  
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+`;

@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 import { login } from "./actions";
 import DiaryWriting from "./components/modals/DiaryWriting";
 
-function App({ login, userLogin }) {
+function App({ login }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(async () => {
@@ -30,8 +30,6 @@ function App({ login, userLogin }) {
       console.log("err:::" + error);
     }
   }, []);
-
-  console.log(userLogin);
 
   return (
     <>
