@@ -9,28 +9,36 @@ import {
   IconWrapper,
 } from "../../../../styles/main/cards/MyCards.style";
 import mypic from "../../../../images/mypic.jpeg";
-import { Icon } from "react-icons-kit";
-import { happy } from "react-icons-kit/icomoon";
-import { iosSnowy } from "react-icons-kit/ionicons";
+import { findEmj, splitDate } from "./cardfunction";
+import { icons } from "../../../../../../../../../컴퓨터/codestates/oneul/im28project02-client/src/icons/icons";
+import { FaceWeather } from "../../../../styles/main/cards/OtherCards.style";
+import { makeHexCode } from "./makehex";
 
-const MyCard = () => {
+const MyCard = ({ diary }) => {
+  const { faceIcons, weatherIcons } = icons;
+  const { date, feeling, text, weather } = diary;
+
+  const makeBackground = () => {
+    return makeHexCode();
+  };
+
   return (
     <MyDiary>
       <MyDiaryCardFront>
-        <MyDiaryFrontHeader>2021년 7월 1일</MyDiaryFrontHeader>
+        <MyDiaryFrontHeader>
+          {splitDate(date)[0]}년 {splitDate(date)[1]}월 {splitDate(date)[2]}일
+        </MyDiaryFrontHeader>
         <img src={mypic} alt="" />
         <IconWrapper>
-          <Icon icon={iosSnowy} size={38} style={{ color: "#5488c8" }}></Icon>
-          <Icon icon={happy} size={26} style={{ color: "#22c0c1" }}></Icon>
+          <FaceWeather>
+            {weather && findEmj(weatherIcons, weather).icon}
+            {feeling && findEmj(faceIcons, feeling).icon}
+          </FaceWeather>
         </IconWrapper>
       </MyDiaryCardFront>
-      <MyDiaryBack>
+      <MyDiaryBack hexcode={makeBackground}>
         <MyDiaryBackTextWrapper>
-          <MyDiaryBackText>
-            오늘을 사용하면 일기에 노래로 넣을 수 있고 그림도 그릴 수 있어서
-            아주 편리해요. 매일 잠 자기 전에 일기 쓰기 좋은 페이지를 찾고
-            있었느데 아주 좋은 거 같아요.
-          </MyDiaryBackText>
+          <MyDiaryBackText>{text}</MyDiaryBackText>
         </MyDiaryBackTextWrapper>
       </MyDiaryBack>
     </MyDiary>

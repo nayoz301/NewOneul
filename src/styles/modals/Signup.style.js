@@ -68,7 +68,7 @@ export const SignupForm = styled.form`
 export const Input = styled.input`
   display: block;
   align-items: center;
-  margin: 1rem 0 .5rem 0;
+  margin: 1rem 0 0.5rem 0;
   width: 100%;
   height: 40px;
   padding: 0 1.4rem;
@@ -94,7 +94,7 @@ export const SignupBtn = styled.button`
   background-color: #9cc3ff;
   color: white;
   border: none;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   margin-top: 2rem;
 
   &:hover {
@@ -117,13 +117,13 @@ export const SignupToLoginText = styled.div`
 export const SwitchSignup = styled.span`
   color: #1a53ff;
   cursor: pointer;
-  margin-left: .5rem;
+  margin-left: 0.5rem;
 `;
 
 export const SwitchLogin = styled.span`
   color: #1a53ff;
   cursor: pointer;
-  margin-left: .5rem;
+  margin-left: 0.5rem;
 `;
 
 export const Or = styled.div`
@@ -157,11 +157,11 @@ export const Or = styled.div`
 export const Kakaobtn = styled.button`
   width: 100%;
   height: 4.4rem;
-  margin: .7rem 0;
+  margin: 0.7rem 0;
   padding: 0;
   font-size: 1.6rem;
   border: none;
-  border-radius: .7rem;
+  border-radius: 0.7rem;
   background-color: #fae100;
   cursor: pointer;
 `;
@@ -189,14 +189,14 @@ export const KakaoText = styled.span`
 export const GoogleBtn = styled.button`
   width: 100%;
   height: 4.4rem;
-  margin: .7rem 0;
+  margin: 0.7rem 0;
   padding: 0;
   font-size: 1.6rem;
-  border-radius: .7rem;
+  border-radius: 0.7rem;
   background-color: #fff;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   border: 1px solid #000;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
   cursor: pointer;
 `;
 
@@ -206,7 +206,7 @@ export const ForBalanceGoogle = styled.div`
 `;
 
 export const GoogleLogo = styled.img`
-  margin: .2rem 2rem 0 0;
+  margin: 0.2rem 2rem 0 0;
   height: 3.8rem;
   width: 3.8rem;
 `;
@@ -224,11 +224,11 @@ export const GoogleText = styled.span`
 export const NaverBtn = styled.button`
   width: 100%;
   height: 4.4rem;
-  margin: .7rem 0;
+  margin: 0.7rem 0;
   padding: 0;
   font-size: 1.6rem;
   border: none;
-  border-radius: .7rem;
+  border-radius: 0.7rem;
   background-color: rgb(49, 195, 30);
   cursor: pointer;
 `;
@@ -239,7 +239,7 @@ export const ForBalanceNaver = styled.div`
 `;
 
 export const NaverLogo = styled.img`
-  margin: .2rem 2rem 0 0;
+  margin: 0.2rem 2rem 0 0;
   height: 3.8rem;
   width: 3.8rem;
 `;

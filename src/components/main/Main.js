@@ -42,16 +42,14 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
       })
       .then((result) => {
         if (userInfo.login.accessToken) {
-          console.log(result);
           return fetchAllLoginDiary(
             result.publicDiary,
             result.myDiary,
             result.musicList
           );
+        } else {
+          return fetchAllUnloginDiary(result.publicDiary, result.musicList);
         }
-        // else {
-        //   return fetchAllUnloginDiary(result.publicDiary, result.musicList);
-        // }
       })
       .catch((err) => {
         console.log(err);

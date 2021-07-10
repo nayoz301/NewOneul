@@ -6,14 +6,15 @@ import {
   BREAK_POINT_16LG_SCREEN,
   flexCenter,
   flexSpaceBtw,
+  emojiModalShow,
 } from "../../global.style";
 import { IconWrapper, MyDiaryHeader } from "./MyCards.style";
 
 export const OtherDiaryHeader = styled(MyDiaryHeader)`
   font-size: 1.9rem;
-  margin-top: 0;
 
   @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN}px) {
+    margin-top: 0.2em;
     font-size: 2.1rem;
   }
 `;
@@ -100,5 +101,25 @@ export const OtherDiaryWrapper = styled.div`
     &::-webkit-scrollbar-thumb:hover {
       background-color: #888;
     }
+  }
+`;
+
+export const FaceWeather = styled.div`
+  display: flex;
+  align-items: center;
+  & svg {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  font-size: 2.5rem;
+`;
+
+export const Heart = styled.div`
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.03);
   }
 `;

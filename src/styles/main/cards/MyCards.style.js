@@ -13,22 +13,21 @@ import {
 } from "../../landing/LandingCard.style";
 
 export const MyCardWrapper = styled.div`
-  /* border: 1px solid grey; */
   position: relative;
-  padding-top: 1rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   min-height: 25rem;
-  @media only screen and (min-width: ${BREAK_POINT_MOBILE}px) {
-  }
+  padding-top: 1rem;
 `;
 
 export const MyDiary = styled(Card)`
+  /* border: 1px solid grey; */
   min-width: 17rem;
   min-height: 23rem;
-  margin: 1.5rem 0;
+  margin: 1.5rem;
+  padding-top: 1.5rem;
 
   @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN}px) {
-    min-width: 19rem;
+    min-width: 18rem;
     min-height: 25.705rem;
   }
 `;
@@ -44,8 +43,9 @@ export const MyDiaryHeader = styled.h1`
 `;
 
 export const MyDiaryFrontHeader = styled(CardFrontHeader)`
+  color: var(--black-color);
   font-family: Noto Sans KR;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 1.3rem;
   position: absolute;
   top: 4%;
@@ -53,6 +53,9 @@ export const MyDiaryFrontHeader = styled(CardFrontHeader)`
 `;
 
 export const MyDiaryCardFront = styled(CardFront)`
+  background: #eeede3d6;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
   & img {
     width: 13rem;
     height: 6.5rem;
@@ -60,6 +63,8 @@ export const MyDiaryCardFront = styled(CardFront)`
 `;
 
 export const MyDiaryBack = styled(CardBack)`
+  background: ${({ hexcode }) => hexcode};
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   overflow: hidden;
 `;
 
