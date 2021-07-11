@@ -2,9 +2,6 @@ import { initialState } from "./initialState";
 
 const mainReducer = (
   state = initialState.diaryState,
-<<<<<<< HEAD
-  { type, publicDiary, myDiary, musicList, payload }
-=======
   {
     type,
     publicDiary,
@@ -14,8 +11,8 @@ const mainReducer = (
     newEmphathyObj,
     empathyId,
     newDiary,
+    payload,
   }
->>>>>>> 07691fb7d3d0c9f9b41ee8dd3a267bd60b341a17
 ) => {
   switch (type) {
     case "FETCH_ALL_UNLOGIN_DATA":
@@ -32,7 +29,6 @@ const mainReducer = (
         myDiary: [...myDiary],
         musicList: [...musicList],
       };
-<<<<<<< HEAD
     case "ADD_NEW_PUBLIC_DIARY":
       return {
         ...state,
@@ -47,7 +43,6 @@ const mainReducer = (
         myDiary: [payload, ...myDiary],
         musicList: [...musicList],
       };
-=======
     case "ADD_EMPATHY":
       return {
         ...state,
@@ -72,7 +67,6 @@ const mainReducer = (
         ),
       };
 
->>>>>>> 07691fb7d3d0c9f9b41ee8dd3a267bd60b341a17
     default:
       return state;
   }
