@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import writing from "../../images/writing.mp4";
 import swing from "../../images/landing.mp4";
+import { Link as ScrollLink } from "react-scroll";
 import { connect } from "react-redux";
+import "aos/dist/aos.css";
 import {
   HeaderSection,
   Overlay,
@@ -77,13 +79,9 @@ const LandingSection = ({ userInfo, logout }) => {
           <Link to="/main">
             <LdBtn first>시작하기</LdBtn>
           </Link>
-          <LdBtn
-            onClick={() => {
-              window.scrollTo({ top: 1016, behavior: "smooth" });
-            }}
-          >
-            더 알아보기
-          </LdBtn>
+          <ScrollLink to="mainsection" smooth={true} duration={800}>
+            <LdBtn>더 알아보기</LdBtn>
+          </ScrollLink>
         </LdBtnWrapper>
       </LdInnerSection>
     </HeaderSection>

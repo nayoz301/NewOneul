@@ -34,6 +34,7 @@ import { circle_delete } from "react-icons-kit/ikons/circle_delete";
 import Swal from "sweetalert2";
 import { connect } from "react-redux";
 import { login, logout } from "../../../actions";
+import { close } from "react-icons-kit/ikons/close";
 
 const Signup = ({ handleModal, login, logout }) => {
   const {
@@ -58,7 +59,7 @@ const Signup = ({ handleModal, login, logout }) => {
       } else {
         Swal.fire({
           icon: "error",
-          title: "이메일과 비밀전호를 확인하세요!🤔",
+          title: "이메일과 비밀번호를 확인하세요!🤔",
           showConfirmButton: true,
         });
       }
@@ -167,7 +168,7 @@ const Signup = ({ handleModal, login, logout }) => {
         console.log(res.data.data);
         const { accessToken, user } = res.data.data;
         login(accessToken, user);
-        onLoginSuccess();
+        onLoginSuccess(handleModal);
         console.log(res.data);
       })
       .catch((err) => {
@@ -198,7 +199,11 @@ const Signup = ({ handleModal, login, logout }) => {
 
   return (
     <BoxContainer>
-      <FormContainer onSubmit={handleSubmit}>
+      <FormContainer
+        onSubmit={handleSubmit}
+        data-aos="zoom-out"
+        data-aos-duration={"700"}
+      >
         <ModalContainer
           onClick={(e) => {
             e.stopPropagation();
@@ -206,7 +211,8 @@ const Signup = ({ handleModal, login, logout }) => {
         >
           <Wrapper>
             <Close onClick={handleModal}>
-              <Icon size={25} icon={circle_delete} />
+              {/* 개선해야 하는 곳 */}
+              <Icon size={35} icon={close} />
             </Close>
             <SignupText>
               {clickedType === "로그인" ? "로그인" : "회원가입"}

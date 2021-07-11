@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { flexCenter } from "../../global.style";
+import { flexCenter, BREAK_POINT_LG_SCREEN } from "../../global.style";
 
 export const DayWarpper = styled.div`
   position: relative;
@@ -51,4 +51,12 @@ export const DaySpan = styled.span`
 export const Emoji = styled.div`
   height: 100%;
   ${flexCenter}
+
+  & svg {
+    font-size: 2.3rem;
+
+    @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
+      font-size: 2.7rem;
+    }
+  }
 `;

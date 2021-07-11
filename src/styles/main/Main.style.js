@@ -13,7 +13,7 @@ export const MainHeader = styled.header`
   top: 0;
   right: 0;
   left: 0;
-  height: 4.8rem;
+  height: 5rem;
   background: white;
   z-index: 200;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.24);
@@ -129,6 +129,7 @@ export const CalendarWrapper = styled.div`
 
 export const DiaryWrapper = styled.section`
   @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
+    height: 100%;
     flex: 1;
     margin-left: 3rem;
   }

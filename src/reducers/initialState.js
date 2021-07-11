@@ -3,7 +3,6 @@ export const initialState = {
     login: {
       accessToken: "",
     },
-
     userInfo: {},
   },
   diaryState: {

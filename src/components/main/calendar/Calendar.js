@@ -26,7 +26,8 @@ export default Calendar;
 
 const CalendarArticle = styled.article`
   font-size: 1.6rem;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  justify-content: space-between;
 `;

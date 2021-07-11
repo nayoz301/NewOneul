@@ -7,7 +7,8 @@ const Week = ({ value, week, modalHandle }) => {
     <div
       style={{
         display: "flex",
-        flexGrow: 1,
+        justifyContent: "space-between",
+        height: "100%",
       }}
     >
       {week.map((day) => (
