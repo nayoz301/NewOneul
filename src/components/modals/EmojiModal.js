@@ -3,7 +3,6 @@ import Emojis from "./Emojis";
 import styled from "styled-components";
 
 const EmojiModal = ({ emojiOpen, emojiModalOnOff, whatEmoji }) => {
-  console.log("스타일", EmojiModal.emojiOpen);
   return (
     <EmojisOuter emojiOpen={emojiOpen}>
       <Emojis

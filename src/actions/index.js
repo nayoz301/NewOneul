@@ -35,3 +35,17 @@ export const fetchAllLoginDiary = (publicDiary, myDiary, musicList) => {
     musicList,
   };
 };
+
+export const addNewPublicDiary = (newPublicDiary) => {
+  return {
+    type: "ADD_NEW_PUBLIC_DIARY",
+    payload: newPublicDiary,
+  };
+};
+
+export const addNewPrivateDiary = (newPrivateDiary) => {
+  return {
+    type: "ADD_NEW_PRIVATE_DIARY",
+    payload: newPrivateDiary,
+  };
+};

@@ -14,7 +14,7 @@ import {
   faFile as farFile,
   faStickyNote as farStickyNote,
 } from "@fortawesome/free-regular-svg-icons";
-import { fontSize } from "react-icons-kit/icomoon";
+import s3 from "../../upload/s3";
 let arr_Colors = [
   "#e32119",
   "#ff3b30",
@@ -42,21 +42,21 @@ let arr_Colors = [
   "#2c2c2c",
 ];
 
-const Painting = (props) => {
+const Painting = ({ canvasRef, musicModalOnOff }) => {
   const [filling, setFilling] = useState(false);
   const [painting, setPainting] = useState(false);
   const [eraser, setEraser] = useState(false);
   const [erasing, setErasing] = useState(false);
   const [lineWeight, setLineWeight] = useState(2.5);
 
-  const [buttonClicked, setButtonClicked] = useState(null);
+  const [buttonClicked, setButtonClicked] = useState("paint_btn");
 
   const buttonClickHandler = (e) => {
     setButtonClicked(e.target.id);
   };
-  console.log(buttonClicked);
+  // console.log(buttonClicked);
 
-  const canvasRef = useRef(null);
+  // const canvasRef = useRef(null);
   const ctx = useRef();
   const fileRef = useRef();
 
@@ -97,29 +97,55 @@ const Painting = (props) => {
   //   }
   // };
 
+  // function handleFileUpload() { // 이거는 로컬에 업로드하는 경우.
+  //   console.log(canvasRef.current);
+  //   canvasRef.current.toBlob(
+  //     function (blob) {
+  //       const img = new FormData();
+  //       img.append("file", blob, `${Date.now()}.jpeg`);
+  //       console.log(blob);
+  //       axios
+  //         .post("http://localhost:4000/upload", img, {
+  //           header: {
+  //             "content-type": "multipart/form-data",
+  //             credentials: true,
+  //           },
+  //         })
+  //         .then((res) => {
+  //           alert("파일이 성공적으로 저장되었습니다. 글을 작성해주세요");
+  //         })
+  //         .catch((err) => {
+  //           alert("파일이 저장되지 않았습니다. 다시 시도해주세요");
+  //         });
+  //     },
+  //     "image/jpeg",
+  //     0.8 //내릴수록 화질 안좋고 용량 줄어듦
+  //   );
+  // }
+
   function handleFileUpload() {
-    console.log(canvasRef.current);
+    //이건 s3에 업로드하는 경우
     canvasRef.current.toBlob(
       function (blob) {
         const img = new FormData();
         img.append("file", blob, `${Date.now()}.jpeg`);
         console.log(blob);
-        axios
-          .post("http://localhost:4000/upload", img, {
-            header: {
-              "content-type": "multipart/form-data",
-              credentials: true,
-            },
-          })
-          .then((res) => {
-            alert("파일이 성공적으로 저장되었습니다. 글을 작성해주세요");
-          })
-          .catch((err) => {
-            alert("파일이 저장되지 않았습니다. 다시 시도해주세요");
-          });
+
+        const param = {
+          Bucket: "oneulfile",
+          Key: "image/" + "abc",
+          ACL: "public-read",
+          Body: blob,
+          ContentType: "image/",
+        };
+
+        s3.upload(param, function (err, data) {
+          console.log(err);
+          console.log(data);
+        });
       },
       "image/jpeg",
-      0.8 //내릴수록 화질 안좋고 용량 줄어듦
+      0.8
     );
   }
 
@@ -310,12 +336,11 @@ const Painting = (props) => {
         getMouesPosition(nativeEvent).y
       );
       ctx.current.stroke();
-      console.log("x,y", nativeEvent.offsetX, nativeEvent.offsetY);
+      // console.log("x,y", nativeEvent.offsetX, nativeEvent.offsetY);
     } else if (erasing) {
       ctx.current.globalCompositeOperation = "destination-out";
       ctx.current.lineWidth = 15;
       ctx.current.beginPath();
-      console.log("비긴패스", ctx.current.beginPath());
       ctx.current.arc(
         getMouesPosition(nativeEvent).x,
         getMouesPosition(nativeEvent).y,
@@ -338,8 +363,6 @@ const Painting = (props) => {
   const handleEraserClick = () => {
     setEraser(true);
   };
-
-  //내꺼
 
   const handleColorClick = (e) => {
     console.log("버튼 컬러클릭");
@@ -533,7 +556,7 @@ const Painting = (props) => {
           onContextMenu={disableRightClick}
         ></canvas>
 
-        <button id="music_btn" onClick={props.musicModalOnOff}>
+        <button id="music_btn" onClick={musicModalOnOff}>
           <FontAwesomeIcon
             icon={faMusic}
             style={{ fontSize: 20, border: "none", pointerEvents: "none" }}
