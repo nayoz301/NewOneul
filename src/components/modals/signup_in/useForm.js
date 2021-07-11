@@ -40,14 +40,23 @@ export default function useForm() {
     e.preventDefault();
   };
 
-  const onLoginSuccess = () => {
+  const onLoginSuccess = (func) => {
     // Swal.fire({
     //   icon: 'success',
     //   title: '✨✨✨ 로그인! ✨✨✨',
     //   showConfirmButton: false,
     //   timer: 1500
     // })
-    history.push("/main");
+    func((prev) => !prev);
+    // console.log(window.location);
+
+    const { pathname } = window.location;
+
+    if (pathname === "/main") {
+      window.location.reload();
+    } else {
+      history.push("/main");
+    }
     console.log("로그인 완료");
   };
 

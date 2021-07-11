@@ -1,40 +1,78 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { MyDiaryFrontHeader } from "../../../../styles/main/cards/MyCards.style";
 import {
   NameSpan,
   OtherDiary,
   OtherDiaryIconWrapper,
+  FaceWeather,
+  Heart,
 } from "../../../../styles/main/cards/OtherCards.style";
-import mypic from "../../../../images/mypic.jpeg";
 import { Icon } from "react-icons-kit";
 import { heart, heartO } from "react-icons-kit/fa";
 import { splitDate, findEmj, checkEmpha } from "./cardfunction";
 import { connect } from "react-redux";
 import { icons } from "../../../../icons/icons";
-import styled from "styled-components";
+import { addEmpathy, removeEmpathy } from "../../../../actions";
+import axios from "axios";
 
-const OtherCard = ({ diary, userInfo }) => {
+const OtherCard = ({ diary, userInfo, addEmpathy, removeEmpathy }) => {
   const { faceIcons, weatherIcons } = icons;
-  const { id } = userInfo.userInfo;
-
+  const { id, nickname } = userInfo.userInfo;
+  const { accessToken } = userInfo.login;
   const { date, image, feeling, user, weather, emphathies } = diary;
 
-  const heartCheck = (e) => {
+  const addEpt = (e) => {
     // stop Bubbling of Event
     e.stopPropagation();
-    console.log("YEAHEEEE");
+
+    return axios
+      .post(
+        "https://oneul.site/O_NeulServer/emphathy/add",
+        { diaryId: diary.id },
+        {
+          headers: { authorization: "Bearer " + accessToken },
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        return res.data.data.emphathy.id;
+      })
+      .then((data) => {
+        addEmpathy(diary.id, { id: data, user: { id, nickname } });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const removeEpt = (e) => {
+    // stop Bubbling of Event
+    e.stopPropagation();
+
+    return axios
+      .delete("https://oneul.site/O_NeulServer/emphathy/delete", {
+        headers: { authorization: "Bearer " + accessToken },
+        data: { diaryId: diary.id },
+        withCredentials: true,
+      })
+      .then((res) => {
+        removeEmpathy(diary.id, res.data.data.emphathy.id);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
     <OtherDiary
       onClick={() => {
-        console.log("clicked");
+        console.log(diary.id);
       }}
     >
       <MyDiaryFrontHeader>
         {splitDate(date)[0]}년 {splitDate(date)[1]}월 {splitDate(date)[2]}일
       </MyDiaryFrontHeader>
-      <img src={mypic} alt="" />
+      <img src={image} alt="" />
       <NameSpan>{user && user.nickname}</NameSpan>
       <OtherDiaryIconWrapper>
         <Heart>
@@ -42,15 +80,18 @@ const OtherCard = ({ diary, userInfo }) => {
             <Icon
               icon={heart}
               size={26}
-              style={{ color: "#f06f83", cursor: "pointer" }}
-              onClick={(e) => heartCheck(e)}
+              style={{
+                color: "#f06f83",
+                cursor: "pointer",
+              }}
+              onClick={(e) => removeEpt(e)}
             ></Icon>
           ) : (
             <Icon
               icon={heartO}
               size={26}
               style={{ color: "#f06f83", cursor: "pointer" }}
-              onClick={(e) => heartCheck(e)}
+              onClick={(e) => addEpt(e)}
             ></Icon>
           )}
         </Heart>
@@ -67,24 +108,6 @@ const mapStateToProps = ({ loginReducer }) => {
   return { userInfo: loginReducer };
 };
 
-export default connect(mapStateToProps)(OtherCard);
-
-const FaceWeather = styled.div`
-  display: flex;
-  align-items: center;
-  & svg {
-    width: 4rem;
-    height: 4rem;
-  }
-
-  font-size: 2.5rem;
-`;
-
-const Heart = styled.div`
-  transform: scale(0.9);
-  transition: transform 0.3s ease;
-
-  &:hover {
-    transform: scale(1.03);
-  }
-`;
+export default connect(mapStateToProps, { addEmpathy, removeEmpathy })(
+  OtherCard
+);

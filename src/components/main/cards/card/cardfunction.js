@@ -12,5 +12,5 @@ export const findEmj = (category, id) => {
 };
 
 export const checkEmpha = (category, id) => {
-  return category.some((ele) => ele.id === id);
+  return category.some((ele) => ele.user.id === id);
 };

@@ -18,7 +18,7 @@ const LandingMain = () => {
   }, []);
 
   return (
-    <MainWrapper id="section1">
+    <MainWrapper id="mainsection">
       <MainDivForColor>
         <MainInnerSection>
           <MainInnerWrapper>

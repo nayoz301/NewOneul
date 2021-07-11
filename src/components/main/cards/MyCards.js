@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Carousel from "react-elastic-carousel";
 import { myDiaryArrow, diaryResponsive } from "../../landing/card/carousel";
 import { Icon } from "react-icons-kit";
@@ -11,8 +11,22 @@ import {
 } from "../../../styles/main/cards/MyCards.style";
 import { connect } from "react-redux";
 import MyCard from "./card/MyCard";
+import { useState } from "react";
+import Signup from "../../modals/signup_in/Signup";
+import AOS from "aos";
 
 const MyCards = ({ diary, userInfo }) => {
+  useEffect(() => {
+    AOS.init();
+  }, []);
+  const [modal, setModal] = useState(false);
+
+  const changeModal = () => {
+    setModal((prev) => !prev);
+  };
+
+  console.log(modal);
+
   const content =
     diary.myDiary.length === 0 ? (
       <DiaryLogin>
@@ -36,13 +50,14 @@ const MyCards = ({ diary, userInfo }) => {
     <MyCardWrapper>
       <MyDiaryHeader>나의 오늘 .</MyDiaryHeader>
       {userInfo.login.accessToken === "" ? (
-        <DiaryLogin>
+        <DiaryLogin onClick={changeModal}>
           로그인
           <Icon icon={unlock} />
         </DiaryLogin>
       ) : (
         content
       )}
+      {modal && <Signup handleModal={changeModal} />}
     </MyCardWrapper>
   );
 };
