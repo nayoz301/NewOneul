@@ -162,16 +162,20 @@ const DiaryWriting = ({
             }
           )
           .then((data) => {
+            console.log("data", data);
             setDataFromServer(data);
-            modalHandle(); //모달창 닫기
-            console.log(data.data);
-            console.log("퍼블릭여부", data.data.data.isPublic);
-            if (data.data.data.isPublic) {
-              const newDiary = data.data.data;
-              addNewPublicDiary(data.data.data);
+            // console.log("데이터굴레", data.data.data.data.data);
+            // console.log("퍼블릭여부", data.data.data.isPublic);
+            return data.data.data;
+          })
+          .then((res) => {
+            console.log("res::", res);
+            if (res.isPublic) {
+              addNewPublicDiary(res);
             } else {
-              addNewPrivateDiary(data.data.data);
+              addNewPrivateDiary(res);
             }
+            modalHandle(); //모달창 닫기
             alert("오늘도 수고하셨습니다");
           })
           .catch((res) => {
@@ -476,22 +480,22 @@ const FooterPost = styled.button`
   }
 `;
 
-const mapDispatchToProps = {
-  addNewPublicDiary: (newPublicDiary) => {
-    addNewPublicDiary(newPublicDiary);
-  },
-  addNewPrivateDiary: (newPrivateDiary) => {
-    addNewPrivateDiary(newPrivateDiary);
-  },
-};
+//이렇게 써도됌
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     addNewPublicDiary: (newobj) => dispatch(addNewPublicDiary(newobj)),
+//     addNewPrivateDiary: (newobj) => dispatch(addNewPublicDiary(newobj)),
+//   };
+// };
+// export default connect(mapStateToProps, mapDispatchToProps)(DiaryWriting);
 
-const mapStateToProps = ({ loginReducer, mainReducer }) => {
+const mapStateToProps = ({ loginReducer }) => {
   return {
     userInfo: loginReducer,
-    musicList: mainReducer,
-    publicDiary: mainReducer,
-    myDiary: mainReducer,
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DiaryWriting);
+export default connect(mapStateToProps, {
+  addNewPublicDiary,
+  addNewPrivateDiary,
+})(DiaryWriting);

@@ -1,6 +1,4 @@
 import React, { useRef, useEffect, useState } from "react";
-import axios from "axios";
-import MusicModal from "../modals/MusicModal";
 import "./Painting.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,7 +9,6 @@ import {
 import { faMusic } from "@fortawesome/free-solid-svg-icons";
 import {
   faImage as farImage,
-  faFile as farFile,
   faStickyNote as farStickyNote,
 } from "@fortawesome/free-regular-svg-icons";
 import s3 from "../../upload/s3";
@@ -54,9 +51,7 @@ const Painting = ({ canvasRef, musicModalOnOff }) => {
   const buttonClickHandler = (e) => {
     setButtonClicked(e.target.id);
   };
-  // console.log(buttonClicked);
 
-  // const canvasRef = useRef(null);
   const ctx = useRef();
   const fileRef = useRef();
 
@@ -260,7 +255,10 @@ const Painting = ({ canvasRef, musicModalOnOff }) => {
   };
 
   const handleClearClick = () => {
-    ctx.current.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    // ctx.current.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); //이거하면 다 사라지고 투명해지지만 실제 데이터 받으면 검게 나오므로 맞지만 사용X
+    ctx.current.fillStyle = "white"; // 일단 화이트로 바꾼다.
+    ctx.current.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); //캔버스 배경 전체를 흰색으로 지워준다.
+    ctx.current.fillStyle = ctx.current.strokeStyle; //원래 연필 색상으로 다시 돌려놓는다.
   };
 
   function handleFillClick() {
@@ -338,7 +336,12 @@ const Painting = ({ canvasRef, musicModalOnOff }) => {
       ctx.current.stroke();
       // console.log("x,y", nativeEvent.offsetX, nativeEvent.offsetY);
     } else if (erasing) {
-      ctx.current.globalCompositeOperation = "destination-out";
+      // ctx.current.globalCompositeOperation = "destination-out"; //이게 정석 지우개지만 이걸로 하면 검정화면 나타남
+      ctx.current.globalCompositeOperation = "source-over";
+      const colorExtra = ctx.current.strokeStyle; //일단 지금 선택된 색깔 킵하고
+      ctx.current.strokeStyle = "white"; // 지우개에 흰색 입혀서 지우고 마지막에 다시 선택된 색 넣어준다
+      ctx.current.fillStyle = "white"; // 이거 안해주면 마우스 포인터가 색깔그대로
+
       ctx.current.lineWidth = 15;
       ctx.current.beginPath();
       ctx.current.arc(
@@ -358,6 +361,9 @@ const Painting = ({ canvasRef, musicModalOnOff }) => {
         getMouesPosition(nativeEvent).y
       );
       ctx.current.stroke();
+
+      ctx.current.strokeStyle = colorExtra; //여기서 다시 아까 쓰던 색 넣어줌
+      ctx.current.fillStyle = colorExtra;
     }
   };
   const handleEraserClick = () => {
@@ -402,7 +408,9 @@ const Painting = ({ canvasRef, musicModalOnOff }) => {
 
     ctx.current = canvas.getContext("2d");
     ctx.current.strokeStyle = BASE_COLOR;
-    ctx.current.fillStyle = BASE_COLOR;
+
+    ctx.current.fillStyle = "white"; //캔버스 기본 바탕색깔 흰색으로 세팅. PNG는 투명이 되지만 JPEG는 기본이 투명 안되고 검은색.
+    ctx.current.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); //캔버스 기본 바탕색깔 흰색으로 세팅.
   }, []);
 
   return (

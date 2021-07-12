@@ -1,5 +1,4 @@
 import React from "react";
-import { music } from "react-icons-kit/icomoon";
 import Music from "../music/Music";
 
 const MusicModal = (props) => {

@@ -4,6 +4,7 @@ import { circle, stepBackward, stepForward } from "react-icons-kit/iconic/";
 import { pause2 } from "react-icons-kit/icomoon/pause2";
 import { ic_close } from "react-icons-kit/md/ic_close";
 import { plus } from "react-icons-kit/feather/plus";
+import uniqueId from "lodash/uniqueId";
 import axios from "axios";
 
 import {
@@ -36,15 +37,12 @@ const Music = ({ musicModalOnOff, musicOpen, getMusicData, musicList }) => {
   const [index, setIndex] = useState(0);
   const [currentTime, setCurrentTime] = useState("0:00");
   const [musicLists, setMusicLists] = useState(music);
+  const [filtered, setFiltered] = useState(music);
   const [genre, setGenre] = useState("");
+  const [genreList, setGenreList] = useState("");
   const [selectedSong, setSelectedSong] = useState(null);
-
   const [volume, setVolume] = useState(0.03);
   const [muteState, setMuteState] = useState(false);
-
-  const [genreList, setGenreList] = useState("");
-  const [filtered, setFiltered] = useState(music);
-
   const [currentSong, setCurrentSong] = useState(musics[index]);
 
   let playerRef = useRef();
@@ -57,6 +55,11 @@ const Music = ({ musicModalOnOff, musicOpen, getMusicData, musicList }) => {
     setCurrentSong(filtered[index]);
   }, [index]);
 
+  useEffect(() => {
+    //리덕스로 곡 불러올떄
+    musicSetting();
+  }, [filtered]);
+
   const musicSetting = () => {
     //리덕스로 곡 불러올떄
     let dataLists = genreKinds(musicList.musicList);
@@ -64,12 +67,6 @@ const Music = ({ musicModalOnOff, musicOpen, getMusicData, musicList }) => {
     setMusicLists(musicList.musicList);
     setFiltered(musicList.musicList);
   };
-  console.log("뮤직리스트", musicList);
-
-  useEffect(() => {
-    //리덕스로 곡 불러올떄
-    musicSetting();
-  }, []);
 
   // useEffect(() => {
   //   //개인 서버에서 정보 불러올 때 쓰는 함수
@@ -388,15 +385,14 @@ const Music = ({ musicModalOnOff, musicOpen, getMusicData, musicList }) => {
         </div>
       </div>
       <div className="play-list">
-        {filtered.map((music, key = 0) => (
-          <div className="play-list-one" key={key}>
+        {filtered.map((music) => (
+          <div className="play-list-one" key={uniqueId()}>
             <div
-              key={key}
-              onClick={() => clickAudio(key)}
+              onClick={() => clickAudio(music.id)}
               className={
                 "track " +
-                (index === key && !pause ? "current-audio" : "") +
-                (index === key && pause ? "play-now" : "")
+                (index === music.id && !pause ? "current-audio" : "") +
+                (index === music.id && pause ? "play-now" : "")
               }
             >
               <img className="track-img" src={music.img} />
@@ -409,13 +405,12 @@ const Music = ({ musicModalOnOff, musicOpen, getMusicData, musicList }) => {
                 <span className="track-author">{music.author}</span>
               </div>
               <span className="track-duration">
-                {index === key ? currentTime : music.duration}
+                {index === music.id ? currentTime : music.duration}
               </span>
               <button
                 className="track-select"
                 title={music.id}
                 onClick={(e) => {
-                  console.log("누르면", e.target.title);
                   sendSongInfo(e);
                   getMusicData(e.target.title);
                   e.stopPropagation(); //버튼 클릭할 때 재생 곡이 바뀌는 걸 방지해준다. 버블링 캡쳐링 금지

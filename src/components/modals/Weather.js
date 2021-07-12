@@ -21,11 +21,11 @@ import {
 // ];
 
 const weathers = [
-  { id: 0, weather: iosSunnyOutline, color: "#e32119" },
-  { id: 1, weather: iosPartlysunnyOutline, color: "#ff8a00" },
-  { id: 2, weather: iosCloudyOutline, color: "#989898" },
-  { id: 3, weather: iosRainyOutline, color: "#0099e5" },
-  { id: 4, weather: iosSnowy, color: "#44c7f4" },
+  { id: 1, weather: iosSunnyOutline, color: "#e32119" },
+  { id: 2, weather: iosPartlysunnyOutline, color: "#ff8a00" },
+  { id: 3, weather: iosCloudyOutline, color: "#989898" },
+  { id: 4, weather: iosRainyOutline, color: "#0099e5" },
+  { id: 5, weather: iosSnowy, color: "#44c7f4" },
 ];
 
 const WeathersBody = styled.div`
@@ -63,7 +63,7 @@ const WeatherModal = ({ weatherData }) => {
         }}
       >
         <WeathersBody className="weathers-body">
-          {weathers.map((weather, idx) => {
+          {weathers.map((weather) => {
             return (
               <WeatherUnit key={uniqueId()}>
                 <Icon
@@ -71,13 +71,14 @@ const WeatherModal = ({ weatherData }) => {
                   // size={idx === weatherChosen ? 35 : 32}
                   size={32}
                   onClick={() => {
-                    setWeatherChosen(idx);
-                    weatherData(idx);
+                    setWeatherChosen(weather.id);
+                    weatherData(weather.id);
                   }}
                   style={{
-                    color: idx === weatherChosen ? weather.color : "#8a959e",
+                    color:
+                      weather.id === weatherChosen ? weather.color : "#8a959e",
                     backgroundColor:
-                      idx === weatherChosen
+                      weather.id === weatherChosen
                         ? weather.color + "45"
                         : "transparent",
                     borderRadius: "50%",

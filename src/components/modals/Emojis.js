@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -23,40 +23,41 @@ import {
   faGrinSquintTears as farGrinSquintTears,
   faGrinTongueWink as farGrinTongueWink,
 } from "@fortawesome/free-regular-svg-icons";
+import uniqueId from "lodash/uniqueId";
 
 const emojis = [
-  { id: 0, emoji: farMeh, color: "#a1a1a4" },
-  { id: 1, emoji: farSmile, color: "#ffdb00" },
-  { id: 2, emoji: farLaughBeam, color: "#fdca30" },
-  { id: 3, emoji: farLaughSquint, color: "#ffcb00" },
-  { id: 4, emoji: farGrinSquintTears, color: "#fdbb30" },
+  { id: 1, emoji: farMeh, color: "#a1a1a4" },
+  { id: 2, emoji: farSmile, color: "#ffdb00" },
+  { id: 3, emoji: farLaughBeam, color: "#fdca30" },
+  { id: 4, emoji: farLaughSquint, color: "#ffcb00" },
+  { id: 5, emoji: farGrinSquintTears, color: "#fdbb30" },
   {
-    id: 5,
+    id: 6,
     emoji: farKissWinkHeart,
     color: "#ea4c89",
   },
-  { id: 6, emoji: farGrinHearts, color: "#ea4c89" },
-  { id: 7, emoji: farGrinStars, color: "#6b5aed" },
-  { id: 8, emoji: farGrinTongueWink, color: "#2d72d9" },
+  { id: 7, emoji: farGrinHearts, color: "#ea4c89" },
+  { id: 8, emoji: farGrinStars, color: "#6b5aed" },
+  { id: 9, emoji: farGrinTongueWink, color: "#2d72d9" },
   {
-    id: 9,
+    id: 10,
     emoji: farGrinBeamSweat,
     color: "#7acef4",
   },
-  { id: 10, emoji: farFrown, color: "#ff8200" },
-  { id: 11, emoji: farAngry, color: "#fe423f" },
-  { id: 12, emoji: farGrimace, color: "#e32119" },
-  { id: 13, emoji: farTired, color: "#97a2a2" },
-  { id: 14, emoji: farDizzy, color: "#8a8b8c" },
-  { id: 15, emoji: farSurprise, color: "#8ee000" },
-  { id: 16, emoji: farFlushed, color: "#6cc24a" },
+  { id: 11, emoji: farFrown, color: "#ff8200" },
+  { id: 12, emoji: farAngry, color: "#fe423f" },
+  { id: 13, emoji: farGrimace, color: "#e32119" },
+  { id: 14, emoji: farTired, color: "#97a2a2" },
+  { id: 15, emoji: farDizzy, color: "#8a8b8c" },
+  { id: 16, emoji: farSurprise, color: "#8ee000" },
+  { id: 17, emoji: farFlushed, color: "#6cc24a" },
   {
-    id: 17,
+    id: 18,
     emoji: farMehRollingEyes,
     color: "#8a8acb",
   },
-  { id: 18, emoji: farSadTear, color: "#2bb3f3" },
-  { id: 19, emoji: farSadCry, color: "#147efb" },
+  { id: 19, emoji: farSadTear, color: "#2bb3f3" },
+  { id: 20, emoji: farSadCry, color: "#147efb" },
 ];
 
 const EmojiWrapper = styled.div`
@@ -127,10 +128,10 @@ const Emojis = ({ emojiModalOnOff, whatEmoji }) => {
       <EmojiWrapper className="emoji-wrapper">
         <EmojisHeaders className="emojis-header">오늘의 나</EmojisHeaders>
         <EmojisBody className="emojis-body">
-          {emojis.map((emoji, idx) => {
+          {emojis.map((emoji) => {
             return (
               <EmojiUnit
-                key={idx}
+                key={uniqueId()}
                 onClick={() => {
                   whatEmoji(emoji);
                   emojiModalOnOff();
@@ -138,12 +139,12 @@ const Emojis = ({ emojiModalOnOff, whatEmoji }) => {
                 style={{
                   fontSize: 25,
                   color: emoji.color,
-                  // color: idx === emojiChosen ? emoji.color : "#c6d6df",
+                  // color: emoji.id === emojiChosen ? emoji.color : "#c6d6df",
                 }}
               >
                 <FontAwesomeIcon
                   icon={emoji.emoji}
-                  // size={idx === emojiChosen ? 30 : 25}
+                  // size={emoji.id === emojiChosen ? 30 : 25}
                 />
               </EmojiUnit>
             );
