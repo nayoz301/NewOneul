@@ -13,14 +13,21 @@ import { findEmj, splitDate } from "./cardfunction";
 import { icons } from "../../../../../src/icons/icons";
 import { FaceWeather } from "../../../../styles/main/cards/OtherCards.style";
 import { makeHexCode } from "./makehex";
+import { removeDiary } from "../../../../actions/index"
+import { connect } from "react-redux";
 
-const MyCard = ({ diary }) => {
+const MyCard = ({ diary, removeDiary }) => {
   const { faceIcons, weatherIcons } = icons;
   const { date, feeling, text, weather } = diary;
 
-  const makeBackground = () => {
-    return makeHexCode();
-  };
+  // const makeBackground = () => {
+  //   return makeHexCode();
+  // };
+  const removePost = (e) => {
+    e.stopPropagation();
+
+    removeDiary(diary.id);
+  }
 
   return (
     <MyDiary>
@@ -36,8 +43,10 @@ const MyCard = ({ diary }) => {
           </FaceWeather>
         </IconWrapper>
       </MyDiaryCardFront>
-      <MyDiaryBack hexcode={makeBackground}>
+      {/* <MyDiaryBack hexcode={makeBackground}> */}
+      <MyDiaryBack>
         <MyDiaryBackTextWrapper>
+          <button onClick={(e) => removePost(e)}>삭제</button>
           <MyDiaryBackText>{text}</MyDiaryBackText>
         </MyDiaryBackTextWrapper>
       </MyDiaryBack>
@@ -45,4 +54,11 @@ const MyCard = ({ diary }) => {
   );
 };
 
-export default MyCard;
+const mapStateToProps = ({ loginReducer }) => {
+  return { userInfo: loginReducer };
+};
+
+export default connect(mapStateToProps, { removeDiary })(
+  MyCard
+);
+

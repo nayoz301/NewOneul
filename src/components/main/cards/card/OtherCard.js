@@ -62,7 +62,7 @@ const OtherCard = ({ diary, userInfo, addEmpathy, removeEmpathy }) => {
         console.log(err);
       });
   };
-  console.log("다이어리", diary);
+
   return (
     <OtherDiary
       onClick={() => {
@@ -75,7 +75,7 @@ const OtherCard = ({ diary, userInfo, addEmpathy, removeEmpathy }) => {
       <img src={image} alt="" />
       <NameSpan>{user && user.nickname}</NameSpan>
       <OtherDiaryIconWrapper>
-        {/* <Heart>
+        <Heart>
           {checkEmpha(emphathies, id) ? (
             <Icon
               icon={heart}
@@ -94,7 +94,7 @@ const OtherCard = ({ diary, userInfo, addEmpathy, removeEmpathy }) => {
               onClick={(e) => addEpt(e)}
             ></Icon>
           )}
-        </Heart> */}
+        </Heart>
         <FaceWeather>
           {weather && findEmj(weatherIcons, weather).icon}
           {feeling && findEmj(faceIcons, feeling).icon}
