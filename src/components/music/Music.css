@@ -272,6 +272,7 @@ body .player-wrapper {
   flex-direction: column;
   padding: 0rem;
   height: 34vh;
+  width: 100%; /*이건 다시 보기*/
   overflow-y: scroll; /*이걸로 스크롤*/
 }
 

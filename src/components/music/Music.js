@@ -4,6 +4,7 @@ import { circle, stepBackward, stepForward } from "react-icons-kit/iconic/";
 import { pause2 } from "react-icons-kit/icomoon/pause2";
 import { ic_close } from "react-icons-kit/md/ic_close";
 import { plus } from "react-icons-kit/feather/plus";
+import uniqueId from "lodash/uniqueId";
 import axios from "axios";
 
 import {
@@ -17,6 +18,7 @@ import {
 import "./Music.css";
 import SelectBar from "./SelectBar";
 import musics from "./musics";
+import { connect } from "react-redux";
 
 const music = [
   {
@@ -30,22 +32,17 @@ const music = [
   },
 ];
 
-const Music = (props) => {
-  const { musicModalOnOff, musicOpen } = props;
-
+const Music = ({ musicModalOnOff, musicOpen, getMusicData, musicList }) => {
   const [pause, setPause] = useState(false);
   const [index, setIndex] = useState(0);
   const [currentTime, setCurrentTime] = useState("0:00");
-  const [musicList, setMusicList] = useState(music);
+  const [musicLists, setMusicLists] = useState(music);
+  const [filtered, setFiltered] = useState(music);
   const [genre, setGenre] = useState("");
+  const [genreList, setGenreList] = useState("");
   const [selectedSong, setSelectedSong] = useState(null);
-
   const [volume, setVolume] = useState(0.03);
   const [muteState, setMuteState] = useState(false);
-
-  const [genreList, setGenreList] = useState("");
-  const [filtered, setFiltered] = useState(music);
-
   const [currentSong, setCurrentSong] = useState(musics[index]);
 
   let playerRef = useRef();
@@ -54,32 +51,47 @@ const Music = (props) => {
   let playheadRef = useRef();
   let volumeControllerRef = useRef(); //볼륨 슬라이더 보임 안보임 효과 때문에 넣었음
 
-  //실험 7월 1일 10시
-  useEffect(() => {
-    getGenreHandler();
-  }, []);
-
   useEffect(() => {
     setCurrentSong(filtered[index]);
   }, [index]);
 
-  const getGenreHandler = async () => {
-    return await axios
-      .get("http://localhost:4000/genre", {
-        headers: { "content-type": "application/json", withCredentials: true },
-      })
-      .then((data) => {
-        //data === musics 배열인셈
-        let dataLists = genreKinds(data.data); //dataLists에 장르만 추출
-        setGenreList(dataLists);
-        setMusicList(data.data);
-        setFiltered(data.data);
-        // console.log("받아온 데이터", data.data);
-      })
-      .catch((err) => {
-        alert("장르를 받아오지 못헀습니다");
-      });
+  useEffect(() => {
+    //리덕스로 곡 불러올떄
+    musicSetting();
+  }, [filtered]);
+
+  const musicSetting = () => {
+    //리덕스로 곡 불러올떄
+    let dataLists = genreKinds(musicList.musicList);
+    setGenreList(dataLists);
+    setMusicLists(musicList.musicList);
+    setFiltered(musicList.musicList);
   };
+
+  // useEffect(() => {
+  //   //개인 서버에서 정보 불러올 때 쓰는 함수
+  //   getGenreHandler();
+  // }, []);
+
+  // const getGenreHandler = async () => {
+  //   //개인 서버에서 정보 불러올 때 쓰는 함수
+  //   return await axios
+  //     .get("http://localhost:4000/genre", {
+  //       headers: { "content-type": "application/json", withCredentials: true },
+  //     })
+  //     .then((data) => {
+  //       //data === musics 배열인셈
+  //       let dataLists = genreKinds(data.data); //dataLists에 장르만 추출
+  //       console.log("뮤직리스츠", data.data);
+  //       setGenreList(dataLists);
+  //       setMusicLists(data.data);
+  //       setFiltered(data.data);
+  //       // console.log("받아온 데이터", data.data);
+  //     })
+  //     .catch((err) => {
+  //       alert("장르를 받아오지 못헀습니다");
+  //     });
+  // };
 
   const genreKinds = (data) => {
     //장르 종류 추출해서 셀렉트바에 보내줘야함
@@ -95,16 +107,11 @@ const Music = (props) => {
 
   const getGenre = (selectedGenre) => {
     setGenre(selectedGenre);
-    // console.log("셀렉바에서 선택된 장르::", selectedGenre);
   };
 
   const sendSongInfo = (e) => {
     setSelectedSong(e.target.title);
-    console.log(e.target.title);
   };
-
-  // console.log("곡이름 실험", musicList[selectedSong]);
-  // console.log("커렌트 송", currentSong);
 
   useEffect(() => {
     playerRef.current.volume = volume;
@@ -112,7 +119,6 @@ const Music = (props) => {
   }, [volume, muteState]);
 
   useEffect(() => {
-    // console.log("타임라인, 플레이어::", timelineRef.current, playerRef.current);
     playerRef.current.addEventListener("timeupdate", timeUpdate);
     playerRef.current.addEventListener("ended", nextSong, false);
     timelineRef.current.addEventListener("click", changeCurrentTime, false);
@@ -197,7 +203,7 @@ const Music = (props) => {
   };
 
   const nextSong = () => {
-    setIndex((index + 1) % musicList.length);
+    setIndex((index + 1) % musicLists.length);
     updatePlayer();
     if (pause) {
       playerRef.current.play();
@@ -205,7 +211,7 @@ const Music = (props) => {
   };
 
   const prevSong = () => {
-    setIndex((index + musicList.length - 1) % musicList.length);
+    setIndex((index + musicLists.length - 1) % musicLists.length);
     updatePlayer();
     if (pause) {
       playerRef.current.play();
@@ -241,9 +247,9 @@ const Music = (props) => {
   };
   //실험
   useEffect(() => {
-    let filteredList = filterListByGenre(musicList);
+    let filteredList = filterListByGenre(musicLists);
     // console.log("장르 바뀔 때마다 필터한 리스트", filteredList);
-    // setMusicList(filteredList);
+    // setMusicLists(filteredList);
     setFiltered(filteredList);
     setIndex(0);
   }, [genre]);
@@ -326,8 +332,8 @@ const Music = (props) => {
           <div className="song_alert_wrapper">
             <span className="song_alert">
               {selectedSong &&
-                musicList &&
-                `${musicList[selectedSong].name} 곡이 배경음악으로 설정되었습니다.`}
+                musicLists &&
+                `${musicLists[selectedSong].name} 곡이 배경음악으로 설정되었습니다.`}
             </span>
           </div>
 
@@ -379,31 +385,34 @@ const Music = (props) => {
         </div>
       </div>
       <div className="play-list">
-        {filtered.map((music, key = 0) => (
-          <div className="play-list-one" key={key}>
+        {filtered.map((music) => (
+          <div className="play-list-one" key={uniqueId()}>
             <div
-              key={key}
-              onClick={() => clickAudio(key)}
+              onClick={() => clickAudio(music.id)}
               className={
                 "track " +
-                (index === key && !pause ? "current-audio" : "") +
-                (index === key && pause ? "play-now" : "")
+                (index === music.id && !pause ? "current-audio" : "") +
+                (index === music.id && pause ? "play-now" : "")
               }
             >
               <img className="track-img" src={music.img} />
               <div className="track-info">
-                <span className="track-name">{music.name}</span>
+                <span className="track-name">
+                  {music.name.length >= 20
+                    ? `${music.name.slice(0, 18)}...`
+                    : music.name}
+                </span>
                 <span className="track-author">{music.author}</span>
               </div>
               <span className="track-duration">
-                {index === key ? currentTime : music.duration}
+                {index === music.id ? currentTime : music.duration}
               </span>
               <button
                 className="track-select"
                 title={music.id}
                 onClick={(e) => {
-                  console.log("누르면", e.target.title);
                   sendSongInfo(e);
+                  getMusicData(e.target.title);
                   e.stopPropagation(); //버튼 클릭할 때 재생 곡이 바뀌는 걸 방지해준다. 버블링 캡쳐링 금지
                 }}
               >
@@ -417,4 +426,10 @@ const Music = (props) => {
   );
 };
 
-export default Music;
+const mapStateToProps = ({ mainReducer }) => {
+  return {
+    musicList: mainReducer,
+  };
+};
+
+export default connect(mapStateToProps)(Music);

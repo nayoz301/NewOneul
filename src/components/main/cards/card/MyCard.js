@@ -10,7 +10,7 @@ import {
 } from "../../../../styles/main/cards/MyCards.style";
 import mypic from "../../../../images/mypic.jpeg";
 import { findEmj, splitDate } from "./cardfunction";
-import { icons } from "../../../../../../../../../컴퓨터/codestates/oneul/im28project02-client/src/icons/icons";
+import { icons } from "../../../../../src/icons/icons";
 import { FaceWeather } from "../../../../styles/main/cards/OtherCards.style";
 import { makeHexCode } from "./makehex";
 
