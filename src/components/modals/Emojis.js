@@ -82,7 +82,7 @@ const EmojiWrapper = styled.div`
     margin-left: -1rem;
     border-width: 1rem;
     border-style: solid;
-    border-color: transparent transparent #80594a transparent;
+    border-color: transparent transparent #827870 transparent;
   }
 
   & keyframes modal-show {
@@ -96,8 +96,8 @@ const EmojiWrapper = styled.div`
 `;
 
 const EmojisHeaders = styled.div`
-  color: #80594a;
-  background-color: rgba(255, 204, 204, 0.4);
+  color: #585b5c;
+  background-color: #f2ede3;
   font-size: 1.7rem;
   border: none;
   border-radius: 0.5rem;
