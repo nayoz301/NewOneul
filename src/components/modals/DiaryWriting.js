@@ -27,11 +27,12 @@ const DiaryWriting = ({
 
   const [emojiOpen, setEmojiOpen] = useState(false); //모달창 오픈 클로즈
   const [emojiChosen, SetEmojiChosen] = useState(0); //선택한 이모티콘 정보 여기 담김
-
   const [musicOpen, setMusicOpen] = useState(false);
-
   const [isPublic, SetIsPublic] = useState(false);
   const [diaryText, setDiaryText] = useState("");
+  const [weatherChosen, setWeatherChosen] = useState(null);
+  const [musicChosen, setMusicChosen] = useState(null);
+  const [dataFromServer, setDataFromServer] = useState(null);
 
   const emojiModalOnOff = () => {
     //이모지 모달창 끄고 닫기
@@ -63,10 +64,6 @@ const DiaryWriting = ({
 
   // const textAreaHeight = getTextAreaHeight();
   // useEffect(() => {}, []);
-
-  const [weatherChosen, setWeatherChosen] = useState(null);
-  const [musicChosen, setMusicChosen] = useState(null);
-  const [dataFromServer, setDataFromServer] = useState(null);
 
   const weatherData = (weather) => {
     setWeatherChosen(weather);
@@ -164,8 +161,6 @@ const DiaryWriting = ({
           .then((data) => {
             console.log("data", data);
             setDataFromServer(data);
-            // console.log("데이터굴레", data.data.data.data.data);
-            // console.log("퍼블릭여부", data.data.data.isPublic);
             return data.data.data;
           })
           .then((res) => {
@@ -203,20 +198,11 @@ const DiaryWriting = ({
   console.log("music", Number(musicChosen));
   return (
     <>
-      {/* <Body> */}
       <ModalWrapper className="modal-wrapper">
         <Header className="header">
-          {/* <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              width: "40%",
-            }}
-          > */}
           <HeaderDate className="date">
-            {clickmoment.format("LL dddd")}
+            <span> {clickmoment.format("LL dddd")}</span>
           </HeaderDate>
-          {/* </div> */}
 
           <HeaderEmoji className="emoji">
             <FontAwesomeIcon
@@ -289,7 +275,10 @@ const DiaryWriting = ({
             >
               업로드
             </button> */}
-            <span className="private" style={{ fontSize: "1.5rem" }}>
+            <span
+              className="private"
+              style={{ fontSize: "1.5rem", color: "#605138" }}
+            >
               <FooterPrivate
                 type="checkbox"
                 onClick={() => {
@@ -306,89 +295,81 @@ const DiaryWriting = ({
         </Footer>
       </ModalWrapper>
 
-      {/* <ModalBtn
-          onClick={() => {
-            console.log("모달시험");
-          }}
-        >
-          <FontAwesomeIcon
-            icon={faMusic}
-            style={{
-              fontSize: "20",
-              cursor: "pointer",
-            }}
-          />
-        </ModalBtn> */}
       <MusicModal
         musicOpen={musicOpen}
         musicModalOnOff={musicModalOnOff}
         getMusicData={getMusicData}
         style={{ display: "flex", position: "relative" }}
       />
-
-      {/* </Body> */}
     </>
   );
 };
-
-const Body = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 
 const ModalWrapper = styled.div`
   background-color: white;
   display: flex;
   flex-direction: column;
-  // border: 1px solid black;
   width: 50%;
   max-height: 95vh;
+  min-width: 42rem;
   // z-index: 50;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
-  @media screen and (max-width: 1340px) {
+  @media screen and (max-width: 1440px) {
     & {
-      width: 55%;
+      width: 67rem;
+      height: 67rem;
+    }
+  }
+
+  @media screen and (max-width: 760px) {
+    & {
+      width: 90%;
+      height: 95%;
+    }
+  }
+
+  @media screen and (max-width: 670px) {
+    & {
       height: 90%;
     }
   }
 
-  @media screen and (max-width: 1110px) {
+  @media screen and (max-width: 600px) {
     & {
-      width: 60%;
+      height: 85%;
+    }
+  }
+
+  @media screen and (max-width: 550px) {
+    & {
       height: 80%;
     }
   }
 
-  @media screen and (max-width: 1024px) {
+  @media screen and (max-width: 500px) {
     & {
-      width: 60%;
-      height: 80%;
-    }
-  }
-
-  @media screen and (max-width: 825px) {
-    & {
-      width: 60rem;
-      height: 80%;
+      height: 75%;
     }
   }
 `;
 
 const Header = styled.div`
-  // border: 1px solid black;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 4rem;
+  height: 4.5rem;
+  background-color: #d2c4ad;
+  border-top-right-radius: 1rem;
+  border-top-left-radius: 1rem;
 `;
 
 const HeaderDate = styled.div`
   // border: 1px solid black;
   flex: 5 1 40%;
   font-size: 1.7rem;
+  font-family: var(--thick-font);
   text-align: center;
 `;
 
@@ -397,12 +378,17 @@ const HeaderEmoji = styled.div`
   position: relative;
   flex: 1 1 20%;
   text-align: center;
+  // background-color: white;
+  padding: 0 -0.5rem;
+  border-radius: 1rem;
 `;
 
 const HeaderWeather = styled.div`
-  // border: 1px solid black;
   flex: 5 1 40%;
   text-align: center;
+  // background-color: white;
+  // border-radius: 1rem;
+  // margin-right: 1rem;
 `;
 
 const Canvas = styled.div`
@@ -420,36 +406,38 @@ const TextArea = styled.textarea`
   // padding: 2.5rem;
   font-size: 2rem;
   outline: none;
-  background-color: white;
-  color: rgb(39, 37, 37);
-
-
+  color: #7f7366;
+  font-family: var(--thick-font);
 
     background-attachment: local;
+    background-position: 0 0.5rem;
     background-image:
-      linear-gradient(to right, white 2rem, transparent 2rem),
-      linear-gradient(to left, white 2rem, transparent 2rem),
-      repeating-linear-gradient(white, white 3rem, #ccc 3rem, #ccc 3.1rem, white 3.1rem);
-    line-height: 3.1rem;
-    padding: 0.45rem 2rem;
+      linear-gradient(to right, #f2ede3 3rem, transparent 3rem), //가로
+      linear-gradient(to left, #f2ede3 3rem, transparent 3rem), //가로
+      repeating-linear-gradient(#f2ede3, #f2ede3 3.3rem, #d2c1aa 3.3rem, #d2c1aa 3.4rem, white 3.4rem);
+    line-height: 3.4rem;
+    padding: 1.2rem 3rem;
   }
 `;
 
 const Footer = styled.div`
-  // border: 1px solid black;
+  background-color: #d2c4ad;
   display: flex;
   height: 4rem;
   justify-content: space-between;
   align-items: center;
+  border-bottom-right-radius: 1rem;
+  border-bottom-left-radius: 1rem;
 `;
 
 const FooterClose = styled.button`
-  // border: 1px solid rgb(27, 27, 27, 0.2);
   margin: 1rem 1rem;
   padding: 0.5rem;
   border-radius: 0.5rem;
   font-weight: 400;
   font-size: 1.4rem;
+  color: #605138;
+  border: 1px solid #60513860;
   z-index: 201; //뮤직창이 200이다
   &:active {
     transform: scale(0.95);
@@ -461,14 +449,15 @@ const FooterPrivate = styled.input`
   vertical-align: middle;
   margin: 0.5rem;
   font-size: 1.2rem;
-
+  color: red;
   &:active {
     transform: scale(0.8);
   }
 `;
 
 const FooterPost = styled.button`
-  // border: 1px solid rgb(27, 27, 27, 0.2);
+  color: #605138;
+  border: 1px solid #60513860;
   margin: 1rem 1rem;
   padding: 0.5rem;
   border-radius: 0.5rem;
