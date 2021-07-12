@@ -1,6 +1,4 @@
 import React, { useRef, useEffect, useState } from "react";
-import axios from "axios";
-import MusicModal from "../modals/MusicModal";
 import "./Painting.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,10 +9,9 @@ import {
 import { faMusic } from "@fortawesome/free-solid-svg-icons";
 import {
   faImage as farImage,
-  faFile as farFile,
   faStickyNote as farStickyNote,
 } from "@fortawesome/free-regular-svg-icons";
-import { fontSize } from "react-icons-kit/icomoon";
+import s3 from "../../upload/s3";
 let arr_Colors = [
   "#e32119",
   "#ff3b30",
@@ -42,21 +39,19 @@ let arr_Colors = [
   "#2c2c2c",
 ];
 
-const Painting = (props) => {
+const Painting = ({ canvasRef, musicModalOnOff }) => {
   const [filling, setFilling] = useState(false);
   const [painting, setPainting] = useState(false);
   const [eraser, setEraser] = useState(false);
   const [erasing, setErasing] = useState(false);
   const [lineWeight, setLineWeight] = useState(2.5);
 
-  const [buttonClicked, setButtonClicked] = useState(null);
+  const [buttonClicked, setButtonClicked] = useState("paint_btn");
 
   const buttonClickHandler = (e) => {
     setButtonClicked(e.target.id);
   };
-  console.log(buttonClicked);
 
-  const canvasRef = useRef(null);
   const ctx = useRef();
   const fileRef = useRef();
 
@@ -97,29 +92,55 @@ const Painting = (props) => {
   //   }
   // };
 
+  // function handleFileUpload() { // 이거는 로컬에 업로드하는 경우.
+  //   console.log(canvasRef.current);
+  //   canvasRef.current.toBlob(
+  //     function (blob) {
+  //       const img = new FormData();
+  //       img.append("file", blob, `${Date.now()}.jpeg`);
+  //       console.log(blob);
+  //       axios
+  //         .post("http://localhost:4000/upload", img, {
+  //           header: {
+  //             "content-type": "multipart/form-data",
+  //             credentials: true,
+  //           },
+  //         })
+  //         .then((res) => {
+  //           alert("파일이 성공적으로 저장되었습니다. 글을 작성해주세요");
+  //         })
+  //         .catch((err) => {
+  //           alert("파일이 저장되지 않았습니다. 다시 시도해주세요");
+  //         });
+  //     },
+  //     "image/jpeg",
+  //     0.8 //내릴수록 화질 안좋고 용량 줄어듦
+  //   );
+  // }
+
   function handleFileUpload() {
-    console.log(canvasRef.current);
+    //이건 s3에 업로드하는 경우
     canvasRef.current.toBlob(
       function (blob) {
         const img = new FormData();
         img.append("file", blob, `${Date.now()}.jpeg`);
         console.log(blob);
-        axios
-          .post("http://localhost:4000/upload", img, {
-            header: {
-              "content-type": "multipart/form-data",
-              credentials: true,
-            },
-          })
-          .then((res) => {
-            alert("파일이 성공적으로 저장되었습니다. 글을 작성해주세요");
-          })
-          .catch((err) => {
-            alert("파일이 저장되지 않았습니다. 다시 시도해주세요");
-          });
+
+        const param = {
+          Bucket: "oneulfile",
+          Key: "image/" + "abc",
+          ACL: "public-read",
+          Body: blob,
+          ContentType: "image/",
+        };
+
+        s3.upload(param, function (err, data) {
+          console.log(err);
+          console.log(data);
+        });
       },
       "image/jpeg",
-      0.8 //내릴수록 화질 안좋고 용량 줄어듦
+      0.8
     );
   }
 
@@ -234,7 +255,10 @@ const Painting = (props) => {
   };
 
   const handleClearClick = () => {
-    ctx.current.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    // ctx.current.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); //이거하면 다 사라지고 투명해지지만 실제 데이터 받으면 검게 나오므로 맞지만 사용X
+    ctx.current.fillStyle = "white"; // 일단 화이트로 바꾼다.
+    ctx.current.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); //캔버스 배경 전체를 흰색으로 지워준다.
+    ctx.current.fillStyle = ctx.current.strokeStyle; //원래 연필 색상으로 다시 돌려놓는다.
   };
 
   function handleFillClick() {
@@ -310,12 +334,16 @@ const Painting = (props) => {
         getMouesPosition(nativeEvent).y
       );
       ctx.current.stroke();
-      console.log("x,y", nativeEvent.offsetX, nativeEvent.offsetY);
+      // console.log("x,y", nativeEvent.offsetX, nativeEvent.offsetY);
     } else if (erasing) {
-      ctx.current.globalCompositeOperation = "destination-out";
+      // ctx.current.globalCompositeOperation = "destination-out"; //이게 정석 지우개지만 이걸로 하면 검정화면 나타남
+      ctx.current.globalCompositeOperation = "source-over";
+      const colorExtra = ctx.current.strokeStyle; //일단 지금 선택된 색깔 킵하고
+      ctx.current.strokeStyle = "white"; // 지우개에 흰색 입혀서 지우고 마지막에 다시 선택된 색 넣어준다
+      ctx.current.fillStyle = "white"; // 이거 안해주면 마우스 포인터가 색깔그대로
+
       ctx.current.lineWidth = 15;
       ctx.current.beginPath();
-      console.log("비긴패스", ctx.current.beginPath());
       ctx.current.arc(
         getMouesPosition(nativeEvent).x,
         getMouesPosition(nativeEvent).y,
@@ -333,13 +361,14 @@ const Painting = (props) => {
         getMouesPosition(nativeEvent).y
       );
       ctx.current.stroke();
+
+      ctx.current.strokeStyle = colorExtra; //여기서 다시 아까 쓰던 색 넣어줌
+      ctx.current.fillStyle = colorExtra;
     }
   };
   const handleEraserClick = () => {
     setEraser(true);
   };
-
-  //내꺼
 
   const handleColorClick = (e) => {
     console.log("버튼 컬러클릭");
@@ -379,7 +408,9 @@ const Painting = (props) => {
 
     ctx.current = canvas.getContext("2d");
     ctx.current.strokeStyle = BASE_COLOR;
-    ctx.current.fillStyle = BASE_COLOR;
+
+    ctx.current.fillStyle = "white"; //캔버스 기본 바탕색깔 흰색으로 세팅. PNG는 투명이 되지만 JPEG는 기본이 투명 안되고 검은색.
+    ctx.current.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); //캔버스 기본 바탕색깔 흰색으로 세팅.
   }, []);
 
   return (
@@ -533,13 +564,10 @@ const Painting = (props) => {
           onContextMenu={disableRightClick}
         ></canvas>
 
-        <button id="music_btn" onClick={props.musicModalOnOff}>
+        <button id="music_btn" onClick={musicModalOnOff}>
           <FontAwesomeIcon
             icon={faMusic}
             style={{ fontSize: 20, border: "none", pointerEvents: "none" }}
-            onClick={(e) => {
-              console.log("뭐 눌렀니", e.target);
-            }}
           />
         </button>
       </section>

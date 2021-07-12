@@ -11,6 +11,8 @@ const mainReducer = (
     newEmphathyObj,
     empathyId,
     newDiary,
+    newPublicDiary,
+    newPrivateDiary,
   }
 ) => {
   switch (type) {
@@ -27,6 +29,17 @@ const mainReducer = (
         publicDiary: [...publicDiary],
         myDiary: [...myDiary],
         musicList: [...musicList],
+      };
+    case "ADD_NEW_PUBLIC_DIARY":
+      return {
+        ...state,
+        publicDiary: [newPublicDiary, ...state.publicDiary],
+        myDiary: [newPublicDiary, ...state.myDiary],
+      };
+    case "ADD_NEW_PRIVATE_DIARY":
+      return {
+        ...state,
+        myDiary: [newPrivateDiary, ...state.myDiary],
       };
     case "ADD_EMPATHY":
       return {

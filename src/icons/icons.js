@@ -91,6 +91,7 @@ export const icons = {
     { id: 19, icon: makeFaceIcon(farSadTear, "2bb3f3") },
     { id: 20, icon: makeFaceIcon(farSadCry, "147efb") },
   ],
+
   weatherIcons: [
     { id: 1, icon: makeWeatherIcon(iosSunnyOutline, "f96854") },
     { id: 2, icon: makeWeatherIcon(iosCloudyOutline, "ffb900") },

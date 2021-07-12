@@ -1,26 +1,37 @@
 import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
 import styled from "styled-components";
+import "moment/locale/ko";
+import s3 from "../../upload/s3";
 import WeatherModal from "./Weather";
 import EmojiModal from "./EmojiModal";
-import "moment/locale/ko";
 import MusicModal from "./MusicModal";
 import Painting from "../painting/Painting";
-import "./DiaryWriting.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMusic } from "@fortawesome/free-solid-svg-icons";
 import { faSmile as farSmile } from "@fortawesome/free-regular-svg-icons";
+import "./DiaryWriting.css";
+import { connect } from "react-redux";
+import { addNewPublicDiary } from "../../actions";
+import { addNewPrivateDiary } from "../../actions";
 
-const DiaryWriting = (props) => {
-  const { modalHandle, clickmoment } = props;
+const DiaryWriting = ({
+  modalHandle,
+  clickmoment,
+  userInfo,
+  addNewPublicDiary,
+  addNewPrivateDiary,
+}) => {
   const textRef = useRef();
 
+  const canvasRef = useRef(null);
+
   const [emojiOpen, setEmojiOpen] = useState(false); //모달창 오픈 클로즈
-  const [emojiPresent, SetEmojiPresent] = useState(null); //선택한 이모티콘 정보 여기 담김
+  const [emojiChosen, SetEmojiChosen] = useState(0); //선택한 이모티콘 정보 여기 담김
 
   const [musicOpen, setMusicOpen] = useState(false);
 
-  const [isPrivate, SetIsPrivate] = useState(false);
-  const [writing, setWriting] = useState("");
+  const [isPublic, SetIsPublic] = useState(false);
+  const [diaryText, setDiaryText] = useState("");
 
   const emojiModalOnOff = () => {
     //이모지 모달창 끄고 닫기
@@ -29,14 +40,13 @@ const DiaryWriting = (props) => {
 
   const musicModalOnOff = () => {
     //뮤직 모달창 끄고 닫기
-    console.log("일기장에서 뮤직모달 온오프 실험", musicOpen);
     setMusicOpen(!musicOpen);
   };
 
   const whatEmoji = (emoji) => {
     //이모지에서 선택한 놈 가져오는 함수
-    SetEmojiPresent({ emoji: emoji.emoji, color: emoji.color });
-    console.log("emoji.color", emojiPresent);
+    SetEmojiChosen({ emoji: emoji.emoji, color: emoji.color, id: emoji.id });
+    console.log("emoji.color", emoji.id);
   };
   const canvasHeight = (window.innerWidth / 2) * 0.45;
   const textAreaHeight = (window.innerHeight - 135 - canvasHeight) * 0.9;
@@ -54,7 +64,143 @@ const DiaryWriting = (props) => {
   // const textAreaHeight = getTextAreaHeight();
   // useEffect(() => {}, []);
 
-  console.log("윈도우", textAreaHeight);
+  const [weatherChosen, setWeatherChosen] = useState(null);
+  const [musicChosen, setMusicChosen] = useState(null);
+  const [dataFromServer, setDataFromServer] = useState(null);
+
+  const weatherData = (weather) => {
+    setWeatherChosen(weather);
+    return;
+  };
+
+  const getMusicData = (music) => {
+    setMusicChosen(music);
+    return;
+  };
+
+  function handleFileUpload() {
+    //이건 s3에 업로드하는 경우
+    return new Promise((resolve, reject) => {
+      canvasRef.current.toBlob(
+        (blob) => {
+          const img = new FormData();
+          img.append("file", blob, `${Date.now()}`.png);
+
+          const param = {
+            Bucket: "oneulfile",
+            Key: "image/" + `${userInfo.userInfo.id}/` + Date.now(),
+            ACL: "public-read",
+            Body: blob,
+            ContentType: "image/",
+          };
+
+          s3.upload(param, (err, data) => {
+            if (err) {
+              reject(err);
+            } else {
+              return resolve(data);
+            }
+          });
+        },
+        "image/jpeg",
+        0.8
+      );
+    });
+  }
+
+  // const handleFileUpload = () => {
+  //   //이건 s3에 업로드하는 경우
+  //   canvasRef.current.toBlob(
+  //     function (blob) {
+  //       const img = new FormData();
+  //       img.append("file", blob, `${Date.now()}.jpeg`);
+  //       console.log(blob);
+
+  //       const param = {
+  //         Bucket: "oneulfile",
+  //         Key: "image/" + `${userInfo.userInfo.id}/` + Date.now(),
+  //         ACL: "public-read",
+  //         Body: blob,
+  //         ContentType: "image/",
+  //       };
+
+  //       s3.upload(param, function (err, data) {
+  //         console.log(err);
+  //         console.log(data);
+  //       });
+  //     },
+  //     "image/jpeg",
+  //     0.1
+  //   );
+  // };
+
+  const completeDiary = async () => {
+    if (emojiChosen.id && weatherChosen && diaryText && musicChosen) {
+      await handleFileUpload().then((res) => {
+        const url = res.Location;
+
+        return axios
+          .post(
+            "https://oneul.site/O_NeulServer/diary/write",
+            {
+              date: clickmoment.format("YYYY-M-D"),
+              feeling: emojiChosen.id,
+              weather: weatherChosen,
+              image: url,
+              text: diaryText,
+              isPublic: isPublic,
+              musicId: Number(musicChosen),
+            },
+            {
+              headers: {
+                authorization: "Bearer " + userInfo.login.accessToken,
+                "Content-Type": "application/json",
+              },
+            },
+            {
+              withCredentials: true,
+            }
+          )
+          .then((data) => {
+            console.log("data", data);
+            setDataFromServer(data);
+            // console.log("데이터굴레", data.data.data.data.data);
+            // console.log("퍼블릭여부", data.data.data.isPublic);
+            return data.data.data;
+          })
+          .then((res) => {
+            console.log("res::", res);
+            if (res.isPublic) {
+              addNewPublicDiary(res);
+            } else {
+              addNewPrivateDiary(res);
+            }
+            modalHandle(); //모달창 닫기
+            alert("오늘도 수고하셨습니다");
+          })
+          .catch((res) => {
+            console.log(res, "Error has been occured");
+          });
+      });
+    } else {
+      if (!emojiChosen.id) {
+        alert("오늘의 기분을 선택해주세요");
+      } else if (!weatherChosen) {
+        alert("오늘의 날씨를 선택해주세요");
+      } else if (!diaryText) {
+        alert("일기를 입력해주세요");
+      } else if (!musicChosen) {
+        alert("음악을 선택해주세요");
+      }
+    }
+  };
+
+  console.log("text", diaryText);
+  console.log("weather", weatherChosen);
+  console.log("emoji", emojiChosen);
+  console.log("date", clickmoment.format("YYYY-M-D"));
+  console.log("private", isPublic);
+  console.log("music", Number(musicChosen));
   return (
     <>
       {/* <Body> */}
@@ -74,14 +220,14 @@ const DiaryWriting = (props) => {
 
           <HeaderEmoji className="emoji">
             <FontAwesomeIcon
-              icon={emojiPresent ? emojiPresent.emoji : farSmile}
+              icon={emojiChosen ? emojiChosen.emoji : farSmile}
               onClick={(e) => {
                 emojiModalOnOff();
               }}
               style={{
                 fontSize: 30,
                 cursor: "pointer",
-                color: emojiPresent ? emojiPresent.color : "#86888a",
+                color: emojiChosen ? emojiChosen.color : "#86888a",
                 backgroundColor: "transparent",
               }}
             />
@@ -93,17 +239,17 @@ const DiaryWriting = (props) => {
           </HeaderEmoji>
 
           <HeaderWeather className="weather">
-            <WeatherModal />
+            <WeatherModal weatherData={weatherData} />
           </HeaderWeather>
         </Header>
 
-        <Painting musicModalOnOff={musicModalOnOff} musicOpen={musicOpen} />
+        <Painting canvasRef={canvasRef} musicModalOnOff={musicModalOnOff} />
 
         <TextArea
           className="textarea"
           textAreaHeight={textAreaHeight}
           ref={textRef}
-          placeholder="오늘의 일기를 남겨주세요"
+          placeholder="오늘은 어떠셨나요?"
           onClick={(e) => {
             if (e.target.className === "textarea") {
               console.log(e.target.className);
@@ -112,7 +258,7 @@ const DiaryWriting = (props) => {
             return (textRef.current.style.backgroundColor = "white");
           }}
           onChange={(e) => {
-            setWriting(e.target.value);
+            setDiaryText(e.target.value);
           }}
         ></TextArea>
 
@@ -125,17 +271,37 @@ const DiaryWriting = (props) => {
               alignItems: "center",
             }}
           >
+            {/* <button
+              onClick={() => {
+                const param = {
+                  Bucket: "oneulfile",
+                  Key: "image/" + Date.now(),
+                  ACL: "public-read",
+                  Body: "file",
+                  ContentType: "image/",
+                };
+
+                s3.upload(param, function (err, data) {
+                  console.log(err);
+                  console.log(data);
+                });
+              }}
+            >
+              업로드
+            </button> */}
             <span className="private" style={{ fontSize: "1.5rem" }}>
               <FooterPrivate
                 type="checkbox"
                 onClick={() => {
-                  SetIsPrivate(!isPrivate);
+                  SetIsPublic(!isPublic);
                 }}
               />
               글 공개
             </span>
 
-            <FooterPost className="post">등록하기</FooterPost>
+            <FooterPost className="post" onClick={completeDiary}>
+              등록하기
+            </FooterPost>
           </div>
         </Footer>
       </ModalWrapper>
@@ -156,6 +322,7 @@ const DiaryWriting = (props) => {
       <MusicModal
         musicOpen={musicOpen}
         musicModalOnOff={musicModalOnOff}
+        getMusicData={getMusicData}
         style={{ display: "flex", position: "relative" }}
       />
 
@@ -179,6 +346,7 @@ const ModalWrapper = styled.div`
   max-height: 95vh;
   // z-index: 50;
   border-radius: 0.5rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
   @media screen and (max-width: 1340px) {
     & {
@@ -249,11 +417,22 @@ const TextArea = styled.textarea`
   height: ${(props) => props.textAreaHeight}px;
   resize: none;
   // z-index: 1;
-  padding: 2.5rem;
+  // padding: 2.5rem;
   font-size: 2rem;
   outline: none;
   background-color: white;
   color: rgb(39, 37, 37);
+
+
+
+    background-attachment: local;
+    background-image:
+      linear-gradient(to right, white 2rem, transparent 2rem),
+      linear-gradient(to left, white 2rem, transparent 2rem),
+      repeating-linear-gradient(white, white 3rem, #ccc 3rem, #ccc 3.1rem, white 3.1rem);
+    line-height: 3.1rem;
+    padding: 0.45rem 2rem;
+  }
 `;
 
 const Footer = styled.div`
@@ -301,4 +480,22 @@ const FooterPost = styled.button`
   }
 `;
 
-export default DiaryWriting;
+//이렇게 써도됌
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     addNewPublicDiary: (newobj) => dispatch(addNewPublicDiary(newobj)),
+//     addNewPrivateDiary: (newobj) => dispatch(addNewPublicDiary(newobj)),
+//   };
+// };
+// export default connect(mapStateToProps, mapDispatchToProps)(DiaryWriting);
+
+const mapStateToProps = ({ loginReducer }) => {
+  return {
+    userInfo: loginReducer,
+  };
+};
+
+export default connect(mapStateToProps, {
+  addNewPublicDiary,
+  addNewPrivateDiary,
+})(DiaryWriting);

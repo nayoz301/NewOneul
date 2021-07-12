@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import styled, { keyframes } from "styled-components";
+import React from "react";
+import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngry as farAngry,
@@ -23,9 +23,7 @@ import {
   faGrinSquintTears as farGrinSquintTears,
   faGrinTongueWink as farGrinTongueWink,
 } from "@fortawesome/free-regular-svg-icons";
-import AOS from "aos";
-import { useEffect } from "react";
-import { translateY } from "../../styles/global.style";
+import uniqueId from "lodash/uniqueId";
 
 const emojis = [
   { id: 1, emoji: farMeh, color: "#a1a1a4" },
@@ -62,18 +60,6 @@ const emojis = [
   { id: 20, emoji: farSadCry, color: "#147efb" },
 ];
 
-const modal_show = keyframes`
- from {
-      transform: translateY(-20%);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0%);
-      opacity: 1;
-    }
-  }
-`;
-
 const EmojiWrapper = styled.div`
   display: flex;
   position: absolute;
@@ -86,7 +72,7 @@ const EmojiWrapper = styled.div`
   box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
     rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
     rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
-  animation: ${modal_show} 0.5s ease-in;
+  animation: modal-show 0.3s;
 
   &:before {
     content: "";
@@ -97,6 +83,15 @@ const EmojiWrapper = styled.div`
     border-width: 1rem;
     border-style: solid;
     border-color: transparent transparent #80594a transparent;
+  }
+
+  & keyframes modal-show {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 `;
 
@@ -133,10 +128,10 @@ const Emojis = ({ emojiModalOnOff, whatEmoji }) => {
       <EmojiWrapper className="emoji-wrapper">
         <EmojisHeaders className="emojis-header">오늘의 나</EmojisHeaders>
         <EmojisBody className="emojis-body">
-          {emojis.map((emoji, idx) => {
+          {emojis.map((emoji) => {
             return (
               <EmojiUnit
-                key={idx}
+                key={uniqueId()}
                 onClick={() => {
                   whatEmoji(emoji);
                   emojiModalOnOff();
@@ -144,12 +139,12 @@ const Emojis = ({ emojiModalOnOff, whatEmoji }) => {
                 style={{
                   fontSize: 25,
                   color: emoji.color,
-                  // color: idx === emojiChosen ? emoji.color : "#c6d6df",
+                  // color: emoji.id === emojiChosen ? emoji.color : "#c6d6df",
                 }}
               >
                 <FontAwesomeIcon
                   icon={emoji.emoji}
-                  // size={idx === emojiChosen ? 30 : 25}
+                  // size={emoji.id === emojiChosen ? 30 : 25}
                 />
               </EmojiUnit>
             );
