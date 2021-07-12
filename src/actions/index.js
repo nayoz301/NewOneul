@@ -65,3 +65,10 @@ export const removeEmpathy = (diaryId, empathyId) => {
     empathyId,
   };
 };
+
+export const removeDiary = (diaryId) => {
+  return {
+    type: "REMOVE_DIARY",
+    diaryId
+  };
+};

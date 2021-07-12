@@ -65,6 +65,15 @@ const mainReducer = (
         ),
       };
 
+    case "REMOVE_DIARY": 
+      return {
+        ...state,
+        myDiary: state.myDiary.filter((diary) => {
+          return diary.id !== diaryId
+          }        
+        )
+      }
+
     default:
       return state;
   }
