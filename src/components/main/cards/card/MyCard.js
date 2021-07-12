@@ -18,9 +18,9 @@ const MyCard = ({ diary }) => {
   const { faceIcons, weatherIcons } = icons;
   const { date, feeling, text, weather } = diary;
 
-  const makeBackground = () => {
-    return makeHexCode();
-  };
+  // const makeBackground = () => {
+  //   return makeHexCode();
+  // };
 
   return (
     <MyDiary>
@@ -36,7 +36,8 @@ const MyCard = ({ diary }) => {
           </FaceWeather>
         </IconWrapper>
       </MyDiaryCardFront>
-      <MyDiaryBack hexcode={makeBackground}>
+      {/* <MyDiaryBack hexcode={makeBackground}> */}
+      <MyDiaryBack>
         <MyDiaryBackTextWrapper>
           <MyDiaryBackText>{text}</MyDiaryBackText>
         </MyDiaryBackTextWrapper>

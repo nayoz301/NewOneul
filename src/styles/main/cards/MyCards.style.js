@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { makeHexCode } from "../../../components/main/cards/card/makehex";
 import {
   BREAK_POINT_MOBILE,
   BREAK_POINT_MD_SCREEN,
@@ -63,7 +64,7 @@ export const MyDiaryCardFront = styled(CardFront)`
 `;
 
 export const MyDiaryBack = styled(CardBack)`
-  background: ${({ hexcode }) => hexcode};
+  background: ${makeHexCode()};
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   overflow: hidden;
 `;
