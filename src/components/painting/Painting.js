@@ -437,7 +437,7 @@ const Painting = ({ canvasRef, musicModalOnOff }) => {
             }}
             style={{
               backgroundColor:
-                buttonClicked === "paint_btn" ? "#c3c3c360" : "white", //자기 엘리먼트에 id를 불러오는 방법없나?
+                buttonClicked === "paint_btn" ? "#c3c3c360" : "#fff", //자기 엘리먼트에 id를 불러오는 방법없나?
             }}
           >
             <FontAwesomeIcon
@@ -459,7 +459,7 @@ const Painting = ({ canvasRef, musicModalOnOff }) => {
             }}
             style={{
               backgroundColor:
-                buttonClicked === "fill_btn" ? "#c3c3c360" : "white",
+                buttonClicked === "fill_btn" ? "#c3c3c360" : "#fff",
             }}
           >
             <FontAwesomeIcon
@@ -481,7 +481,7 @@ const Painting = ({ canvasRef, musicModalOnOff }) => {
             }}
             style={{
               backgroundColor:
-                buttonClicked === "eraser_btn" ? "#c3c3c360" : "white",
+                buttonClicked === "eraser_btn" ? "#c3c3c360" : "#fff",
             }}
           >
             <FontAwesomeIcon
