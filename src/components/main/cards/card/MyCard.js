@@ -10,12 +10,12 @@ import {
 } from "../../../../styles/main/cards/MyCards.style";
 import mypic from "../../../../images/mypic.jpeg";
 import { findEmj, splitDate } from "./cardfunction";
-import { icons } from "../../../../../../../../../컴퓨터/codestates/oneul/im28project02-client/src/icons/icons";
-import { FaceWeather } from "../../../../styles/main/cards/OtherCards.style";
+// import { icons } from "../../../../../../../../../컴퓨터/codestates/oneul/im28project02-client/src/icons/icons";
+// import { FaceWeather } from "../../../../styles/main/cards/OtherCards.style";
 import { makeHexCode } from "./makehex";
 
 const MyCard = ({ diary }) => {
-  const { faceIcons, weatherIcons } = icons;
+  // const { faceIcons, weatherIcons } = icons;
   const { date, feeling, text, weather } = diary;
 
   const makeBackground = () => {
@@ -30,10 +30,10 @@ const MyCard = ({ diary }) => {
         </MyDiaryFrontHeader>
         <img src={mypic} alt="" />
         <IconWrapper>
-          <FaceWeather>
-            {weather && findEmj(weatherIcons, weather).icon}
-            {feeling && findEmj(faceIcons, feeling).icon}
-          </FaceWeather>
+          {/* <FaceWeather> */}
+          {/* {weather && findEmj(weatherIcons, weather).icon}
+            {feeling && findEmj(faceIcons, feeling).icon} */}
+          {/* </FaceWeather> */}
         </IconWrapper>
       </MyDiaryCardFront>
       <MyDiaryBack hexcode={makeBackground}>
