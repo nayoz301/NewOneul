@@ -378,7 +378,7 @@ const ModalWrapper = styled.div`
 `;
 
 const Header = styled.div`
-  // border: 1px solid black;
+  border: 1px solid black;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -423,16 +423,18 @@ const TextArea = styled.textarea`
   background-color: white;
   color: rgb(39, 37, 37);
 
-
-
-    background-attachment: local;
-    background-image:
-      linear-gradient(to right, white 2rem, transparent 2rem),
-      linear-gradient(to left, white 2rem, transparent 2rem),
-      repeating-linear-gradient(white, white 3rem, #ccc 3rem, #ccc 3.1rem, white 3.1rem);
-    line-height: 3.1rem;
-    padding: 0.45rem 2rem;
-  }
+  background-attachment: local;
+  background-image: linear-gradient(to right, white 2rem, transparent 2rem),
+    linear-gradient(to left, white 2rem, transparent 2rem),
+    repeating-linear-gradient(
+      white,
+      white 3rem,
+      #ccc 3rem,
+      #ccc 3.1rem,
+      white 3.1rem
+    );
+  line-height: 3.1rem;
+  padding: 0.45rem 2rem;
 `;
 
 const Footer = styled.div`
