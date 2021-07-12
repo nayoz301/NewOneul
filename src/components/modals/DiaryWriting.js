@@ -356,6 +356,10 @@ const ModalWrapper = styled.div`
 `;
 
 const Header = styled.div`
+<<<<<<< HEAD
+=======
+  border: 1px solid black;
+>>>>>>> 83b51ead787e9442fc45b03943f1c26901ba5786
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -406,6 +410,7 @@ const TextArea = styled.textarea`
   // padding: 2.5rem;
   font-size: 2rem;
   outline: none;
+<<<<<<< HEAD
   color: #7f7366;
   font-family: var(--thick-font);
 
@@ -418,6 +423,23 @@ const TextArea = styled.textarea`
     line-height: 3.4rem;
     padding: 1.2rem 3rem;
   }
+=======
+  background-color: white;
+  color: rgb(39, 37, 37);
+
+  background-attachment: local;
+  background-image: linear-gradient(to right, white 2rem, transparent 2rem),
+    linear-gradient(to left, white 2rem, transparent 2rem),
+    repeating-linear-gradient(
+      white,
+      white 3rem,
+      #ccc 3rem,
+      #ccc 3.1rem,
+      white 3.1rem
+    );
+  line-height: 3.1rem;
+  padding: 0.45rem 2rem;
+>>>>>>> 83b51ead787e9442fc45b03943f1c26901ba5786
 `;
 
 const Footer = styled.div`
