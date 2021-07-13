@@ -1,19 +1,22 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { flexCenter } from "../../styles/global.style";
 import DiaryWriting from "../modals/DiaryWriting";
-const Diary = ({ modalHandle, clickmoment }) => {
-  console.log(clickmoment.format("L"));
+
+const Diary = ({ clickmoment, closeDiaryModal }) => {
   return (
-    <Diarybackground>
-      <DiaryWriting modalHandle={modalHandle} clickmoment={clickmoment} />
+    <Diarybackground data-aos="zoom" data-aos-duration={"500"}>
+      <DiaryWriting
+        clickmoment={clickmoment}
+        closeDiaryModal={closeDiaryModal}
+      />
     </Diarybackground>
   );
 };
 
 export default Diary;
 
-const Diarybackground = styled.div`
+export const Diarybackground = styled.div`
   position: fixed;
   top: 0;
   bottom: 0;
@@ -23,11 +26,4 @@ const Diarybackground = styled.div`
   background: rgba(0, 0, 0, 0.4);
   text-align: center;
   ${flexCenter}
-`;
-
-const Button = styled.button`
-  padding: 5rem;
-  color: #000;
-  background: #fff;
-  border: 5px solid cornflowerblue;
 `;

@@ -65,14 +65,24 @@ const mainReducer = (
         ),
       };
 
-    case "REMOVE_DIARY": 
+    case "REMOVE_DIARY":
       return {
         ...state,
         myDiary: state.myDiary.filter((diary) => {
-          return diary.id !== diaryId
-          }        
-        )
-      }
+          return diary.id !== diaryId;
+        }),
+      };
+
+    case "REMOVE_PUBLIC_DIARY":
+      return {
+        ...state,
+        myDiary: state.myDiary.filter((diary) => {
+          return diary.id !== diaryId;
+        }),
+        publicDiary: state.publicDiary.filter((diary) => {
+          return diary.id !== diaryId;
+        }),
+      };
 
     default:
       return state;
