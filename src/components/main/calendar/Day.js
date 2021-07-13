@@ -8,9 +8,7 @@ import {
 import { connect } from "react-redux";
 import { icons } from "../../../icons/icons";
 
-const Day = ({ userInfo, diary, value, day, modalHandle }) => {
-  // if 문으로 제어 해준다
-
+const Day = ({ diary, value, day, modalHandle }) => {
   let dayEmoji;
   const { faceIcons } = icons;
 
@@ -25,7 +23,9 @@ const Day = ({ userInfo, diary, value, day, modalHandle }) => {
   return (
     <DayWarpper
       today={m.format("L") === day.format("L")}
-      onClick={() => modalHandle(day)}
+      onClick={() => {
+        modalHandle(day);
+      }}
     >
       <DaySpan
         today={m.format("L") === day.format("L")}
@@ -40,9 +40,8 @@ const Day = ({ userInfo, diary, value, day, modalHandle }) => {
   );
 };
 
-const mapStateToProps = ({ loginReducer, mainReducer }) => {
+const mapStateToProps = ({ mainReducer }) => {
   return {
-    userInfo: loginReducer,
     diary: mainReducer,
   };
 };

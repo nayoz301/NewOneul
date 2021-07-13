@@ -12,25 +12,40 @@ import mypic from "../../../../images/mypic.jpeg";
 import { findEmj, splitDate } from "./cardfunction";
 import { icons } from "../../../../../src/icons/icons";
 import { FaceWeather } from "../../../../styles/main/cards/OtherCards.style";
-import { makeHexCode } from "./makehex";
-import { removeDiary } from "../../../../actions/index"
+import { removeDiary, removePublicDiary } from "../../../../actions/index";
 import { connect } from "react-redux";
+import styled from "styled-components";
+import { Icon } from "react-icons-kit";
+import { trash2 } from "react-icons-kit/feather/trash2";
+import axios from "axios";
 
-const MyCard = ({ diary, removeDiary }) => {
+const MyCard = ({ diary, removeDiary, removePublicDiary, userInfo }) => {
   const { faceIcons, weatherIcons } = icons;
-  const { date, feeling, text, weather } = diary;
+  const { id, isPublic, date, feeling, text, weather } = diary;
+  const { accessToken } = userInfo.login;
 
-  // const makeBackground = () => {
-  //   return makeHexCode();
-  // };
+  const deleteUrl = "https://oneul.site/O_NeulServer/diary/delete";
+
   const removePost = (e) => {
     e.stopPropagation();
-
-    removeDiary(diary.id);
-  }
+    return axios
+      .delete(deleteUrl, {
+        headers: { authorization: "Bearer " + accessToken },
+        data: { diaryId: id },
+        withCredentials: true,
+      })
+      .then(() => {
+        if (isPublic) {
+          removePublicDiary(id);
+        } else {
+          removeDiary(id);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
-    <MyDiary>
+    <MyDiary onClick={() => console.log("hehe")}>
       <MyDiaryCardFront>
         <MyDiaryFrontHeader>
           {splitDate(date)[0]}년 {splitDate(date)[1]}월 {splitDate(date)[2]}일
@@ -43,10 +58,11 @@ const MyCard = ({ diary, removeDiary }) => {
           </FaceWeather>
         </IconWrapper>
       </MyDiaryCardFront>
-      {/* <MyDiaryBack hexcode={makeBackground}> */}
       <MyDiaryBack>
         <MyDiaryBackTextWrapper>
-          <button onClick={(e) => removePost(e)}>삭제</button>
+          <RemoveBtn onClick={(e) => removePost(e)}>
+            <Icon icon={trash2} size={20} />
+          </RemoveBtn>
           <MyDiaryBackText>{text}</MyDiaryBackText>
         </MyDiaryBackTextWrapper>
       </MyDiaryBack>
@@ -58,7 +74,13 @@ const mapStateToProps = ({ loginReducer }) => {
   return { userInfo: loginReducer };
 };
 
-export default connect(mapStateToProps, { removeDiary })(
+export default connect(mapStateToProps, { removePublicDiary, removeDiary })(
   MyCard
 );
 
+const RemoveBtn = styled.button`
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  border: none;
+`;
