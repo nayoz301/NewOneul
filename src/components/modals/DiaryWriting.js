@@ -368,7 +368,7 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 4rem;
+  min-height: 4.5rem;
   background-color: #f7f8e7;
   background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
   border-top-right-radius: 1rem;
@@ -454,7 +454,7 @@ const Footer = styled.div`
   border: none;
   background-color: #d2c4adf0;
   display: flex;
-  height: 4rem;
+  min-height: 4.5rem;
   justify-content: space-between;
   align-items: center;
   background-image: url("https://www.transparenttextures.com/patterns/cardboard-flat.png"),
