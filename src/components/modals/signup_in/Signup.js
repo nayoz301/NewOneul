@@ -36,7 +36,7 @@ import { connect } from "react-redux";
 import { login, logout } from "../../../actions";
 import { close } from "react-icons-kit/ikons/close";
 
-const Signup = ({ handleModal, login, logout }) => {
+const Signup = ({ handleModal, login }) => {
   const {
     handleChange,
     handleSubmit,
@@ -132,7 +132,7 @@ const Signup = ({ handleModal, login, logout }) => {
         console.log("success");
       })
       .catch((err) => {
-        const { message } = err.response.data
+        const { message } = err.response.data;
         if (message === "email already existed!") {
           Swal.fire({
             icon: "error",
@@ -169,7 +169,6 @@ const Signup = ({ handleModal, login, logout }) => {
         const { accessToken, user } = res.data.data;
         login(accessToken, user);
         onLoginSuccess(handleModal);
-        console.log(res.data);
       })
       .catch((err) => {
         if ({ message: "invalid email!" || "password error!" }) {
