@@ -19,11 +19,29 @@ import OtherCards from "./cards/OtherCards";
 import { connect } from "react-redux";
 import axios from "axios";
 import { fetchAllLoginDiary, fetchAllUnloginDiary } from "../../actions";
+import { diaryCheck } from "./calendar/calendarFuntion";
+import ModifyDiary from "../modals/ModifyDiary";
 
-const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
+const Main = ({
+  userInfo,
+  fetchAllLoginDiary,
+  fetchAllUnloginDiary,
+  myDiaryInfo,
+}) => {
   const [value, setValue] = useState(moment());
   const [isClick, setIsClick] = useState(false);
+  const [existDiaryComponent, setExistDiaryComponent] = useState(false);
   const [clickmoment, setClickmoment] = useState(null);
+
+  useEffect(() => {
+    if (clickmoment !== null) {
+      if (diaryCheck(myDiaryInfo, clickmoment, moment)) {
+        return setExistDiaryComponent((prev) => setExistDiaryComponent(!prev));
+      } else {
+        return setIsClick((prev) => setIsClick(!prev));
+      }
+    }
+  }, [clickmoment]);
 
   useEffect(() => {
     return axios(
@@ -56,8 +74,12 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
       });
   }, []);
 
-  const modalHandle = (day) => {
+  const closeDiaryModal = () => {
     setIsClick((prev) => setIsClick(!prev));
+    setClickmoment(null);
+  };
+
+  const momentHandler = (day) => {
     setClickmoment(day);
   };
 
@@ -71,15 +93,21 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
 
   return (
     <>
-      {isClick && <Diary modalHandle={modalHandle} clickmoment={clickmoment} />}
-
+      {isClick && (
+        <Diary clickmoment={clickmoment} closeDiaryModal={closeDiaryModal} />
+      )}
+      {existDiaryComponent && (
+        <ModifyDiary
+          clickedDayDiary={diaryCheck(myDiaryInfo, clickmoment, moment)}
+        />
+      )}
       <MainSection>
         <MainHeaderCompo />
         <MainInnerSection>
           <MainInnerWrapper>
             <CalendarWrapper>
               <CalendarHeader value={value} next={next} before={before} />
-              <Calendar value={value} modalHandle={modalHandle} />
+              <Calendar value={value} modalHandle={momentHandler} />
             </CalendarWrapper>
             <DiaryWrapper>
               <MyCards />
@@ -92,9 +120,10 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
   );
 };
 
-const mapStateToProps = ({ loginReducer }) => {
+const mapStateToProps = ({ loginReducer, mainReducer }) => {
   return {
     userInfo: loginReducer,
+    myDiaryInfo: mainReducer.myDiary,
   };
 };
 

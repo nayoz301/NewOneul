@@ -1,45 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { MainHeader, HeaderWrapper } from "../../styles/main/Main.style";
-import axios from "axios";
-import { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-import { DiaryLogin } from "../../styles/main/cards/MyCards.style";
-import styled from "styled-components";
+import Signup from "../modals/signup_in/Signup";
 
 const MainHeaderCompo = ({ userLogin }) => {
   const history = useHistory();
+  const [loginModal, setLoginModal] = useState(false);
 
-  // const [isLogin, setIsLogin] = useState(false);
-
-  // const tokenRequest = () => {
-  //   setIsLogin(true);
-  // };
-
-  // useEffect(() => {
-  //   async function token() {
-  //     await axios
-  //       .post("https://oneul.site/O_NeulServer/user/diarys", {
-  //         headers: {
-  //           Authorization: "accessToken",
-  //           "Content-Type": "application/json",
-  //         },
-  //         withCredentials: true,
-  //       })
-  //       .then((res) => {
-  //         console.log(res.data);
-  //         tokenRequest();
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   }
-  // });
-
-  // const goHome = () => {
-  //   history.push("/main");
-  //   console.log("hi");
-  // };
+  const loginModalHandler = () => {
+    setLoginModal((prev) => !prev);
+  };
 
   const handleMypage = () => {
     history.push("/mypage");
@@ -54,9 +25,10 @@ const MainHeaderCompo = ({ userLogin }) => {
         {userLogin.accessToken ? (
           <button onClick={handleMypage}>MY PAGE</button>
         ) : (
-          <button>로그인</button>
+          <button onClick={loginModalHandler}>로그인</button>
         )}
       </HeaderWrapper>
+      {loginModal && <Signup handleModal={loginModalHandler} />}
     </MainHeader>
   );
 };

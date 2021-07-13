@@ -66,9 +66,16 @@ export const removeEmpathy = (diaryId, empathyId) => {
   };
 };
 
+export const removePublicDiary = (diaryId) => {
+  return {
+    type: "REMOVE_PUBLIC_DIARY",
+    diaryId,
+  };
+};
+
 export const removeDiary = (diaryId) => {
   return {
     type: "REMOVE_DIARY",
-    diaryId
+    diaryId,
   };
 };

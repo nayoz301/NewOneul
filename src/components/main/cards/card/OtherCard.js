@@ -24,7 +24,10 @@ const OtherCard = ({ diary, userInfo, addEmpathy, removeEmpathy }) => {
   const addEpt = (e) => {
     // stop Bubbling of Event
     e.stopPropagation();
-
+    if (!userInfo.userInfo.id) {
+      alert("로그인 후 이용하실 수 있습니다🙈");
+      return;
+    }
     return axios
       .post(
         "https://oneul.site/O_NeulServer/emphathy/add",

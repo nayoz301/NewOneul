@@ -11,12 +11,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSmile as farSmile } from "@fortawesome/free-regular-svg-icons";
 import "./DiaryWriting.css";
 import { connect } from "react-redux";
-import { addNewPublicDiary } from "../../actions";
-import { addNewPrivateDiary } from "../../actions";
+import { addNewPublicDiary, addNewPrivateDiary } from "../../actions";
 
 const DiaryWriting = ({
-  modalHandle,
   clickmoment,
+  closeDiaryModal,
   userInfo,
   addNewPublicDiary,
   addNewPrivateDiary,
@@ -33,6 +32,7 @@ const DiaryWriting = ({
   const [weatherChosen, setWeatherChosen] = useState(null);
   const [musicChosen, setMusicChosen] = useState(null);
   const [dataFromServer, setDataFromServer] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const emojiModalOnOff = () => {
     //이모지 모달창 끄고 닫기
@@ -51,19 +51,6 @@ const DiaryWriting = ({
   };
   const canvasHeight = (window.innerWidth / 2) * 0.45;
   const textAreaHeight = (window.innerHeight - 135 - canvasHeight) * 0.9;
-
-  // const [textHeight, setTextHeight] = useState();
-
-  // const getTextAreaHeight = () => {
-  //   let canvasWidth = window.innerWidth / 2;
-  //   let canvasHeight = canvasWidth * 0.45;
-  //   let textHeight = (window.innerHeight - 135 - canvasHeight) * 0.9;
-  //   if (textHeight > canvasHeight) return canvasHeight;
-  //   return textHeight;
-  // };
-
-  // const textAreaHeight = getTextAreaHeight();
-  // useEffect(() => {}, []);
 
   const weatherData = (weather) => {
     setWeatherChosen(weather);
@@ -105,34 +92,9 @@ const DiaryWriting = ({
     });
   }
 
-  // const handleFileUpload = () => {
-  //   //이건 s3에 업로드하는 경우
-  //   canvasRef.current.toBlob(
-  //     function (blob) {
-  //       const img = new FormData();
-  //       img.append("file", blob, `${Date.now()}.jpeg`);
-  //       console.log(blob);
-
-  //       const param = {
-  //         Bucket: "oneulfile",
-  //         Key: "image/" + `${userInfo.userInfo.id}/` + Date.now(),
-  //         ACL: "public-read",
-  //         Body: blob,
-  //         ContentType: "image/",
-  //       };
-
-  //       s3.upload(param, function (err, data) {
-  //         console.log(err);
-  //         console.log(data);
-  //       });
-  //     },
-  //     "image/jpeg",
-  //     0.1
-  //   );
-  // };
-
   const completeDiary = async () => {
     if (emojiChosen.id && weatherChosen && diaryText && musicChosen) {
+      setLoading(true);
       await handleFileUpload().then((res) => {
         const url = res.Location;
 
@@ -170,7 +132,8 @@ const DiaryWriting = ({
             } else {
               addNewPrivateDiary(res);
             }
-            modalHandle(); //모달창 닫기
+            setLoading(false);
+            closeDiaryModal(); //모달창 닫기
             alert("오늘도 수고하셨습니다");
           })
           .catch((res) => {
@@ -190,14 +153,15 @@ const DiaryWriting = ({
     }
   };
 
-  console.log("text", diaryText);
-  console.log("weather", weatherChosen);
-  console.log("emoji", emojiChosen);
-  console.log("date", clickmoment.format("YYYY-M-D"));
-  console.log("private", isPublic);
-  console.log("music", Number(musicChosen));
+  // console.log("text", diaryText);
+  // console.log("weather", weatherChosen);
+  // console.log("emoji", emojiChosen);
+  // console.log("date", clickmoment.format("YYYY-M-D"));
+  // console.log("private", isPublic);
+  // console.log("music", Number(musicChosen));
   return (
     <>
+      {/* {loading && <div>로딩중</div>} */}
       <ModalWrapper className="modal-wrapper">
         <Header className="header">
           <HeaderDate className="date">
@@ -230,12 +194,11 @@ const DiaryWriting = ({
         </Header>
 
         <Painting canvasRef={canvasRef} musicModalOnOff={musicModalOnOff} />
-
         <TextArea
           className="textarea"
           textAreaHeight={textAreaHeight}
           ref={textRef}
-          placeholder="오늘은 어떠셨나요?"
+          placeholder="오늘의 하루를 남겨주세요 ."
           onClick={(e) => {
             if (e.target.className === "textarea") {
               console.log(e.target.className);
@@ -249,32 +212,13 @@ const DiaryWriting = ({
         ></TextArea>
 
         <Footer className="footer">
-          <FooterClose onClick={modalHandle}>닫기</FooterClose>
+          <FooterClose onClick={closeDiaryModal}>닫기</FooterClose>
           <div
             style={{
               display: "flex",
-              flexDirection: "row",
               alignItems: "center",
             }}
           >
-            {/* <button
-              onClick={() => {
-                const param = {
-                  Bucket: "oneulfile",
-                  Key: "image/" + Date.now(),
-                  ACL: "public-read",
-                  Body: "file",
-                  ContentType: "image/",
-                };
-
-                s3.upload(param, function (err, data) {
-                  console.log(err);
-                  console.log(data);
-                });
-              }}
-            >
-              업로드
-            </button> */}
             <span
               className="private"
               style={{ fontSize: "1.5rem", color: "#605138" }}
@@ -304,6 +248,26 @@ const DiaryWriting = ({
     </>
   );
 };
+
+//이렇게 써도됌
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     addNewPublicDiary: (newobj) => dispatch(addNewPublicDiary(newobj)),
+//     addNewPrivateDiary: (newobj) => dispatch(addNewPublicDiary(newobj)),
+//   };
+// };
+// export default connect(mapStateToProps, mapDispatchToProps)(DiaryWriting);
+
+const mapStateToProps = ({ loginReducer }) => {
+  return {
+    userInfo: loginReducer,
+  };
+};
+
+export default connect(mapStateToProps, {
+  addNewPublicDiary,
+  addNewPrivateDiary,
+})(DiaryWriting);
 
 const ModalWrapper = styled.div`
   background-color: white;
@@ -375,11 +339,11 @@ const HeaderDate = styled.div`
 `;
 
 const HeaderEmoji = styled.div`
-  // border: 1px solid black;
+  /* border: 1px solid black; */
   position: relative;
   flex: 1 1 20%;
   text-align: center;
-  // background-color: white;
+  /* background-color: white; */
   padding: 0 -0.5rem;
   border-radius: 1rem;
 `;
@@ -399,26 +363,33 @@ const Canvas = styled.div`
 `;
 
 const TextArea = styled.textarea`
-  // border: 1px solid black;
-  // height: calc(calc(100% - 8rem) * 0.4);
+  /* border: 1px solid black; */
+  /* height: calc(calc(100% - 8rem) * 0.4); */
   height: ${(props) => props.textAreaHeight}px;
   resize: none;
-  // z-index: 1;
-  // padding: 2.5rem;
-  font-size: 2rem;
+  /* z-index: 1; */
+  /* padding: 2.5rem; */
+  border: none;
+  font-size: 1.8rem;
   outline: none;
   color: #7f7366;
   font-family: var(--thick-font);
-
-    background-attachment: local;
-    background-position: 0 0.5rem;
-    background-image:
-      linear-gradient(to right, #f2ede3 3rem, transparent 3rem), //가로
-      linear-gradient(to left, #f2ede3 3rem, transparent 3rem), //가로
-      repeating-linear-gradient(#f2ede3, #f2ede3 3.3rem, #d2c1aa 3.3rem, #d2c1aa 3.4rem, white 3.4rem);
-    line-height: 3.4rem;
-    padding: 1.2rem 3rem;
-  }
+  background-attachment: local;
+  background-position: 0 0.5rem;
+  background-image: linear-gradient(to right, #f2ede3 3rem, transparent 3rem),
+    //가로
+    linear-gradient(to left, #f2ede3 3rem, transparent 3rem),
+    //가로
+    repeating-linear-gradient(
+        #f2ede3,
+        #f2ede3 3.3rem,
+        #d2c1aa 3.3rem,
+        #d2c1aa 3.4rem,
+        white 3.4rem
+      );
+  line-height: 3.4rem;
+  padding: 0.8rem 5rem;
+  position: relative;
 `;
 
 const Footer = styled.div`
@@ -429,16 +400,18 @@ const Footer = styled.div`
   align-items: center;
   border-bottom-right-radius: 1rem;
   border-bottom-left-radius: 1rem;
+  font-family: var(--thick-font);
 `;
 
 const FooterClose = styled.button`
+  font-family: var(--thick-font);
   margin: 1rem 1rem;
-  padding: 0.5rem;
+  padding: 0.5rem 1.5rem;
   border-radius: 0.5rem;
-  font-weight: 400;
-  font-size: 1.4rem;
-  color: #605138;
+  color: #d2c4ad;
+  background-color: #605138;
   border: 1px solid #60513860;
+  font-size: 1.5rem;
   z-index: 201; //뮤직창이 200이다
   &:active {
     transform: scale(0.95);
@@ -449,6 +422,7 @@ const FooterPrivate = styled.input`
   display: inline-block;
   vertical-align: middle;
   margin: 0.5rem;
+
   font-size: 1.2rem;
   color: red;
   &:active {
@@ -457,35 +431,17 @@ const FooterPrivate = styled.input`
 `;
 
 const FooterPost = styled.button`
-  color: #605138;
+  font-family: var(--thick-font);
+  color: #d2c4ad;
+  background-color: #605138;
   border: 1px solid #60513860;
   margin: 1rem 1rem;
-  padding: 0.5rem;
+  padding: 0.6rem 1.5rem;
   border-radius: 0.5rem;
   font-weight: 400;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
 
   &:active {
     transform: scale(0.95);
   }
 `;
-
-//이렇게 써도됌
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     addNewPublicDiary: (newobj) => dispatch(addNewPublicDiary(newobj)),
-//     addNewPrivateDiary: (newobj) => dispatch(addNewPublicDiary(newobj)),
-//   };
-// };
-// export default connect(mapStateToProps, mapDispatchToProps)(DiaryWriting);
-
-const mapStateToProps = ({ loginReducer }) => {
-  return {
-    userInfo: loginReducer,
-  };
-};
-
-export default connect(mapStateToProps, {
-  addNewPublicDiary,
-  addNewPrivateDiary,
-})(DiaryWriting);

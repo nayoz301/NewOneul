@@ -152,7 +152,7 @@ export const LdBtn = styled.button`
   color: var(--primary-color);
   border: 1px solid var(--primary-color);
   font-size: 1.8rem;
-  padding: 0.5em 1.5em;
+  padding: 0.4em 1.5em;
   font-family: var(--primary-font);
   border-radius: 4px;
   transition: 0.5s all ease-out;
