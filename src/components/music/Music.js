@@ -32,7 +32,13 @@ const music = [
   },
 ];
 
-const Music = ({ musicModalOnOff, musicOpen, getMusicData, musicList }) => {
+const Music = ({ musicModalOnOff, 
+  musicOpen, 
+  getMusicData, 
+  musicList, 
+  selectedMusicId, 
+  isEditing
+}) => {
   const [pause, setPause] = useState(false);
   const [index, setIndex] = useState(0);
   const [currentTime, setCurrentTime] = useState("0:00");
@@ -44,13 +50,21 @@ const Music = ({ musicModalOnOff, musicOpen, getMusicData, musicList }) => {
   const [volume, setVolume] = useState(0.03);
   const [muteState, setMuteState] = useState(false);
   const [currentSong, setCurrentSong] = useState(musics[index]);
-
+  
   let playerRef = useRef();
   let timelineRef = useRef();
   let hoverPlayheadRef = useRef();
   let playheadRef = useRef();
   let volumeControllerRef = useRef(); //볼륨 슬라이더 보임 안보임 효과 때문에 넣었음
+  
+  const getSelectedMusic = () => {
+    if(selectedMusicId !== undefined) {return musicList.musicList.filter(el => el.id === selectedMusicId)[0]};
+    return;
+  }
 
+  const selectedMusic = getSelectedMusic();
+
+  
   useEffect(() => {
     setCurrentSong(filtered[index]);
   }, [index]);
@@ -59,6 +73,8 @@ const Music = ({ musicModalOnOff, musicOpen, getMusicData, musicList }) => {
     //리덕스로 곡 불러올떄
     musicSetting();
   }, [filtered]);
+
+  
 
   const musicSetting = () => {
     //리덕스로 곡 불러올떄
@@ -131,7 +147,12 @@ const Music = ({ musicModalOnOff, musicOpen, getMusicData, musicList }) => {
     //   timelineRef.current.removeEventListener("mousemove", hoverTimeLine);
     //   timelineRef.current.removeEventListener("mouseout", resetTimeLine);
     // };
-  }, []);
+  });
+
+  useEffect(() => {
+    if (selectedMusicId) {return setCurrentSong(selectedMusic);}
+  })
+
 
   const changeCurrentTime = (e) => {
     //재생시간바 시간 이동하기
@@ -254,176 +275,469 @@ const Music = ({ musicModalOnOff, musicOpen, getMusicData, musicList }) => {
     setIndex(0);
   }, [genre]);
 
-  return (
-    <div className="player-wrapper">
-      <div className="current-song">
-        <Icon
-          size={18}
-          // className="close-btn"
-          className={`close-btn ${musicOpen ? "open" : null}`}
-          icon={ic_close}
-          onClick={() => {
-            if (playerRef.current !== null && timelineRef.current !== null) {
-              playerRef.current.removeEventListener("timeupdate", timeUpdate);
-              playerRef.current.removeEventListener("ended", nextSong);
-              timelineRef.current.removeEventListener(
-                "click",
-                changeCurrentTime
-              );
-              timelineRef.current.removeEventListener(
-                "mousemove",
-                hoverTimeLine
-              );
-              timelineRef.current.removeEventListener(
-                "mouseout",
-                resetTimeLine
-              );
-            }
-            musicModalOnOff();
-          }}
-        />
-
-        <SelectBar getGenre={getGenre} genreList={genreList} />
-        {currentSong && (
-          <>
-            <audio ref={playerRef}>
-              <source src={currentSong.audio} type="audio/ogg" />
-              Your browser does not support the audio element.
-            </audio>
-
-            <div className="song-info">
-              <span className="song-name">{currentSong.name}</span>
-              <span className="song-author">{currentSong.author}</span>
-            </div>
-
-            <div className="time">
-              <div className="current-time">{currentTime}</div>
-              <div className="end-time">{currentSong.duration}</div>
-            </div>
-          </>
-        )}
-        <div ref={timelineRef} id="timeline">
-          <div ref={playheadRef} id="playhead"></div>
-          <div
-            ref={hoverPlayheadRef}
-            className="hover-playhead"
-            data-content="0:00"
-          ></div>
-        </div>
-
-        <div className="controls">
-          <div>
-            <button onClick={prevSong} className="prev prev-next current-btn">
-              <Icon icon={stepBackward} />
-            </button>
-
-            <button onClick={playOrPause} className="play current-btn">
-              {!pause ? (
-                <Icon size={23} icon={circle} />
-              ) : (
-                <Icon size={20} icon={pause2} />
-              )}
-            </button>
-            <button onClick={nextSong} className="next prev-next current-btn">
-              <Icon icon={stepForward} />
-            </button>
-          </div>
-
-          <div className="song_alert_wrapper">
-            <span className="song_alert">
-              {selectedSong &&
-                musicLists &&
-                `${musicLists[selectedSong].name} 곡이 배경음악으로 설정되었습니다.`}
-            </span>
-          </div>
-
-          <span className="volume-controller-wrapper">
-            <button
-              className="mute-btn"
-              onClick={() => {
-                setMuteState(!muteState);
-              }}
-              onMouseOver={() => {
-                volumeControllerRef.current.style.opacity = 1;
-              }}
-            >
-              <Icon
-                size={12}
-                icon={
-                  muteState
-                    ? volumeMute2
-                    : volume < 0.01 //0으로 하면 안먹음
-                    ? volumeMute
-                    : volume < 0.34
-                    ? volumeLow
-                    : volume < 0.67
-                    ? volumeMedium
-                    : volumeHigh
-                }
-              />
-            </button>
-
-            <input
-              ref={volumeControllerRef}
-              className="volume-controller"
-              type="range"
-              min={0}
-              max={1}
-              step={0.01}
-              value={muteState ? 0 : volume}
-              onChange={(e) => {
-                if (muteState) {
-                  setMuteState(false);
-                }
-                setVolume(e.target.value);
-              }}
-              onMouseOut={() => {
-                volumeControllerRef.current.style.opacity = 0;
-              }}
-            />
-          </span>
-        </div>
-      </div>
-      <div className="play-list">
-        {filtered.map((music) => (
-          <div className="play-list-one" key={uniqueId()}>
-            <div
-              onClick={() => clickAudio(music.id)}
-              className={
-                "track " +
-                (index === music.id && !pause ? "current-audio" : "") +
-                (index === music.id && pause ? "play-now" : "")
+  if (selectedMusic && isEditing === false) {
+    return (
+      <div className="player-wrapper">
+        <div className="current-song">
+          <Icon
+            size={18}
+            // className="close-btn"
+            className={`close-btn ${musicOpen ? "open" : null}`}
+            icon={ic_close}
+            onClick={() => {
+              if (playerRef.current !== null && timelineRef.current !== null) {
+                playerRef.current.removeEventListener("timeupdate", timeUpdate);
+                playerRef.current.removeEventListener("ended", nextSong);
+                timelineRef.current.removeEventListener(
+                  "click",
+                  changeCurrentTime
+                );
+                timelineRef.current.removeEventListener(
+                  "mousemove",
+                  hoverTimeLine
+                );
+                timelineRef.current.removeEventListener(
+                  "mouseout",
+                  resetTimeLine
+                );
               }
-            >
-              <img className="track-img" src={music.img} />
-              <div className="track-info">
-                <span className="track-name">
-                  {music.name.length >= 20
-                    ? `${music.name.slice(0, 18)}...`
-                    : music.name}
-                </span>
-                <span className="track-author">{music.author}</span>
+              musicModalOnOff();
+            }}
+          />
+  
+          {selectedMusic && (
+            <>
+              <audio ref={playerRef}>
+                <source src={selectedMusic.audio} type="audio/ogg" />
+                Your browser does not support the audio element.
+              </audio>
+  
+              <div className="song-info">
+                <span className="song-name">{selectedMusic.name}</span>
+                <span className="song-author">{selectedMusic.author}</span>
               </div>
-              <span className="track-duration">
-                {index === music.id ? currentTime : music.duration}
-              </span>
-              <button
-                className="track-select"
-                title={music.id}
-                onClick={(e) => {
-                  sendSongInfo(e);
-                  getMusicData(e.target.title);
-                  e.stopPropagation(); //버튼 클릭할 때 재생 곡이 바뀌는 걸 방지해준다. 버블링 캡쳐링 금지
-                }}
-              >
-                <Icon size={22} icon={plus} style={{ pointerEvents: "none" }} />
+  
+              <div className="time">
+                <div className="current-time">{currentTime}</div>
+                <div className="end-time">{selectedMusic.duration}</div>
+              </div>
+            </>
+          )}
+          <div ref={timelineRef} id="timeline">
+            <div ref={playheadRef} id="playhead"></div>
+            <div
+              ref={hoverPlayheadRef}
+              className="hover-playhead"
+              data-content="0:00"
+            ></div>
+          </div>
+  
+          <div className="controls">
+            <div>
+              <button onClick={playOrPause} className="play current-btn">
+                {!pause ? (
+                  <Icon size={23} icon={circle} />
+                ) : (
+                  <Icon size={20} icon={pause2} />
+                )}
               </button>
             </div>
+  
+            <span className="volume-controller-wrapper">
+              <button
+                className="mute-btn"
+                onClick={() => {
+                  setMuteState(!muteState);
+                }}
+                onMouseOver={() => {
+                  volumeControllerRef.current.style.opacity = 1;
+                }}
+              >
+                <Icon
+                  size={12}
+                  icon={
+                    muteState
+                      ? volumeMute2
+                      : volume < 0.01 //0으로 하면 안먹음
+                      ? volumeMute
+                      : volume < 0.34
+                      ? volumeLow
+                      : volume < 0.67
+                      ? volumeMedium
+                      : volumeHigh
+                  }
+                />
+              </button>
+  
+              <input
+                ref={volumeControllerRef}
+                className="volume-controller"
+                type="range"
+                min={0}
+                max={1}
+                step={0.01}
+                value={muteState ? 0 : volume}
+                onChange={(e) => {
+                  if (muteState) {
+                    setMuteState(false);
+                  }
+                  setVolume(e.target.value);
+                }}
+                onMouseOut={() => {
+                  volumeControllerRef.current.style.opacity = 0;
+                }}
+              />
+            </span>
           </div>
-        ))}
+        </div>
+        
       </div>
-    </div>
-  );
+    );
+  } else if(selectedMusic && isEditing === true) {
+    return (
+      <div className="player-wrapper">
+        <div className="current-song">
+          <Icon
+            size={18}
+            // className="close-btn"
+            className={`close-btn ${musicOpen ? "open" : null}`}
+            icon={ic_close}
+            onClick={() => {
+              if (playerRef.current !== null && timelineRef.current !== null) {
+                playerRef.current.removeEventListener("timeupdate", timeUpdate);
+                playerRef.current.removeEventListener("ended", nextSong);
+                timelineRef.current.removeEventListener(
+                  "click",
+                  changeCurrentTime
+                );
+                timelineRef.current.removeEventListener(
+                  "mousemove",
+                  hoverTimeLine
+                );
+                timelineRef.current.removeEventListener(
+                  "mouseout",
+                  resetTimeLine
+                );
+              }
+              musicModalOnOff();
+            }}
+          />
+  
+          <SelectBar getGenre={getGenre} genreList={genreList} />
+          {currentSong && (
+            <>
+              <audio ref={playerRef}>
+                <source src={currentSong.audio} type="audio/ogg" />
+                Your browser does not support the audio element.
+              </audio>
+  
+              <div className="song-info">
+                <span className="song-name">{currentSong.name}</span>
+                <span className="song-author">{currentSong.author}</span>
+              </div>
+  
+              <div className="time">
+                <div className="current-time">{currentTime}</div>
+                <div className="end-time">{currentSong.duration}</div>
+              </div>
+            </>
+          )}
+          <div ref={timelineRef} id="timeline">
+            <div ref={playheadRef} id="playhead"></div>
+            <div
+              ref={hoverPlayheadRef}
+              className="hover-playhead"
+              data-content="0:00"
+            ></div>
+          </div>
+  
+          <div className="controls">
+            <div>
+              <button onClick={prevSong} className="prev prev-next current-btn">
+                <Icon icon={stepBackward} />
+              </button>
+  
+              <button onClick={playOrPause} className="play current-btn">
+                {!pause ? (
+                  <Icon size={23} icon={circle} />
+                ) : (
+                  <Icon size={20} icon={pause2} />
+                )}
+              </button>
+              <button onClick={nextSong} className="next prev-next current-btn">
+                <Icon icon={stepForward} />
+              </button>
+            </div>
+  
+            <div className="song_alert_wrapper">
+              <span className="song_alert">
+                {selectedSong &&
+                  musicLists &&
+                  `${musicLists[selectedSong].name} 곡이 배경음악으로 설정되었습니다.`}
+              </span>
+            </div>
+  
+            <span className="volume-controller-wrapper">
+              <button
+                className="mute-btn"
+                onClick={() => {
+                  setMuteState(!muteState);
+                }}
+                onMouseOver={() => {
+                  volumeControllerRef.current.style.opacity = 1;
+                }}
+              >
+                <Icon
+                  size={12}
+                  icon={
+                    muteState
+                      ? volumeMute2
+                      : volume < 0.01 //0으로 하면 안먹음
+                      ? volumeMute
+                      : volume < 0.34
+                      ? volumeLow
+                      : volume < 0.67
+                      ? volumeMedium
+                      : volumeHigh
+                  }
+                />
+              </button>
+  
+              <input
+                ref={volumeControllerRef}
+                className="volume-controller"
+                type="range"
+                min={0}
+                max={1}
+                step={0.01}
+                value={muteState ? 0 : volume}
+                onChange={(e) => {
+                  if (muteState) {
+                    setMuteState(false);
+                  }
+                  setVolume(e.target.value);
+                }}
+                onMouseOut={() => {
+                  volumeControllerRef.current.style.opacity = 0;
+                }}
+              />
+            </span>
+          </div>
+        </div>
+        <div className="play-list">
+          {filtered.map((music) => (
+            <div className="play-list-one" key={uniqueId()}>
+              <div
+                onClick={() => clickAudio(music.id)}
+                className={
+                  "track " +
+                  (index === music.id && !pause ? "current-audio" : "") +
+                  (index === music.id && pause ? "play-now" : "")
+                }
+              >
+                <img className="track-img" src={music.img} />
+                <div className="track-info">
+                  <span className="track-name">
+                    {music.name.length >= 20
+                      ? `${music.name.slice(0, 18)}...`
+                      : music.name}
+                  </span>
+                  <span className="track-author">{music.author}</span>
+                </div>
+                <span className="track-duration">
+                  {index === music.id ? currentTime : music.duration}
+                </span>
+                <button
+                  className="track-select"
+                  title={music.id}
+                  onClick={(e) => {
+                    sendSongInfo(e);
+                    getMusicData(e.target.title);
+                    e.stopPropagation(); //버튼 클릭할 때 재생 곡이 바뀌는 걸 방지해준다. 버블링 캡쳐링 금지
+                  }}
+                >
+                  <Icon size={22} icon={plus} style={{ pointerEvents: "none" }} />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div className="player-wrapper">
+        <div className="current-song">
+          <Icon
+            size={18}
+            // className="close-btn"
+            className={`close-btn ${musicOpen ? "open" : null}`}
+            icon={ic_close}
+            onClick={() => {
+              if (playerRef.current !== null && timelineRef.current !== null) {
+                playerRef.current.removeEventListener("timeupdate", timeUpdate);
+                playerRef.current.removeEventListener("ended", nextSong);
+                timelineRef.current.removeEventListener(
+                  "click",
+                  changeCurrentTime
+                );
+                timelineRef.current.removeEventListener(
+                  "mousemove",
+                  hoverTimeLine
+                );
+                timelineRef.current.removeEventListener(
+                  "mouseout",
+                  resetTimeLine
+                );
+              }
+              musicModalOnOff();
+            }}
+          />
+  
+          <SelectBar getGenre={getGenre} genreList={genreList} />
+          {currentSong && (
+            <>
+              <audio ref={playerRef}>
+                <source src={currentSong.audio} type="audio/ogg" />
+                Your browser does not support the audio element.
+              </audio>
+  
+              <div className="song-info">
+                <span className="song-name">{currentSong.name}</span>
+                <span className="song-author">{currentSong.author}</span>
+              </div>
+  
+              <div className="time">
+                <div className="current-time">{currentTime}</div>
+                <div className="end-time">{currentSong.duration}</div>
+              </div>
+            </>
+          )}
+          <div ref={timelineRef} id="timeline">
+            <div ref={playheadRef} id="playhead"></div>
+            <div
+              ref={hoverPlayheadRef}
+              className="hover-playhead"
+              data-content="0:00"
+            ></div>
+          </div>
+  
+          <div className="controls">
+            <div>
+              <button onClick={prevSong} className="prev prev-next current-btn">
+                <Icon icon={stepBackward} />
+              </button>
+  
+              <button onClick={playOrPause} className="play current-btn">
+                {!pause ? (
+                  <Icon size={23} icon={circle} />
+                ) : (
+                  <Icon size={20} icon={pause2} />
+                )}
+              </button>
+              <button onClick={nextSong} className="next prev-next current-btn">
+                <Icon icon={stepForward} />
+              </button>
+            </div>
+  
+            <div className="song_alert_wrapper">
+              <span className="song_alert">
+                {selectedSong &&
+                  musicLists &&
+                  `${musicLists[selectedSong].name} 곡이 배경음악으로 설정되었습니다.`}
+              </span>
+            </div>
+  
+            <span className="volume-controller-wrapper">
+              <button
+                className="mute-btn"
+                onClick={() => {
+                  setMuteState(!muteState);
+                }}
+                onMouseOver={() => {
+                  volumeControllerRef.current.style.opacity = 1;
+                }}
+              >
+                <Icon
+                  size={12}
+                  icon={
+                    muteState
+                      ? volumeMute2
+                      : volume < 0.01 //0으로 하면 안먹음
+                      ? volumeMute
+                      : volume < 0.34
+                      ? volumeLow
+                      : volume < 0.67
+                      ? volumeMedium
+                      : volumeHigh
+                  }
+                />
+              </button>
+  
+              <input
+                ref={volumeControllerRef}
+                className="volume-controller"
+                type="range"
+                min={0}
+                max={1}
+                step={0.01}
+                value={muteState ? 0 : volume}
+                onChange={(e) => {
+                  if (muteState) {
+                    setMuteState(false);
+                  }
+                  setVolume(e.target.value);
+                }}
+                onMouseOut={() => {
+                  volumeControllerRef.current.style.opacity = 0;
+                }}
+              />
+            </span>
+          </div>
+        </div>
+        <div className="play-list">
+          {filtered.map((music) => (
+            <div className="play-list-one" key={uniqueId()}>
+              <div
+                onClick={() => clickAudio(music.id)}
+                className={
+                  "track " +
+                  (index === music.id && !pause ? "current-audio" : "") +
+                  (index === music.id && pause ? "play-now" : "")
+                }
+              >
+                <img className="track-img" src={music.img} />
+                <div className="track-info">
+                  <span className="track-name">
+                    {music.name.length >= 20
+                      ? `${music.name.slice(0, 18)}...`
+                      : music.name}
+                  </span>
+                  <span className="track-author">{music.author}</span>
+                </div>
+                <span className="track-duration">
+                  {index === music.id ? currentTime : music.duration}
+                </span>
+                <button
+                  className="track-select"
+                  title={music.id}
+                  onClick={(e) => {
+                    sendSongInfo(e);
+                    getMusicData(e.target.title);
+                    e.stopPropagation(); //버튼 클릭할 때 재생 곡이 바뀌는 걸 방지해준다. 버블링 캡쳐링 금지
+                  }}
+                >
+                  <Icon size={22} icon={plus} style={{ pointerEvents: "none" }} />
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  
 };
 
 const mapStateToProps = ({ mainReducer }) => {

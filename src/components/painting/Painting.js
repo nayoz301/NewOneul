@@ -39,7 +39,7 @@ let arr_Colors = [
   "#2c2c2c",
 ];
 
-const Painting = ({ canvasRef, musicModalOnOff }) => {
+const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
   const [filling, setFilling] = useState(false);
   const [painting, setPainting] = useState(false);
   const [eraser, setEraser] = useState(false);
@@ -59,6 +59,7 @@ const Painting = ({ canvasRef, musicModalOnOff }) => {
   const CANVAS_WIDTH = 1000;
   const CANVAS_HEIGHT = 500;
 
+  
   // const CANVAS_WIDTH = window.innerWidth / 2;
   // const CANVAS_HEIGHT = window.innerWidth / 4;
 
@@ -117,6 +118,35 @@ const Painting = ({ canvasRef, musicModalOnOff }) => {
   //     0.8 //내릴수록 화질 안좋고 용량 줄어듦
   //   );
   // }
+  useEffect(() => {
+    if(selectedImage !== "") {
+      
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext("2d");
+      var img = new Image(); 
+      img.src = selectedImage;
+  
+      img.onload = function () {
+        ctx.drawImage(img, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    };
+    
+  } 
+   
+  }, [isEditing === false])
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (canvas !== null) {
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+
+      ctx.current = canvas.getContext("2d");
+      ctx.current.strokeStyle = BASE_COLOR;
+
+      ctx.current.fillStyle = "white"; //캔버스 기본 바탕색깔 흰색으로 세팅. PNG는 투명이 되지만 JPEG는 기본이 투명 안되고 검은색.
+      ctx.current.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); //캔버스 기본 바탕색깔 흰색으로 세팅.
+    }
+  }, [isEditing === false]);
 
   function handleFileUpload() {
     //이건 s3에 업로드하는 경우
@@ -192,6 +222,7 @@ const Painting = ({ canvasRef, musicModalOnOff }) => {
     }
   };
 
+  
   // const handleImgPreview = (e) => {
   //   setSelectedFile(e.target.files[0]);
   //   e.preventDefault();
@@ -400,196 +431,384 @@ const Painting = ({ canvasRef, musicModalOnOff }) => {
     fileRef.current.click(); // file 불러오는 버튼을 대신 클릭함
   };
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
+  // useEffect(() => {
+  //   console.log("유즈이펙트 실행 되나요?")
+  //   const canvas = canvasRef.current;
+  //   if (canvas !== null) {
+  //     canvas.style.width = "100%";
+  //     canvas.style.height = "100%";
 
-    canvas.style.width = "100%";
-    canvas.style.height = "100%";
+  //     ctx.current = canvas.getContext("2d");
+  //     ctx.current.strokeStyle = BASE_COLOR;
 
-    ctx.current = canvas.getContext("2d");
-    ctx.current.strokeStyle = BASE_COLOR;
-
-    ctx.current.fillStyle = "white"; //캔버스 기본 바탕색깔 흰색으로 세팅. PNG는 투명이 되지만 JPEG는 기본이 투명 안되고 검은색.
-    ctx.current.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); //캔버스 기본 바탕색깔 흰색으로 세팅.
-  }, []);
-
-  return (
-    <div id="canvas_wrapper">
-      <section id="controls">
-        <span className="control_btns">
-          <button id="clearBtn" onClick={handleClearClick}>
-            <FontAwesomeIcon
-              icon={farStickyNote}
-              style={{
-                fontSize: 20,
-                border: "none",
-                padding: "0 0",
-                color: "#7b716e",
-                pointerEvents: "none",
-              }}
-            />
-          </button>
-          <button
-            id="paint_btn"
-            onClick={(e) => {
-              handlePaintClick();
-              buttonClickHandler(e);
-            }}
-            style={{
-              backgroundColor:
-                buttonClicked === "paint_btn" ? "#7b716e" : "#f2ede3", //자기 엘리먼트에 id를 불러오는 방법없나?
-            }}
-          >
-            <FontAwesomeIcon
-              icon={faPaintBrush}
-              style={{
-                fontSize: 20,
-                border: "none",
-                padding: "0 0",
-                color: buttonClicked === "paint_btn" ? "#d4c7b1" : "#555",
-                pointerEvents: "none",
-              }}
-            />
-          </button>
-          <button
-            id="fill_btn"
-            onClick={(e) => {
-              handleFillClick();
-              buttonClickHandler(e);
-            }}
-            style={{
-              backgroundColor:
-                buttonClicked === "fill_btn" ? "#7b716e" : "#f2ede3",
-            }}
-          >
-            <FontAwesomeIcon
-              icon={faFillDrip}
-              style={{
-                fontSize: 20,
-                border: "none",
-                padding: "0 0",
-                color: buttonClicked === "fill_btn" ? "#d4c7b1" : "#555",
-                pointerEvents: "none",
-              }}
-            />
-          </button>
-          <button
-            id="eraser_btn"
-            onClick={(e) => {
-              handleEraserClick();
-              buttonClickHandler(e);
-            }}
-            style={{
-              backgroundColor:
-                buttonClicked === "eraser_btn" ? "#7b716e" : "#f2ede3",
-            }}
-          >
-            <FontAwesomeIcon
-              icon={faEraser}
-              style={{
-                fontSize: 20,
-                border: "none",
-                padding: "0 0",
-                color: buttonClicked === "eraser_btn" ? "d4c7b1" : "#555",
-                pointerEvents: "none",
-              }}
-            />
-          </button>
-
-          <button id="input_btn" onClick={handleFileButtonClick}>
-            <FontAwesomeIcon
-              icon={farImage}
-              style={{
-                fontSize: 20,
-                border: "none",
-                padding: "0 0",
-                color: "#7b716e",
-                pointerEvents: "none",
-              }}
-            />
-          </button>
-          <input
-            ref={fileRef}
-            type="file"
-            id="input_file"
-            name="file"
-            accept="image/*"
-            hidden={true}
-            onChange={handleInsertImage}
-          />
-
-          <span id="range_span">
-            <input
-              id="lineWeightRange"
-              type="range"
-              min="0.1"
-              max="15"
-              defaultValue={"3"}
-              step="0.1"
-              onChange={handleRangeChange}
-            />
+  //     ctx.current.fillStyle = "white"; //캔버스 기본 바탕색깔 흰색으로 세팅. PNG는 투명이 되지만 JPEG는 기본이 투명 안되고 검은색.
+  //     ctx.current.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); //캔버스 기본 바탕색깔 흰색으로 세팅.
+  //   }
+  // }, []);
+  
+  if (selectedImage !== undefined && isEditing === false) {
+    return (
+      <div id="canvas_wrapper">
+        <section id="controls">
+          <span className="control_btns">
+          
+  
+            {/* <button
+              type="button"
+              className="input_file_button"
+              onClick={handleFileUpload}
+            >
+              upload
+            </button> */}
           </span>
-
-          {/* <button
-            type="button"
-            className="input_file_button"
-            onClick={handleFileUpload}
-          >
-            upload
-          </button> */}
-        </span>
-      </section>
-      <section id="colors">
-        {arr_Colors.map((color, idx) => (
-          <span
-            className="color"
-            key={idx}
-            style={{ backgroundColor: `${color}` }}
-            onClick={handleColorClick}
-          ></span>
-        ))}
-      </section>
-
-      <section style={{ position: "relative" }}>
+        </section>
+  
+        <section style={{ position: "relative" }}>
+        
+        
         <canvas
           id="canvas"
           ref={canvasRef}
           width={`${CANVAS_WIDTH}`}
           height={`${CANVAS_HEIGHT}`}
-          onMouseMove={onMouseMove}
-          onMouseDown={startPainting}
-          onMouseUp={stopPainting}
-          onMouseLeave={stopPainting}
-          onClick={handleCanvasClick}
+          
           onContextMenu={disableRightClick}
         ></canvas>
 
         <button id="music_btn" onClick={musicModalOnOff}>
           <FontAwesomeIcon
             icon={faMusic}
-            style={{
-              color: "#7a706d",
-              fontSize: 20,
-              border: "none",
-              pointerEvents: "none",
-            }}
-          />
-        </button>
-
-        <button id="music_btn_up" onClick={musicModalOnOff}>
-          <FontAwesomeIcon
-            icon={faMusic}
-            style={{
-              color: "#7a706d",
-              fontSize: 20,
-              border: "none",
-              pointerEvents: "none",
-            }}
+            style={{ fontSize: 20, border: "none", pointerEvents: "none" }}
           />
         </button>
       </section>
-    </div>
-  );
+      </div>
+    );
+  } else if(selectedImage !== undefined && isEditing === true) {
+    return (
+      <div id="canvas_wrapper">
+        <section id="controls">
+          <span className="control_btns">
+            <button id="clearBtn" onClick={handleClearClick}>
+              <FontAwesomeIcon
+                icon={farStickyNote}
+                style={{
+                  fontSize: 20,
+                  border: "none",
+                  padding: "0 0",
+                  color: "#47525d",
+                  pointerEvents: "none",
+                }}
+              />
+            </button>
+            <button
+              id="paint_btn"
+              onClick={(e) => {
+                handlePaintClick();
+                buttonClickHandler(e);
+              }}
+              style={{
+                backgroundColor:
+                  buttonClicked === "paint_btn" ? "#c3c3c360" : "#fff", //자기 엘리먼트에 id를 불러오는 방법없나?
+              }}
+            >
+              <FontAwesomeIcon
+                icon={faPaintBrush}
+                style={{
+                  fontSize: 20,
+                  border: "none",
+                  padding: "0 0",
+                  color: "#47525d",
+                  pointerEvents: "none",
+                }}
+              />
+            </button>
+            <button
+              id="fill_btn"
+              onClick={(e) => {
+                handleFillClick();
+                buttonClickHandler(e);
+              }}
+              style={{
+                backgroundColor:
+                  buttonClicked === "fill_btn" ? "#c3c3c360" : "#fff",
+              }}
+            >
+              <FontAwesomeIcon
+                icon={faFillDrip}
+                style={{
+                  fontSize: 20,
+                  border: "none",
+                  padding: "0 0",
+                  color: "#47525d",
+                  pointerEvents: "none",
+                }}
+              />
+            </button>
+            <button
+              id="eraser_btn"
+              onClick={(e) => {
+                handleEraserClick();
+                buttonClickHandler(e);
+              }}
+              style={{
+                backgroundColor:
+                  buttonClicked === "eraser_btn" ? "#c3c3c360" : "#fff",
+              }}
+            >
+              <FontAwesomeIcon
+                icon={faEraser}
+                style={{
+                  fontSize: 20,
+                  border: "none",
+                  padding: "0 0",
+                  color: "#47525d",
+                  pointerEvents: "none",
+                }}
+              />
+            </button>
+  
+            <button id="input_btn" onClick={handleFileButtonClick}>
+              <FontAwesomeIcon
+                icon={farImage}
+                style={{
+                  fontSize: 20,
+                  border: "none",
+                  padding: "0 0",
+                  color: "#47525d",
+                  pointerEvents: "none",
+                }}
+              />
+            </button>
+            <input
+              ref={fileRef}
+              type="file"
+              id="input_file"
+              name="file"
+              accept="image/*"
+              hidden={true}
+              onChange={handleInsertImage}
+            />
+  
+            <span>
+              <input
+                id="lineWeightRange"
+                type="range"
+                min="0.1"
+                max="15"
+                defaultValue={"3"}
+                step="0.1"
+                onChange={handleRangeChange}
+              />
+            </span>
+  
+            {/* <button
+              type="button"
+              className="input_file_button"
+              onClick={handleFileUpload}
+            >
+              upload
+            </button> */}
+          </span>
+        </section>
+        <section id="colors">
+          {arr_Colors.map((color, idx) => (
+            <span
+              className="color"
+              key={idx}
+              style={{ backgroundColor: `${color}` }}
+              onClick={handleColorClick}
+            ></span>
+          ))}
+        </section>
+  
+        <section style={{ position: "relative" }}>
+          <canvas
+            id="canvas"
+            ref={canvasRef}
+            width={`${CANVAS_WIDTH}`}
+            height={`${CANVAS_HEIGHT}`}
+            onMouseMove={onMouseMove}
+            onMouseDown={startPainting}
+            onMouseUp={stopPainting}
+            onMouseLeave={stopPainting}
+            onClick={handleCanvasClick}
+            onContextMenu={disableRightClick}
+          ></canvas>
+  
+          <button id="music_btn" onClick={musicModalOnOff}>
+            <FontAwesomeIcon
+              icon={faMusic}
+              style={{ fontSize: 20, border: "none", pointerEvents: "none" }}
+            />
+          </button>
+        </section>
+      </div>
+    );
+  } else {
+    return (
+      <div id="canvas_wrapper">
+        <section id="controls">
+          <span className="control_btns">
+            <button id="clearBtn" onClick={handleClearClick}>
+              <FontAwesomeIcon
+                icon={farStickyNote}
+                style={{
+                  fontSize: 20,
+                  border: "none",
+                  padding: "0 0",
+                  color: "#47525d",
+                  pointerEvents: "none",
+                }}
+              />
+            </button>
+            <button
+              id="paint_btn"
+              onClick={(e) => {
+                handlePaintClick();
+                buttonClickHandler(e);
+              }}
+              style={{
+                backgroundColor:
+                  buttonClicked === "paint_btn" ? "#c3c3c360" : "#fff", //자기 엘리먼트에 id를 불러오는 방법없나?
+              }}
+            >
+              <FontAwesomeIcon
+                icon={faPaintBrush}
+                style={{
+                  fontSize: 20,
+                  border: "none",
+                  padding: "0 0",
+                  color: "#47525d",
+                  pointerEvents: "none",
+                }}
+              />
+            </button>
+            <button
+              id="fill_btn"
+              onClick={(e) => {
+                handleFillClick();
+                buttonClickHandler(e);
+              }}
+              style={{
+                backgroundColor:
+                  buttonClicked === "fill_btn" ? "#c3c3c360" : "#fff",
+              }}
+            >
+              <FontAwesomeIcon
+                icon={faFillDrip}
+                style={{
+                  fontSize: 20,
+                  border: "none",
+                  padding: "0 0",
+                  color: "#47525d",
+                  pointerEvents: "none",
+                }}
+              />
+            </button>
+            <button
+              id="eraser_btn"
+              onClick={(e) => {
+                handleEraserClick();
+                buttonClickHandler(e);
+              }}
+              style={{
+                backgroundColor:
+                  buttonClicked === "eraser_btn" ? "#c3c3c360" : "#fff",
+              }}
+            >
+              <FontAwesomeIcon
+                icon={faEraser}
+                style={{
+                  fontSize: 20,
+                  border: "none",
+                  padding: "0 0",
+                  color: "#47525d",
+                  pointerEvents: "none",
+                }}
+              />
+            </button>
+  
+            <button id="input_btn" onClick={handleFileButtonClick}>
+              <FontAwesomeIcon
+                icon={farImage}
+                style={{
+                  fontSize: 20,
+                  border: "none",
+                  padding: "0 0",
+                  color: "#47525d",
+                  pointerEvents: "none",
+                }}
+              />
+            </button>
+            <input
+              ref={fileRef}
+              type="file"
+              id="input_file"
+              name="file"
+              accept="image/*"
+              hidden={true}
+              onChange={handleInsertImage}
+            />
+  
+            <span>
+              <input
+                id="lineWeightRange"
+                type="range"
+                min="0.1"
+                max="15"
+                defaultValue={"3"}
+                step="0.1"
+                onChange={handleRangeChange}
+              />
+            </span>
+  
+            {/* <button
+              type="button"
+              className="input_file_button"
+              onClick={handleFileUpload}
+            >
+              upload
+            </button> */}
+          </span>
+        </section>
+        <section id="colors">
+          {arr_Colors.map((color, idx) => (
+            <span
+              className="color"
+              key={idx}
+              style={{ backgroundColor: `${color}` }}
+              onClick={handleColorClick}
+            ></span>
+          ))}
+        </section>
+  
+        <section style={{ position: "relative" }}>
+          <canvas
+            id="canvas"
+            ref={canvasRef}
+            width={`${CANVAS_WIDTH}`}
+            height={`${CANVAS_HEIGHT}`}
+            onMouseMove={onMouseMove}
+            onMouseDown={startPainting}
+            onMouseUp={stopPainting}
+            onMouseLeave={stopPainting}
+            onClick={handleCanvasClick}
+            onContextMenu={disableRightClick}
+          ></canvas>
+  
+          <button id="music_btn" onClick={musicModalOnOff}>
+            <FontAwesomeIcon
+              icon={faMusic}
+              style={{ fontSize: 20, border: "none", pointerEvents: "none" }}
+            />
+          </button>
+        </section>
+      </div>
+    );
+  }
+
+  
 };
 
 export default Painting;

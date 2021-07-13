@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Icon } from "react-icons-kit";
 import uniqueId from "lodash/uniqueId";
@@ -50,48 +50,140 @@ const WeatherUnit = styled.div`
   }
 `;
 
-const WeatherModal = ({ weatherData }) => {
-  const [weatherChosen, setWeatherChosen] = useState(null);
+const WeatherModal = ({ 
+  weatherData, 
+  selectedWeatherId, 
+  isEditing,
+  setWeatherChosen,
+  weatherChosen,
+  isWeatherSelected,
+  setIsWeatherSelected
+}) => {
 
-  return (
-    <>
-      <div
-        className="weather-wrapper"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <WeathersBody className="weathers-body">
-          {weathers.map((weather) => {
-            return (
-              <WeatherUnit key={uniqueId()}>
-                <Icon
-                  icon={weather.weather}
-                  // size={idx === weatherChosen ? 35 : 32}
-                  size={39}
-                  onClick={() => {
-                    setWeatherChosen(weather.id);
-                    weatherData(weather.id);
-                  }}
-                  style={{
-                    color:
-                      weather.id === weatherChosen ? weather.color : "#8a959e",
-                    backgroundColor:
-                      weather.id === weatherChosen
-                        ? weather.color + "45"
-                        : "transparent",
-                    borderRadius: "50%",
-                    fontWeight: 400,
-                  }}
-                />
-              </WeatherUnit>
-            );
-          })}
-        </WeathersBody>
-      </div>
-    </>
-  );
+  useEffect(() => {
+      weatherData(selectedWeatherId);
+  }, [isEditing === false])
+  
+  if (selectedWeatherId && isEditing === false) {
+    return (
+      <>
+        <div
+          className="weather-wrapper"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <WeathersBody className="weathers-body">
+            {weathers.map((weather) => {
+              return (
+                <WeatherUnit key={uniqueId()}>
+                  <Icon
+                    icon={weather.weather}
+                    // size={idx === weatherChosen ? 35 : 32}
+                    size={32}
+                    style={{
+                      color:
+                        weather.id === selectedWeatherId ? weather.color : "#8a959e",
+                      backgroundColor:
+                        weather.id === selectedWeatherId
+                          ? weather.color + "45"
+                          : "transparent",
+                      borderRadius: "50%",
+                      fontWeight: 400,
+                    }}
+                  />
+                </WeatherUnit>
+              );
+            })}
+          </WeathersBody>
+        </div>
+      </>
+    );
+  } 
+  else if (selectedWeatherId && isEditing === true) {
+    return (
+      <>
+        <div
+          className="weather-wrapper"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <WeathersBody className="weathers-body">
+            {weathers.map((weather) => {
+              return (
+                <WeatherUnit key={uniqueId()}>
+                  <Icon
+                    icon={weather.weather}
+                    // size={idx === weatherChosen ? 35 : 32}
+                    size={32}
+                    onClick={() => {
+                      setWeatherChosen(weather.id);
+                      weatherData(weather.id);
+                    }}
+                    style={{
+                      color:
+                        weather.id === weatherChosen ? weather.color : "#8a959e",
+                      backgroundColor:
+                        weather.id === weatherChosen
+                          ? weather.color + "45"
+                          : "transparent",
+                      borderRadius: "50%",
+                      fontWeight: 400,
+                    }}
+                  />
+                </WeatherUnit>
+              );
+            })}
+          </WeathersBody>
+        </div>
+      </>
+    );
+  } 
+  else {
+    return (
+      <>
+        <div
+          className="weather-wrapper"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <WeathersBody className="weathers-body">
+            {weathers.map((weather) => {
+              return (
+                <WeatherUnit key={uniqueId()}>
+                  <Icon
+                    icon={weather.weather}
+                    // size={idx === weatherChosen ? 35 : 32}
+                    size={32}
+                    onClick={() => {
+                      setWeatherChosen(weather.id);
+                      weatherData(weather.id);
+                    }}
+                    style={{
+                      color:
+                        weather.id === weatherChosen ? weather.color : "#8a959e",
+                      backgroundColor:
+                        weather.id === weatherChosen
+                          ? weather.color + "45"
+                          : "transparent",
+                      borderRadius: "50%",
+                      fontWeight: 400,
+                    }}
+                  />
+                </WeatherUnit>
+              );
+            })}
+          </WeathersBody>
+        </div>
+      </>
+    );
+  }
+  
 };
 
 export default WeatherModal;
