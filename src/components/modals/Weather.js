@@ -50,20 +50,19 @@ const WeatherUnit = styled.div`
   }
 `;
 
-const WeatherModal = ({ 
-  weatherData, 
-  selectedWeatherId, 
+const WeatherModal = ({
+  weatherData,
+  selectedWeatherId,
   isEditing,
   setWeatherChosen,
   weatherChosen,
   isWeatherSelected,
-  setIsWeatherSelected
+  setIsWeatherSelected,
 }) => {
-
   useEffect(() => {
-      weatherData(selectedWeatherId);
-  }, [isEditing === false])
-  
+    weatherData(selectedWeatherId);
+  }, [isEditing === false]);
+
   if (selectedWeatherId && isEditing === false) {
     return (
       <>
@@ -81,10 +80,12 @@ const WeatherModal = ({
                   <Icon
                     icon={weather.weather}
                     // size={idx === weatherChosen ? 35 : 32}
-                    size={32}
+                    size={39}
                     style={{
                       color:
-                        weather.id === selectedWeatherId ? weather.color : "#8a959e",
+                        weather.id === selectedWeatherId
+                          ? weather.color
+                          : "#8a959e",
                       backgroundColor:
                         weather.id === selectedWeatherId
                           ? weather.color + "45"
@@ -100,8 +101,7 @@ const WeatherModal = ({
         </div>
       </>
     );
-  } 
-  else if (selectedWeatherId && isEditing === true) {
+  } else if (selectedWeatherId && isEditing === true) {
     return (
       <>
         <div
@@ -118,14 +118,16 @@ const WeatherModal = ({
                   <Icon
                     icon={weather.weather}
                     // size={idx === weatherChosen ? 35 : 32}
-                    size={32}
+                    size={39}
                     onClick={() => {
                       setWeatherChosen(weather.id);
                       weatherData(weather.id);
                     }}
                     style={{
                       color:
-                        weather.id === weatherChosen ? weather.color : "#8a959e",
+                        weather.id === weatherChosen
+                          ? weather.color
+                          : "#8a959e",
                       backgroundColor:
                         weather.id === weatherChosen
                           ? weather.color + "45"
@@ -141,8 +143,7 @@ const WeatherModal = ({
         </div>
       </>
     );
-  } 
-  else {
+  } else {
     return (
       <>
         <div
@@ -159,14 +160,16 @@ const WeatherModal = ({
                   <Icon
                     icon={weather.weather}
                     // size={idx === weatherChosen ? 35 : 32}
-                    size={32}
+                    size={39}
                     onClick={() => {
                       setWeatherChosen(weather.id);
                       weatherData(weather.id);
                     }}
                     style={{
                       color:
-                        weather.id === weatherChosen ? weather.color : "#8a959e",
+                        weather.id === weatherChosen
+                          ? weather.color
+                          : "#8a959e",
                       backgroundColor:
                         weather.id === weatherChosen
                           ? weather.color + "45"
@@ -183,7 +186,6 @@ const WeatherModal = ({
       </>
     );
   }
-  
 };
 
 export default WeatherModal;

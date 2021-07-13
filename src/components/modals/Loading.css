@@ -1,19 +1,21 @@
-body {
+.Loading_wrapper {
   display: flex;
   flex-direction: column;
-  background: rebeccapurple;
+  background: #716e6d;
   width: 20rem;
   height: 20rem;
   align-items: center;
   justify-content: center;
+  z-index: 500;
+  border-radius: 2rem;
 }
 
 h1 {
-  color: #ffffff;
+  color: #ecead6;
   text-align: center;
-  font-family: sans-serif;
+  font-family: var(--thick-font);
   text-transform: uppercase;
-  font-size: 20px;
+  font-size: 1.7rem;
   position: relative;
 }
 
@@ -25,29 +27,29 @@ h1:after {
 }
 
 .loader {
-  margin: 5% auto 30px;
+  margin: 5% auto 3rem;
 }
 
 .book {
-  border: 4px solid #ffffff;
-  width: 60px;
-  height: 45px;
+  border: 0.4rem solid #ecead6;
+  width: 6rem;
+  height: 4.5rem;
   position: relative;
-  perspective: 150px;
+  perspective: 15rem;
 }
 
 .page {
   display: block;
-  width: 30px;
-  height: 45px;
-  border: 4px solid #ffffff;
-  border-left: 1px solid #8455b2;
+  width: 3rem;
+  height: 4.5rem;
+  border: 0.4rem solid #ecead6;
+  border-left: 0.1rem solid #424040; /*1번 색 (책장 가운데 선 넘어가는 책장)*/
   margin: 0;
   position: absolute;
-  right: -4px;
-  top: -4px;
+  right: -0.4rem;
+  top: -0.4rem;
   overflow: hidden;
-  background: #8455b2;
+  background: #424040; /*1번 색 (책장 가운데 선 넘어가는 책장)*/
   transform-style: preserve-3d;
   -webkit-transform-origin: left center;
   transform-origin: left center;
@@ -76,15 +78,15 @@ h1:after {
     transform: rotateY(0deg);
   }
   20% {
-    background: #4b1e77;
+    background: #797777; /*2번 색 (넘어가는 책장)*/
   }
   40% {
-    background: rebeccapurple;
+    background: #716e6d;
     -webkit-transform: rotateY(-180deg);
     transform: rotateY(-180deg);
   }
   100% {
-    background: rebeccapurple;
+    background: #716e6d;
     -webkit-transform: rotateY(-180deg);
     transform: rotateY(-180deg);
   }
@@ -95,14 +97,14 @@ h1:after {
     transform: rotateY(0deg);
   }
   20% {
-    background: #4b1e77;
+    background: #797777; /*2번 색 (넘어가는 책장)*/
   }
   40% {
-    background: rebeccapurple;
+    background: #716e6d;
     transform: rotateY(-180deg);
   }
   100% {
-    background: rebeccapurple;
+    background: #716e6d;
     transform: rotateY(-180deg);
   }
 }
