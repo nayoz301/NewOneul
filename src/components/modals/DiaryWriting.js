@@ -154,7 +154,6 @@ const DiaryWriting = ({
       }
     }
   };
-
   // console.log("text", diaryText);
   // console.log("weather", weatherChosen);
   // console.log("emoji", emojiChosen);
@@ -232,6 +231,8 @@ const DiaryWriting = ({
                 color: "#605138",
                 fontFamily: "var(--thick-font)",
                 fontWeight: "800",
+                display: "flex",
+                alignItems: "center",
               }}
             >
               글 공개
