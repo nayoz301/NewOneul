@@ -176,7 +176,7 @@ const DiaryWriting = ({
                 emojiModalOnOff();
               }}
               style={{
-                fontSize: 30,
+                fontSize: 40,
                 cursor: "pointer",
                 color: emojiChosen ? emojiChosen.color : "#86888a",
                 backgroundColor: "transparent",
@@ -360,7 +360,7 @@ const Header = styled.div`
 
 const HeaderDate = styled.div`
   flex: 5 1 40%;
-  font-size: 2.2rem;
+  font-size: 2rem;
   font-family: var(--thick-font);
   text-align: center;
   font-weight: 700;
@@ -411,7 +411,7 @@ const TextArea = styled.textarea`
   /* z-index: 1; */
   /* padding: 2.5rem; */
   border: none;
-  font-size: 2rem;
+  font-size: 1.7rem;
   outline: none;
   color: #7f7366;
   font-family: var(--thick-font);
@@ -419,9 +419,9 @@ const TextArea = styled.textarea`
   background-attachment: local;
   background-position: 0 0.5rem;
   background-image: url("https://www.transparenttextures.com/patterns/sandpaper.png"),
-    linear-gradient(to right, #f2ede3 4.5rem, transparent 4.5rem),
+    linear-gradient(to right, #f2ede3 0.5rem, transparent 0.5rem),
     //가로
-    linear-gradient(to left, #f2ede3 4.5rem, transparent 4.5rem),
+    linear-gradient(to left, #f2ede3 0.5rem, transparent 0.5rem),
     //가로
     repeating-linear-gradient(
         #f2ede3,
@@ -431,6 +431,7 @@ const TextArea = styled.textarea`
         white 3.4rem
       );
   line-height: 3.4rem;
+  letter-spacing: 0.5px;
   padding: 0.6rem 4.5rem;
 `;
 
