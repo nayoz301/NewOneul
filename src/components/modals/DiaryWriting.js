@@ -11,6 +11,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSmile as farSmile } from "@fortawesome/free-regular-svg-icons";
 import "./DiaryWriting.css";
 import { connect } from "react-redux";
+import emojis from "../../icons/imojis"
+import weathers from "../../icons/weathers"
 import { addNewPublicDiary, addNewPrivateDiary } from "../../actions";
 
 const DiaryWriting = ({
@@ -19,7 +21,18 @@ const DiaryWriting = ({
   userInfo,
   addNewPublicDiary,
   addNewPrivateDiary,
+  selectedDiary
 }) => {
+ 
+  const getSelectedImoji = () => {
+    if (selectedDiary) {return emojis.filter(el => el.id === selectedDiary.feeling)[0]}
+      return;
+  }
+
+  const selectedImoji = getSelectedImoji();
+  
+  
+
   const textRef = useRef();
 
   const canvasRef = useRef(null);
@@ -32,6 +45,16 @@ const DiaryWriting = ({
   const [weatherChosen, setWeatherChosen] = useState(null);
   const [musicChosen, setMusicChosen] = useState(null);
   const [dataFromServer, setDataFromServer] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
+  const [isWeatherSelected, setIsWeatherSelected] = useState(false);
+
+  useEffect(() => {
+    if(selectedDiary) {
+      setSelectedImage(selectedDiary.image)
+      setIsWeatherSelected(true);
+    }
+  }) 
   const [loading, setLoading] = useState(false);
 
   const emojiModalOnOff = () => {
@@ -51,6 +74,10 @@ const DiaryWriting = ({
     console.log("emoji.color", emoji.id);
   };
 
+  
+  const editDiary = () => {
+    setIsEditing(true);
+  }
   const canvasHeight = (window.innerWidth / 2) * 0.4;
   const textAreaHeight = window.innerHeight - 135 - canvasHeight;
 
@@ -155,101 +182,346 @@ const DiaryWriting = ({
     }
   };
 
-  // console.log("text", diaryText);
-  // console.log("weather", weatherChosen);
-  // console.log("emoji", emojiChosen);
-  // console.log("date", clickmoment.format("YYYY-M-D"));
-  // console.log("private", isPublic);
-  // console.log("music", Number(musicChosen));
-  return (
-    <>
-      {/* {loading && <div>로딩중</div>} */}
-      <ModalWrapper className="modal-wrapper">
-        <Header className="header">
-          <HeaderDate className="date">
-            <span> {clickmoment.format("LL dddd")}</span>
-          </HeaderDate>
+  const recompleteDiary = () => {
+    setIsEditing(false);
+  }
 
-          <HeaderEmoji className="emoji">
-            <FontAwesomeIcon
-              icon={emojiChosen ? emojiChosen.emoji : farSmile}
-              onClick={(e) => {
-                emojiModalOnOff();
-              }}
-              style={{
-                fontSize: 30,
-                cursor: "pointer",
-                color: emojiChosen ? emojiChosen.color : "#86888a",
-                backgroundColor: "transparent",
-              }}
-            />
-            <EmojiModal
-              emojiModalOnOff={emojiModalOnOff}
-              emojiOpen={emojiOpen}
-              whatEmoji={whatEmoji}
-            ></EmojiModal>
-          </HeaderEmoji>
-
-          <HeaderWeather className="weather">
-            <WeatherModal
-              weatherChosen={weatherChosen}
-              weatherData={weatherData}
-            />
-          </HeaderWeather>
-        </Header>
-
-        <Painting canvasRef={canvasRef} musicModalOnOff={musicModalOnOff} />
-        <TextArea
-          className="textarea"
-          textAreaHeight={textAreaHeight}
-          ref={textRef}
-          placeholder="오늘은 어떠셨나요?"
-          onChange={(e) => {
-            setDiaryText(e.target.value);
-          }}
-        ></TextArea>
-
-        <Footer className="footer">
-          <FooterClose onClick={closeDiaryModal}>닫기</FooterClose>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <span
-              className="private"
-              style={{
-                fontSize: "1.5rem",
-                color: "#605138",
-                fontFamily: "var(--thick-font)",
-                fontWeight: "800",
-              }}
-            >
-              <FooterPrivate
-                type="checkbox"
-                onClick={() => {
-                  SetIsPublic(!isPublic);
+  console.log("text", diaryText);
+  console.log("weather", weatherChosen);
+  console.log("emoji", emojiChosen);
+  console.log("date", clickmoment.format("YYYY-M-D"));
+  console.log("private", isPublic);
+  console.log("music", Number(musicChosen));
+  
+  if (selectedDiary !== undefined && isEditing === false) {
+    
+    return (
+      <>
+        <ModalWrapper className="modal-wrapper">
+          <Header className="header">
+            <HeaderDate className="date">
+              <span> {clickmoment.format("LL dddd")}</span>
+            </HeaderDate>
+  
+            <HeaderEmoji className="emoji">
+              <FontAwesomeIcon
+                icon={selectedImoji.emoji}
+                style={{
+                  fontSize: 30,
+                  cursor: "pointer",
+                  color: selectedImoji.color,
+                  backgroundColor: "transparent",
                 }}
               />
-              글 공개
-            </span>
+            </HeaderEmoji>
+  
+            <HeaderWeather className="weather">
+              <WeatherModal weatherData={weatherData} selectedWeatherId={selectedDiary.weather} isEditing={isEditing} />
+            </HeaderWeather>
+          </Header>
+  
+          <Painting canvasRef={canvasRef} musicModalOnOff={musicModalOnOff} selectedImage={selectedDiary.image} isEditing={isEditing}/>
+  
+          <TextArea
+            className="textarea"
+            textAreaHeight={textAreaHeight}
+            ref={textRef}
+            readOnly
+          >{selectedDiary.text}</TextArea>
+  
+          <Footer className="footer">
+            <FooterClose onClick={closeDiaryModal}>닫기</FooterClose>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              {/* <button
+                onClick={() => {
+                  const param = {
+                    Bucket: "oneulfile",
+                    Key: "image/" + Date.now(),
+                    ACL: "public-read",
+                    Body: "file",
+                    ContentType: "image/",
+                  };
+  
+                  s3.upload(param, function (err, data) {
+                    console.log(err);
+                    console.log(data);
+                  });
+                }}
+              >
+                업로드
+              </button> */}
+              <span
+                className="private"
+                style={{ fontSize: "1.5rem", color: "#605138" }}
+              >
+                <FooterPrivate
+                  type="checkbox"
+                />
+                글 공개
+              </span>
+  
+              <FooterPost className="post" onClick={editDiary} >
+                수정하기
+              </FooterPost>
+            </div>
+          </Footer>
+        </ModalWrapper>
+  
+        <MusicModal
+          musicOpen={musicOpen}
+          musicModalOnOff={musicModalOnOff}
+          getMusicData={getMusicData}
+          selectedMusicId={selectedDiary.music.id}
+          musicChosen={musicChosen}
+          setMusicChosen={setMusicChosen}
+          style={{ display: "flex", position: "relative" }}
+          isEditing={isEditing}
+        />
+      </>
+    );
+  } else if (selectedDiary !== undefined && isEditing === true) {
+    return (
+      <>
+        <ModalWrapper className="modal-wrapper">
+          <Header className="header">
+            <HeaderDate className="date">
+              <span> {clickmoment.format("LL dddd")}</span>
+            </HeaderDate>
+  
+            <HeaderEmoji className="emoji">
+              <FontAwesomeIcon
+                icon={emojiChosen ? emojiChosen.emoji : selectedImoji.emoji}
+                onClick={(e) => {
+                  emojiModalOnOff();
+                }}
+                style={{
+                  fontSize: 30,
+                  cursor: "pointer",
+                  color: emojiChosen ? emojiChosen.color : selectedImoji.color,
+                  backgroundColor: "transparent",
+                }}
+              />
+              <EmojiModal
+                emojiModalOnOff={emojiModalOnOff}
+                emojiOpen={emojiOpen}
+                whatEmoji={whatEmoji}
+              ></EmojiModal>
+            </HeaderEmoji>
+  
+            <HeaderWeather className="weather">
+              <WeatherModal 
+                weatherData={weatherData} 
+                selectedWeatherId={selectedDiary.weather} 
+                isEditing={isEditing}
+                setWeatherChosen={setWeatherChosen}
+                weatherChosen={weatherChosen}
+                isWeatherSelected={isWeatherSelected}
+                setIsWeatherSelected={setIsWeatherSelected}
+              />
+            </HeaderWeather>
+          </Header>
+  
+          <Painting canvasRef={canvasRef} 
+            musicModalOnOff={musicModalOnOff} 
+            isEditing={isEditing} 
+            selectedImage={selectedImage} />
+  
+          <TextArea
+            className="textarea"
+            textAreaHeight={textAreaHeight}
+            ref={textRef}
+            placeholder="오늘은 어떠셨나요?"
+            onClick={(e) => {
+              if (e.target.className === "textarea") {
+                console.log(e.target.className);
+                return (textRef.current.style.backgroundColor = "black");
+              }
+              return (textRef.current.style.backgroundColor = "white");
+            }}
+            onChange={(e) => {
+              setDiaryText(e.target.value);
+            }}
+          >{selectedDiary.text}</TextArea>
+  
+          <Footer className="footer">
+            <FooterClose onClick={closeDiaryModal}>닫기</FooterClose>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              {/* <button
+                onClick={() => {
+                  const param = {
+                    Bucket: "oneulfile",
+                    Key: "image/" + Date.now(),
+                    ACL: "public-read",
+                    Body: "file",
+                    ContentType: "image/",
+                  };
+  
+                  s3.upload(param, function (err, data) {
+                    console.log(err);
+                    console.log(data);
+                  });
+                }}
+              >
+                업로드
+              </button> */}
+              <span
+                className="private"
+                style={{ fontSize: "1.5rem", color: "#605138" }}
+              >
+                <FooterPrivate
+                  type="checkbox"
+                  onClick={() => {
+                    SetIsPublic(!isPublic);
+                  }}
+                />
+                글 공개
+              </span>
+  
+              <FooterPost className="post" onClick={recompleteDiary}>
+                재등록하기
+              </FooterPost>
+            </div>
+          </Footer>
+        </ModalWrapper>
+  
+        <MusicModal
+          musicOpen={musicOpen}
+          musicModalOnOff={musicModalOnOff}
+          getMusicData={getMusicData}
+          musicChosen={musicChosen}
+          setMusicChosen={setMusicChosen}
+          style={{ display: "flex", position: "relative" }}
+          isEditing={isEditing}
+        />
+      </>
+    );
+  } else {
+    return (
+      <>
+        <ModalWrapper className="modal-wrapper">
+          <Header className="header">
+            <HeaderDate className="date">
+              <span> {clickmoment.format("LL dddd")}</span>
+            </HeaderDate>
+  
+            <HeaderEmoji className="emoji">
+              <FontAwesomeIcon
+                icon={emojiChosen ? emojiChosen.emoji : farSmile}
+                onClick={(e) => {
+                  emojiModalOnOff();
+                }}
+                style={{
+                  fontSize: 30,
+                  cursor: "pointer",
+                  color: emojiChosen ? emojiChosen.color : "#86888a",
+                  backgroundColor: "transparent",
+                }}
+              />
+              <EmojiModal
+                emojiModalOnOff={emojiModalOnOff}
+                emojiOpen={emojiOpen}
+                whatEmoji={whatEmoji}
+              ></EmojiModal>
+            </HeaderEmoji>
+  
+            <HeaderWeather className="weather">
+              <WeatherModal 
+                weatherData={weatherData} 
+                setWeatherChosen={setWeatherChosen} 
+                weatherChosen={weatherChosen} 
+              />
+            </HeaderWeather>
+          </Header>
+  
+          <Painting canvasRef={canvasRef} musicModalOnOff={musicModalOnOff} />
+  
+          <TextArea
+            className="textarea"
+            textAreaHeight={textAreaHeight}
+            ref={textRef}
+            placeholder="오늘은 어떠셨나요?"
+            onClick={(e) => {
+              if (e.target.className === "textarea") {
+                console.log(e.target.className);
+                return (textRef.current.style.backgroundColor = "black");
+              }
+              return (textRef.current.style.backgroundColor = "white");
+            }}
+            onChange={(e) => {
+              setDiaryText(e.target.value);
+            }}
+          ></TextArea>
+  
+          <Footer className="footer">
+            <FooterClose onClick={closeDiaryModal}>닫기</FooterClose>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              {/* <button
+                onClick={() => {
+                  const param = {
+                    Bucket: "oneulfile",
+                    Key: "image/" + Date.now(),
+                    ACL: "public-read",
+                    Body: "file",
+                    ContentType: "image/",
+                  };
+  
+                  s3.upload(param, function (err, data) {
+                    console.log(err);
+                    console.log(data);
+                  });
+                }}
+              >
+                업로드
+              </button> */}
+              <span
+                className="private"
+                style={{ fontSize: "1.5rem", color: "#605138" }}
+              >
+                <FooterPrivate
+                  type="checkbox"
+                  onClick={() => {
+                    SetIsPublic(!isPublic);
+                  }}
+                />
+                글 공개
+              </span>
+  
+              <FooterPost className="post" onClick={completeDiary}>
+                등록하기
+              </FooterPost>
+            </div>
+          </Footer>
+        </ModalWrapper>
+  
+        <MusicModal
+          musicOpen={musicOpen}
+          musicModalOnOff={musicModalOnOff}
+          getMusicData={getMusicData}
+          style={{ display: "flex", position: "relative" }}
+        />
+      </>
+    );
+  }
 
-            <FooterPost className="post" onClick={completeDiary}>
-              등록하기
-            </FooterPost>
-          </div>
-        </Footer>
-      </ModalWrapper>
-
-      <MusicModal
-        musicOpen={musicOpen}
-        musicModalOnOff={musicModalOnOff}
-        getMusicData={getMusicData}
-        style={{ display: "flex", position: "relative" }}
-      />
-    </>
-  );
+  
 };
 
 //이렇게 써도됌
@@ -330,7 +602,7 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 4rem;
+  min-height: 4.5rem;
   background-color: #f7f8e7;
   background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
   border-top-right-radius: 1rem;
@@ -339,16 +611,16 @@ const Header = styled.div`
 
 const HeaderDate = styled.div`
   flex: 5 1 40%;
-  font-size: 1.7rem;
+  font-size: 2rem;
   font-family: var(--thick-font);
   text-align: center;
   font-weight: 700;
   color: #595b5c;
 
-  @media screen and (max-width: 550px) {
+  @media screen and (max-width: 570px) {
     & {
-      font-size: 1.6rem;
-      margin-left: 0.5rem;
+      font-size: 1.9rem;
+      margin-left: 1rem;
     }
   }
 `;
@@ -369,6 +641,12 @@ const HeaderWeather = styled.div`
   /* background-color: white; */
   /* border-radius: 1rem; */
   /* margin-right: 1rem; */
+
+  @media screen and (max-width: 570px) {
+    & {
+      margin-right: 0.2rem;
+    }
+  }
 `;
 
 const Canvas = styled.div`
@@ -384,7 +662,7 @@ const TextArea = styled.textarea`
   /* z-index: 1; */
   /* padding: 2.5rem; */
   border: none;
-  font-size: 1.8rem;
+  font-size: 1.7rem;
   outline: none;
   color: #7f7366;
   font-family: var(--thick-font);
@@ -392,9 +670,9 @@ const TextArea = styled.textarea`
   background-attachment: local;
   background-position: 0 0.5rem;
   background-image: url("https://www.transparenttextures.com/patterns/sandpaper.png"),
-    linear-gradient(to right, #f2ede3 3rem, transparent 3rem),
+    linear-gradient(to right, #f2ede3 0.5rem, transparent 0.5rem),
     //가로
-    linear-gradient(to left, #f2ede3 3rem, transparent 3rem),
+    linear-gradient(to left, #f2ede3 0.5rem, transparent 0.5rem),
     //가로
     repeating-linear-gradient(
         #f2ede3,
@@ -404,24 +682,15 @@ const TextArea = styled.textarea`
         white 3.4rem
       );
   line-height: 3.4rem;
-  padding: 1.2rem 3rem;
-
-  /* background-attachment: local;
-   background-position: 0 1.3rem;
-   background-image:
-   url("https://www.transparenttextures.com/patterns/sandpaper.png"),
-       linear-gradient(to right, #f2ede3 4rem, transparent 4rem), //가로
-     linear-gradient(to left, #f2ede3 4rem, transparent 4rem), //가로
-     repeating-linear-gradient(#f2ede3, #f2ede3 3.3rem, #b9a88c 3.3rem, #b9a88c 3.4rem, white 3.4rem);
-   line-height: 3.4rem;
-   padding: 2rem 4rem; */
+  letter-spacing: 0.5px;
+  padding: 0.6rem 4.5rem;
 `;
 
 const Footer = styled.div`
   border: none;
   background-color: #d2c4adf0;
   display: flex;
-  height: 4rem;
+  min-height: 4.5rem;
   justify-content: space-between;
   align-items: center;
   background-image: url("https://www.transparenttextures.com/patterns/cardboard-flat.png");
