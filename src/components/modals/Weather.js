@@ -69,7 +69,7 @@ const WeatherModal = ({ weatherData }) => {
                 <Icon
                   icon={weather.weather}
                   // size={idx === weatherChosen ? 35 : 32}
-                  size={32}
+                  size={39}
                   onClick={() => {
                     setWeatherChosen(weather.id);
                     weatherData(weather.id);
