@@ -18,3 +18,9 @@ export const makecalendar = (value) => {
 
   return calendar;
 };
+
+export const diaryCheck = (myDiaryInfo, day, func) => {
+  return myDiaryInfo.find(
+    (diary) => diary.date === func(day).format("YYYY-M-D")
+  );
+};

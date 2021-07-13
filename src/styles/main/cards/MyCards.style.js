@@ -18,6 +18,7 @@ export const MyCardWrapper = styled.div`
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   min-height: 25rem;
   padding-top: 1rem;
+  border-radius: 7px;
 `;
 
 export const MyDiary = styled(Card)`
@@ -86,9 +87,6 @@ export const IconWrapper = styled.div`
   position: absolute;
   bottom: 4%;
   right: 8%;
-
-  & svg {
-  }
 `;
 
 export const DiaryLogin = styled.button`

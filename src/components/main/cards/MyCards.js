@@ -14,22 +14,30 @@ import MyCard from "./card/MyCard";
 import { useState } from "react";
 import Signup from "../../modals/signup_in/Signup";
 import AOS from "aos";
+import Diary from "../../modals/Diary";
+import moment from "moment";
 
 const MyCards = ({ diary, userInfo }) => {
   useEffect(() => {
     AOS.init();
   }, []);
-  const [modal, setModal] = useState(false);
 
+  const [modal, setModal] = useState(false);
+  const [diaryModal, setDiaryModal] = useState(false);
+
+  // login modal handler
   const changeModal = () => {
     setModal((prev) => !prev);
   };
 
-  console.log(modal);
+  // today's diary modal handler
+  const changeDiaryModal = () => {
+    setDiaryModal((prev) => !prev);
+  };
 
   const content =
     diary.myDiary.length === 0 ? (
-      <DiaryLogin>
+      <DiaryLogin onClick={changeDiaryModal}>
         첫 일기 남기기
         <Icon icon={pencil} />
       </DiaryLogin>
@@ -46,6 +54,7 @@ const MyCards = ({ diary, userInfo }) => {
     );
 
   // console.log(diary.myDiary);
+
   return (
     <MyCardWrapper>
       <MyDiaryHeader>나의 오늘 .</MyDiaryHeader>
@@ -58,6 +67,9 @@ const MyCards = ({ diary, userInfo }) => {
         content
       )}
       {modal && <Signup handleModal={changeModal} />}
+      {diaryModal && (
+        <Diary closeDiaryModal={changeDiaryModal} clickmoment={moment()} />
+      )}
     </MyCardWrapper>
   );
 };
