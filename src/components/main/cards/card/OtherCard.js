@@ -19,7 +19,7 @@ const OtherCard = ({ diary, userInfo, addEmpathy, removeEmpathy }) => {
   const { faceIcons, weatherIcons } = icons;
   const { id, nickname } = userInfo.userInfo;
   const { accessToken } = userInfo.login;
-  const { date, image, feeling, user, weather, emphathies } = diary;
+  const { date, feeling, user, weather, emphathies } = diary;
 
   const addEpt = (e) => {
     // stop Bubbling of Event
@@ -76,7 +76,7 @@ const OtherCard = ({ diary, userInfo, addEmpathy, removeEmpathy }) => {
       <MyDiaryFrontHeader>
         {splitDate(date)[0]}년 {splitDate(date)[1]}월 {splitDate(date)[2]}일
       </MyDiaryFrontHeader>
-      <img src={image} alt="" />
+      <img src={user && user.picture} alt="" />
       <NameSpan>{user && user.nickname}</NameSpan>
       <OtherDiaryIconWrapper>
         <Heart>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import moment from "moment";
 import "../../style.css";
 import Calendar from "./calendar/Calendar";
@@ -70,24 +70,19 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
     setClickmoment(day);
   };
 
-  const next = () => {
+  const next = useCallback(() => {
     setValue(value.add(1, "month").clone());
-  };
+  }, [value]);
 
-  const before = () => {
+  const before = useCallback(() => {
     setValue(value.subtract(1, "month").clone());
-  };
+  }, [value]);
 
   return (
     <>
       {isClick && (
         <Diary clickmoment={clickmoment} closeDiaryModal={closeDiaryModal} />
       )}
-      {/* {existDiaryComponent && (
-        <ModifyDiary
-          clickedDayDiary={diaryCheck(myDiaryInfo, clickmoment, moment)}
-        />
-      )} */}
       <MainSection>
         <MainHeaderCompo />
         <MainInnerSection>
@@ -97,7 +92,7 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
               <Calendar value={value} modalHandle={momentHandler} />
             </CalendarWrapper>
             <DiaryWrapper>
-              <MyCards />
+              <MyCards modalHandle={momentHandler} />
               <OtherCards />
             </DiaryWrapper>
           </MainInnerWrapper>

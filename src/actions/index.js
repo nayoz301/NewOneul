@@ -79,3 +79,19 @@ export const removeDiary = (diaryId) => {
     diaryId,
   };
 };
+
+export const modifyDiary = (diaryId, modifiedDiary) => {
+  return {
+    type: "MODIFY_DIARY",
+    diaryId,
+    modifiedDiary,
+  };
+};
+
+export const modifyPublicDiary = (diaryId, modifiedDiary) => {
+  return {
+    type: "MODIFY_PUBLIC_DIARY",
+    diaryId,
+    modifiedDiary,
+  };
+};

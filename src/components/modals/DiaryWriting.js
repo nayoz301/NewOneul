@@ -11,8 +11,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSmile as farSmile } from "@fortawesome/free-regular-svg-icons";
 import "./DiaryWriting.css";
 import { connect } from "react-redux";
-import emojis from "../../icons/imojis"
-import weathers from "../../icons/weathers"
+import emojis from "../../icons/imojis";
+import weathers from "../../icons/weathers";
 import { addNewPublicDiary, addNewPrivateDiary } from "../../actions";
 
 const DiaryWriting = ({
@@ -21,20 +21,17 @@ const DiaryWriting = ({
   userInfo,
   addNewPublicDiary,
   addNewPrivateDiary,
-  selectedDiary
+  selectedDiary,
 }) => {
- 
   const getSelectedImoji = () => {
-    if (selectedDiary) {return emojis.filter(el => el.id === selectedDiary.feeling)[0]}
-      return;
-  }
+    if (selectedDiary) {
+      return emojis.filter((el) => el.id === selectedDiary.feeling)[0];
+    }
+    return;
+  };
 
   const selectedImoji = getSelectedImoji();
-  
-  
-
   const textRef = useRef();
-
   const canvasRef = useRef(null);
 
   const [emojiOpen, setEmojiOpen] = useState(false); //모달창 오픈 클로즈
@@ -48,13 +45,28 @@ const DiaryWriting = ({
   const [isEditing, setIsEditing] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [isWeatherSelected, setIsWeatherSelected] = useState(false);
+  const [modified, setModified] = useState({});
+
+  // useEffect(() => {
+  //   if (isEditing) {
+  //     return setModified({ ...modified, weather: weatherChosen });
+  //   }
+  // }, [weatherChosen]);
+
+  // useEffect(() => {
+  //   if (isEditing) {
+  //     return setModified({ ...modified, text: diaryText });
+  //   }
+  // }, [diaryText]);
+
+  // console.log(modified);
 
   useEffect(() => {
-    if(selectedDiary) {
-      setSelectedImage(selectedDiary.image)
+    if (selectedDiary) {
+      setSelectedImage(selectedDiary.image);
       setIsWeatherSelected(true);
     }
-  }) 
+  });
   const [loading, setLoading] = useState(false);
 
   const emojiModalOnOff = () => {
@@ -74,10 +86,9 @@ const DiaryWriting = ({
     console.log("emoji.color", emoji.id);
   };
 
-  
   const editDiary = () => {
     setIsEditing(true);
-  }
+  };
   const canvasHeight = (window.innerWidth / 2) * 0.4;
   const textAreaHeight = window.innerHeight - 135 - canvasHeight;
 
@@ -183,18 +194,41 @@ const DiaryWriting = ({
   };
 
   const recompleteDiary = () => {
-    setIsEditing(false);
-  }
+    //   setLoading(true);
+    //   return handleFileUpload().then(() => {
 
-  console.log("text", diaryText);
-  console.log("weather", weatherChosen);
-  console.log("emoji", emojiChosen);
-  console.log("date", clickmoment.format("YYYY-M-D"));
-  console.log("private", isPublic);
-  console.log("music", Number(musicChosen));
-  
+    //   })
+    //   return axios.patch(
+    //     "https://oneul.site/O_NeulServer/diary/edit",
+    //     {
+    //       date: clickmoment.format("YYYY-M-D"),
+    //       feeling: emojiChosen.id,
+    //       weather: weatherChosen,
+    //       image: url,
+    //       text: diaryText,
+    //       isPublic: isPublic,
+    //       musicId: Number(musicChosen),
+    //     },
+    //     {
+    //       headers: {
+    //         authorization: "Bearer " + userInfo.login.accessToken,
+    //         "Content-Type": "application/json",
+    //       },
+    //       withCredentials: true,
+    //     }
+    //   );
+
+    setIsEditing(false);
+  };
+
+  // console.log("text", diaryText);
+  // console.log("weather", weatherChosen);
+  // console.log("emoji", emojiChosen);
+  // console.log("date", clickmoment.format("YYYY-M-D"));
+  // console.log("private", isPublic);
+  // console.log("music", Number(musicChosen));
+
   if (selectedDiary !== undefined && isEditing === false) {
-    
     return (
       <>
         <ModalWrapper className="modal-wrapper">
@@ -202,7 +236,7 @@ const DiaryWriting = ({
             <HeaderDate className="date">
               <span> {clickmoment.format("LL dddd")}</span>
             </HeaderDate>
-  
+
             <HeaderEmoji className="emoji">
               <FontAwesomeIcon
                 icon={selectedImoji.emoji}
@@ -214,21 +248,32 @@ const DiaryWriting = ({
                 }}
               />
             </HeaderEmoji>
-  
+
             <HeaderWeather className="weather">
-              <WeatherModal weatherData={weatherData} selectedWeatherId={selectedDiary.weather} isEditing={isEditing} />
+              <WeatherModal
+                weatherData={weatherData}
+                selectedWeatherId={selectedDiary.weather}
+                isEditing={isEditing}
+              />
             </HeaderWeather>
           </Header>
-  
-          <Painting canvasRef={canvasRef} musicModalOnOff={musicModalOnOff} selectedImage={selectedDiary.image} isEditing={isEditing}/>
-  
+
+          <Painting
+            canvasRef={canvasRef}
+            musicModalOnOff={musicModalOnOff}
+            selectedImage={selectedDiary.image}
+            isEditing={isEditing}
+          />
+
           <TextArea
             className="textarea"
             textAreaHeight={textAreaHeight}
             ref={textRef}
             readOnly
-          >{selectedDiary.text}</TextArea>
-  
+          >
+            {selectedDiary.text}
+          </TextArea>
+
           <Footer className="footer">
             <FooterClose onClick={closeDiaryModal}>닫기</FooterClose>
             <div
@@ -260,19 +305,16 @@ const DiaryWriting = ({
                 className="private"
                 style={{ fontSize: "1.5rem", color: "#605138" }}
               >
-                <FooterPrivate
-                  type="checkbox"
-                />
-                글 공개
+                <FooterPrivate type="checkbox" />글 공개
               </span>
-  
-              <FooterPost className="post" onClick={editDiary} >
+
+              <FooterPost className="post" onClick={editDiary}>
                 수정하기
               </FooterPost>
             </div>
           </Footer>
         </ModalWrapper>
-  
+
         <MusicModal
           musicOpen={musicOpen}
           musicModalOnOff={musicModalOnOff}
@@ -293,7 +335,7 @@ const DiaryWriting = ({
             <HeaderDate className="date">
               <span> {clickmoment.format("LL dddd")}</span>
             </HeaderDate>
-  
+
             <HeaderEmoji className="emoji">
               <FontAwesomeIcon
                 icon={emojiChosen ? emojiChosen.emoji : selectedImoji.emoji}
@@ -313,11 +355,11 @@ const DiaryWriting = ({
                 whatEmoji={whatEmoji}
               ></EmojiModal>
             </HeaderEmoji>
-  
+
             <HeaderWeather className="weather">
-              <WeatherModal 
-                weatherData={weatherData} 
-                selectedWeatherId={selectedDiary.weather} 
+              <WeatherModal
+                weatherData={weatherData}
+                selectedWeatherId={selectedDiary.weather}
                 isEditing={isEditing}
                 setWeatherChosen={setWeatherChosen}
                 weatherChosen={weatherChosen}
@@ -326,12 +368,14 @@ const DiaryWriting = ({
               />
             </HeaderWeather>
           </Header>
-  
-          <Painting canvasRef={canvasRef} 
-            musicModalOnOff={musicModalOnOff} 
-            isEditing={isEditing} 
-            selectedImage={selectedImage} />
-  
+
+          <Painting
+            canvasRef={canvasRef}
+            musicModalOnOff={musicModalOnOff}
+            isEditing={isEditing}
+            selectedImage={selectedImage}
+          />
+
           <TextArea
             className="textarea"
             textAreaHeight={textAreaHeight}
@@ -347,8 +391,10 @@ const DiaryWriting = ({
             onChange={(e) => {
               setDiaryText(e.target.value);
             }}
-          >{selectedDiary.text}</TextArea>
-  
+          >
+            {selectedDiary.text}
+          </TextArea>
+
           <Footer className="footer">
             <FooterClose onClick={closeDiaryModal}>닫기</FooterClose>
             <div
@@ -388,14 +434,14 @@ const DiaryWriting = ({
                 />
                 글 공개
               </span>
-  
+
               <FooterPost className="post" onClick={recompleteDiary}>
                 재등록하기
               </FooterPost>
             </div>
           </Footer>
         </ModalWrapper>
-  
+
         <MusicModal
           musicOpen={musicOpen}
           musicModalOnOff={musicModalOnOff}
@@ -415,7 +461,7 @@ const DiaryWriting = ({
             <HeaderDate className="date">
               <span> {clickmoment.format("LL dddd")}</span>
             </HeaderDate>
-  
+
             <HeaderEmoji className="emoji">
               <FontAwesomeIcon
                 icon={emojiChosen ? emojiChosen.emoji : farSmile}
@@ -435,18 +481,18 @@ const DiaryWriting = ({
                 whatEmoji={whatEmoji}
               ></EmojiModal>
             </HeaderEmoji>
-  
+
             <HeaderWeather className="weather">
-              <WeatherModal 
-                weatherData={weatherData} 
-                setWeatherChosen={setWeatherChosen} 
-                weatherChosen={weatherChosen} 
+              <WeatherModal
+                weatherData={weatherData}
+                setWeatherChosen={setWeatherChosen}
+                weatherChosen={weatherChosen}
               />
             </HeaderWeather>
           </Header>
-  
+
           <Painting canvasRef={canvasRef} musicModalOnOff={musicModalOnOff} />
-  
+
           <TextArea
             className="textarea"
             textAreaHeight={textAreaHeight}
@@ -463,7 +509,7 @@ const DiaryWriting = ({
               setDiaryText(e.target.value);
             }}
           ></TextArea>
-  
+
           <Footer className="footer">
             <FooterClose onClick={closeDiaryModal}>닫기</FooterClose>
             <div
@@ -503,14 +549,14 @@ const DiaryWriting = ({
                 />
                 글 공개
               </span>
-  
+
               <FooterPost className="post" onClick={completeDiary}>
                 등록하기
               </FooterPost>
             </div>
           </Footer>
         </ModalWrapper>
-  
+
         <MusicModal
           musicOpen={musicOpen}
           musicModalOnOff={musicModalOnOff}
@@ -520,8 +566,6 @@ const DiaryWriting = ({
       </>
     );
   }
-
-  
 };
 
 //이렇게 써도됌
