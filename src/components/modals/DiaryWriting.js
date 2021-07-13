@@ -47,10 +47,12 @@ const DiaryWriting = ({
   const whatEmoji = (emoji) => {
     //이모지에서 선택한 놈 가져오는 함수
     SetEmojiChosen({ emoji: emoji.emoji, color: emoji.color, id: emoji.id });
+    console.log(emojiChosen);
     console.log("emoji.color", emoji.id);
   };
-  const canvasHeight = (window.innerWidth / 2) * 0.45;
-  const textAreaHeight = (window.innerHeight - 135 - canvasHeight) * 0.9;
+
+  const canvasHeight = (window.innerWidth / 2) * 0.4;
+  const textAreaHeight = window.innerHeight - 135 - canvasHeight;
 
   const weatherData = (weather) => {
     setWeatherChosen(weather);
@@ -189,7 +191,10 @@ const DiaryWriting = ({
           </HeaderEmoji>
 
           <HeaderWeather className="weather">
-            <WeatherModal weatherData={weatherData} />
+            <WeatherModal
+              weatherChosen={weatherChosen}
+              weatherData={weatherData}
+            />
           </HeaderWeather>
         </Header>
 
@@ -198,14 +203,7 @@ const DiaryWriting = ({
           className="textarea"
           textAreaHeight={textAreaHeight}
           ref={textRef}
-          placeholder="오늘의 하루를 남겨주세요 ."
-          onClick={(e) => {
-            if (e.target.className === "textarea") {
-              console.log(e.target.className);
-              return (textRef.current.style.backgroundColor = "black");
-            }
-            return (textRef.current.style.backgroundColor = "white");
-          }}
+          placeholder="오늘은 어떠셨나요?"
           onChange={(e) => {
             setDiaryText(e.target.value);
           }}
@@ -221,7 +219,12 @@ const DiaryWriting = ({
           >
             <span
               className="private"
-              style={{ fontSize: "1.5rem", color: "#605138" }}
+              style={{
+                fontSize: "1.5rem",
+                color: "#605138",
+                fontFamily: "var(--thick-font)",
+                fontWeight: "800",
+              }}
             >
               <FooterPrivate
                 type="checkbox"
@@ -275,8 +278,8 @@ const ModalWrapper = styled.div`
   flex-direction: column;
   width: 50%;
   max-height: 95vh;
-  min-width: 42rem;
-  // z-index: 50;
+  min-width: 50rem;
+  /* z-index: 50; */
   border-radius: 1rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
@@ -289,53 +292,65 @@ const ModalWrapper = styled.div`
 
   @media screen and (max-width: 760px) {
     & {
-      width: 90%;
-      height: 95%;
+      width: 100%;
+      height: 92%;
     }
   }
 
   @media screen and (max-width: 670px) {
     & {
-      height: 90%;
+      width: 100%;
+      height: 92%;
     }
   }
 
   @media screen and (max-width: 600px) {
     & {
-      height: 85%;
+      width: 100%;
+      height: 92%;
     }
   }
 
-  @media screen and (max-width: 550px) {
+  @media screen and (max-width: 570px) {
     & {
-      height: 80%;
+      width: 100%;
+      height: 92%;
     }
   }
 
   @media screen and (max-width: 500px) {
     & {
-      height: 75%;
+      height: 92%;
     }
   }
 `;
 
 const Header = styled.div`
-  // border: 1px solid black;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 4.5rem;
+  height: 4rem;
   background-color: #f7f8e7;
+  background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
   border-top-right-radius: 1rem;
   border-top-left-radius: 1rem;
 `;
 
 const HeaderDate = styled.div`
-  // border: 1px solid black;
   flex: 5 1 40%;
   font-size: 1.7rem;
   font-family: var(--thick-font);
   text-align: center;
+  font-weight: 700;
+  color: #595b5c;
+
+  @media screen and (max-width: 550px) {
+    & {
+      font-size: 1.6rem;
+      margin-left: 0.5rem;
+    }
+  }
 `;
 
 const HeaderEmoji = styled.div`
@@ -351,20 +366,19 @@ const HeaderEmoji = styled.div`
 const HeaderWeather = styled.div`
   flex: 5 1 40%;
   text-align: center;
-  // background-color: white;
-  // border-radius: 1rem;
-  // margin-right: 1rem;
+  /* background-color: white; */
+  /* border-radius: 1rem; */
+  /* margin-right: 1rem; */
 `;
 
 const Canvas = styled.div`
-  // border: 1px solid black;
+  /* border: 1px solid black; */
   width: 100%;
   height: calc(calc(100% - 8rem) * 0.6);
 `;
 
 const TextArea = styled.textarea`
-  /* border: 1px solid black; */
-  /* height: calc(calc(100% - 8rem) * 0.4); */
+  border: none;
   height: ${(props) => props.textAreaHeight}px;
   resize: none;
   /* z-index: 1; */
@@ -374,9 +388,11 @@ const TextArea = styled.textarea`
   outline: none;
   color: #7f7366;
   font-family: var(--thick-font);
+
   background-attachment: local;
   background-position: 0 0.5rem;
-  background-image: linear-gradient(to right, #f2ede3 3rem, transparent 3rem),
+  background-image: url("https://www.transparenttextures.com/patterns/sandpaper.png"),
+    linear-gradient(to right, #f2ede3 3rem, transparent 3rem),
     //가로
     linear-gradient(to left, #f2ede3 3rem, transparent 3rem),
     //가로
@@ -388,30 +404,43 @@ const TextArea = styled.textarea`
         white 3.4rem
       );
   line-height: 3.4rem;
-  padding: 0.8rem 5rem;
-  position: relative;
+  padding: 1.2rem 3rem;
+
+  /* background-attachment: local;
+   background-position: 0 1.3rem;
+   background-image:
+   url("https://www.transparenttextures.com/patterns/sandpaper.png"),
+       linear-gradient(to right, #f2ede3 4rem, transparent 4rem), //가로
+     linear-gradient(to left, #f2ede3 4rem, transparent 4rem), //가로
+     repeating-linear-gradient(#f2ede3, #f2ede3 3.3rem, #b9a88c 3.3rem, #b9a88c 3.4rem, white 3.4rem);
+   line-height: 3.4rem;
+   padding: 2rem 4rem; */
 `;
 
 const Footer = styled.div`
-  background-color: #d2c4ad;
+  border: none;
+  background-color: #d2c4adf0;
   display: flex;
   height: 4rem;
   justify-content: space-between;
   align-items: center;
+  background-image: url("https://www.transparenttextures.com/patterns/cardboard-flat.png");
   border-bottom-right-radius: 1rem;
   border-bottom-left-radius: 1rem;
-  font-family: var(--thick-font);
 `;
 
 const FooterClose = styled.button`
   font-family: var(--thick-font);
   margin: 1rem 1rem;
-  padding: 0.5rem 1.5rem;
+  border: none;
+  background-color: #837970;
   border-radius: 0.5rem;
-  color: #d2c4ad;
-  background-color: #605138;
-  border: 1px solid #60513860;
-  font-size: 1.5rem;
+  font-weight: 800;
+  font-family: var(--thick-font);
+  font-size: 1.4rem;
+  color: #d4c7b1;
+  padding: 0.5rem 1.5rem;
+
   z-index: 201; //뮤직창이 200이다
   &:active {
     transform: scale(0.95);
@@ -431,15 +460,16 @@ const FooterPrivate = styled.input`
 `;
 
 const FooterPost = styled.button`
-  font-family: var(--thick-font);
-  color: #d2c4ad;
-  background-color: #605138;
-  border: 1px solid #60513860;
+  color: #d4c7b1;
+  border: none;
   margin: 1rem 1rem;
   padding: 0.6rem 1.5rem;
   border-radius: 0.5rem;
-  font-weight: 400;
-  font-size: 1.5rem;
+  background-color: #837970;
+  font-weight: 800;
+  font-family: var(--thick-font);
+  font-size: 1.4rem;
+  padding: 0.5rem 1.5rem;
 
   &:active {
     transform: scale(0.95);

@@ -68,7 +68,7 @@ const MyCards = ({ diary, userInfo }) => {
       )}
       {modal && <Signup handleModal={changeModal} />}
       {diaryModal && (
-        <Diary modalHandle={changeDiaryModal} clickmoment={moment()} />
+        <Diary closeDiaryModal={changeDiaryModal} clickmoment={moment()} />
       )}
     </MyCardWrapper>
   );
