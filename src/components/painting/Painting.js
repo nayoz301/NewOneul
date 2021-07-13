@@ -446,7 +446,7 @@ const Painting = ({ canvasRef, musicModalOnOff }) => {
                 fontSize: 20,
                 border: "none",
                 padding: "0 0",
-                color: buttonClicked === "paint_btn" ? "d4c7b1" : "black",
+                color: buttonClicked === "paint_btn" ? "#d4c7b1" : "#555",
                 pointerEvents: "none",
               }}
             />
@@ -468,7 +468,7 @@ const Painting = ({ canvasRef, musicModalOnOff }) => {
                 fontSize: 20,
                 border: "none",
                 padding: "0 0",
-                color: buttonClicked === "fill_btn" ? "d4c7b1" : "black",
+                color: buttonClicked === "fill_btn" ? "#d4c7b1" : "#555",
                 pointerEvents: "none",
               }}
             />
@@ -490,7 +490,7 @@ const Painting = ({ canvasRef, musicModalOnOff }) => {
                 fontSize: 20,
                 border: "none",
                 padding: "0 0",
-                color: buttonClicked === "eraser_btn" ? "d4c7b1" : "black",
+                color: buttonClicked === "eraser_btn" ? "d4c7b1" : "#555",
                 pointerEvents: "none",
               }}
             />

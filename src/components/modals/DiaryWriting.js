@@ -154,7 +154,6 @@ const DiaryWriting = ({
       }
     }
   };
-
   // console.log("text", diaryText);
   // console.log("weather", weatherChosen);
   // console.log("emoji", emojiChosen);
@@ -177,7 +176,7 @@ const DiaryWriting = ({
                 emojiModalOnOff();
               }}
               style={{
-                fontSize: 30,
+                fontSize: 40,
                 cursor: "pointer",
                 color: emojiChosen ? emojiChosen.color : "#86888a",
                 backgroundColor: "transparent",
@@ -217,7 +216,29 @@ const DiaryWriting = ({
               alignItems: "center",
             }}
           >
-            <span
+            <input
+              type="checkbox"
+              id="check_box"
+              onClick={() => {
+                SetIsPublic(!isPublic);
+              }}
+            ></input>
+            <label
+              for="check_box"
+              className="private"
+              style={{
+                fontSize: "1.5rem",
+                color: "#605138",
+                fontFamily: "var(--thick-font)",
+                fontWeight: "800",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              글 공개
+            </label>
+
+            {/* <span
               className="private"
               style={{
                 fontSize: "1.5rem",
@@ -233,7 +254,7 @@ const DiaryWriting = ({
                 }}
               />
               글 공개
-            </span>
+            </span> */}
 
             <FooterPost className="post" onClick={completeDiary}>
               등록하기
@@ -330,7 +351,7 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 4rem;
+  min-height: 4.5rem;
   background-color: #f7f8e7;
   background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
   border-top-right-radius: 1rem;
@@ -339,16 +360,16 @@ const Header = styled.div`
 
 const HeaderDate = styled.div`
   flex: 5 1 40%;
-  font-size: 1.7rem;
+  font-size: 2rem;
   font-family: var(--thick-font);
   text-align: center;
   font-weight: 700;
   color: #595b5c;
 
-  @media screen and (max-width: 550px) {
+  @media screen and (max-width: 570px) {
     & {
-      font-size: 1.6rem;
-      margin-left: 0.5rem;
+      font-size: 1.9rem;
+      margin-left: 1rem;
     }
   }
 `;
@@ -369,6 +390,12 @@ const HeaderWeather = styled.div`
   /* background-color: white; */
   /* border-radius: 1rem; */
   /* margin-right: 1rem; */
+
+  @media screen and (max-width: 570px) {
+    & {
+      margin-right: 0.2rem;
+    }
+  }
 `;
 
 const Canvas = styled.div`
@@ -384,7 +411,7 @@ const TextArea = styled.textarea`
   /* z-index: 1; */
   /* padding: 2.5rem; */
   border: none;
-  font-size: 1.8rem;
+  font-size: 1.7rem;
   outline: none;
   color: #7f7366;
   font-family: var(--thick-font);
@@ -392,9 +419,9 @@ const TextArea = styled.textarea`
   background-attachment: local;
   background-position: 0 0.5rem;
   background-image: url("https://www.transparenttextures.com/patterns/sandpaper.png"),
-    linear-gradient(to right, #f2ede3 3rem, transparent 3rem),
+    linear-gradient(to right, #f2ede3 0.5rem, transparent 0.5rem),
     //가로
-    linear-gradient(to left, #f2ede3 3rem, transparent 3rem),
+    linear-gradient(to left, #f2ede3 0.5rem, transparent 0.5rem),
     //가로
     repeating-linear-gradient(
         #f2ede3,
@@ -404,24 +431,15 @@ const TextArea = styled.textarea`
         white 3.4rem
       );
   line-height: 3.4rem;
-  padding: 1.2rem 3rem;
-
-  /* background-attachment: local;
-   background-position: 0 1.3rem;
-   background-image:
-   url("https://www.transparenttextures.com/patterns/sandpaper.png"),
-       linear-gradient(to right, #f2ede3 4rem, transparent 4rem), //가로
-     linear-gradient(to left, #f2ede3 4rem, transparent 4rem), //가로
-     repeating-linear-gradient(#f2ede3, #f2ede3 3.3rem, #b9a88c 3.3rem, #b9a88c 3.4rem, white 3.4rem);
-   line-height: 3.4rem;
-   padding: 2rem 4rem; */
+  letter-spacing: 0.5px;
+  padding: 0.6rem 4.5rem;
 `;
 
 const Footer = styled.div`
   border: none;
   background-color: #d2c4adf0;
   display: flex;
-  height: 4rem;
+  min-height: 4.5rem;
   justify-content: space-between;
   align-items: center;
   background-image: url("https://www.transparenttextures.com/patterns/cardboard-flat.png");

@@ -5,7 +5,7 @@
   height: 4rem;
   padding: 0 1.6rem;
   border-radius: 6px;
-  border: 0.1rem solid #dfd5c9;
+  border: 0.1rem solid #80594a;
   position: relative;
   cursor: pointer;
 }
@@ -31,7 +31,7 @@
   padding: 0 0.5rem 0.5rem 0.5rem;
   border-bottom-left-radius: 0.6rem;
   border-bottom-right-radius: 0.6rem;
-  border: 1px solid #c7c1b6;
+  border: 1px solid rgb(235, 203, 203);
   z-index: 300;
   background-color: #f8f8fa;
   /* opacity: 0.85; */
@@ -44,7 +44,7 @@
 
 .options::-webkit-scrollbar-thumb {
   /*스크롤바 색*/
-  background: #d2c4adf0;
+  background: rgb(235, 203, 203);
   border-radius: 1rem;
 }
 
