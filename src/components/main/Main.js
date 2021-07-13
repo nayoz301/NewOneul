@@ -19,27 +19,15 @@ import OtherCards from "./cards/OtherCards";
 import { connect } from "react-redux";
 import axios from "axios";
 import { fetchAllLoginDiary, fetchAllUnloginDiary } from "../../actions";
-import { diaryCheck } from "./calendar/calendarFuntion";
-import ModifyDiary from "../modals/ModifyDiary";
 
-const Main = ({
-  userInfo,
-  fetchAllLoginDiary,
-  fetchAllUnloginDiary,
-  myDiaryInfo,
-}) => {
+const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
   const [value, setValue] = useState(moment());
   const [isClick, setIsClick] = useState(false);
-  const [existDiaryComponent, setExistDiaryComponent] = useState(false);
   const [clickmoment, setClickmoment] = useState(null);
 
   useEffect(() => {
     if (clickmoment !== null) {
-      if (diaryCheck(myDiaryInfo, clickmoment, moment)) {
-        return setExistDiaryComponent((prev) => setExistDiaryComponent(!prev));
-      } else {
-        return setIsClick((prev) => setIsClick(!prev));
-      }
+      return setIsClick((prev) => setIsClick(!prev));
     }
   }, [clickmoment]);
 
@@ -76,7 +64,6 @@ const Main = ({
 
   const closeDiaryModal = () => {
     setIsClick((prev) => setIsClick(!prev));
-    setClickmoment(null);
   };
 
   const momentHandler = (day) => {
@@ -96,11 +83,11 @@ const Main = ({
       {isClick && (
         <Diary clickmoment={clickmoment} closeDiaryModal={closeDiaryModal} />
       )}
-      {existDiaryComponent && (
+      {/* {existDiaryComponent && (
         <ModifyDiary
           clickedDayDiary={diaryCheck(myDiaryInfo, clickmoment, moment)}
         />
-      )}
+      )} */}
       <MainSection>
         <MainHeaderCompo />
         <MainInnerSection>
@@ -120,10 +107,9 @@ const Main = ({
   );
 };
 
-const mapStateToProps = ({ loginReducer, mainReducer }) => {
+const mapStateToProps = ({ loginReducer }) => {
   return {
     userInfo: loginReducer,
-    myDiaryInfo: mainReducer.myDiary,
   };
 };
 
