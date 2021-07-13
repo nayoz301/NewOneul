@@ -27,8 +27,8 @@ body .player-wrapper {
   border-top-right-radius: 2rem;
   color: #80594a; /*현재재생창 글씨색*/
   font-weight: 600;
-  /* background: rgba(255, 204, 204, 0.4); //원래 재생창 배경색깔 */
-  background: #f2ede3; /*현재재생창 배경*/
+  background: rgba(255, 204, 204, 0.4); /*원래 재생창 배경색깔*/
+  /* background: #f2ede3; 현재재생창 배경 */
   box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
 }
 
@@ -363,16 +363,16 @@ body .player-wrapper {
   margin: 0 0 0 1.6rem;
   padding: 4rem 1rem;
   color: #80594a;
-  /* background-color: #ffcccc66; 바꾸기 전 트랙 선택 버튼 색깔*/
-  background-color: #f2ede3;
+  background-color: #ffcccc66; /*바꾸기 전 트랙 선택 버튼 색깔*/
+  /* background-color: #f2ede3; */
   padding: 1.3rem 1.3rem;
   border-radius: 1rem;
   transition: 0.3s;
 }
 
 .player-wrapper .play-list .track-select:hover {
-  /* background-color: rgb(245, 189, 179); 바꾸기전 호버색 */
-  background-color: #dcd2b4;
+  background-color: rgb(245, 189, 179); /*바꾸기전 호버색*/
+  /* background-color: #dcd2b4; */
 }
 
 .player-wrapper .play-list .track-select:active {

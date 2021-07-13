@@ -424,7 +424,7 @@ const Painting = ({ canvasRef, musicModalOnOff }) => {
                 fontSize: 20,
                 border: "none",
                 padding: "0 0",
-                color: "#47525d",
+                color: "#7b716e",
                 pointerEvents: "none",
               }}
             />
@@ -437,7 +437,7 @@ const Painting = ({ canvasRef, musicModalOnOff }) => {
             }}
             style={{
               backgroundColor:
-                buttonClicked === "paint_btn" ? "#d2c4ad95" : "#f2ede3", //자기 엘리먼트에 id를 불러오는 방법없나?
+                buttonClicked === "paint_btn" ? "#7b716e" : "#f2ede3", //자기 엘리먼트에 id를 불러오는 방법없나?
             }}
           >
             <FontAwesomeIcon
@@ -446,7 +446,7 @@ const Painting = ({ canvasRef, musicModalOnOff }) => {
                 fontSize: 20,
                 border: "none",
                 padding: "0 0",
-                color: "#47525d",
+                color: buttonClicked === "paint_btn" ? "d4c7b1" : "black",
                 pointerEvents: "none",
               }}
             />
@@ -459,7 +459,7 @@ const Painting = ({ canvasRef, musicModalOnOff }) => {
             }}
             style={{
               backgroundColor:
-                buttonClicked === "fill_btn" ? "#d2c4ad95" : "#f2ede3",
+                buttonClicked === "fill_btn" ? "#7b716e" : "#f2ede3",
             }}
           >
             <FontAwesomeIcon
@@ -468,7 +468,7 @@ const Painting = ({ canvasRef, musicModalOnOff }) => {
                 fontSize: 20,
                 border: "none",
                 padding: "0 0",
-                color: "#47525d",
+                color: buttonClicked === "fill_btn" ? "d4c7b1" : "black",
                 pointerEvents: "none",
               }}
             />
@@ -481,7 +481,7 @@ const Painting = ({ canvasRef, musicModalOnOff }) => {
             }}
             style={{
               backgroundColor:
-                buttonClicked === "eraser_btn" ? "#d2c4ad95" : "#f2ede3",
+                buttonClicked === "eraser_btn" ? "#7b716e" : "#f2ede3",
             }}
           >
             <FontAwesomeIcon
@@ -490,7 +490,7 @@ const Painting = ({ canvasRef, musicModalOnOff }) => {
                 fontSize: 20,
                 border: "none",
                 padding: "0 0",
-                color: "#47525d",
+                color: buttonClicked === "eraser_btn" ? "d4c7b1" : "black",
                 pointerEvents: "none",
               }}
             />
@@ -503,7 +503,7 @@ const Painting = ({ canvasRef, musicModalOnOff }) => {
                 fontSize: 20,
                 border: "none",
                 padding: "0 0",
-                color: "#47525d",
+                color: "#7b716e",
                 pointerEvents: "none",
               }}
             />
@@ -568,7 +568,7 @@ const Painting = ({ canvasRef, musicModalOnOff }) => {
           <FontAwesomeIcon
             icon={faMusic}
             style={{
-              color: "#47525d",
+              color: "#7a706d",
               fontSize: 20,
               border: "none",
               pointerEvents: "none",
@@ -580,7 +580,7 @@ const Painting = ({ canvasRef, musicModalOnOff }) => {
           <FontAwesomeIcon
             icon={faMusic}
             style={{
-              color: "#47525d",
+              color: "#7a706d",
               fontSize: 20,
               border: "none",
               pointerEvents: "none",

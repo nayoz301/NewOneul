@@ -50,7 +50,7 @@ const DiaryWriting = ({
     console.log("emoji.color", emoji.id);
   };
   const canvasHeight = (window.innerWidth / 2) * 0.4;
-  const textAreaHeight = (window.innerHeight - 135 - canvasHeight) * 0.9;
+  const textAreaHeight = window.innerHeight - 135 - canvasHeight;
 
   // const [textHeight, setTextHeight] = useState();
 
@@ -353,13 +353,13 @@ const ModalWrapper = styled.div`
   @media screen and (max-width: 570px) {
     & {
       width: 100%;
-      height: 90%;
+      height: 92%;
     }
   }
 
   @media screen and (max-width: 500px) {
     & {
-      height: 90%;
+      height: 92%;
    }
 `;
 
