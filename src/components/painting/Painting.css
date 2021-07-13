@@ -3,13 +3,14 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  background-color: #f7f8e7;
 }
 
 #controls .control_btns button {
   flex: 1 1 auto;
   align-items: center;
   cursor: pointer; /* 닿으면 손모양으로 바뀜 */
-  background-color: white;
+  background-color: #d4c7b1;
   padding: 0.5rem 0rem;
   margin: 0.1rem;
   text-align: center;
@@ -19,6 +20,8 @@
   text-transform: uppercase; /*안의 텍스트가 대문자로 바뀜*/
   font-weight: 600; /*글씨 두께*/
   font-size: 1.2rem;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
 
 #controls .control_btns button:active {
@@ -33,15 +36,21 @@
   padding: 1.45rem 0;
   border-radius: 0.5rem;
   border: 1px solid rgb(27, 27, 27, 0.2);
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
 
-#controls .control_btns #lineWeightRange {
+#controls .control_btns #range_span {
+  background-color: #f2ede3;
+}
+
+#controls .control_btns #range_span #lineWeightRange {
   align-items: center;
   -webkit-appearance: none;
   width: 7rem;
   height: 0.2rem;
   border-radius: 0.5rem;
-  background: #ebd9d1;
+  background: #7b716e;
   opacity: 0.7;
   -webkit-transition: 0.2s;
   transition: opacity 0.2s;
@@ -52,7 +61,7 @@
   width: 1.3rem;
   height: 1.3rem;
   border-radius: 50%;
-  background: #ffa2a2;
+  background: #7b716e;
   cursor: pointer;
 }
 
@@ -96,11 +105,29 @@
   border-bottom-right-radius: 0.7rem;
   cursor: pointer;
   z-index: 500;
-  background-color: white;
+  background-color: #d3c4ae;
   border: 1px solid rgb(27, 27, 27, 0.2);
 }
 
 #canvas_wrapper #music_btn:active {
+  transform: scale(0.95);
+}
+
+#canvas_wrapper #music_btn_up {
+  display: none;
+  position: absolute;
+  top: -11.5rem;
+  right: 1rem;
+  padding: 0.3rem 2.5rem;
+  border-top-right-radius: 0.7rem;
+  border-top-left-radius: 0.7rem;
+  cursor: pointer;
+  z-index: 500;
+  background-color: #d3c4ae;
+  border: 1px solid rgb(27, 27, 27, 0.2);
+}
+
+#canvas_wrapper #music_btn_up:active {
   transform: scale(0.95);
 }
 
@@ -118,3 +145,12 @@
     flex-flow: row wrap;
   }
 } */
+
+@media screen and (max-width: 760px) {
+  #canvas_wrapper #music_btn_up {
+    display: block;
+  }
+  #canvas_wrapper #music_btn {
+    display: none;
+  }
+}

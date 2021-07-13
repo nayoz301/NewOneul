@@ -83,7 +83,7 @@ export const OtherDiaryWrapper = styled.div`
   padding-top: 1rem;
   margin-top: 1rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-
+  border-radius: 7px;
   @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
     height: 45vh;
     overflow: scroll;
@@ -116,10 +116,14 @@ export const FaceWeather = styled.div`
 `;
 
 export const Heart = styled.div`
-  transform: scale(0.9);
+  transform: scale(0.95);
   transition: transform 0.3s ease;
 
   &:hover {
-    transform: scale(1.03);
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.8);
   }
 `;
