@@ -2,16 +2,25 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { flexCenter } from "../../styles/global.style";
 import DiaryWriting from "../modals/DiaryWriting";
-const Diary = ({ modalHandle, clickmoment }) => {
+import { connect } from "react-redux";
+
+const Diary = ({ modalHandle, clickmoment, diary }) => {
+  const selectedDiary = diary.myDiary.filter(el => el.date === clickmoment.format("YYYY-M-D"))[0];
+
   console.log(clickmoment.format("L"));
   return (
     <Diarybackground>
-      <DiaryWriting modalHandle={modalHandle} clickmoment={clickmoment} />
+      <DiaryWriting modalHandle={modalHandle} clickmoment={clickmoment} selectedDiary={selectedDiary} />
     </Diarybackground>
   );
 };
+const mapStateToProps = ({ mainReducer }) => {
+  return {
+    diary: mainReducer,
+  };
+};
 
-export default Diary;
+export default connect(mapStateToProps)(Diary);
 
 const Diarybackground = styled.div`
   position: fixed;
