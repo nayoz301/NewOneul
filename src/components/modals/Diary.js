@@ -4,13 +4,19 @@ import { flexCenter } from "../../styles/global.style";
 import DiaryWriting from "../modals/DiaryWriting";
 import { connect } from "react-redux";
 
-const Diary = ({ modalHandle, clickmoment, diary }) => {
-  const selectedDiary = diary.myDiary.filter(el => el.date === clickmoment.format("YYYY-M-D"))[0];
+const Diary = ({ closeDiaryModal, clickmoment, diary }) => {
+  const selectedDiary = diary.myDiary.filter(
+    (el) => el.date === clickmoment.format("YYYY-M-D")
+  )[0];
 
   console.log(clickmoment.format("L"));
   return (
     <Diarybackground>
-      <DiaryWriting modalHandle={modalHandle} clickmoment={clickmoment} selectedDiary={selectedDiary} />
+      <DiaryWriting
+        closeDiaryModal={closeDiaryModal}
+        clickmoment={clickmoment}
+        selectedDiary={selectedDiary}
+      />
     </Diarybackground>
   );
 };

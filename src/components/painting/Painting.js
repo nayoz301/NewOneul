@@ -59,7 +59,6 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
   const CANVAS_WIDTH = 1000;
   const CANVAS_HEIGHT = 500;
 
-  
   // const CANVAS_WIDTH = window.innerWidth / 2;
   // const CANVAS_HEIGHT = window.innerWidth / 4;
 
@@ -119,20 +118,17 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
   //   );
   // }
   useEffect(() => {
-    if(selectedImage !== "") {
-      
+    if (selectedImage !== "") {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext("2d");
-      var img = new Image(); 
+      var img = new Image();
       img.src = selectedImage;
-  
+
       img.onload = function () {
         ctx.drawImage(img, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    };
-    
-  } 
-   
-  }, [isEditing === false])
+      };
+    }
+  }, [isEditing === false]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -222,7 +218,6 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
     }
   };
 
-  
   // const handleImgPreview = (e) => {
   //   setSelectedFile(e.target.files[0]);
   //   e.preventDefault();
@@ -445,14 +440,12 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
   //     ctx.current.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); //캔버스 기본 바탕색깔 흰색으로 세팅.
   //   }
   // }, []);
-  
+
   if (selectedImage !== undefined && isEditing === false) {
     return (
       <div id="canvas_wrapper">
         <section id="controls">
           <span className="control_btns">
-          
-  
             {/* <button
               type="button"
               className="input_file_button"
@@ -462,29 +455,26 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
             </button> */}
           </span>
         </section>
-  
-        <section style={{ position: "relative" }}>
-        
-        
-        <canvas
-          id="canvas"
-          ref={canvasRef}
-          width={`${CANVAS_WIDTH}`}
-          height={`${CANVAS_HEIGHT}`}
-          
-          onContextMenu={disableRightClick}
-        ></canvas>
 
-        <button id="music_btn" onClick={musicModalOnOff}>
-          <FontAwesomeIcon
-            icon={faMusic}
-            style={{ fontSize: 20, border: "none", pointerEvents: "none" }}
-          />
-        </button>
-      </section>
+        <section style={{ position: "relative" }}>
+          <canvas
+            id="canvas"
+            ref={canvasRef}
+            width={`${CANVAS_WIDTH}`}
+            height={`${CANVAS_HEIGHT}`}
+            onContextMenu={disableRightClick}
+          ></canvas>
+
+          <button id="music_btn" onClick={musicModalOnOff}>
+            <FontAwesomeIcon
+              icon={faMusic}
+              style={{ fontSize: 20, border: "none", pointerEvents: "none" }}
+            />
+          </button>
+        </section>
       </div>
     );
-  } else if(selectedImage !== undefined && isEditing === true) {
+  } else if (selectedImage !== undefined && isEditing === true) {
     return (
       <div id="canvas_wrapper">
         <section id="controls">
@@ -567,7 +557,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
                 }}
               />
             </button>
-  
+
             <button id="input_btn" onClick={handleFileButtonClick}>
               <FontAwesomeIcon
                 icon={farImage}
@@ -589,7 +579,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
               hidden={true}
               onChange={handleInsertImage}
             />
-  
+
             <span>
               <input
                 id="lineWeightRange"
@@ -601,7 +591,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
                 onChange={handleRangeChange}
               />
             </span>
-  
+
             {/* <button
               type="button"
               className="input_file_button"
@@ -621,7 +611,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
             ></span>
           ))}
         </section>
-  
+
         <section style={{ position: "relative" }}>
           <canvas
             id="canvas"
@@ -635,7 +625,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
             onClick={handleCanvasClick}
             onContextMenu={disableRightClick}
           ></canvas>
-  
+
           <button id="music_btn" onClick={musicModalOnOff}>
             <FontAwesomeIcon
               icon={faMusic}
@@ -728,7 +718,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
                 }}
               />
             </button>
-  
+
             <button id="input_btn" onClick={handleFileButtonClick}>
               <FontAwesomeIcon
                 icon={farImage}
@@ -750,7 +740,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
               hidden={true}
               onChange={handleInsertImage}
             />
-  
+
             <span>
               <input
                 id="lineWeightRange"
@@ -762,7 +752,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
                 onChange={handleRangeChange}
               />
             </span>
-  
+
             {/* <button
               type="button"
               className="input_file_button"
@@ -782,7 +772,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
             ></span>
           ))}
         </section>
-  
+
         <section style={{ position: "relative" }}>
           <canvas
             id="canvas"
@@ -796,7 +786,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
             onClick={handleCanvasClick}
             onContextMenu={disableRightClick}
           ></canvas>
-  
+
           <button id="music_btn" onClick={musicModalOnOff}>
             <FontAwesomeIcon
               icon={faMusic}
@@ -807,8 +797,6 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
       </div>
     );
   }
-
-  
 };
 
 export default Painting;

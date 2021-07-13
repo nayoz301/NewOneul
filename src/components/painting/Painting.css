@@ -98,7 +98,7 @@
 
 #canvas_wrapper #music_btn {
   position: absolute;
-  top: -5.4rem;
+  /* top: -5.4rem; */
   right: -3.2rem;
   padding: 2.5rem 0.5rem;
   border-top-right-radius: 0.7rem;
