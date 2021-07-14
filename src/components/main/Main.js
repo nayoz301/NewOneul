@@ -24,6 +24,7 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
   const [value, setValue] = useState(moment());
   const [isClick, setIsClick] = useState(false);
   const [clickmoment, setClickmoment] = useState(null);
+  const [selectedDiaryId, setSelectedDiaryId] = useState(0);
 
   useEffect(() => {
     if (clickmoment !== null) {
@@ -69,6 +70,10 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
   const momentHandler = (day) => {
     setClickmoment(day);
   };
+  
+  const passDiaryId = (diaryId) => {
+    setSelectedDiaryId(diaryId)
+  }
 
   const next = () => {
     setValue(value.add(1, "month").clone());
@@ -81,7 +86,12 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
   return (
     <>
       {isClick && (
-        <Diary clickmoment={clickmoment} closeDiaryModal={closeDiaryModal} />
+        <Diary 
+          clickmoment={clickmoment} 
+          closeDiaryModal={closeDiaryModal} 
+          selectedDiaryId={selectedDiaryId}
+          passDiaryId={passDiaryId}  
+        />
       )}
       {/* {existDiaryComponent && (
         <ModifyDiary
@@ -98,7 +108,7 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
             </CalendarWrapper>
             <DiaryWrapper>
               <MyCards />
-              <OtherCards />
+              <OtherCards closeDiaryModal={closeDiaryModal} passDiaryId={passDiaryId}/>
             </DiaryWrapper>
           </MainInnerWrapper>
         </MainInnerSection>

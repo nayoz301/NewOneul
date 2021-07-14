@@ -45,7 +45,7 @@ const MyCard = ({ diary, removeDiary, removePublicDiary, userInfo }) => {
   };
 
   return (
-    <MyDiary onClick={() => console.log("hehe")}>
+    <MyDiary>
       <MyDiaryCardFront>
         <MyDiaryFrontHeader>
           {splitDate(date)[0]}년 {splitDate(date)[1]}월 {splitDate(date)[2]}일

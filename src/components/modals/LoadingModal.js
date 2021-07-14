@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Loading from "./Loading";
 
 const LoadingModal = () => {
-  console.log(clickedDayDiary);
+
   return (
     <>
       <Background>
