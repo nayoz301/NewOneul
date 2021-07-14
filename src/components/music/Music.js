@@ -222,9 +222,11 @@ const Music = ({
   };
 
   const updatePlayer = () => {
-    setCurrentSong(filtered[index]);
-    // const audio = new Audio(currentSong.audio);
-    playerRef.current.load();
+    if (playerRef.current !== null) {
+      setCurrentSong(filtered[index]);
+      // const audio = new Audio(currentSong.audio);
+      playerRef.current.load();
+    }
   };
 
   const nextSong = () => {
