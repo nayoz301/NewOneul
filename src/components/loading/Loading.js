@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import { login } from "../../actions";
 import styled, { keyframes } from "styled-components";
 import { flexCenter } from "../../styles/global.style";
+import LoadingModal from "./LoadingModal";
+import LoadingPage from "./LoadingPage";
 
 const Loading = ({ login }) => {
   const history = useHistory();
@@ -48,11 +50,27 @@ const Loading = ({ login }) => {
 
   return (
     // <LoadingSection>
-    <LoadingH>로딩 중 입니다.</LoadingH>
+    // <LoadingH>로딩 중 입니다.</LoadingH>
     // {/* <Battery></Battery> */}
     // </LoadingSection>
+    <Background>
+      <LoadingPage />
+      {/* <LoadingModal /> */}
+    </Background>
   );
 };
+const Background = styled.div`
+  display: flex;
+  // display: ${(props) => (props.loadingModalOpen ? "flex" : "none")};
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+`;
 
 export default connect(null, { login })(Loading);
 
