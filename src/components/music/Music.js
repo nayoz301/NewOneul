@@ -59,6 +59,8 @@ const Music = ({
   let playheadRef = useRef();
   let volumeControllerRef = useRef(); //볼륨 슬라이더 보임 안보임 효과 때문에 넣었음
 
+  console.log("선택한 장르", genre);
+
   const getSelectedMusic = () => {
     if (selectedMusicId !== undefined) {
       return musicList.musicList.filter((el) => el.id === selectedMusicId)[0];

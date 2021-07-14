@@ -154,7 +154,7 @@ const DiaryWriting = ({
             alert("오늘도 수고하셨습니다");
           })
           .catch((res) => {
-            loadingModalOnOff(false);
+            setLoadingModalOpen(false);
             console.log(res, "Error has been occured");
           });
       });
