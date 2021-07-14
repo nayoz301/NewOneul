@@ -42,8 +42,9 @@ export const OtherDiary = styled.div`
   & img {
     clip-path: circle();
     object-fit: cover;
-    width: 13rem;
-    height: 6.5rem;
+    object-position: top;
+    width: 8rem;
+    height: 7rem;
     position: absolute;
     top: 18%;
   }
@@ -54,14 +55,7 @@ export const OtherDiary = styled.div`
 
   @media only screen and (min-width: ${BREAK_POINT_MOBILE}px) {
     margin: 1.8rem;
-    /* min-width: 18rem;
-    min-height: 24.352rem; */
   }
-
-  /* @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
-    min-width: 19rem;
-    min-height: 25.705rem;
-  } */
 
   @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN}px) {
     min-width: 19rem;

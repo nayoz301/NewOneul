@@ -32,13 +32,15 @@ const music = [
   },
 ];
 
-const Music = ({ musicModalOnOff, 
-  musicOpen, 
-  getMusicData, 
-  musicList, 
-  selectedMusicId, 
-  isEditing
+const Music = ({
+  musicModalOnOff,
+  musicOpen,
+  getMusicData,
+  musicList,
+  selectedMusicId,
+  isEditing,
 }) => {
+  console.log("from music");
   const [pause, setPause] = useState(false);
   const [index, setIndex] = useState(0);
   const [currentTime, setCurrentTime] = useState("0:00");
@@ -50,21 +52,24 @@ const Music = ({ musicModalOnOff,
   const [volume, setVolume] = useState(0.03);
   const [muteState, setMuteState] = useState(false);
   const [currentSong, setCurrentSong] = useState(musics[index]);
-  
+
   let playerRef = useRef();
   let timelineRef = useRef();
   let hoverPlayheadRef = useRef();
   let playheadRef = useRef();
   let volumeControllerRef = useRef(); //볼륨 슬라이더 보임 안보임 효과 때문에 넣었음
-  
+
+  console.log("선택한 장르", genre);
+
   const getSelectedMusic = () => {
-    if(selectedMusicId !== undefined) {return musicList.musicList.filter(el => el.id === selectedMusicId)[0]};
+    if (selectedMusicId !== undefined) {
+      return musicList.musicList.filter((el) => el.id === selectedMusicId)[0];
+    }
     return;
-  }
+  };
 
   const selectedMusic = getSelectedMusic();
 
-  
   useEffect(() => {
     setCurrentSong(filtered[index]);
   }, [index]);
@@ -148,9 +153,10 @@ const Music = ({ musicModalOnOff,
   });
 
   useEffect(() => {
-    if (selectedMusicId) {return setCurrentSong(selectedMusic);}
-  })
-
+    if (selectedMusicId) {
+      return setCurrentSong(selectedMusic);
+    }
+  });
 
   const changeCurrentTime = (e) => {
     //재생시간바 시간 이동하기
@@ -302,19 +308,19 @@ const Music = ({ musicModalOnOff,
               musicModalOnOff();
             }}
           />
-  
+
           {selectedMusic && (
             <>
-              <audio ref={playerRef}>
+              <audio autoPlay loop ref={playerRef}>
                 <source src={selectedMusic.audio} type="audio/ogg" />
                 Your browser does not support the audio element.
               </audio>
-  
+
               <div className="song-info">
                 <span className="song-name">{selectedMusic.name}</span>
                 <span className="song-author">{selectedMusic.author}</span>
               </div>
-  
+
               <div className="time">
                 <div className="current-time">{currentTime}</div>
                 <div className="end-time">{selectedMusic.duration}</div>
@@ -329,7 +335,7 @@ const Music = ({ musicModalOnOff,
               data-content="0:00"
             ></div>
           </div>
-  
+
           <div className="controls">
             <div>
               <button onClick={playOrPause} className="play current-btn">
@@ -340,8 +346,8 @@ const Music = ({ musicModalOnOff,
                 )}
               </button>
             </div>
-  
-            <span className="volume-controller-wrapper">
+
+            <span className="volume-controller-wrapper2">
               <button
                 className="mute-btn"
                 onClick={() => {
@@ -366,10 +372,10 @@ const Music = ({ musicModalOnOff,
                   }
                 />
               </button>
-  
+
               <input
                 ref={volumeControllerRef}
-                className="volume-controller"
+                className="volume-controller2"
                 type="range"
                 min={0}
                 max={1}
@@ -388,10 +394,9 @@ const Music = ({ musicModalOnOff,
             </span>
           </div>
         </div>
-        
       </div>
     );
-  } else if(selectedMusic && isEditing === true) {
+  } else if (selectedMusic && isEditing === true) {
     return (
       <div className="player-wrapper">
         <div className="current-song">
@@ -420,7 +425,7 @@ const Music = ({ musicModalOnOff,
               musicModalOnOff();
             }}
           />
-  
+
           <SelectBar getGenre={getGenre} genreList={genreList} />
           {currentSong && (
             <>
@@ -428,12 +433,12 @@ const Music = ({ musicModalOnOff,
                 <source src={currentSong.audio} type="audio/ogg" />
                 Your browser does not support the audio element.
               </audio>
-  
+
               <div className="song-info">
                 <span className="song-name">{currentSong.name}</span>
                 <span className="song-author">{currentSong.author}</span>
               </div>
-  
+
               <div className="time">
                 <div className="current-time">{currentTime}</div>
                 <div className="end-time">{currentSong.duration}</div>
@@ -448,13 +453,13 @@ const Music = ({ musicModalOnOff,
               data-content="0:00"
             ></div>
           </div>
-  
+
           <div className="controls">
             <div>
               <button onClick={prevSong} className="prev prev-next current-btn">
                 <Icon icon={stepBackward} />
               </button>
-  
+
               <button onClick={playOrPause} className="play current-btn">
                 {!pause ? (
                   <Icon size={23} icon={circle} />
@@ -466,7 +471,7 @@ const Music = ({ musicModalOnOff,
                 <Icon icon={stepForward} />
               </button>
             </div>
-  
+
             <div className="song_alert_wrapper">
               <span className="song_alert">
                 {selectedSong &&
@@ -474,7 +479,7 @@ const Music = ({ musicModalOnOff,
                   `${musicLists[selectedSong].name} 곡이 배경음악으로 설정되었습니다.`}
               </span>
             </div>
-  
+
             <span className="volume-controller-wrapper">
               <button
                 className="mute-btn"
@@ -500,7 +505,7 @@ const Music = ({ musicModalOnOff,
                   }
                 />
               </button>
-  
+
               <input
                 ref={volumeControllerRef}
                 className="volume-controller"
@@ -554,7 +559,11 @@ const Music = ({ musicModalOnOff,
                     e.stopPropagation(); //버튼 클릭할 때 재생 곡이 바뀌는 걸 방지해준다. 버블링 캡쳐링 금지
                   }}
                 >
-                  <Icon size={22} icon={plus} style={{ pointerEvents: "none" }} />
+                  <Icon
+                    size={22}
+                    icon={plus}
+                    style={{ pointerEvents: "none" }}
+                  />
                 </button>
               </div>
             </div>
@@ -591,7 +600,7 @@ const Music = ({ musicModalOnOff,
               musicModalOnOff();
             }}
           />
-  
+
           <SelectBar getGenre={getGenre} genreList={genreList} />
           {currentSong && (
             <>
@@ -599,12 +608,12 @@ const Music = ({ musicModalOnOff,
                 <source src={currentSong.audio} type="audio/ogg" />
                 Your browser does not support the audio element.
               </audio>
-  
+
               <div className="song-info">
                 <span className="song-name">{currentSong.name}</span>
                 <span className="song-author">{currentSong.author}</span>
               </div>
-  
+
               <div className="time">
                 <div className="current-time">{currentTime}</div>
                 <div className="end-time">{currentSong.duration}</div>
@@ -619,13 +628,13 @@ const Music = ({ musicModalOnOff,
               data-content="0:00"
             ></div>
           </div>
-  
+
           <div className="controls">
             <div>
               <button onClick={prevSong} className="prev prev-next current-btn">
                 <Icon icon={stepBackward} />
               </button>
-  
+
               <button onClick={playOrPause} className="play current-btn">
                 {!pause ? (
                   <Icon size={23} icon={circle} />
@@ -637,7 +646,7 @@ const Music = ({ musicModalOnOff,
                 <Icon icon={stepForward} />
               </button>
             </div>
-  
+
             <div className="song_alert_wrapper">
               <span className="song_alert">
                 {selectedSong &&
@@ -645,7 +654,7 @@ const Music = ({ musicModalOnOff,
                   `${musicLists[selectedSong].name} 곡이 배경음악으로 설정되었습니다.`}
               </span>
             </div>
-  
+
             <span className="volume-controller-wrapper">
               <button
                 className="mute-btn"
@@ -671,7 +680,7 @@ const Music = ({ musicModalOnOff,
                   }
                 />
               </button>
-  
+
               <input
                 ref={volumeControllerRef}
                 className="volume-controller"
@@ -725,7 +734,11 @@ const Music = ({ musicModalOnOff,
                     e.stopPropagation(); //버튼 클릭할 때 재생 곡이 바뀌는 걸 방지해준다. 버블링 캡쳐링 금지
                   }}
                 >
-                  <Icon size={22} icon={plus} style={{ pointerEvents: "none" }} />
+                  <Icon
+                    size={22}
+                    icon={plus}
+                    style={{ pointerEvents: "none" }}
+                  />
                 </button>
               </div>
             </div>
@@ -734,8 +747,6 @@ const Music = ({ musicModalOnOff,
       </div>
     );
   }
-
-  
 };
 
 const mapStateToProps = ({ mainReducer }) => {
@@ -744,4 +755,4 @@ const mapStateToProps = ({ mainReducer }) => {
   };
 };
 
-export default connect(mapStateToProps)(Music);
+export default connect(mapStateToProps)(React.memo(Music));

@@ -8,6 +8,7 @@ import Mypage from "./components/mypage/Mypage";
 import axios from "axios";
 import { connect } from "react-redux";
 import { login } from "./actions";
+import LoadingModal from "./components/modals/LoadingModal";
 
 function App({ login }) {
   const [loading, setLoading] = useState(false);
@@ -38,6 +39,7 @@ function App({ login }) {
       ) : (
         <Switch>
           <Route path="/" exact>
+            {/* <LoadingModal /> */}
             <Landing />
           </Route>
           <Route path="/main">

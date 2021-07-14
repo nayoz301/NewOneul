@@ -10,9 +10,9 @@ const mainReducer = (
     diaryId,
     newEmphathyObj,
     empathyId,
-    newDiary,
     newPublicDiary,
     newPrivateDiary,
+    modifiedDiary,
   }
 ) => {
   switch (type) {
@@ -81,6 +81,25 @@ const mainReducer = (
         }),
         publicDiary: state.publicDiary.filter((diary) => {
           return diary.id !== diaryId;
+        }),
+      };
+
+    case "MODIFY_DIARY":
+      return {
+        ...state,
+        myDiary: state.myDiary.map((diary) => {
+          return diary.id === diaryId ? { ...modifiedDiary } : diary;
+        }),
+      };
+
+    case "MODIFY_PUBLIC_DIARY":
+      return {
+        ...state,
+        myDiary: state.myDiary.map((diary) => {
+          return diary.id === diaryId ? { ...modifiedDiary } : diary;
+        }),
+        publicDiary: state.publicDiary.map((diary) => {
+          return diary.id === diaryId ? { ...modifiedDiary } : diary;
         }),
       };
 

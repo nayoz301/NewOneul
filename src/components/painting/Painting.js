@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import "./Painting.css";
+import uniqueId from "lodash/uniqueId";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPaintBrush,
@@ -143,32 +144,6 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
       ctx.current.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); //캔버스 기본 바탕색깔 흰색으로 세팅.
     }
   }, [isEditing === false]);
-
-  function handleFileUpload() {
-    //이건 s3에 업로드하는 경우
-    canvasRef.current.toBlob(
-      function (blob) {
-        const img = new FormData();
-        img.append("file", blob, `${Date.now()}.jpeg`);
-        console.log(blob);
-
-        const param = {
-          Bucket: "oneulfile",
-          Key: "image/" + "abc",
-          ACL: "public-read",
-          Body: blob,
-          ContentType: "image/",
-        };
-
-        s3.upload(param, function (err, data) {
-          console.log(err);
-          console.log(data);
-        });
-      },
-      "image/jpeg",
-      0.8
-    );
-  }
 
   // const updateCanvas = async (e) => { //이거랑 handleInsertImage 차이 알아보기 이건 한번에 삽입이 안되고 그건 한번에 가능
   //   setSelectedFile(e.target.files[0]);
@@ -464,13 +439,6 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
             height={`${CANVAS_HEIGHT}`}
             onContextMenu={disableRightClick}
           ></canvas>
-
-          <button id="music_btn" onClick={musicModalOnOff}>
-            <FontAwesomeIcon
-              icon={faMusic}
-              style={{ fontSize: 20, border: "none", pointerEvents: "none" }}
-            />
-          </button>
         </section>
       </div>
     );
@@ -486,7 +454,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
                   fontSize: 20,
                   border: "none",
                   padding: "0 0",
-                  color: "#47525d",
+                  color: "#7b716e",
                   pointerEvents: "none",
                 }}
               />
@@ -499,7 +467,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
               }}
               style={{
                 backgroundColor:
-                  buttonClicked === "paint_btn" ? "#c3c3c360" : "#fff", //자기 엘리먼트에 id를 불러오는 방법없나?
+                  buttonClicked === "paint_btn" ? "#7b716e" : "#f2ede3", //자기 엘리먼트에 id를 불러오는 방법없나?
               }}
             >
               <FontAwesomeIcon
@@ -508,7 +476,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
                   fontSize: 20,
                   border: "none",
                   padding: "0 0",
-                  color: "#47525d",
+                  color: buttonClicked === "paint_btn" ? "#d4c7b1" : "#555",
                   pointerEvents: "none",
                 }}
               />
@@ -521,7 +489,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
               }}
               style={{
                 backgroundColor:
-                  buttonClicked === "fill_btn" ? "#c3c3c360" : "#fff",
+                  buttonClicked === "fill_btn" ? "#7b716e" : "#f2ede3",
               }}
             >
               <FontAwesomeIcon
@@ -530,7 +498,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
                   fontSize: 20,
                   border: "none",
                   padding: "0 0",
-                  color: "#47525d",
+                  color: buttonClicked === "fill_btn" ? "#d4c7b1" : "#555",
                   pointerEvents: "none",
                 }}
               />
@@ -543,7 +511,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
               }}
               style={{
                 backgroundColor:
-                  buttonClicked === "eraser_btn" ? "#c3c3c360" : "#fff",
+                  buttonClicked === "eraser_btn" ? "#7b716e" : "#f2ede3",
               }}
             >
               <FontAwesomeIcon
@@ -552,7 +520,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
                   fontSize: 20,
                   border: "none",
                   padding: "0 0",
-                  color: "#47525d",
+                  color: buttonClicked === "eraser_btn" ? "d4c7b1" : "#555",
                   pointerEvents: "none",
                 }}
               />
@@ -565,7 +533,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
                   fontSize: 20,
                   border: "none",
                   padding: "0 0",
-                  color: "#47525d",
+                  color: "#7b716e",
                   pointerEvents: "none",
                 }}
               />
@@ -580,7 +548,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
               onChange={handleInsertImage}
             />
 
-            <span>
+            <span id="range_span">
               <input
                 id="lineWeightRange"
                 type="range"
@@ -602,10 +570,10 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
           </span>
         </section>
         <section id="colors">
-          {arr_Colors.map((color, idx) => (
+          {arr_Colors.map((color) => (
             <span
               className="color"
-              key={idx}
+              key={uniqueId()}
               style={{ backgroundColor: `${color}` }}
               onClick={handleColorClick}
             ></span>
@@ -625,13 +593,6 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
             onClick={handleCanvasClick}
             onContextMenu={disableRightClick}
           ></canvas>
-
-          <button id="music_btn" onClick={musicModalOnOff}>
-            <FontAwesomeIcon
-              icon={faMusic}
-              style={{ fontSize: 20, border: "none", pointerEvents: "none" }}
-            />
-          </button>
         </section>
       </div>
     );
@@ -647,7 +608,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
                   fontSize: 20,
                   border: "none",
                   padding: "0 0",
-                  color: "#47525d",
+                  color: "#7b716e",
                   pointerEvents: "none",
                 }}
               />
@@ -660,7 +621,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
               }}
               style={{
                 backgroundColor:
-                  buttonClicked === "paint_btn" ? "#c3c3c360" : "#fff", //자기 엘리먼트에 id를 불러오는 방법없나?
+                  buttonClicked === "paint_btn" ? "#7b716e" : "#f2ede3", //자기 엘리먼트에 id를 불러오는 방법없나?
               }}
             >
               <FontAwesomeIcon
@@ -669,7 +630,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
                   fontSize: 20,
                   border: "none",
                   padding: "0 0",
-                  color: "#47525d",
+                  color: buttonClicked === "paint_btn" ? "#d4c7b1" : "#555",
                   pointerEvents: "none",
                 }}
               />
@@ -682,7 +643,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
               }}
               style={{
                 backgroundColor:
-                  buttonClicked === "fill_btn" ? "#c3c3c360" : "#fff",
+                  buttonClicked === "fill_btn" ? "#7b716e" : "#f2ede3",
               }}
             >
               <FontAwesomeIcon
@@ -691,7 +652,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
                   fontSize: 20,
                   border: "none",
                   padding: "0 0",
-                  color: "#47525d",
+                  color: buttonClicked === "fill_btn" ? "#d4c7b1" : "#555",
                   pointerEvents: "none",
                 }}
               />
@@ -704,7 +665,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
               }}
               style={{
                 backgroundColor:
-                  buttonClicked === "eraser_btn" ? "#c3c3c360" : "#fff",
+                  buttonClicked === "eraser_btn" ? "#7b716e" : "#f2ede3",
               }}
             >
               <FontAwesomeIcon
@@ -713,7 +674,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
                   fontSize: 20,
                   border: "none",
                   padding: "0 0",
-                  color: "#47525d",
+                  color: buttonClicked === "eraser_btn" ? "d4c7b1" : "#555",
                   pointerEvents: "none",
                 }}
               />
@@ -726,7 +687,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
                   fontSize: 20,
                   border: "none",
                   padding: "0 0",
-                  color: "#47525d",
+                  color: "#7b716e",
                   pointerEvents: "none",
                 }}
               />
@@ -741,7 +702,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
               onChange={handleInsertImage}
             />
 
-            <span>
+            <span id="range_span">
               <input
                 id="lineWeightRange"
                 type="range"
@@ -763,10 +724,10 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
           </span>
         </section>
         <section id="colors">
-          {arr_Colors.map((color, idx) => (
+          {arr_Colors.map((color) => (
             <span
               className="color"
-              key={idx}
+              key={uniqueId()}
               style={{ backgroundColor: `${color}` }}
               onClick={handleColorClick}
             ></span>
@@ -787,12 +748,29 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
             onContextMenu={disableRightClick}
           ></canvas>
 
-          <button id="music_btn" onClick={musicModalOnOff}>
+          {/* <button id="music_btn" onClick={musicModalOnOff}>
             <FontAwesomeIcon
               icon={faMusic}
-              style={{ fontSize: 20, border: "none", pointerEvents: "none" }}
+              style={{
+                color: "#7a706d",
+                fontSize: 20,
+                border: "none",
+                pointerEvents: "none",
+              }}
             />
           </button>
+
+          <button id="music_btn_up" onClick={musicModalOnOff}>
+            <FontAwesomeIcon
+              icon={faMusic}
+              style={{
+                color: "#7a706d",
+                fontSize: 20,
+                border: "none",
+                pointerEvents: "none",
+              }}
+            />
+          </button> */}
         </section>
       </div>
     );

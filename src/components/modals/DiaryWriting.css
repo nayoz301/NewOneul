@@ -1,3 +1,49 @@
+/*뮤직 버튼*/
+
+.music_btn {
+  position: absolute;
+  top: 4.5rem;
+  right: -3.2rem;
+  padding: 2.5rem 0.5rem;
+  border-top-right-radius: 0.7rem;
+  border-bottom-right-radius: 0.7rem;
+  cursor: pointer;
+  z-index: 500;
+  background-color: #d3c4ae;
+  border: 1px solid rgb(27, 27, 27, 0.2);
+}
+
+.music_btn:active {
+  transform: scale(0.95);
+}
+
+.music_btn_up {
+  display: none;
+  position: absolute;
+  top: -2.85rem;
+  right: 1rem;
+  padding: 0.3rem 2.5rem;
+  border-top-right-radius: 0.7rem;
+  border-top-left-radius: 0.7rem;
+  cursor: pointer;
+  z-index: 500;
+  background-color: #d3c4ae;
+  border: 1px solid rgb(27, 27, 27, 0.2);
+}
+
+.music_btn_up:active {
+  transform: scale(0.95);
+}
+
+@media screen and (max-width: 760px) {
+  .music_btn_up {
+    display: block;
+  }
+  .music_btn {
+    display: none;
+  }
+}
+
 /*뮤직박스*/
 .mainNav {
   display: flex;
