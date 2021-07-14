@@ -222,13 +222,15 @@ const Music = ({
   };
 
   const updatePlayer = () => {
-    setCurrentSong(filtered[index]);
-    // const audio = new Audio(currentSong.audio);
-    playerRef.current.load();
+    if (playerRef.current !== null) {
+      setCurrentSong(filtered[index]);
+      // const audio = new Audio(currentSong.audio);
+      playerRef.current.load();
+    }
   };
 
   const nextSong = () => {
-    setIndex((index + 1) % musicLists.length);
+    setIndex((index + 1) % filtered.length);
     updatePlayer();
     if (pause) {
       playerRef.current.play();
@@ -236,7 +238,7 @@ const Music = ({
   };
 
   const prevSong = () => {
-    setIndex((index + musicLists.length - 1) % musicLists.length);
+    setIndex((index + filtered.length - 1) % filtered.length);
     updatePlayer();
     if (pause) {
       playerRef.current.play();
@@ -278,6 +280,13 @@ const Music = ({
     setFiltered(filteredList);
     setIndex(0);
   }, [genre]);
+
+  useEffect(() => {
+    if (selectedMusic && isEditing === false) {
+      setPause(true);
+    }
+    console.log("실험", pause);
+  }, [isEditing]);
 
   if (selectedMusic && isEditing === false) {
     return (
@@ -630,7 +639,7 @@ const Music = ({
           </div>
 
           <div className="controls">
-            <div>
+            <div className="controls_wrapper">
               <button onClick={prevSong} className="prev prev-next current-btn">
                 <Icon icon={stepBackward} />
               </button>
