@@ -10,7 +10,7 @@
   border-radius: 2rem;
 }
 
-h1 {
+.text {
   color: #ecead6;
   text-align: center;
   font-family: var(--thick-font);
@@ -19,7 +19,7 @@ h1 {
   position: relative;
 }
 
-h1:after {
+.text:after {
   position: absolute;
   content: "";
   -webkit-animation: Dots 2s cubic-bezier(0, 0.39, 1, 0.68) infinite;

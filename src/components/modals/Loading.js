@@ -10,7 +10,7 @@ const Loading = () => {
           <figure className="page"></figure>
           <figure className="page"></figure>
         </div>
-        <h1>오늘을 담는 중</h1>
+        <h1 className="text">오늘을 담는 중</h1>
       </div>
     </>
   );

@@ -59,6 +59,8 @@ const Music = ({
   let playheadRef = useRef();
   let volumeControllerRef = useRef(); //볼륨 슬라이더 보임 안보임 효과 때문에 넣었음
 
+  console.log("선택한 장르", genre);
+
   const getSelectedMusic = () => {
     if (selectedMusicId !== undefined) {
       return musicList.musicList.filter((el) => el.id === selectedMusicId)[0];
@@ -75,7 +77,7 @@ const Music = ({
   useEffect(() => {
     //리덕스로 곡 불러올떄
     musicSetting();
-  }, [filtered]);
+  }, [musicOpen]);
 
   const musicSetting = () => {
     //리덕스로 곡 불러올떄
@@ -526,14 +528,14 @@ const Music = ({
           </div>
         </div>
         <div className="play-list">
-          {filtered.map((music) => (
+          {filtered.map((music, arrayIndex) => (
             <div className="play-list-one" key={uniqueId()}>
               <div
-                onClick={() => clickAudio(music.id)}
+                onClick={() => clickAudio(arrayIndex)}
                 className={
                   "track " +
-                  (index === music.id && !pause ? "current-audio" : "") +
-                  (index === music.id && pause ? "play-now" : "")
+                  (index === arrayIndex && !pause ? "current-audio" : "") +
+                  (index === arrayIndex && pause ? "play-now" : "")
                 }
               >
                 <img className="track-img" src={music.img} />
@@ -701,14 +703,14 @@ const Music = ({
           </div>
         </div>
         <div className="play-list">
-          {filtered.map((music) => (
+          {filtered.map((music, arrayIndex) => (
             <div className="play-list-one" key={uniqueId()}>
               <div
-                onClick={() => clickAudio(music.id)}
+                onClick={() => clickAudio(arrayIndex)}
                 className={
                   "track " +
-                  (index === music.id && !pause ? "current-audio" : "") +
-                  (index === music.id && pause ? "play-now" : "")
+                  (index === arrayIndex && !pause ? "current-audio" : "") +
+                  (index === arrayIndex && pause ? "play-now" : "")
                 }
               >
                 <img className="track-img" src={music.img} />

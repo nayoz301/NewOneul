@@ -1,22 +1,41 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { flexCenter } from "../../styles/global.style";
 import DiaryWriting from "../modals/DiaryWriting";
 import { connect } from "react-redux";
 import "aos/dist/aos.css";
 
-const Diary = ({ closeDiaryModal, clickmoment, diary }) => {
-  const selectedDiary = diary.myDiary.filter(
-    (el) => el.date === clickmoment.format("YYYY-M-D")
-  )[0];
+const Diary = ({ closeDiaryModal, clickmoment, diary, selectedDiaryId, passDiaryId }) => {
+ 
+  const filterDiary = () => {
+    if (selectedDiaryId) {
+      const otherDiary = diary.publicDiary.filter(
+        (el) => el.id === selectedDiaryId
+      )[0];
+      otherDiary.isOtherDiary = true;
+      return otherDiary
+    } else if (clickmoment) {
+      return diary.myDiary.filter(
+        (el) => el.date === clickmoment.format("YYYY-M-D")
+      )[0];
+    }
+  }
 
-  console.log(clickmoment.format("L"));
+  
+
+  const selectedDiary = filterDiary();
+  
+  useEffect(() => {
+    console.log(selectedDiary)
+  })
+
   return (
     <Diarybackground data-aos={"zoom"} data-aos-duration={"500"}>
       <DiaryWriting
         closeDiaryModal={closeDiaryModal}
         clickmoment={clickmoment}
         selectedDiary={selectedDiary}
+        passDiaryId={passDiaryId}
       />
     </Diarybackground>
   );

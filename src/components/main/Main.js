@@ -22,6 +22,14 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
   const [value, setValue] = useState(moment());
   const [isClick, setIsClick] = useState(false);
   const [clickmoment, setClickmoment] = useState(null);
+  const [selectedDiaryId, setSelectedDiaryId] = useState(0);
+
+  useFetch(
+    "https://oneul.site/O_NeulServer/main",
+    userInfo,
+    fetchAllLoginDiary,
+    fetchAllUnloginDiary
+  );
 
   useFetch(
     "https://oneul.site/O_NeulServer/main",
@@ -43,6 +51,10 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
   const momentHandler = (day) => {
     setClickmoment(day);
   };
+  
+  const passDiaryId = (diaryId) => {
+    setSelectedDiaryId(diaryId)
+  }
 
   const next = useCallback(() => {
     setValue(value.add(1, "month").clone());
@@ -55,7 +67,12 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
   return (
     <>
       {isClick && (
-        <Diary clickmoment={clickmoment} closeDiaryModal={closeDiaryModal} />
+        <Diary 
+          clickmoment={clickmoment} 
+          closeDiaryModal={closeDiaryModal} 
+          selectedDiaryId={selectedDiaryId}
+          passDiaryId={passDiaryId}  
+        />
       )}
       <MainSection>
         <MainHeaderCompo />
@@ -66,8 +83,8 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
               <Calendar value={value} modalHandle={momentHandler} />
             </CalendarWrapper>
             <DiaryWrapper>
-              <MyCards modalHandle={momentHandler} />
-              <OtherCards />
+              <MyCards />
+              <OtherCards closeDiaryModal={closeDiaryModal} passDiaryId={passDiaryId}/>
             </DiaryWrapper>
           </MainInnerWrapper>
         </MainInnerSection>
