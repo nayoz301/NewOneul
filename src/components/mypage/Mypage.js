@@ -28,7 +28,7 @@ const Mypage = ({ login, userLogin }) => {
     nickname: userLogin.userInfo.nickname,
     email: userLogin.userInfo.email
   });
-  console.log(userLogin.userInfo)
+  // console.log(userLogin.userInfo)
 
   return (
     <>

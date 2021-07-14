@@ -4,9 +4,9 @@ import { Link, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import { MainHeader, HeaderWrapper } from "../../styles/main/Main.style";
 import { connect } from "react-redux";
-import { login, logout } from "../../actions";
+import { logout } from "../../actions";
 
-const MainHeaderCompo = ({ login, logout, userLogin }) => {
+const MainHeaderCompo = ({ logout }) => {
   const history = useHistory();
   const Logout = () => {
     return axios
@@ -43,4 +43,4 @@ const mapStateToProps = ({ loginReducer }) => {
   };
 };
 
-export default connect(mapStateToProps, { login, logout })(MainHeaderCompo);
+export default connect(mapStateToProps, { logout })(MainHeaderCompo);

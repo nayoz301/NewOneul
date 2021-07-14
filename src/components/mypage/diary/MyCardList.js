@@ -1,22 +1,20 @@
 import React, { useEffect } from 'react'
 import MyCard from '../../main/cards/card/MyCard';
 import { DiaryLogin } from '../../../styles/main/cards/MyCards.style'
-import { Link } from 'react-router-dom';
 import { Icon } from "react-icons-kit";
 import { pencil } from "react-icons-kit/entypo/pencil";
 import { connect } from "react-redux";
 import styled from 'styled-components';
 import { flexCenter } from "../../../styles/global.style";
 
-const MyCardList = ({ myDiaries }) => {
+const MyCardList = ({ myDiaries, diary }) => {
   console.log(myDiaries)
+  console.log(diary.myDiary)
 
   const content =
     myDiaries.length === 0 ? (
       <DiaryLogin>
-        <Link to="/main">
-          일기쓰러가기
-        </Link>
+        일기쓰기
         <Icon icon={pencil} />
       </DiaryLogin>
     ) : (
