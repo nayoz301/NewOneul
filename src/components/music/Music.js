@@ -40,6 +40,7 @@ const Music = ({
   selectedMusicId,
   isEditing,
 }) => {
+  console.log("from music");
   const [pause, setPause] = useState(false);
   const [index, setIndex] = useState(0);
   const [currentTime, setCurrentTime] = useState("0:00");
@@ -57,6 +58,8 @@ const Music = ({
   let hoverPlayheadRef = useRef();
   let playheadRef = useRef();
   let volumeControllerRef = useRef(); //볼륨 슬라이더 보임 안보임 효과 때문에 넣었음
+
+  console.log("선택한 장르", genre);
 
   const getSelectedMusic = () => {
     if (selectedMusicId !== undefined) {
@@ -752,4 +755,4 @@ const mapStateToProps = ({ mainReducer }) => {
   };
 };
 
-export default connect(mapStateToProps)(Music);
+export default connect(mapStateToProps)(React.memo(Music));

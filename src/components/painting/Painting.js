@@ -145,32 +145,6 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
     }
   }, [isEditing === false]);
 
-  function handleFileUpload() {
-    //이건 s3에 업로드하는 경우
-    canvasRef.current.toBlob(
-      function (blob) {
-        const img = new FormData();
-        img.append("file", blob, `${Date.now()}.jpeg`);
-        console.log(blob);
-
-        const param = {
-          Bucket: "oneulfile",
-          Key: "image/" + "abc",
-          ACL: "public-read",
-          Body: blob,
-          ContentType: "image/",
-        };
-
-        s3.upload(param, function (err, data) {
-          console.log(err);
-          console.log(data);
-        });
-      },
-      "image/jpeg",
-      0.8
-    );
-  }
-
   // const updateCanvas = async (e) => { //이거랑 handleInsertImage 차이 알아보기 이건 한번에 삽입이 안되고 그건 한번에 가능
   //   setSelectedFile(e.target.files[0]);
   //   e.preventDefault();

@@ -4,11 +4,10 @@ import { Link, useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import { MainHeader, HeaderWrapper } from "../../styles/main/Main.style";
 import { connect } from "react-redux";
-import { login, logout } from '../../actions';
+import { login, logout } from "../../actions";
 
 const MainHeaderCompo = ({ login, logout, userLogin }) => {
   const history = useHistory();
-
   const Logout = () => {
     return axios
       .get("https://oneul.site/O_NeulServer/user/signout", {
@@ -23,7 +22,7 @@ const MainHeaderCompo = ({ login, logout, userLogin }) => {
           showConfirmButton: true,
           timer: 5000,
         });
-      })
+      });
   };
 
   return (
