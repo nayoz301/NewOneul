@@ -77,7 +77,7 @@ const Music = ({
   useEffect(() => {
     //리덕스로 곡 불러올떄
     musicSetting();
-  }, [filtered]);
+  }, [musicOpen]);
 
   const musicSetting = () => {
     //리덕스로 곡 불러올떄
@@ -535,14 +535,14 @@ const Music = ({
           </div>
         </div>
         <div className="play-list">
-          {filtered.map((music) => (
+          {filtered.map((music, arrayIndex) => (
             <div className="play-list-one" key={uniqueId()}>
               <div
-                onClick={() => clickAudio(music.id)}
+                onClick={() => clickAudio(arrayIndex)}
                 className={
                   "track " +
-                  (index === music.id && !pause ? "current-audio" : "") +
-                  (index === music.id && pause ? "play-now" : "")
+                  (index === arrayIndex && !pause ? "current-audio" : "") +
+                  (index === arrayIndex && pause ? "play-now" : "")
                 }
               >
                 <img className="track-img" src={music.img} />
@@ -710,14 +710,14 @@ const Music = ({
           </div>
         </div>
         <div className="play-list">
-          {filtered.map((music) => (
+          {filtered.map((music, arrayIndex) => (
             <div className="play-list-one" key={uniqueId()}>
               <div
-                onClick={() => clickAudio(music.id)}
+                onClick={() => clickAudio(arrayIndex)}
                 className={
                   "track " +
-                  (index === music.id && !pause ? "current-audio" : "") +
-                  (index === music.id && pause ? "play-now" : "")
+                  (index === arrayIndex && !pause ? "current-audio" : "") +
+                  (index === arrayIndex && pause ? "play-now" : "")
                 }
               >
                 <img className="track-img" src={music.img} />
