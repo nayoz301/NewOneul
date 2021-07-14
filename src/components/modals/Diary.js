@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { flexCenter } from "../../styles/global.style";
 import DiaryWriting from "../modals/DiaryWriting";
 import { connect } from "react-redux";
+import "aos/dist/aos.css";
 
 const Diary = ({ closeDiaryModal, clickmoment, diary, selectedDiaryId, passDiaryId }) => {
  
@@ -29,7 +30,7 @@ const Diary = ({ closeDiaryModal, clickmoment, diary, selectedDiaryId, passDiary
   })
 
   return (
-    <Diarybackground>
+    <Diarybackground data-aos={"zoom"} data-aos-duration={"500"}>
       <DiaryWriting
         closeDiaryModal={closeDiaryModal}
         clickmoment={clickmoment}
