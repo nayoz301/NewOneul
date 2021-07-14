@@ -4,11 +4,15 @@ export const ImgUpload = styled.div`
   width: 20.5rem;
   height: 20.5rem;
   margin: 1rem;
-  margin-top: 1.5rem;
+  // margin-top: 1rem;
   border:  none;
   display: flex;
   margin-left: 1rem;
   flex-direction: column;
+  @media screen and (max-width: 768px) {
+    width: 15.5rem;
+    height: 15.5rem;
+}
 `;
 
 export const ImgEdit = styled.div`
@@ -27,11 +31,11 @@ export const ImgView = styled.img`
 
 export const ImgUploadBtn = styled.button`
   font-family: var(--thick-font);
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: 500;
   width: 8rem;
   height: 2.5rem;
-  background-color: #DB7DC5;
+  background-color: #5999FF;
   color: #fff;
   padding: .5rem;
   margin-bottom: 1rem;
@@ -40,6 +44,11 @@ export const ImgUploadBtn = styled.button`
   margin-right: .5rem;
 
   &:hover {
-    background: #DB18B1;
+    background: #1C82FF;
   }
+
+  @media screen and (max-width: 768px) {
+    width: 6rem;
+    font-size: 1.2rem;
+}
 `;
