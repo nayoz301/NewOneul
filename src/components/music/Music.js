@@ -279,6 +279,13 @@ const Music = ({
     setIndex(0);
   }, [genre]);
 
+  useEffect(() => {
+    if (selectedMusic && isEditing === false) {
+      setPause(true);
+    }
+    console.log("실험", pause);
+  }, [isEditing]);
+
   if (selectedMusic && isEditing === false) {
     return (
       <div className="player-wrapper">
@@ -630,7 +637,7 @@ const Music = ({
           </div>
 
           <div className="controls">
-            <div>
+            <div className="controls_wrapper">
               <button onClick={prevSong} className="prev prev-next current-btn">
                 <Icon icon={stepBackward} />
               </button>

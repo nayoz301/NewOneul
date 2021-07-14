@@ -4,7 +4,7 @@ body .player-wrapper {
   justify-content: center;
   align-items: center;
   /* max-width: 35rem; */
-  min-height: 35vh;
+  /* min-height: 35vh; */
   min-width: 35rem;
   border-radius: 2rem;
   color: rgba(105, 97, 97, 0.555); /*배경글자색*/
@@ -144,6 +144,12 @@ body .player-wrapper {
 .current-song .controls {
   margin-top: 1rem; /*이전 재생 다음 버튼 위 마진*/
 }
+
+.current-song .controls .controls_wrapper {
+  position: relative;
+  z-index: 100; /* 뮤직 사운드바랑 겹치지 않으려고 */
+}
+
 .current-song .controls button {
   color: #dfd5c9; /*재생 버튼*/
   /* border-radius: 10%; */
@@ -399,7 +405,7 @@ body .player-wrapper {
 .current-song .controls .volume-controller-wrapper2 .mute-btn {
   position: relative;
   /* top: -4.6rem; */
-  right: 3.5rem;
+  right: 3.8rem;
   width: 6rem;
 }
 
