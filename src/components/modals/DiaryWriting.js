@@ -126,9 +126,9 @@ const DiaryWriting = ({
   }
 
   const completeDiary = async () => {
-    loadingModalOnOff(true);
-
     if (emojiChosen.id && weatherChosen && diaryText && musicChosen) {
+      // loadingModalOnOff(true);
+      setLoadingModalOpen(true);
       setLoading(true);
       await handleFileUpload().then((res) => {
         const url = res.Location;
@@ -168,12 +168,12 @@ const DiaryWriting = ({
               addNewPrivateDiary(res);
             }
             setLoading(false);
-            loadingModalOnOff(false);
+            setLoadingModalOpen(false);
             closeDiaryModal(); //모달창 닫기
             alert("오늘도 수고하셨습니다");
           })
           .catch((res) => {
-            loadingModalOnOff(false);
+            setLoadingModalOpen(false);
             console.log(res, "Error has been occured");
           });
       });
