@@ -2,7 +2,15 @@ import React from "react";
 import Music from "../music/Music";
 
 const MusicModal = (props) => {
-  const { musicOpen, musicModalOnOff, getMusicData, selectedMusicId, isEditing, musicChosen, setMusicChosen } = props;
+  const {
+    musicOpen,
+    musicModalOnOff,
+    getMusicData,
+    selectedMusicId,
+    isEditing,
+    musicChosen,
+    setMusicChosen,
+  } = props;
 
   return (
     <section
@@ -17,14 +25,14 @@ const MusicModal = (props) => {
           : null
       }
     >
-      <Music 
-        musicModalOnOff={musicModalOnOff} 
-        getMusicData={getMusicData} 
-        selectedMusicId={selectedMusicId} 
+      <Music
+        musicModalOnOff={musicModalOnOff}
+        getMusicData={getMusicData}
+        selectedMusicId={selectedMusicId}
         isEditing={isEditing}
         musicChosen={musicChosen}
         setMusicChosen={setMusicChosen}
-        musicOpen={musicOpen} 
+        musicOpen={musicOpen}
       />
     </section>
   );

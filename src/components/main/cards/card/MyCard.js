@@ -18,8 +18,15 @@ import styled from "styled-components";
 import { Icon } from "react-icons-kit";
 import { trash2 } from "react-icons-kit/feather/trash2";
 import axios from "axios";
+import moment from "moment";
 
-const MyCard = ({ diary, removeDiary, removePublicDiary, userInfo }) => {
+const MyCard = ({
+  diary,
+  removeDiary,
+  removePublicDiary,
+  userInfo,
+  modalHandle,
+}) => {
   const { faceIcons, weatherIcons } = icons;
   const { id, isPublic, date, feeling, text, weather } = diary;
   const { accessToken } = userInfo.login;
@@ -44,8 +51,12 @@ const MyCard = ({ diary, removeDiary, removePublicDiary, userInfo }) => {
       .catch((err) => console.log(err));
   };
 
+  const openModifyDiaryModal = () => {
+    modalHandle(moment(date));
+  };
+
   return (
-    <MyDiary onClick={() => console.log("hehe")}>
+    <MyDiary onClick={openModifyDiaryModal}>
       <MyDiaryCardFront>
         <MyDiaryFrontHeader>
           {splitDate(date)[0]}년 {splitDate(date)[1]}월 {splitDate(date)[2]}일
@@ -83,4 +94,13 @@ const RemoveBtn = styled.button`
   right: 1rem;
   bottom: 1rem;
   border: none;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
 `;

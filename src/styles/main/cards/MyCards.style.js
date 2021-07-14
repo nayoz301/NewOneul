@@ -27,6 +27,7 @@ export const MyDiary = styled(Card)`
   min-height: 23rem;
   margin: 1.5rem;
   padding-top: 1.5rem;
+  cursor: pointer;
 
   @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN}px) {
     min-width: 18rem;

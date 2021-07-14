@@ -3,6 +3,7 @@ import Emojis from "./Emojis";
 import styled from "styled-components";
 
 const EmojiModal = ({ emojiOpen, emojiModalOnOff, whatEmoji }) => {
+  console.log("from emoji modal");
   return (
     <EmojisOuter emojiOpen={emojiOpen}>
       <Emojis
@@ -14,6 +15,8 @@ const EmojiModal = ({ emojiOpen, emojiModalOnOff, whatEmoji }) => {
   );
 };
 
+export default React.memo(EmojiModal);
+
 const EmojisOuter = styled.div`
   display: ${({ emojiOpen }) => (emojiOpen ? "flex" : "none")};
   position: relative;
@@ -24,5 +27,3 @@ const EmojisOuter = styled.div`
   z-index: 200;
   transition: all 1s;
 `;
-
-export default EmojiModal;

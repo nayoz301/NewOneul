@@ -17,7 +17,7 @@ import AOS from "aos";
 import Diary from "../../modals/Diary";
 import moment from "moment";
 
-const MyCards = ({ diary, userInfo }) => {
+const MyCards = ({ diary, userInfo, modalHandle }) => {
   useEffect(() => {
     AOS.init();
   }, []);
@@ -49,7 +49,9 @@ const MyCards = ({ diary, userInfo }) => {
         itemPadding={[0, 50]}
       >
         {diary.myDiary &&
-          diary.myDiary.map((diary) => <MyCard key={diary.id} diary={diary} />)}
+          diary.myDiary.map((diary) => (
+            <MyCard key={diary.id} diary={diary} modalHandle={modalHandle} />
+          ))}
       </Carousel>
     );
 

@@ -1,21 +1,21 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import "moment/locale/ko";
-import s3 from "../../upload/s3";
 import WeatherModal from "./Weather";
 import EmojiModal from "./EmojiModal";
 import MusicModal from "./MusicModal";
 import Painting from "../painting/Painting";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSmile as farSmile } from "@fortawesome/free-regular-svg-icons";
 import "./DiaryWriting.css";
 import { connect } from "react-redux";
 import emojis from "../../icons/imojis";
-import weathers from "../../icons/weathers";
 import { addNewPublicDiary, addNewPrivateDiary } from "../../actions";
 import LoadingModal from "./LoadingModal";
 import { faMusic } from "@fortawesome/free-solid-svg-icons";
+import { handleFileUpload } from "./diaryfunc";
+import Text from "./Text";
+import DiaryHeader from "./DiaryHeader";
 
 const DiaryWriting = ({
   clickmoment,
@@ -32,8 +32,8 @@ const DiaryWriting = ({
     return;
   };
 
+  console.log("from parent");
   const selectedImoji = getSelectedImoji();
-
   const textRef = useRef();
   const canvasRef = useRef(null);
 
@@ -48,89 +48,71 @@ const DiaryWriting = ({
   const [isEditing, setIsEditing] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [isWeatherSelected, setIsWeatherSelected] = useState(false);
-
+  const [modified, setModified] = useState({});
   const [loadingModalOpen, setLoadingModalOpen] = useState(false);
+
   const loadingModalOnOff = (state) => {
     setLoadingModalOpen(state);
   };
 
+  useEffect(() => {
+    if (isEditing) {
+      setModified({ ...modified, weather: weatherChosen });
+    }
+  }, [weatherChosen]);
+
+  // 개선해야 할 부분
   useEffect(() => {
     if (selectedDiary) {
       setSelectedImage(selectedDiary.image);
       setIsWeatherSelected(true);
     }
   });
-  const [loading, setLoading] = useState(false);
 
-  const emojiModalOnOff = () => {
+  const emojiModalOnOff = useCallback(() => {
     //이모지 모달창 끄고 닫기
     setEmojiOpen(!emojiOpen);
-  };
+  }, [emojiOpen]);
 
-  const musicModalOnOff = () => {
+  const musicModalOnOff = useCallback(() => {
     //뮤직 모달창 끄고 닫기
     setMusicOpen(!musicOpen);
-  };
+  }, [musicOpen]);
 
-  const whatEmoji = (emoji) => {
-    //이모지에서 선택한 놈 가져오는 함수
-    SetEmojiChosen({ emoji: emoji.emoji, color: emoji.color, id: emoji.id });
-    console.log(emojiChosen);
-    console.log("emoji.color", emoji.id);
-  };
+  const whatEmoji = useCallback(
+    (emoji) => {
+      //이모지에서 선택한 놈 가져오는 함수
+      SetEmojiChosen({ emoji: emoji.emoji, color: emoji.color, id: emoji.id });
+      console.log(emojiChosen);
+    },
+    [emojiChosen]
+  );
 
   const editDiary = () => {
     setIsEditing(true);
   };
+
   const canvasHeight = (window.innerWidth / 2) * 0.4;
   const textAreaHeight = window.innerHeight - 135 - canvasHeight;
 
-  const weatherData = (weather) => {
-    setWeatherChosen(weather);
-    return;
-  };
+  const weatherData = useCallback(
+    (weather) => {
+      setWeatherChosen(weather);
+    },
+    [weatherChosen]
+  );
 
-  const getMusicData = (music) => {
-    setMusicChosen(music);
-    return;
-  };
-
-  function handleFileUpload() {
-    //이건 s3에 업로드하는 경우
-    return new Promise((resolve, reject) => {
-      canvasRef.current.toBlob(
-        (blob) => {
-          const img = new FormData();
-          img.append("file", blob, `${Date.now()}`.png);
-
-          const param = {
-            Bucket: "oneulfile",
-            Key: "image/" + `${userInfo.userInfo.id}/` + Date.now(),
-            ACL: "public-read",
-            Body: blob,
-            ContentType: "image/",
-          };
-
-          s3.upload(param, (err, data) => {
-            if (err) {
-              reject(err);
-            } else {
-              return resolve(data);
-            }
-          });
-        },
-        "image/jpeg",
-        0.8
-      );
-    });
-  }
+  const getMusicData = useCallback(
+    (music) => {
+      setMusicChosen(music);
+    },
+    [musicChosen]
+  );
 
   const completeDiary = async () => {
-    loadingModalOnOff(true);
-
     if (emojiChosen.id && weatherChosen && diaryText && musicChosen) {
-      setLoading(true);
-      await handleFileUpload().then((res) => {
+      loadingModalOnOff(true);
+      await handleFileUpload(canvasRef, userInfo).then((res) => {
         const url = res.Location;
 
         return axios
@@ -167,7 +149,6 @@ const DiaryWriting = ({
             } else {
               addNewPrivateDiary(res);
             }
-            setLoading(false);
             loadingModalOnOff(false);
             closeDiaryModal(); //모달창 닫기
             alert("오늘도 수고하셨습니다");
@@ -191,15 +172,23 @@ const DiaryWriting = ({
   };
 
   const recompleteDiary = () => {
+    console.log(selectedDiary);
     setIsEditing(false);
   };
 
-  console.log("text", diaryText);
-  console.log("weather", weatherChosen);
-  console.log("emoji", emojiChosen);
-  console.log("date", clickmoment.format("YYYY-M-D"));
-  console.log("private", isPublic);
-  console.log("music", Number(musicChosen));
+  // console.log("text", diaryText);
+  // console.log("weather", weatherChosen);
+  // console.log("emoji", emojiChosen);
+  // console.log("date", clickmoment.format("YYYY-M-D"));
+  // console.log("private", isPublic);
+  // console.log("music", Number(musicChosen));
+
+  const diaryTextHandler = useCallback(
+    (text) => {
+      setDiaryText(text);
+    },
+    [diaryText]
+  );
 
   if (selectedDiary !== undefined && isEditing === false) {
     return (
@@ -266,10 +255,9 @@ const DiaryWriting = ({
             className="textarea"
             textAreaHeight={textAreaHeight}
             ref={textRef}
+            defaultValue={selectedDiary.text}
             readOnly
-          >
-            {selectedDiary.text}
-          </TextArea>
+          />
 
           <Footer className="footer">
             <FooterClose onClick={closeDiaryModal}>닫기</FooterClose>
@@ -320,6 +308,17 @@ const DiaryWriting = ({
     return (
       <>
         <ModalWrapper className="modal-wrapper">
+          {/* <DiaryHeader
+            clickmoment={clickmoment}
+            emojiChosen={emojiChosen}
+            emojiModalOnOff={emojiModalOnOff}
+            emojiOpen={emojiOpen}
+            musicModalOnOff={musicModalOnOff}
+            whatEmoji={whatEmoji}
+            weatherData={weatherData}
+            weatherChosen={weatherChosen}
+            setWeatherChosen={setWeatherChosen}
+          /> */}
           <Header className="header">
             <HeaderDate className="date">
               <span> {clickmoment.format("LL dddd")}</span>
@@ -466,7 +465,18 @@ const DiaryWriting = ({
     return (
       <>
         <ModalWrapper className="modal-wrapper">
-          <Header className="header">
+          <DiaryHeader
+            clickmoment={clickmoment}
+            emojiChosen={emojiChosen}
+            emojiModalOnOff={emojiModalOnOff}
+            emojiOpen={emojiOpen}
+            musicModalOnOff={musicModalOnOff}
+            whatEmoji={whatEmoji}
+            weatherData={weatherData}
+            weatherChosen={weatherChosen}
+            setWeatherChosen={setWeatherChosen}
+          />
+          {/* <Header className="header">
             <HeaderDate className="date">
               <span> {clickmoment.format("LL dddd")}</span>
             </HeaderDate>
@@ -522,11 +532,11 @@ const DiaryWriting = ({
                 }}
               />
             </button>
-          </Header>
+          </Header> */}
 
           <Painting canvasRef={canvasRef} musicModalOnOff={musicModalOnOff} />
-
-          <TextArea
+          <Text setDiaryText={diaryTextHandler} />
+          {/* <TextArea
             className="textarea"
             textAreaHeight={textAreaHeight}
             ref={textRef}
@@ -534,7 +544,7 @@ const DiaryWriting = ({
             onChange={(e) => {
               setDiaryText(e.target.value);
             }}
-          ></TextArea>
+          ></TextArea> */}
 
           <Footer className="footer">
             <FooterClose onClick={closeDiaryModal}>닫기</FooterClose>
