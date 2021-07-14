@@ -31,13 +31,6 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
     fetchAllUnloginDiary
   );
 
-  useFetch(
-    "https://oneul.site/O_NeulServer/main",
-    userInfo,
-    fetchAllLoginDiary,
-    fetchAllUnloginDiary
-  );
-
   useEffect(() => {
     if (clickmoment !== null) {
       return setIsClick((prev) => setIsClick(!prev));
@@ -51,7 +44,7 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
   const momentHandler = (day) => {
     setClickmoment(day);
   };
-  
+
   const passDiaryId = (diaryId) => {
     setSelectedDiaryId(diaryId)
   }
@@ -67,11 +60,11 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
   return (
     <>
       {isClick && (
-        <Diary 
-          clickmoment={clickmoment} 
-          closeDiaryModal={closeDiaryModal} 
+        <Diary
+          clickmoment={clickmoment}
+          closeDiaryModal={closeDiaryModal}
           selectedDiaryId={selectedDiaryId}
-          passDiaryId={passDiaryId}  
+          passDiaryId={passDiaryId}
         />
       )}
       <MainSection>
@@ -84,7 +77,7 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
             </CalendarWrapper>
             <DiaryWrapper>
               <MyCards />
-              <OtherCards closeDiaryModal={closeDiaryModal} passDiaryId={passDiaryId}/>
+              <OtherCards closeDiaryModal={closeDiaryModal} passDiaryId={passDiaryId} />
             </DiaryWrapper>
           </MainInnerWrapper>
         </MainInnerSection>
