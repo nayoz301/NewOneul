@@ -1,74 +1,64 @@
-import React from "react";
-import styled from 'styled-components';
-import MyCard from '../dummy/MyCard';
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import {
+  BoxContainer,
+  DiaryContainer,
+  UserContentForm,
+} from '../../../styles/mypage/DiaryPost.style';
+import { connect } from "react-redux";
+import SelectFilter from './SelectFilter';
+import MyCardList from './MyCardList';
 
-const DiaryPost = () => {
+const DiaryPost = ({ diary }) => {
+  const [myDiaries, setMyDiaries] = useState(diary.myDiary)
+  const [onPublic, setOnPublic] = useState("");
+
+
+
+  const filteringPublic = (e) => {
+    // e.preventDefault()
+    let selectCard = e.target.value
+    setOnPublic(selectCard)
+    if (selectCard === '') {
+      setMyDiaries(diary.myDiary)
+    }
+    else if (selectCard === true) {
+      setMyDiaries(
+        diary.myDiary.filter((diary) => {
+          return (diary.isPublic === true)
+        })
+      )
+    } else if (selectCard === false) {
+      setMyDiaries(
+        diary.myDiary.filter((diary) => {
+          return (diary.isPublic === false)
+        })
+      )
+    }
+    // console.log(selectCard)
+  }
+
 
   return (
     <BoxContainer>
-      <Div>
-        <select style={{ height: "20px" }}>
-          <option value="">
-            선택
-          </option>
-          <option value="1">전체</option>
-          <option value="2">공개</option>
-          <option value="3">비공개</option>
-        </select>
-        <Link to='/mypage/diarywrite'>
-          <Button>일기쓰기</Button>
-        </Link>
-      </Div>
-      <DiaryContainer>
-        <MyCard />
-      </DiaryContainer>
-
-    </BoxContainer >
+      <UserContentForm>
+        <DiaryContainer>
+          <SelectFilter
+            filteringPublic={filteringPublic}
+            onPublic={onPublic}
+          />
+          <MyCardList myDiaries={myDiaries} />
+        </DiaryContainer>
+      </UserContentForm>
+    </BoxContainer>
   )
 }
 
-export default DiaryPost
 
-export const BoxContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: block;
-  flex-wrap: wrap;
-  jutify-content: center;
-  font-family: var(--thick-font);
-`;
+const mapStateToProps = ({ loginReducer, mainReducer }) => {
+  return {
+    userInfo: loginReducer,
+    diary: mainReducer,
+  };
+};
 
-export const DiaryContainer = styled.div`
-  min-width: 20%;
-  height: 70vh;
-  overflow-y: auto;
-  // border: 1px solid red;
-  display: flex;
-  justify-content: center;
-  align-item: center;
-  font-family: var(--thick-font);
-`;
-
-export const Div = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 0 3rem;
-`;
-
-export const Button = styled.button`
-font-family: var(--thick-font);
-font-size: 1.2rem;
-font-weight: 500;
-width: 6rem;
-height: auto;
-background-color: #DB7DC5;
-color: #fff;
-padding: .5rem;
-border: none;
-border-radius: .7rem;
-
-&:hover {
-  background: #DB18B1;
-}
-`;
+export default connect(mapStateToProps)(DiaryPost);

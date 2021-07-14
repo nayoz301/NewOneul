@@ -3,9 +3,8 @@ import { Switch, Route, Link } from "react-router-dom";
 import Modify from './modify/Modify';
 import MypageHeader from './MypageHeader';
 import ProfileImg from './profile/ProfileImg';
+import './MyDiary.css';
 import DiaryPost from './diary/DiaryPost';
-import Nav from './Nav';
-import DiaryWrite from './dummy/DiaryWrite';
 import {
   BoxContainer,
   FormContainer,
@@ -18,7 +17,7 @@ import {
   Info,
   Input,
   UserContent,
-  Button
+  Button,
 } from '../../styles/mypage/Mypage.style';
 import { connect } from "react-redux";
 import { login } from '../../actions';
@@ -37,47 +36,47 @@ const Mypage = ({ login, userLogin }) => {
         <MypageHeader />
         <Wrapper>
           <FormContainer>
-            <ContentTitle>나의 오늘,</ContentTitle>
             <ContentContainer>
               <UserInfoForm>
-                <Frame>
-                  <Switch>
-                    <Route path="/mypage/modify" exact>
+                <Switch>
+                  <Route path="/mypage/modify" exact>
+                    <Frame>
                       <Modify />
-                    </Route>
+                    </Frame>
+                  </Route>
+                  <Frame>
+                    <ContentTitle>나의 오늘,</ContentTitle>
+                    <Info>나의 프로필</Info>
                     <ProfileImg />
-                  </Switch>
-                  <Info>나의 프로필</Info>
-                  <Input
-                    type="text"
-                    value={users.nickname}
-                    name="nickname"
-                    readOnly
-                  />
-                  <Input
-                    type="email"
-                    value={users.email}
-                    name="email"
-                    readOnly
-                  />
-                  <Link to="/mypage/modify">
-                    <Button>나의 정보수정</Button>
-                  </Link>
-                </Frame>
+                    <Input
+                      type="text"
+                      value={users.nickname}
+                      name="nickname"
+                      readOnly
+                    />
+                    <Input
+                      type="email"
+                      value={users.email}
+                      name="email"
+                      readOnly
+                    />
+                    <Link to="/mypage/modify">
+                      <Button>나의 정보수정</Button>
+                    </Link>
+                  </Frame>
+                </Switch>
               </UserInfoForm>
-              <UserContentForm>
-                <UserContent>
-                  <Switch>
-                    <Route path="/mypage/diarywrite" exact>
-                      <DiaryWrite />
-                    </Route>
-                    <Route path="/mypage/mydiary" exact>
+              <div class="diary">
+                <input id="diary" type="checkbox" />
+                <label for="diary">나의일기</label>
+                <nav>
+                  <UserContentForm>
+                    <UserContent>
                       <DiaryPost />
-                    </Route>
-                  </Switch>
-                </UserContent>
-              </UserContentForm>
-              <Nav />
+                    </UserContent>
+                  </UserContentForm>
+                </nav>
+              </div>
             </ContentContainer>
           </FormContainer>
         </Wrapper>
