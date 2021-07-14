@@ -228,7 +228,7 @@ const Music = ({
   };
 
   const nextSong = () => {
-    setIndex((index + 1) % musicLists.length);
+    setIndex((index + 1) % filtered.length);
     updatePlayer();
     if (pause) {
       playerRef.current.play();
@@ -236,7 +236,7 @@ const Music = ({
   };
 
   const prevSong = () => {
-    setIndex((index + musicLists.length - 1) % musicLists.length);
+    setIndex((index + filtered.length - 1) % filtered.length);
     updatePlayer();
     if (pause) {
       playerRef.current.play();
