@@ -66,7 +66,6 @@
 }
 
 #colors {
-  margin: 0 0.1rem;
   /* max-width: 70rem; */
   display: flex;
   flex-direction: row;
@@ -88,7 +87,7 @@
 }
 
 #canvas {
-  position: relative;
+  /* position: relative; 뮤직버튼 땜시*/
   /* min-width: 400;
   min-height: 250; */
   background-color: white;
@@ -96,61 +95,8 @@
     0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-#canvas_wrapper #music_btn {
-  position: absolute;
-  top: -5.4rem;
-  right: -3.2rem;
-  padding: 2.5rem 0.5rem;
-  border-top-right-radius: 0.7rem;
-  border-bottom-right-radius: 0.7rem;
-  cursor: pointer;
-  z-index: 500;
-  background-color: #d3c4ae;
-  border: 1px solid rgb(27, 27, 27, 0.2);
-}
-
-#canvas_wrapper #music_btn:active {
-  transform: scale(0.95);
-}
-
-#canvas_wrapper #music_btn_up {
-  display: none;
-  position: absolute;
-  top: -11.5rem;
-  right: 1rem;
-  padding: 0.3rem 2.5rem;
-  border-top-right-radius: 0.7rem;
-  border-top-left-radius: 0.7rem;
-  cursor: pointer;
-  z-index: 500;
-  background-color: #d3c4ae;
-  border: 1px solid rgb(27, 27, 27, 0.2);
-}
-
-#canvas_wrapper #music_btn_up:active {
-  transform: scale(0.95);
-}
-
 .imgPreviewDiv > img {
   /*이렇게 해야 원하는 div사이즈 안으로 맞춰진다*/
   max-width: 100%;
   max-height: 100%;
-}
-
-/* @media screen and (max-width: 829px) {
-  #colors .color {
-    width: 3rem;
-    display: flex;
-    justify-content: center;
-    flex-flow: row wrap;
-  }
-} */
-
-@media screen and (max-width: 760px) {
-  #canvas_wrapper #music_btn_up {
-    display: block;
-  }
-  #canvas_wrapper #music_btn {
-    display: none;
-  }
 }

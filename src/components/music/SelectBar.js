@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import uniqueId from "lodash/uniqueId";
 import { Icon } from "react-icons-kit";
 import { ic_arrow_drop_down, ic_arrow_drop_up } from "react-icons-kit/md/";
 import "./SelectBar.css";
@@ -44,11 +45,11 @@ const SelectBar = ({ getGenre, genreList }) => {
           <div className="options">
             {genreList.map(
               (
-                genre,
-                index //MusicHooks에서 가져온 장르리스트로 매핑
+                genre
+                //MusicHooks에서 가져온 장르리스트로 매핑
               ) => (
                 <li
-                  key={index}
+                  key={uniqueId()}
                   className={selectedGenre === genre ? "active-option" : null}
                   onClick={() => genreClicked(genre)}
                 >

@@ -1,17 +1,21 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import "moment/locale/ko";
-import s3 from "../../upload/s3";
 import WeatherModal from "./Weather";
 import EmojiModal from "./EmojiModal";
 import MusicModal from "./MusicModal";
 import Painting from "../painting/Painting";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSmile as farSmile } from "@fortawesome/free-regular-svg-icons";
 import "./DiaryWriting.css";
 import { connect } from "react-redux";
+import emojis from "../../icons/imojis";
 import { addNewPublicDiary, addNewPrivateDiary } from "../../actions";
+import LoadingModal from "./LoadingModal";
+import { faMusic } from "@fortawesome/free-solid-svg-icons";
+import { handleFileUpload } from "./diaryfunc";
+import Text from "./Text";
+import DiaryHeader from "./DiaryHeader";
 
 const DiaryWriting = ({
   clickmoment,
@@ -19,9 +23,18 @@ const DiaryWriting = ({
   userInfo,
   addNewPublicDiary,
   addNewPrivateDiary,
+  selectedDiary,
 }) => {
-  const textRef = useRef();
+  const getSelectedImoji = () => {
+    if (selectedDiary) {
+      return emojis.filter((el) => el.id === selectedDiary.feeling)[0];
+    }
+    return;
+  };
 
+  console.log("from parent");
+  const selectedImoji = getSelectedImoji();
+  const textRef = useRef();
   const canvasRef = useRef(null);
 
   const [emojiOpen, setEmojiOpen] = useState(false); //모달창 오픈 클로즈
@@ -32,72 +45,74 @@ const DiaryWriting = ({
   const [weatherChosen, setWeatherChosen] = useState(null);
   const [musicChosen, setMusicChosen] = useState(null);
   const [dataFromServer, setDataFromServer] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
+  const [isWeatherSelected, setIsWeatherSelected] = useState(false);
+  const [modified, setModified] = useState({});
+  const [loadingModalOpen, setLoadingModalOpen] = useState(false);
 
-  const emojiModalOnOff = () => {
+  const loadingModalOnOff = (state) => {
+    setLoadingModalOpen(state);
+  };
+
+  useEffect(() => {
+    if (isEditing) {
+      setModified({ ...modified, weather: weatherChosen });
+    }
+  }, [weatherChosen]);
+
+  // 개선해야 할 부분
+  useEffect(() => {
+    if (selectedDiary) {
+      setSelectedImage(selectedDiary.image);
+      setIsWeatherSelected(true);
+    }
+  });
+
+  const emojiModalOnOff = useCallback(() => {
     //이모지 모달창 끄고 닫기
     setEmojiOpen(!emojiOpen);
-  };
+  }, [emojiOpen]);
 
-  const musicModalOnOff = () => {
+  const musicModalOnOff = useCallback(() => {
     //뮤직 모달창 끄고 닫기
     setMusicOpen(!musicOpen);
-  };
+  }, [musicOpen]);
 
-  const whatEmoji = (emoji) => {
-    //이모지에서 선택한 놈 가져오는 함수
-    SetEmojiChosen({ emoji: emoji.emoji, color: emoji.color, id: emoji.id });
-    console.log(emojiChosen);
-    console.log("emoji.color", emoji.id);
+  const whatEmoji = useCallback(
+    (emoji) => {
+      //이모지에서 선택한 놈 가져오는 함수
+      SetEmojiChosen({ emoji: emoji.emoji, color: emoji.color, id: emoji.id });
+      console.log(emojiChosen);
+    },
+    [emojiChosen]
+  );
+
+  const editDiary = () => {
+    setIsEditing(true);
   };
 
   const canvasHeight = (window.innerWidth / 2) * 0.4;
   const textAreaHeight = window.innerHeight - 135 - canvasHeight;
 
-  const weatherData = (weather) => {
-    setWeatherChosen(weather);
-    return;
-  };
+  const weatherData = useCallback(
+    (weather) => {
+      setWeatherChosen(weather);
+    },
+    [weatherChosen]
+  );
 
-  const getMusicData = (music) => {
-    setMusicChosen(music);
-    return;
-  };
-
-  function handleFileUpload() {
-    //이건 s3에 업로드하는 경우
-    return new Promise((resolve, reject) => {
-      canvasRef.current.toBlob(
-        (blob) => {
-          const img = new FormData();
-          img.append("file", blob, `${Date.now()}`.png);
-
-          const param = {
-            Bucket: "oneulfile",
-            Key: "image/" + `${userInfo.userInfo.id}/` + Date.now(),
-            ACL: "public-read",
-            Body: blob,
-            ContentType: "image/",
-          };
-
-          s3.upload(param, (err, data) => {
-            if (err) {
-              reject(err);
-            } else {
-              return resolve(data);
-            }
-          });
-        },
-        "image/jpeg",
-        0.8
-      );
-    });
-  }
+  const getMusicData = useCallback(
+    (music) => {
+      setMusicChosen(music);
+    },
+    [musicChosen]
+  );
 
   const completeDiary = async () => {
     if (emojiChosen.id && weatherChosen && diaryText && musicChosen) {
-      setLoading(true);
-      await handleFileUpload().then((res) => {
+      loadingModalOnOff(true);
+      await handleFileUpload(canvasRef, userInfo).then((res) => {
         const url = res.Location;
 
         return axios
@@ -134,11 +149,12 @@ const DiaryWriting = ({
             } else {
               addNewPrivateDiary(res);
             }
-            setLoading(false);
+            loadingModalOnOff(false);
             closeDiaryModal(); //모달창 닫기
             alert("오늘도 수고하셨습니다");
           })
           .catch((res) => {
+            setLoadingModalOpen(false);
             console.log(res, "Error has been occured");
           });
       });
@@ -155,101 +171,442 @@ const DiaryWriting = ({
     }
   };
 
+  const recompleteDiary = () => {
+    console.log(selectedDiary);
+    setIsEditing(false);
+  };
+
   // console.log("text", diaryText);
   // console.log("weather", weatherChosen);
   // console.log("emoji", emojiChosen);
   // console.log("date", clickmoment.format("YYYY-M-D"));
   // console.log("private", isPublic);
   // console.log("music", Number(musicChosen));
-  return (
-    <>
-      {/* {loading && <div>로딩중</div>} */}
-      <ModalWrapper className="modal-wrapper">
-        <Header className="header">
-          <HeaderDate className="date">
-            <span> {clickmoment.format("LL dddd")}</span>
-          </HeaderDate>
 
-          <HeaderEmoji className="emoji">
-            <FontAwesomeIcon
-              icon={emojiChosen ? emojiChosen.emoji : farSmile}
-              onClick={(e) => {
-                emojiModalOnOff();
-              }}
+  const diaryTextHandler = useCallback(
+    (text) => {
+      setDiaryText(text);
+    },
+    [diaryText]
+  );
+
+  if (selectedDiary !== undefined && isEditing === false) {
+    return (
+      <>
+        <ModalWrapper className="modal-wrapper">
+          <Header className="header">
+            <HeaderDate className="date">
+              <span> {clickmoment.format("LL dddd")}</span>
+            </HeaderDate>
+
+            <HeaderEmoji className="emoji">
+              <FontAwesomeIcon
+                icon={selectedImoji.emoji}
+                style={{
+                  fontSize: 40,
+                  cursor: "pointer",
+                  color: selectedImoji.color,
+                  backgroundColor: "transparent",
+                }}
+              />
+            </HeaderEmoji>
+
+            <HeaderWeather className="weather">
+              <WeatherModal
+                weatherData={weatherData}
+                selectedWeatherId={selectedDiary.weather}
+                isEditing={isEditing}
+              />
+            </HeaderWeather>
+
+            <button className="music_btn" onClick={musicModalOnOff}>
+              <FontAwesomeIcon
+                icon={faMusic}
+                style={{
+                  color: "#7a706d",
+                  fontSize: 20,
+                  border: "none",
+                  pointerEvents: "none",
+                }}
+              />
+            </button>
+
+            <button className="music_btn_up" onClick={musicModalOnOff}>
+              <FontAwesomeIcon
+                icon={faMusic}
+                style={{
+                  color: "#7a706d",
+                  fontSize: 20,
+                  border: "none",
+                  pointerEvents: "none",
+                }}
+              />
+            </button>
+          </Header>
+
+          <Painting
+            canvasRef={canvasRef}
+            musicModalOnOff={musicModalOnOff}
+            selectedImage={selectedDiary.image}
+            isEditing={isEditing}
+          />
+
+          <TextArea
+            className="textarea"
+            textAreaHeight={textAreaHeight}
+            ref={textRef}
+            defaultValue={selectedDiary.text}
+            readOnly
+          />
+
+          <Footer className="footer">
+            <FooterClose onClick={closeDiaryModal}>닫기</FooterClose>
+            <div
               style={{
-                fontSize: 30,
-                cursor: "pointer",
-                color: emojiChosen ? emojiChosen.color : "#86888a",
-                backgroundColor: "transparent",
-              }}
-            />
-            <EmojiModal
-              emojiModalOnOff={emojiModalOnOff}
-              emojiOpen={emojiOpen}
-              whatEmoji={whatEmoji}
-            ></EmojiModal>
-          </HeaderEmoji>
-
-          <HeaderWeather className="weather">
-            <WeatherModal
-              weatherChosen={weatherChosen}
-              weatherData={weatherData}
-            />
-          </HeaderWeather>
-        </Header>
-
-        <Painting canvasRef={canvasRef} musicModalOnOff={musicModalOnOff} />
-        <TextArea
-          className="textarea"
-          textAreaHeight={textAreaHeight}
-          ref={textRef}
-          placeholder="오늘은 어떠셨나요?"
-          onChange={(e) => {
-            setDiaryText(e.target.value);
-          }}
-        ></TextArea>
-
-        <Footer className="footer">
-          <FooterClose onClick={closeDiaryModal}>닫기</FooterClose>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <span
-              className="private"
-              style={{
-                fontSize: "1.5rem",
-                color: "#605138",
-                fontFamily: "var(--thick-font)",
-                fontWeight: "800",
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
               }}
             >
-              <FooterPrivate
+              <label
+                for="check_box"
+                className="private"
+                style={{
+                  fontSize: "1.5rem",
+                  color: "#605138",
+                  fontFamily: "var(--thick-font)",
+                  fontWeight: "800",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                {selectedDiary.isPublic
+                  ? "공개 일기입니다"
+                  : "비공개 일기입니다"}
+              </label>
+
+              <FooterPost className="post" onClick={editDiary}>
+                수정하기
+              </FooterPost>
+            </div>
+          </Footer>
+        </ModalWrapper>
+
+        <MusicModal
+          musicOpen={musicOpen}
+          musicModalOnOff={musicModalOnOff}
+          getMusicData={getMusicData}
+          selectedMusicId={selectedDiary.music.id}
+          musicChosen={musicChosen}
+          setMusicChosen={setMusicChosen}
+          style={{ display: "flex", position: "relative" }}
+          isEditing={isEditing}
+        />
+      </>
+    );
+  } else if (selectedDiary !== undefined && isEditing === true) {
+    return (
+      <>
+        <ModalWrapper className="modal-wrapper">
+          {/* <DiaryHeader
+            clickmoment={clickmoment}
+            emojiChosen={emojiChosen}
+            emojiModalOnOff={emojiModalOnOff}
+            emojiOpen={emojiOpen}
+            musicModalOnOff={musicModalOnOff}
+            whatEmoji={whatEmoji}
+            weatherData={weatherData}
+            weatherChosen={weatherChosen}
+            setWeatherChosen={setWeatherChosen}
+          /> */}
+          <Header className="header">
+            <HeaderDate className="date">
+              <span> {clickmoment.format("LL dddd")}</span>
+            </HeaderDate>
+
+            <HeaderEmoji className="emoji">
+              <FontAwesomeIcon
+                icon={emojiChosen ? emojiChosen.emoji : selectedImoji.emoji}
+                onClick={(e) => {
+                  emojiModalOnOff();
+                }}
+                style={{
+                  fontSize: 40,
+                  cursor: "pointer",
+                  color: emojiChosen ? emojiChosen.color : selectedImoji.color,
+                  backgroundColor: "transparent",
+                }}
+              />
+              <EmojiModal
+                emojiModalOnOff={emojiModalOnOff}
+                emojiOpen={emojiOpen}
+                whatEmoji={whatEmoji}
+              ></EmojiModal>
+            </HeaderEmoji>
+
+            <HeaderWeather className="weather">
+              <WeatherModal
+                weatherData={weatherData}
+                selectedWeatherId={selectedDiary.weather}
+                isEditing={isEditing}
+                setWeatherChosen={setWeatherChosen}
+                weatherChosen={weatherChosen}
+                isWeatherSelected={isWeatherSelected}
+                setIsWeatherSelected={setIsWeatherSelected}
+              />
+            </HeaderWeather>
+
+            <button className="music_btn" onClick={musicModalOnOff}>
+              <FontAwesomeIcon
+                icon={faMusic}
+                style={{
+                  color: "#7a706d",
+                  fontSize: 20,
+                  border: "none",
+                  pointerEvents: "none",
+                }}
+              />
+            </button>
+
+            <button className="music_btn_up" onClick={musicModalOnOff}>
+              <FontAwesomeIcon
+                icon={faMusic}
+                style={{
+                  color: "#7a706d",
+                  fontSize: 20,
+                  border: "none",
+                  pointerEvents: "none",
+                }}
+              />
+            </button>
+          </Header>
+
+          <Painting
+            canvasRef={canvasRef}
+            musicModalOnOff={musicModalOnOff}
+            isEditing={isEditing}
+            selectedImage={selectedImage}
+          />
+
+          <TextArea
+            className="textarea"
+            textAreaHeight={textAreaHeight}
+            ref={textRef}
+            placeholder="오늘은 어떠셨나요?"
+            onChange={(e) => {
+              setDiaryText(e.target.value);
+            }}
+          >
+            {selectedDiary.text}
+          </TextArea>
+
+          <Footer className="footer">
+            <FooterClose onClick={closeDiaryModal}>닫기</FooterClose>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <input
                 type="checkbox"
+                id="check_box"
                 onClick={() => {
                   SetIsPublic(!isPublic);
                 }}
+              ></input>
+              <label
+                for="check_box"
+                className="private"
+                style={{
+                  fontSize: "1.5rem",
+                  color: "#605138",
+                  fontFamily: "var(--thick-font)",
+                  fontWeight: "800",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                글 공개
+              </label>
+              {/* <span
+                className="private"
+                style={{ fontSize: "1.5rem", color: "#605138" }}
+              >
+                <FooterPrivate
+                  type="checkbox"
+                  onClick={() => {
+                    SetIsPublic(!isPublic);
+                  }}
+                />
+                글 공개
+              </span> */}
+
+              <FooterPost className="post" onClick={recompleteDiary}>
+                재등록하기
+              </FooterPost>
+            </div>
+          </Footer>
+        </ModalWrapper>
+
+        <MusicModal
+          musicOpen={musicOpen}
+          musicModalOnOff={musicModalOnOff}
+          getMusicData={getMusicData}
+          musicChosen={musicChosen}
+          setMusicChosen={setMusicChosen}
+          style={{ display: "flex", position: "relative" }}
+          isEditing={isEditing}
+        />
+      </>
+    );
+  } else {
+    return (
+      <>
+        <ModalWrapper className="modal-wrapper">
+          <DiaryHeader
+            clickmoment={clickmoment}
+            emojiChosen={emojiChosen}
+            emojiModalOnOff={emojiModalOnOff}
+            emojiOpen={emojiOpen}
+            musicModalOnOff={musicModalOnOff}
+            whatEmoji={whatEmoji}
+            weatherData={weatherData}
+            weatherChosen={weatherChosen}
+            setWeatherChosen={setWeatherChosen}
+          />
+          {/* <Header className="header">
+            <HeaderDate className="date">
+              <span> {clickmoment.format("LL dddd")}</span>
+            </HeaderDate>
+
+            <HeaderEmoji className="emoji">
+              <FontAwesomeIcon
+                icon={emojiChosen ? emojiChosen.emoji : farSmile}
+                onClick={(e) => {
+                  emojiModalOnOff();
+                }}
+                style={{
+                  fontSize: 40,
+                  cursor: "pointer",
+                  color: emojiChosen ? emojiChosen.color : "#86888a",
+                  backgroundColor: "transparent",
+                }}
               />
-              글 공개
-            </span>
+              <EmojiModal
+                emojiModalOnOff={emojiModalOnOff}
+                emojiOpen={emojiOpen}
+                whatEmoji={whatEmoji}
+              ></EmojiModal>
+            </HeaderEmoji>
 
-            <FooterPost className="post" onClick={completeDiary}>
-              등록하기
-            </FooterPost>
-          </div>
-        </Footer>
-      </ModalWrapper>
+            <HeaderWeather className="weather">
+              <WeatherModal
+                weatherData={weatherData}
+                setWeatherChosen={setWeatherChosen}
+                weatherChosen={weatherChosen}
+              />
+            </HeaderWeather>
 
-      <MusicModal
-        musicOpen={musicOpen}
-        musicModalOnOff={musicModalOnOff}
-        getMusicData={getMusicData}
-        style={{ display: "flex", position: "relative" }}
-      />
-    </>
-  );
+            <button className="music_btn" onClick={musicModalOnOff}>
+              <FontAwesomeIcon
+                icon={faMusic}
+                style={{
+                  color: "#7a706d",
+                  fontSize: 20,
+                  border: "none",
+                  pointerEvents: "none",
+                }}
+              />
+            </button>
+
+            <button className="music_btn_up" onClick={musicModalOnOff}>
+              <FontAwesomeIcon
+                icon={faMusic}
+                style={{
+                  color: "#7a706d",
+                  fontSize: 20,
+                  border: "none",
+                  pointerEvents: "none",
+                }}
+              />
+            </button>
+          </Header> */}
+
+          <Painting canvasRef={canvasRef} musicModalOnOff={musicModalOnOff} />
+          <Text setDiaryText={diaryTextHandler} />
+          {/* <TextArea
+            className="textarea"
+            textAreaHeight={textAreaHeight}
+            ref={textRef}
+            placeholder="오늘은 어떠셨나요?"
+            onChange={(e) => {
+              setDiaryText(e.target.value);
+            }}
+          ></TextArea> */}
+
+          <Footer className="footer">
+            <FooterClose onClick={closeDiaryModal}>닫기</FooterClose>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <input
+                type="checkbox"
+                id="check_box"
+                onClick={() => {
+                  SetIsPublic(!isPublic);
+                }}
+              ></input>
+              <label
+                for="check_box"
+                className="private"
+                style={{
+                  fontSize: "1.5rem",
+                  color: "#605138",
+                  fontFamily: "var(--thick-font)",
+                  fontWeight: "800",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                글 공개
+              </label>
+
+              {/* <span
+                className="private"
+                style={{ fontSize: "1.5rem", color: "#605138" }}
+              >
+                <FooterPrivate
+                  type="checkbox"
+                  onClick={() => {
+                    SetIsPublic(!isPublic);
+                  }}
+                />
+                글 공개
+              </span> */}
+
+              <FooterPost className="post" onClick={completeDiary}>
+                등록하기
+              </FooterPost>
+            </div>
+          </Footer>
+        </ModalWrapper>
+
+        <MusicModal
+          musicOpen={musicOpen}
+          musicModalOnOff={musicModalOnOff}
+          getMusicData={getMusicData}
+          style={{ display: "flex", position: "relative" }}
+        />
+        <LoadingModal loadingModalOpen={loadingModalOpen} />
+      </>
+    );
+  }
 };
 
 //이렇게 써도됌
@@ -328,9 +685,10 @@ const ModalWrapper = styled.div`
 const Header = styled.div`
   border: none;
   display: flex;
+  position: relative;
   align-items: center;
   justify-content: space-between;
-  height: 4rem;
+  min-height: 4.5rem;
   background-color: #f7f8e7;
   background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
   border-top-right-radius: 1rem;
@@ -339,16 +697,16 @@ const Header = styled.div`
 
 const HeaderDate = styled.div`
   flex: 5 1 40%;
-  font-size: 1.7rem;
+  font-size: 2rem;
   font-family: var(--thick-font);
   text-align: center;
   font-weight: 700;
   color: #595b5c;
 
-  @media screen and (max-width: 550px) {
+  @media screen and (max-width: 570px) {
     & {
-      font-size: 1.6rem;
-      margin-left: 0.5rem;
+      font-size: 1.8rem;
+      margin-left: 1rem;
     }
   }
 `;
@@ -366,9 +724,16 @@ const HeaderEmoji = styled.div`
 const HeaderWeather = styled.div`
   flex: 5 1 40%;
   text-align: center;
+  font-size: 30;
   /* background-color: white; */
   /* border-radius: 1rem; */
   /* margin-right: 1rem; */
+
+  @media screen and (max-width: 570px) {
+    & {
+      margin-right: 0.2rem;
+    }
+  }
 `;
 
 const Canvas = styled.div`
@@ -384,7 +749,7 @@ const TextArea = styled.textarea`
   /* z-index: 1; */
   /* padding: 2.5rem; */
   border: none;
-  font-size: 1.8rem;
+  font-size: 1.7rem;
   outline: none;
   color: #7f7366;
   font-family: var(--thick-font);
@@ -392,9 +757,9 @@ const TextArea = styled.textarea`
   background-attachment: local;
   background-position: 0 0.5rem;
   background-image: url("https://www.transparenttextures.com/patterns/sandpaper.png"),
-    linear-gradient(to right, #f2ede3 3rem, transparent 3rem),
+    linear-gradient(to right, #f2ede3 0.5rem, transparent 0.5rem),
     //가로
-    linear-gradient(to left, #f2ede3 3rem, transparent 3rem),
+    linear-gradient(to left, #f2ede3 0.5rem, transparent 0.5rem),
     //가로
     repeating-linear-gradient(
         #f2ede3,
@@ -404,24 +769,15 @@ const TextArea = styled.textarea`
         white 3.4rem
       );
   line-height: 3.4rem;
-  padding: 1.2rem 3rem;
-
-  /* background-attachment: local;
-   background-position: 0 1.3rem;
-   background-image:
-   url("https://www.transparenttextures.com/patterns/sandpaper.png"),
-       linear-gradient(to right, #f2ede3 4rem, transparent 4rem), //가로
-     linear-gradient(to left, #f2ede3 4rem, transparent 4rem), //가로
-     repeating-linear-gradient(#f2ede3, #f2ede3 3.3rem, #b9a88c 3.3rem, #b9a88c 3.4rem, white 3.4rem);
-   line-height: 3.4rem;
-   padding: 2rem 4rem; */
+  letter-spacing: 0.5px;
+  padding: 0.6rem 4.5rem;
 `;
 
 const Footer = styled.div`
   border: none;
   background-color: #d2c4adf0;
   display: flex;
-  height: 4rem;
+  min-height: 4.5rem;
   justify-content: space-between;
   align-items: center;
   background-image: url("https://www.transparenttextures.com/patterns/cardboard-flat.png");
