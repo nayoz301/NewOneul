@@ -56,11 +56,11 @@ const mainReducer = (
         publicDiary: state.publicDiary.map((diary) =>
           diary.id === diaryId
             ? {
-                ...diary,
-                emphathies: diary.emphathies.filter(
-                  (empathy) => empathy.id !== empathyId
-                ),
-              }
+              ...diary,
+              emphathies: diary.emphathies.filter(
+                (empathy) => empathy.id !== empathyId
+              ),
+            }
             : diary
         ),
       };

@@ -36,8 +36,10 @@ export const ModalContainer = styled.div`
 `;
 
 export const Close = styled.button`
-  margin-left: 93%;
   border: none;
+  position: absolute;
+  left: 33.5rem;
+  top: 1.5rem;
 `;
 
 export const Wrapper = styled.div`

@@ -1,12 +1,11 @@
 import styled from "styled-components";
 
 export const BoxContainer = styled.div`
-  width: 40%;
+  width: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #FFFBF0;
 `;
 
 export const FormContainer = styled.form`
@@ -20,15 +19,10 @@ export const FormContainer = styled.form`
 `;
 
 export const ModalContainer = styled.div`
-  position: absolute;
-  min-width: 13%;
+  min-width: 35rem;
   height: 50rem;
-  left: 32%;
-  top: 55%;
-  transform: translate(-50%, -50%);
-  background-color: #FFFBF0;
+  background-color: #fff;
   padding: 4.2rem 4.4rem 4.8rem 4.4rem;
-  border: 3px groove #99C5FF;
   border-radius: 1.2rem;
   color: grey;
   font-family: var(--primary-font);
@@ -37,7 +31,6 @@ export const ModalContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  // z-index: 100;
 `;
 
 // export const Wrapper = styled.div`
@@ -91,14 +84,14 @@ export const ModifyBtn = styled.button`
   font-weight: 500;
   width: 100%;
   min-height: 4rem;
-  background-color: #DB7DC5;
+  background-color: #5999FF;
   color: white;
   border: none;
   border-radius: .7rem;
   margin-top: 2rem;
 
   &:hover {
-    background: #DB18B1;
+    background: #1C82FF;
   }
 `;
 
@@ -108,7 +101,7 @@ export const GoBackBtn = styled.button`
   font-weight: 500;
   width: 100%;
   min-height: 4rem;
-  background-color: #DB7DC5;
+  background-color: #5999FF;
   color: white;
   border: none;
   border-radius: .7rem;
@@ -116,6 +109,6 @@ export const GoBackBtn = styled.button`
   padding: 0 2rem;
 
   &:hover {
-    background: #DB18B1;
+    background: #1C82FF;
   }
 `;
