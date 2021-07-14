@@ -4,7 +4,7 @@ body .player-wrapper {
   justify-content: center;
   align-items: center;
   /* max-width: 35rem; */
-  min-height: 35vh;
+  /* min-height: 35vh; */
   min-width: 35rem;
   border-radius: 2rem;
   color: rgba(105, 97, 97, 0.555); /*배경글자색*/
