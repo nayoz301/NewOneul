@@ -24,6 +24,7 @@ const DiaryWriting = ({
   addNewPublicDiary,
   addNewPrivateDiary,
   selectedDiary,
+  passDiaryId
 }) => {
   const getSelectedImoji = () => {
     if (selectedDiary) {
@@ -34,6 +35,23 @@ const DiaryWriting = ({
 
   console.log("from parent");
   const selectedImoji = getSelectedImoji();
+
+  const getDateForm = () => {
+    if (selectedDiary) {
+      const date = new Date(selectedDiary.date);
+      const year = date.getFullYear() + "년"
+      const month = (date.getMonth() + 1) + "월"
+      const day = date.getDate() + "일"
+      const weekDays = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
+      const weekDay = date.getDay();
+      const weekDayForm = weekDays[weekDay];
+      return `${year} ${month} ${day} ${weekDayForm}`
+    };
+    return;
+  }
+
+  const selectedDate = getDateForm();
+
   const textRef = useRef();
   const canvasRef = useRef(null);
 
@@ -51,23 +69,23 @@ const DiaryWriting = ({
   const [modified, setModified] = useState({});
   const [loadingModalOpen, setLoadingModalOpen] = useState(false);
 
-  const loadingModalOnOff = (state) => {
-    setLoadingModalOpen(state);
-  };
-
   useEffect(() => {
     if (isEditing) {
       setModified({ ...modified, weather: weatherChosen });
     }
   }, [weatherChosen]);
 
-  // 개선해야 할 부분
+  const loadingModalOnOff = (state) => {
+    setLoadingModalOpen(state);
+  };
+
   useEffect(() => {
     if (selectedDiary) {
       setSelectedImage(selectedDiary.image);
       setIsWeatherSelected(true);
     }
   });
+  const [loading, setLoading] = useState(false);
 
   const emojiModalOnOff = useCallback(() => {
     //이모지 모달창 끄고 닫기
@@ -91,7 +109,6 @@ const DiaryWriting = ({
   const editDiary = () => {
     setIsEditing(true);
   };
-
   const canvasHeight = (window.innerWidth / 2) * 0.4;
   const textAreaHeight = window.innerHeight - 135 - canvasHeight;
 
@@ -110,6 +127,8 @@ const DiaryWriting = ({
   );
 
   const completeDiary = async () => {
+    loadingModalOnOff(true);
+
     if (emojiChosen.id && weatherChosen && diaryText && musicChosen) {
       loadingModalOnOff(true);
       await handleFileUpload(canvasRef, userInfo).then((res) => {
@@ -196,7 +215,7 @@ const DiaryWriting = ({
         <ModalWrapper className="modal-wrapper">
           <Header className="header">
             <HeaderDate className="date">
-              <span> {clickmoment.format("LL dddd")}</span>
+              <span> {selectedDate}</span>
             </HeaderDate>
 
             <HeaderEmoji className="emoji">
@@ -260,7 +279,11 @@ const DiaryWriting = ({
           />
 
           <Footer className="footer">
-            <FooterClose onClick={closeDiaryModal}>닫기</FooterClose>
+            <FooterClose 
+              onClick={() => {
+                closeDiaryModal()
+                passDiaryId(0)}}>
+              닫기</FooterClose>
             <div
               style={{
                 display: "flex",
@@ -284,10 +307,10 @@ const DiaryWriting = ({
                   ? "공개 일기입니다"
                   : "비공개 일기입니다"}
               </label>
-
-              <FooterPost className="post" onClick={editDiary}>
+              {selectedDiary.isOtherDiary !== true ? (<FooterPost className="post" onClick={editDiary}>
                 수정하기
-              </FooterPost>
+              </FooterPost>) : <FooterHide className="hidePost" />}
+              
             </div>
           </Footer>
         </ModalWrapper>
@@ -321,7 +344,7 @@ const DiaryWriting = ({
           /> */}
           <Header className="header">
             <HeaderDate className="date">
-              <span> {clickmoment.format("LL dddd")}</span>
+              <span> {selectedDate}</span>
             </HeaderDate>
 
             <HeaderEmoji className="emoji">
@@ -639,42 +662,36 @@ const ModalWrapper = styled.div`
   /* z-index: 50; */
   border-radius: 1rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-
   @media screen and (max-width: 1440px) {
     & {
       width: 67rem;
       height: 67rem;
     }
   }
-
   @media screen and (max-width: 760px) {
     & {
       width: 100%;
       height: 92%;
     }
   }
-
   @media screen and (max-width: 670px) {
     & {
       width: 100%;
       height: 92%;
     }
   }
-
   @media screen and (max-width: 600px) {
     & {
       width: 100%;
       height: 92%;
     }
   }
-
   @media screen and (max-width: 570px) {
     & {
       width: 100%;
       height: 92%;
     }
   }
-
   @media screen and (max-width: 500px) {
     & {
       height: 92%;
@@ -702,7 +719,6 @@ const HeaderDate = styled.div`
   text-align: center;
   font-weight: 700;
   color: #595b5c;
-
   @media screen and (max-width: 570px) {
     & {
       font-size: 1.8rem;
@@ -728,7 +744,6 @@ const HeaderWeather = styled.div`
   /* background-color: white; */
   /* border-radius: 1rem; */
   /* margin-right: 1rem; */
-
   @media screen and (max-width: 570px) {
     & {
       margin-right: 0.2rem;
@@ -753,7 +768,6 @@ const TextArea = styled.textarea`
   outline: none;
   color: #7f7366;
   font-family: var(--thick-font);
-
   background-attachment: local;
   background-position: 0 0.5rem;
   background-image: url("https://www.transparenttextures.com/patterns/sandpaper.png"),
@@ -796,7 +810,6 @@ const FooterClose = styled.button`
   font-size: 1.4rem;
   color: #d4c7b1;
   padding: 0.5rem 1.5rem;
-
   z-index: 201; //뮤직창이 200이다
   &:active {
     transform: scale(0.95);
@@ -807,7 +820,6 @@ const FooterPrivate = styled.input`
   display: inline-block;
   vertical-align: middle;
   margin: 0.5rem;
-
   font-size: 1.2rem;
   color: red;
   &:active {
@@ -826,7 +838,22 @@ const FooterPost = styled.button`
   font-family: var(--thick-font);
   font-size: 1.4rem;
   padding: 0.5rem 1.5rem;
+  &:active {
+    transform: scale(0.95);
+  }
+`;
 
+const FooterHide = styled.div`
+  color: rgba(255, 0, 0, 0);
+  border: none;
+  margin: 1rem 1rem;
+  padding: 0.6rem 1.5rem;
+  border-radius: 0.5rem;
+  background-color: #837970;
+  font-weight: 800;
+  font-family: var(--thick-font);
+  font-size: 1.4rem;
+  padding: 0.5rem 1.5rem;
   &:active {
     transform: scale(0.95);
   }
