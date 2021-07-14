@@ -7,7 +7,7 @@ import {
 } from "../../../styles/main/cards/OtherCards.style";
 import OtherCard from "./card/OtherCard";
 
-const OtherCards = ({ diary }) => {
+const OtherCards = ({ diary, closeDiaryModal, passDiaryId }) => {
   const { publicDiary } = diary;
 
   return (
@@ -15,7 +15,7 @@ const OtherCards = ({ diary }) => {
       <OtherDiaryHeader>타인의 오늘 .</OtherDiaryHeader>
       <OtherDiaryInnerWrapper>
         {publicDiary &&
-          publicDiary.map((d) => <OtherCard key={d.id} diary={d} />)}
+          publicDiary.map((d) => <OtherCard key={d.id} diary={d} closeDiaryModal={closeDiaryModal} passDiaryId={passDiaryId} />)}
       </OtherDiaryInnerWrapper>
     </OtherDiaryWrapper>
   );

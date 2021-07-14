@@ -15,11 +15,12 @@ import { icons } from "../../../../icons/icons";
 import { addEmpathy, removeEmpathy } from "../../../../actions";
 import axios from "axios";
 
-const OtherCard = ({ diary, userInfo, addEmpathy, removeEmpathy }) => {
+const OtherCard = ({ diary, userInfo, addEmpathy, removeEmpathy, closeDiaryModal, passDiaryId }) => {
   const { faceIcons, weatherIcons } = icons;
   const { id, nickname } = userInfo.userInfo;
   const { accessToken } = userInfo.login;
-  const { date, feeling, user, weather, emphathies } = diary;
+  const { date, image, feeling, user, weather, emphathies } = diary;
+  const { picture } = diary.user;
 
   const addEpt = (e) => {
     // stop Bubbling of Event
@@ -70,13 +71,15 @@ const OtherCard = ({ diary, userInfo, addEmpathy, removeEmpathy }) => {
   return (
     <OtherDiary
       onClick={() => {
-        console.log(diary.id);
+        passDiaryId(diary.id);
+        closeDiaryModal();
+        // console.log(diary.id);
       }}
     >
       <MyDiaryFrontHeader>
         {splitDate(date)[0]}년 {splitDate(date)[1]}월 {splitDate(date)[2]}일
       </MyDiaryFrontHeader>
-      <img src={user && user.picture} alt="" />
+      <img src={picture} alt="" />
       <NameSpan>{user && user.nickname}</NameSpan>
       <OtherDiaryIconWrapper>
         <Heart>
