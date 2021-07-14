@@ -28,37 +28,15 @@ const weathers = [
   { id: 5, weather: iosSnowy, color: "#44c7f4" },
 ];
 
-const WeathersBody = styled.div`
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  justify-content: space-around;
-  margin: auto 0;
-`;
-
-const WeatherUnit = styled.div`
-  font-size: 1.5rem;
-  text-align: center;
-  cursor: pointer;
-
-  &:hover {
-    transform: scale(1.1);
-  }
-
-  &:active {
-    transform: scale(1);
-  }
-`;
-
 const WeatherModal = ({
   weatherData,
   selectedWeatherId,
   isEditing,
-  setWeatherChosen,
+  // setWeatherChosen,
   weatherChosen,
-  isWeatherSelected,
-  setIsWeatherSelected,
 }) => {
+  console.log("from weather");
+
   useEffect(() => {
     weatherData(selectedWeatherId);
   }, [isEditing === false]);
@@ -120,7 +98,7 @@ const WeatherModal = ({
                     // size={idx === weatherChosen ? 35 : 32}
                     size={39}
                     onClick={() => {
-                      setWeatherChosen(weather.id);
+                      // setWeatherChosen(weather.id);
                       weatherData(weather.id);
                     }}
                     style={{
@@ -162,7 +140,7 @@ const WeatherModal = ({
                     // size={idx === weatherChosen ? 35 : 32}
                     size={39}
                     onClick={() => {
-                      setWeatherChosen(weather.id);
+                      // setWeatherChosen(weather.id);
                       weatherData(weather.id);
                     }}
                     style={{
@@ -188,4 +166,26 @@ const WeatherModal = ({
   }
 };
 
-export default WeatherModal;
+export default React.memo(WeatherModal);
+
+const WeathersBody = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-around;
+  margin: auto 0;
+`;
+
+const WeatherUnit = styled.div`
+  font-size: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(1);
+  }
+`;

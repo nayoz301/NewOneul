@@ -1,9 +1,7 @@
 import React from "react";
 import DiaryWriting from "./DiaryWriting";
 
-const DiaryModal = (props) => {
-  const { diaryOpen, diaryModalOnOff } = props;
-
+const DiaryModal = ({ diaryOpen, diaryModalOnOff }) => {
   return (
     <div className={diaryOpen ? "openModal modal" : "modal"}>
       <section>

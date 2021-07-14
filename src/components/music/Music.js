@@ -40,6 +40,7 @@ const Music = ({
   selectedMusicId,
   isEditing,
 }) => {
+  console.log("from music");
   const [pause, setPause] = useState(false);
   const [index, setIndex] = useState(0);
   const [currentTime, setCurrentTime] = useState("0:00");
@@ -752,4 +753,4 @@ const mapStateToProps = ({ mainReducer }) => {
   };
 };
 
-export default connect(mapStateToProps)(Music);
+export default connect(mapStateToProps)(React.memo(Music));
