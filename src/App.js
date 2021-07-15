@@ -40,8 +40,8 @@ function App({ login }) {
       ) : (
         <Switch>
           <Route path="/" exact>
-            <LoadingModal />
-            {/* <Landing /> */}
+            {/* <LoadingModal /> */}
+            <Landing />
           </Route>
           <Route path="/main">
             <Main />
