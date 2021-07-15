@@ -61,7 +61,7 @@ const MyCard = ({
         <MyDiaryFrontHeader>
           {splitDate(date)[0]}년 {splitDate(date)[1]}월 {splitDate(date)[2]}일
         </MyDiaryFrontHeader>
-        <img src={mypic} alt="" />
+        <img src={userInfo.userInfo.picture} alt="" />
         <IconWrapper>
           <FaceWeather>
             {weather && findEmj(weatherIcons, weather).icon}

@@ -112,6 +112,16 @@ const DiaryWriting = ({
   });
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (selectedDiary) {
+      SetIsPublic(selectedDiary.isPublic);
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log("public 반영되나요? " + isPublic);
+  });
+
   const emojiModalOnOff = useCallback(() => {
     //이모지 모달창 끄고 닫기
     setEmojiOpen(!emojiOpen);
@@ -540,13 +550,25 @@ const DiaryWriting = ({
                 alignItems: "center",
               }}
             >
-              <input
-                type="checkbox"
-                id="check_box"
-                onChange={() => {
-                  SetIsPublic(!isPublic);
-                }}
-              ></input>
+              {isPublic === false ? (
+                <input
+                  type="checkbox"
+                  id="check_box"
+                  onChange={() => {
+                    SetIsPublic(!isPublic);
+                  }}
+                ></input>
+              ) : (
+                <input
+                  type="checkbox"
+                  id="check_box"
+                  checked="true"
+                  onChange={() => {
+                    SetIsPublic(!isPublic);
+                  }}
+                ></input>
+              )}
+
               <label
                 for="check_box"
                 className="private"
@@ -870,7 +892,7 @@ const FooterHide = styled.div`
   margin: 1rem 1rem;
   padding: 0.6rem 1.5rem;
   border-radius: 0.5rem;
-  background-color: #837970;
+  background-color: rgba(255, 0, 0, 0);
   font-weight: 800;
   font-family: var(--thick-font);
   font-size: 1.4rem;
