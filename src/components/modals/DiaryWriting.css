@@ -69,11 +69,11 @@
   padding: 0.2em;
 }
 
-input[type="checkbox"] {
+#check_box [type="checkbox"] {
   display: none;
 }
 
-input[type="checkbox"] + label:before {
+#check_box [type="checkbox"] + label:before {
   content: "";
   border: 0.1rem solid #827870;
   border-radius: 50%;
@@ -87,11 +87,11 @@ input[type="checkbox"] + label:before {
   transition: 0.2s;
 }
 
-input[type="checkbox"] + label:active:before {
+#check_box [type="checkbox"] + label:active:before {
   transform: scale(0);
 }
 
-input[type="checkbox"]:checked + label:before {
+#check_box [type="checkbox"]:checked + label:before {
   background-color: #837970;
   border-color: #837970;
   color: #fff;
