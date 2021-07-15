@@ -15,22 +15,20 @@
   top: 13rem;
   left: 47.3vmax;
   cursor: pointer;
-  background-color: #fff;
-  color: #000;
-  border: 3px groove #5999FF;
+  background: #FF75C8;
+  color: #fff;
   border-bottom-right-radius: 1rem;
   border-top-right-radius: 1rem;
   height: 10rem;
   width: 3rem;
   text-align: center;
-  padding-top: .5rem;
+  padding-top: 1rem;
   box-shadow: 10px 5px 5px #D3CCDB;
-  margin-left: .7rem;
+  margin-left: 1rem;
   z-index: 1;
 }
 #diary ~ label:hover {
-  background: #5999FF;
-  color: #fff;
+  background-color: #FFA3D1;
 }
 
 #diary ~ nav {
@@ -40,8 +38,65 @@
   margin-left: 1rem;
 }
 
-/* @media only screen and (max-width: 940) {
-  #diary ~ * {
-    position: relative;
+@media screen and (max-width: 1030px) {
+  #diary:checked ~ * {
+    transform: translate3d(35vmax, 0, 0);
   }
-} */
+  
+  #diary ~ label {
+    font-size: 1.8rem;
+    top: 13rem;
+    left: 46.6vmax;
+    cursor: pointer;
+  
+  }
+  #diary ~ label:hover {
+    background-color: #FFA3D1;
+  }
+  
+  #diary ~ nav {
+    width: 37vmax;
+    left: 8vmax;
+    top: 11.045rem;
+    margin-left: 1rem;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  #diary:checked ~ * {
+    transform: translate3d(32vmax, 0, 0);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #diary:checked ~ * {
+    transform: translate3d(0, 65vmax, 0);
+  }
+  #diary ~ label {
+    font-size: 1.8rem;
+    top: 13rem;
+    left: 47.8vmax;
+    cursor: pointer;
+    background: #FF75C8;
+    color: #fff;
+    border-bottom-right-radius: 1rem;
+    border-top-right-radius: 1rem;
+    height: 10rem;
+    width: 3rem;
+    text-align: center;
+    padding-top: 1rem;
+    box-shadow: 10px 5px 5px #D3CCDB;
+    margin-left: 1rem;
+    z-index: 1;
+  }
+  #diary ~ label:visited {
+    left: 46vmax;
+  }
+ 
+  #diary ~ nav {
+    width: 37vmax;
+    left: 9.5vmax;
+    top: 12rem;
+    margin-left: 1rem;
+  }
+}
