@@ -1,17 +1,22 @@
 import React from "react";
-// import "./LoadingPage.css";
+import {
+  LoadingWrapper,
+  LoaderBook,
+  Page,
+  Text,
+} from "../../styles/loading/Loading.style";
 
 const LoadingPage = () => {
   return (
     <>
-      <div className="Loading_wrapper">
-        <div className="loader book">
-          <figure className="page"></figure>
-          <figure className="page"></figure>
-          <figure className="page"></figure>
-        </div>
-        <h1 className="text">오늘하러 출발</h1>
-      </div>
+      <LoadingWrapper>
+        <LoaderBook>
+          <Page></Page>
+          <Page></Page>
+          <Page></Page>
+        </LoaderBook>
+        <Text>오늘하러 출발</Text>
+      </LoadingWrapper>
     </>
   );
 };

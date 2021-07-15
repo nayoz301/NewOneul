@@ -7,12 +7,10 @@ import {
   faFillDrip,
   faEraser,
 } from "@fortawesome/free-solid-svg-icons";
-import { faMusic } from "@fortawesome/free-solid-svg-icons";
 import {
   faImage as farImage,
   faStickyNote as farStickyNote,
 } from "@fortawesome/free-regular-svg-icons";
-import s3 from "../../upload/s3";
 let arr_Colors = [
   "#e32119",
   "#ff3b30",
@@ -40,7 +38,13 @@ let arr_Colors = [
   "#2c2c2c",
 ];
 
-const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
+const Painting = ({
+  canvasRef,
+  musicModalOnOff,
+  selectedImage,
+  isEditing,
+  paintingChangeCheck,
+}) => {
   const [filling, setFilling] = useState(false);
   const [painting, setPainting] = useState(false);
   const [eraser, setEraser] = useState(false);
@@ -124,6 +128,7 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
       const ctx = canvas.getContext("2d");
       var img = new Image();
       img.src = selectedImage;
+      img.crossOrigin = "*";
 
       img.onload = function () {
         ctx.drawImage(img, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -223,6 +228,9 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
 
   //내꺼
   const startPainting = () => {
+    if (isEditing) {
+      paintingChangeCheck();
+    }
     if (eraser === true) {
       setPainting(false);
       setErasing(true);
