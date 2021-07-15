@@ -17,7 +17,7 @@ import {
 
 import "./Music.css";
 import SelectBar from "./SelectBar";
-import musics from "./musics";
+// import musics from "./musics";
 import { connect } from "react-redux";
 
 const music = [
@@ -49,9 +49,9 @@ const Music = ({
   const [genre, setGenre] = useState("");
   const [genreList, setGenreList] = useState("");
   const [selectedSong, setSelectedSong] = useState(null);
-  const [volume, setVolume] = useState(0.03);
+  const [volume, setVolume] = useState(0.05);
   const [muteState, setMuteState] = useState(false);
-  const [currentSong, setCurrentSong] = useState(musics[index]);
+  const [currentSong, setCurrentSong] = useState(musicList.musicList[index]);
 
   let playerRef = useRef();
   let timelineRef = useRef();
@@ -60,6 +60,20 @@ const Music = ({
   let volumeControllerRef = useRef(); //볼륨 슬라이더 보임 안보임 효과 때문에 넣었음
 
   console.log("선택한 장르", genre);
+
+  useEffect(() => {
+    if (selectedMusicId) {
+      return setCurrentSong(selectedMusic);
+    }
+  });
+
+  useEffect(() => {
+    if (selectedMusic && isEditing === false) {
+      setPause(true);
+    }
+  }, [isEditing]);
+
+  console.log("셀릭티드 뮤직아이디:::", selectedMusicId);
 
   const getSelectedMusic = () => {
     if (selectedMusicId !== undefined) {
@@ -152,12 +166,6 @@ const Music = ({
     // };
   });
 
-  useEffect(() => {
-    if (selectedMusicId) {
-      return setCurrentSong(selectedMusic);
-    }
-  });
-
   const changeCurrentTime = (e) => {
     //재생시간바 시간 이동하기
     const duration = playerRef.current.duration; //duration 동영상의 길이
@@ -185,6 +193,12 @@ const Music = ({
       playheadRef.current.style.width = playPercent + "%";
       const currentTime = formatTime(parseInt(playerRef.current.currentTime));
       setCurrentTime(currentTime);
+      console.log("타임업데이트 ", playheadRef.current.style.width);
+      //여기 실험
+      // if (playheadRef.current.style.width === "100%") {
+      //   console.log("백프로!");
+      //   updatePlayer();
+      // }
     }
   };
 
@@ -222,18 +236,17 @@ const Music = ({
   };
 
   const updatePlayer = () => {
-    if (playerRef.current !== null) {
-      setCurrentSong(filtered[index]);
-      // const audio = new Audio(currentSong.audio);
-      playerRef.current.load();
-    }
+    setCurrentSong(filtered[index]);
+    // const audio = new Audio(currentSong.audio);
+    console.log("실험", playerRef.current);
+    playerRef.current && playerRef.current.load();
   };
 
   const nextSong = () => {
     setIndex((index + 1) % filtered.length);
     updatePlayer();
     if (pause) {
-      playerRef.current.play();
+      playerRef.current && playerRef.current.play();
     }
   };
 
@@ -241,7 +254,7 @@ const Music = ({
     setIndex((index + filtered.length - 1) % filtered.length);
     updatePlayer();
     if (pause) {
-      playerRef.current.play();
+      playerRef.current && playerRef.current.play();
     }
   };
 
@@ -280,13 +293,6 @@ const Music = ({
     setFiltered(filteredList);
     setIndex(0);
   }, [genre]);
-
-  useEffect(() => {
-    if (selectedMusic && isEditing === false) {
-      setPause(true);
-    }
-    console.log("실험", pause);
-  }, [isEditing]);
 
   if (selectedMusic && isEditing === false) {
     return (

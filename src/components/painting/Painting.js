@@ -60,16 +60,18 @@ const Painting = ({ canvasRef, musicModalOnOff, selectedImage, isEditing }) => {
   const CANVAS_WIDTH = 1000;
   const CANVAS_HEIGHT = 500;
 
+  const [paintModified, setPaintModified] = useState(false);
+  const modifiedStatus = () => {
+    setPaintModified(!paintModified);
+  };
+
   // const CANVAS_WIDTH = window.innerWidth / 2;
   // const CANVAS_HEIGHT = window.innerWidth / 4;
 
   // console.log("가로/세로:", window.innerWidth / 2, window.innerWidth / 4);
 
   //세이브파일 구현 완료
-  const [selectedFile, setSelectedFile] = useState(null);
-  function handleUploadClick(e) {
-    setSelectedFile(e.target.files[0]);
-  }
+
   // const handlePost = async () => { //이건 그냥 업로드할 때 쓰는 함수
   //   if (selectedFile) {
   //     const img = new FormData();
