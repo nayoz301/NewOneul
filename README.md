@@ -17,7 +17,7 @@ O_Neul입니다.
   ## [https://oneul.site](https://oneul.site)
     
   > ## 기능 소개 
-   
+   ## gif 추가 예정입니다.
    
    > ## 진행기간
   21.06.21 ~ 21.07.18
