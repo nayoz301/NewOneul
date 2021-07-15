@@ -73,7 +73,12 @@ width: 37vmax;
   @media screen and (max-width: 768px) {
     width: 37vmax;
     height: 65vh;
-    box-shadow: 10px 5px 5px #D3CCDB;
+    box-shadow: 2px 5px 5px #D3CCDB;
+    flex-direction: column;
+    position: absolute;
+    width: 37vmax;
+    left: 10.5vmax;
+    top: 11.045rem;
   }
   box-shadow: 1px 5px 5px #D3CCDB;
 `;
@@ -101,12 +106,16 @@ align-items: center;
 // background-color: #FFFBF0;
 background-color: #fff;
 padding-top: 2.5rem;
-margin-left: 1.5rem;
+margin-left: 1rem;
 box-shadow: 10px 5px 5px #D3CCDB;
 
 @media screen and (max-width: 945px) {
   width: 37vmax;
   top: 11.045rem;
+}
+@media screen and (max-width: 768px) {
+  flex-direction: column;
+  height: 65vh;
 }
 `;
 

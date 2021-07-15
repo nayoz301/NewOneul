@@ -40,6 +40,15 @@ export const UserContentForm = styled.div`
   background-color: #fff;
   margin-bottom: 2.5rem;
   color: #000;
+  
+  @media screen and (max-width: 945px) {
+    width: 37vmax;
+    top: 11.045rem;
+  }
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    height: 65vh;
+  }
 `;
 
 export const Button = styled.button`
