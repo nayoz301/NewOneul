@@ -10,12 +10,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./DiaryWriting.css";
 import { connect } from "react-redux";
 import emojis from "../../icons/imojis";
-import { addNewPublicDiary, addNewPrivateDiary } from "../../actions";
+import {
+  addNewPublicDiary,
+  addNewPrivateDiary,
+  modifyDiary,
+  modifyPublicDiary,
+  changeToPublic,
+  changeToPrivate,
+} from "../../actions";
 import LoadingModal from "./LoadingModal";
 import { faMusic } from "@fortawesome/free-solid-svg-icons";
-import { handleFileUpload } from "./diaryfunc";
+import { diffCheck, handleFileUpload } from "./diaryfunc";
 import Text from "./Text";
 import DiaryHeader from "./DiaryHeader";
+import modifyAxios from "./modifyFunction";
 
 const DiaryWriting = ({
   clickmoment,
@@ -25,6 +33,10 @@ const DiaryWriting = ({
   addNewPrivateDiary,
   selectedDiary,
   passDiaryId,
+  modifyDiary,
+  modifyPublicDiary,
+  changeToPrivate,
+  changeToPublic,
 }) => {
   const getSelectedImoji = () => {
     if (selectedDiary) {
@@ -33,7 +45,6 @@ const DiaryWriting = ({
     return;
   };
 
-  console.log("from parent");
   const selectedImoji = getSelectedImoji();
 
   const getDateForm = () => {
@@ -66,22 +77,28 @@ const DiaryWriting = ({
   const [emojiOpen, setEmojiOpen] = useState(false); //모달창 오픈 클로즈
   const [emojiChosen, SetEmojiChosen] = useState(0); //선택한 이모티콘 정보 여기 담김
   const [musicOpen, setMusicOpen] = useState(false);
-  const [isPublic, SetIsPublic] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isPublic, SetIsPublic] = useState(() => {
+    if (isEditing) {
+      return selectedDiary.isPublic;
+    }
+    return false;
+  });
   const [diaryText, setDiaryText] = useState("");
   const [weatherChosen, setWeatherChosen] = useState(null);
   const [musicChosen, setMusicChosen] = useState(null);
   const [dataFromServer, setDataFromServer] = useState(null);
-  const [isEditing, setIsEditing] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [isWeatherSelected, setIsWeatherSelected] = useState(false);
-  const [modified, setModified] = useState({});
   const [loadingModalOpen, setLoadingModalOpen] = useState(false);
+  const [paintingChange, setPaintingChange] = useState(false);
 
-  useEffect(() => {
-    if (isEditing) {
-      setModified({ ...modified, weather: weatherChosen });
+  const paintingChangeCheck = useCallback(() => {
+    if (paintingChange) {
+      return;
     }
-  }, [weatherChosen]);
+    setPaintingChange(true);
+  }, [paintingChange]);
 
   const loadingModalOnOff = (state) => {
     setLoadingModalOpen(state);
@@ -135,13 +152,10 @@ const DiaryWriting = ({
   );
 
   const completeDiary = async () => {
-    loadingModalOnOff(true);
-
     if (emojiChosen.id && weatherChosen && diaryText && musicChosen) {
       loadingModalOnOff(true);
       await handleFileUpload(canvasRef, userInfo).then((res) => {
         const url = res.Location;
-
         return axios
           .post(
             "https://oneul.site/O_NeulServer/diary/write",
@@ -198,17 +212,108 @@ const DiaryWriting = ({
     }
   };
 
-  const recompleteDiary = () => {
-    console.log(selectedDiary);
-    setIsEditing(false);
+  const recompleteDiary = async () => {
+    const url = "https://oneul.site/O_NeulServer/diary/edit";
+
+    const diffObj = diffCheck(
+      selectedDiary,
+      diaryText,
+      weatherChosen,
+      musicChosen,
+      emojiChosen,
+      isPublic
+    );
+
+    loadingModalOnOff(true);
+    let uploadUrl =
+      paintingChange && (await handleFileUpload(canvasRef, userInfo));
+    if (!uploadUrl && !diffObj) {
+      // 아무것도 변경 안 했을 때 !
+      loadingModalOnOff(false);
+      return setIsEditing(false);
+    } else if (uploadUrl && !diffObj) {
+      // 그림만 그린 경우
+      return modifyAxios(
+        url,
+        { image: uploadUrl.Location, diaryId: selectedDiary.id },
+        userInfo
+      )
+        .then((res) => res.data.data)
+        .then((data) => {
+          if (data.isPublic) {
+            modifyPublicDiary(data.id, data);
+          } else {
+            modifyDiary(data.id, data);
+          }
+          loadingModalOnOff(false);
+          setIsEditing(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          loadingModalOnOff(false);
+        });
+    } else if (!uploadUrl && diffObj) {
+      // 그림 빼고 바꿨을 때
+      return modifyAxios(
+        url,
+        { ...diffObj, diaryId: selectedDiary.id },
+        userInfo
+      )
+        .then((res) => res.data.data)
+        .then((data) => {
+          if (selectedDiary.isPublic && !data.isPublic) {
+            changeToPrivate(data.id);
+            modifyDiary(data.id, data);
+          } else if (!selectedDiary.isPublic && data.isPublic) {
+            changeToPublic(data);
+            modifyPublicDiary(data.id, data);
+          } else if (data.isPublic) {
+            modifyDiary(data.id, data);
+          } else {
+            modifyPublicDiary(data.id, data);
+          }
+          loadingModalOnOff(false);
+          setIsEditing(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          loadingModalOnOff(false);
+        });
+    } else {
+      return modifyAxios(
+        url,
+        { image: uploadUrl.Location, ...diffObj, diaryId: selectedDiary.id },
+        userInfo
+      )
+        .then((res) => res.data.data)
+        .then((data) => {
+          if (selectedDiary.isPublic && !data.isPublic) {
+            changeToPrivate(data.id);
+            modifyDiary(data.id, data);
+          } else if (!selectedDiary.isPublic && data.isPublic) {
+            changeToPublic(data);
+            modifyPublicDiary(data.id, data);
+          } else if (data.isPublic) {
+            modifyDiary(data.id, data);
+          } else {
+            modifyPublicDiary(data.id, data);
+          }
+          loadingModalOnOff(false);
+          setIsEditing(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          loadingModalOnOff(false);
+        });
+    }
   };
 
-  // console.log("text", diaryText);
-  // console.log("weather", weatherChosen);
-  // console.log("emoji", emojiChosen);
+  console.log("text", diaryText);
+  console.log("weather", weatherChosen);
+  console.log("emoji", emojiChosen);
   // console.log("date", clickmoment.format("YYYY-M-D"));
-  // console.log("private", isPublic);
-  // console.log("music", Number(musicChosen));
+  console.log("private", isPublic);
+  console.log("music", musicChosen);
 
   const diaryTextHandler = useCallback(
     (text) => {
@@ -345,17 +450,6 @@ const DiaryWriting = ({
     return (
       <>
         <ModalWrapper className="modal-wrapper">
-          {/* <DiaryHeader
-            clickmoment={clickmoment}
-            emojiChosen={emojiChosen}
-            emojiModalOnOff={emojiModalOnOff}
-            emojiOpen={emojiOpen}
-            musicModalOnOff={musicModalOnOff}
-            whatEmoji={whatEmoji}
-            weatherData={weatherData}
-            weatherChosen={weatherChosen}
-            setWeatherChosen={setWeatherChosen}
-          /> */}
           <Header className="header">
             <HeaderDate className="date">
               <span> {selectedDate}</span>
@@ -423,19 +517,19 @@ const DiaryWriting = ({
             musicModalOnOff={musicModalOnOff}
             isEditing={isEditing}
             selectedImage={selectedImage}
+            paintingChangeCheck={paintingChangeCheck}
           />
 
           <TextArea
             className="textarea"
             textAreaHeight={textAreaHeight}
             ref={textRef}
+            defaultValue={selectedDiary.text}
             placeholder="오늘은 어떠셨나요?"
             onChange={(e) => {
               setDiaryText(e.target.value);
             }}
-          >
-            {selectedDiary.text}
-          </TextArea>
+          />
 
           <Footer className="footer">
             <FooterClose onClick={closeDiaryModal}>닫기</FooterClose>
@@ -449,7 +543,7 @@ const DiaryWriting = ({
               <input
                 type="checkbox"
                 id="check_box"
-                onClick={() => {
+                onChange={() => {
                   SetIsPublic(!isPublic);
                 }}
               ></input>
@@ -467,19 +561,6 @@ const DiaryWriting = ({
               >
                 글 공개
               </label>
-              {/* <span
-                className="private"
-                style={{ fontSize: "1.5rem", color: "#605138" }}
-              >
-                <FooterPrivate
-                  type="checkbox"
-                  onClick={() => {
-                    SetIsPublic(!isPublic);
-                  }}
-                />
-                글 공개
-              </span> */}
-
               <FooterPost className="post" onClick={recompleteDiary}>
                 재등록하기
               </FooterPost>
@@ -496,6 +577,8 @@ const DiaryWriting = ({
           style={{ display: "flex", position: "relative" }}
           isEditing={isEditing}
         />
+
+        <LoadingModal loadingModalOpen={loadingModalOpen} />
       </>
     );
   } else {
@@ -513,75 +596,9 @@ const DiaryWriting = ({
             weatherChosen={weatherChosen}
             setWeatherChosen={setWeatherChosen}
           />
-          {/* <Header className="header">
-            <HeaderDate className="date">
-              <span> {clickmoment.format("LL dddd")}</span>
-            </HeaderDate>
-
-            <HeaderEmoji className="emoji">
-              <FontAwesomeIcon
-                icon={emojiChosen ? emojiChosen.emoji : farSmile}
-                onClick={(e) => {
-                  emojiModalOnOff();
-                }}
-                style={{
-                  fontSize: 40,
-                  cursor: "pointer",
-                  color: emojiChosen ? emojiChosen.color : "#86888a",
-                  backgroundColor: "transparent",
-                }}
-              />
-              <EmojiModal
-                emojiModalOnOff={emojiModalOnOff}
-                emojiOpen={emojiOpen}
-                whatEmoji={whatEmoji}
-              ></EmojiModal>
-            </HeaderEmoji>
-
-            <HeaderWeather className="weather">
-              <WeatherModal
-                weatherData={weatherData}
-                setWeatherChosen={setWeatherChosen}
-                weatherChosen={weatherChosen}
-              />
-            </HeaderWeather>
-
-            <button className="music_btn" onClick={musicModalOnOff}>
-              <FontAwesomeIcon
-                icon={faMusic}
-                style={{
-                  color: "#7a706d",
-                  fontSize: 20,
-                  border: "none",
-                  pointerEvents: "none",
-                }}
-              />
-            </button>
-
-            <button className="music_btn_up" onClick={musicModalOnOff}>
-              <FontAwesomeIcon
-                icon={faMusic}
-                style={{
-                  color: "#7a706d",
-                  fontSize: 20,
-                  border: "none",
-                  pointerEvents: "none",
-                }}
-              />
-            </button>
-          </Header> */}
 
           <Painting canvasRef={canvasRef} musicModalOnOff={musicModalOnOff} />
           <Text setDiaryText={diaryTextHandler} />
-          {/* <TextArea
-            className="textarea"
-            textAreaHeight={textAreaHeight}
-            ref={textRef}
-            placeholder="오늘은 어떠셨나요?"
-            onChange={(e) => {
-              setDiaryText(e.target.value);
-            }}
-          ></TextArea> */}
 
           <Footer className="footer">
             <FooterClose onClick={closeDiaryModal}>닫기</FooterClose>
@@ -613,20 +630,6 @@ const DiaryWriting = ({
               >
                 글 공개
               </label>
-
-              {/* <span
-                className="private"
-                style={{ fontSize: "1.5rem", color: "#605138" }}
-              >
-                <FooterPrivate
-                  type="checkbox"
-                  onClick={() => {
-                    SetIsPublic(!isPublic);
-                  }}
-                />
-                글 공개
-              </span> */}
-
               <FooterPost className="post" onClick={completeDiary}>
                 등록하기
               </FooterPost>
@@ -664,6 +667,10 @@ const mapStateToProps = ({ loginReducer }) => {
 export default connect(mapStateToProps, {
   addNewPublicDiary,
   addNewPrivateDiary,
+  modifyDiary,
+  modifyPublicDiary,
+  changeToPrivate,
+  changeToPublic,
 })(DiaryWriting);
 
 const ModalWrapper = styled.div`

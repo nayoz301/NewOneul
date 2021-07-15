@@ -5,29 +5,32 @@ import DiaryWriting from "../modals/DiaryWriting";
 import { connect } from "react-redux";
 import "aos/dist/aos.css";
 
-const Diary = ({ closeDiaryModal, clickmoment, diary, selectedDiaryId, passDiaryId }) => {
- 
+const Diary = ({
+  closeDiaryModal,
+  clickmoment,
+  diary,
+  selectedDiaryId,
+  passDiaryId,
+}) => {
   const filterDiary = () => {
     if (selectedDiaryId) {
       const otherDiary = diary.publicDiary.filter(
         (el) => el.id === selectedDiaryId
       )[0];
       otherDiary.isOtherDiary = true;
-      return otherDiary
+      return otherDiary;
     } else if (clickmoment) {
       return diary.myDiary.filter(
         (el) => el.date === clickmoment.format("YYYY-M-D")
       )[0];
     }
-  }
-
-  
+  };
 
   const selectedDiary = filterDiary();
-  
+
   useEffect(() => {
-    console.log(selectedDiary)
-  })
+    console.log(selectedDiary);
+  });
 
   return (
     <Diarybackground data-aos={"zoom"} data-aos-duration={"500"}>

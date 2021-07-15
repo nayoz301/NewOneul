@@ -1,17 +1,22 @@
 import React from "react";
-import "./Loading.css";
+import {
+  LoadingWrapper,
+  LoaderBook,
+  Page,
+  Text,
+} from "../../styles/loading/Loading.style";
 
 const Loading = () => {
   return (
     <>
-      <div className="Loading_wrapper">
-        <div className="loader book">
-          <figure className="page"></figure>
-          <figure className="page"></figure>
-          <figure className="page"></figure>
-        </div>
-        <h1 className="text">오늘을 담는 중</h1>
-      </div>
+      <LoadingWrapper modal={true}>
+        <LoaderBook modal={true}>
+          <Page modal={true}></Page>
+          <Page modal={true}></Page>
+          <Page modal={true}></Page>
+        </LoaderBook>
+        <Text modal={true}>오늘을 담는 중</Text>
+      </LoadingWrapper>
     </>
   );
 };
