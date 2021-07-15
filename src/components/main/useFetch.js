@@ -1,37 +1,19 @@
-import { useEffect } from "react";
 import axios from "axios";
 
-const useFetch = (url, userInfo, fetchAllLoginDiary, fetchAllUnloginDiary) => {
-  useEffect(() => {
-    return axios(
-      url,
-      {
-        headers: {
-          authorization: "Bearer " + userInfo.login.accessToken,
-        },
+const url = "https://oneul.site/O_NeulServer/main";
+
+const fetchAxios = (userInfo) => {
+  return axios(
+    url,
+    {
+      headers: {
+        authorization: "Bearer " + userInfo.login.accessToken,
       },
-      {
-        withCredentials: true,
-      }
-    )
-      .then((data) => {
-        return data.data.data;
-      })
-      .then((result) => {
-        if (userInfo.login.accessToken) {
-          return fetchAllLoginDiary(
-            result.publicDiary,
-            result.myDiary,
-            result.musicList
-          );
-        } else {
-          return fetchAllUnloginDiary(result.publicDiary, result.musicList);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [url]);
+    },
+    {
+      withCredentials: true,
+    }
+  ).then((res) => res.data.data);
 };
 
-export default useFetch;
+export default fetchAxios;

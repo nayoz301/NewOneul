@@ -262,15 +262,15 @@ const DiaryWriting = ({
         .then((res) => res.data.data)
         .then((data) => {
           if (selectedDiary.isPublic && !data.isPublic) {
+            modifyDiary(data.id, data);
             changeToPrivate(data.id);
-            modifyDiary(data.id, data);
           } else if (!selectedDiary.isPublic && data.isPublic) {
+            modifyPublicDiary(data.id, data);
             changeToPublic(data);
-            modifyPublicDiary(data.id, data);
           } else if (data.isPublic) {
-            modifyDiary(data.id, data);
-          } else {
             modifyPublicDiary(data.id, data);
+          } else {
+            modifyDiary(data.id, data);
           }
           loadingModalOnOff(false);
           setIsEditing(false);
@@ -288,15 +288,15 @@ const DiaryWriting = ({
         .then((res) => res.data.data)
         .then((data) => {
           if (selectedDiary.isPublic && !data.isPublic) {
+            modifyDiary(data.id, data);
             changeToPrivate(data.id);
-            modifyDiary(data.id, data);
           } else if (!selectedDiary.isPublic && data.isPublic) {
+            modifyPublicDiary(data.id, data);
             changeToPublic(data);
-            modifyPublicDiary(data.id, data);
           } else if (data.isPublic) {
-            modifyDiary(data.id, data);
-          } else {
             modifyPublicDiary(data.id, data);
+          } else {
+            modifyDiary(data.id, data);
           }
           loadingModalOnOff(false);
           setIsEditing(false);
