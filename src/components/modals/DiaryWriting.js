@@ -24,7 +24,7 @@ const DiaryWriting = ({
   addNewPublicDiary,
   addNewPrivateDiary,
   selectedDiary,
-  passDiaryId
+  passDiaryId,
 }) => {
   const getSelectedImoji = () => {
     if (selectedDiary) {
@@ -39,16 +39,24 @@ const DiaryWriting = ({
   const getDateForm = () => {
     if (selectedDiary) {
       const date = new Date(selectedDiary.date);
-      const year = date.getFullYear() + "년"
-      const month = (date.getMonth() + 1) + "월"
-      const day = date.getDate() + "일"
-      const weekDays = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
+      const year = date.getFullYear() + "년";
+      const month = date.getMonth() + 1 + "월";
+      const day = date.getDate() + "일";
+      const weekDays = [
+        "일요일",
+        "월요일",
+        "화요일",
+        "수요일",
+        "목요일",
+        "금요일",
+        "토요일",
+      ];
       const weekDay = date.getDay();
       const weekDayForm = weekDays[weekDay];
-      return `${year} ${month} ${day} ${weekDayForm}`
-    };
+      return `${year} ${month} ${day} ${weekDayForm}`;
+    }
     return;
-  }
+  };
 
   const selectedDate = getDateForm();
 
@@ -279,11 +287,14 @@ const DiaryWriting = ({
           />
 
           <Footer className="footer">
-            <FooterClose 
+            <FooterClose
               onClick={() => {
-                closeDiaryModal()
-                passDiaryId(0)}}>
-              닫기</FooterClose>
+                closeDiaryModal();
+                passDiaryId(0);
+              }}
+            >
+              닫기
+            </FooterClose>
             <div
               style={{
                 display: "flex",
@@ -307,10 +318,13 @@ const DiaryWriting = ({
                   ? "공개 일기입니다"
                   : "비공개 일기입니다"}
               </label>
-              {selectedDiary.isOtherDiary !== true ? (<FooterPost className="post" onClick={editDiary}>
-                수정하기
-              </FooterPost>) : <FooterHide className="hidePost" />}
-              
+              {selectedDiary.isOtherDiary !== true ? (
+                <FooterPost className="post" onClick={editDiary}>
+                  수정하기
+                </FooterPost>
+              ) : (
+                <FooterHide className="hidePost" />
+              )}
             </div>
           </Footer>
         </ModalWrapper>
