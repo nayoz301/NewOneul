@@ -27,6 +27,10 @@ export const Div = styled.div`
   display: flex;
   justify-content: flex-end;
   padding: 0 8rem;
+
+  @media screen and (max-width: 768px) {
+    margin-top: 1.5rem;
+  }
   `;
 
 export const UserContentForm = styled.div`
@@ -47,7 +51,7 @@ export const UserContentForm = styled.div`
   }
   @media screen and (max-width: 768px) {
     flex-direction: column;
-    height: 65vh;
+    height: 75vh;
   }
 `;
 

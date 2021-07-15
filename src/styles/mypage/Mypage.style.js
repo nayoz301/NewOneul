@@ -12,11 +12,9 @@ export const BoxContainer = styled.div`
 
 export const FormContainer = styled.form`
   font-size: 2rem;
-  width: 80vmax;
+  width: 75vmax;
   height: 100%;
   margin: 10rem 0 1rem 0;
-  // background-color: #DBC5CD;
-  // border: .3rem groove #DBC5CD;
   border-radius: 1rem;
   color: #000;
   font-weight: bold;
@@ -44,7 +42,7 @@ export const ContentContainer = styled.div`
 
 
 export const ContentTitle = styled.div`
-  width: 20vmax;
+  width: 25vmax;
   margin-top: 1rem;
   font-size: 5rem;
   display: flex;
@@ -72,7 +70,7 @@ width: 37vmax;
   color: #000;
   @media screen and (max-width: 768px) {
     width: 37vmax;
-    height: 65vh;
+    height: 75vh;
     box-shadow: 2px 5px 5px #D3CCDB;
     flex-direction: column;
     position: absolute;
@@ -103,19 +101,21 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-// background-color: #FFFBF0;
 background-color: #fff;
 padding-top: 2.5rem;
 margin-left: 1rem;
 box-shadow: 10px 5px 5px #D3CCDB;
 
-@media screen and (max-width: 945px) {
-  width: 37vmax;
+@media screen and (max-width: 1024px) {
+  width: 35vmax;
   top: 11.045rem;
 }
+@media screen and (max-width: 930px) {
+  width: 35vmax;
+}
 @media screen and (max-width: 768px) {
-  flex-direction: column;
-  height: 65vh;
+  width: 37vmax;
+  height: 75vh;
 }
 `;
 
@@ -134,11 +134,12 @@ export const Info = styled.div`
   align-item: center;
   border-bottom: 3px groove #99C5FF;
   corlor: #000;
+  
   @media screen and (max-width: 1024px) {
     font-size: 2rem;
   }
   @media screen and (max-width: 768px) {
-    font-size: 1.5rem;
+    font-size: 1.7rem;
   }
 `;
 
@@ -147,7 +148,7 @@ font-family: var(--thick-font);
   font-size: 1.8rem;
   border: none;
   border-bottom:  3px groove #99C5FF;
-  width: 18rem;
+  width: 22rem;
   margin-top: 2rem;
   padding-left: 1rem;
   display: flex;
@@ -162,7 +163,7 @@ font-family: var(--thick-font);
     font-size: 1.6rem;
   }
   @media screen and (max-width: 768px) {
-    width: 14rem;
+    width: 18rem;
     font-size: 1.4rem;
   }
 `;
@@ -176,7 +177,7 @@ height: 2.5rem;
 background-color: #5999FF;
 color: #fff;
 padding: .5rem;
-margin-top: 1rem;
+margin: 1rem 0;
 border: none;
 border-radius: .7rem;
 

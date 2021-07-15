@@ -3,7 +3,7 @@ import { Switch, Route, Link } from "react-router-dom";
 import Modify from './modify/Modify';
 import MypageHeader from './MypageHeader';
 import ProfileImg from './profile/ProfileImg';
-import './MyDiary.css';
+import '../../styles/mypage/MyDiary.css';
 import DiaryPost from './diary/DiaryPost';
 import {
   BoxContainer,

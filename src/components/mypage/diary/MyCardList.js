@@ -16,7 +16,7 @@ const MyCardList = ({ myDiaries, diary }) => {
     myDiaries.length === 0 ? (
       <Link to="/main">
         <DiaryLogin>
-          🚧🚧🚧 쓰기작업 공사중 메인페이지로 이동 🚧🚧🚧
+          🚧 쓰기작업 공사중 메인페이지로 이동 🚧
         </DiaryLogin>
         {/* <DiaryLogin>
           일기작성은 메인페이지에서

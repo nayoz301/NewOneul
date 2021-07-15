@@ -171,10 +171,17 @@ const Signup = ({ handleModal, login }) => {
         onLoginSuccess(handleModal);
       })
       .catch((err) => {
-        if ({ message: "invalid email!" || "password error!" }) {
+        const { message } = err.response.data;
+        if (message === "invalid email!") {
           Swal.fire({
             icon: "error",
-            title: "이메일 또는 비밀번호가 다릅니다! 😮",
+            title: "이메일 다릅니다! 😮",
+            showConfirmButton: true,
+          });
+        } else if (message === "password error!") {
+          Swal.fire({
+            icon: "error",
+            title: "비밀번호가 다릅니다! 😮",
             showConfirmButton: true,
           });
         }
