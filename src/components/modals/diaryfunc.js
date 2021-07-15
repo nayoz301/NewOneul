@@ -28,3 +28,40 @@ export function handleFileUpload(canvasRef, userInfo) {
     );
   });
 }
+
+export const diffCheck = (
+  selectedDiary,
+  diaryText,
+  weatherChosen,
+  musicChosen,
+  emojiChosen,
+  isPublic
+) => {
+  let modified = {};
+
+  const {
+    feeling,
+    isPublic: SelectedDiaryIsPublic,
+    music,
+    text,
+    weather,
+  } = selectedDiary;
+
+  if (diaryText !== "" && diaryText !== text) {
+    modified.text = diaryText;
+  }
+  if (weather !== weatherChosen) {
+    modified.weather = weatherChosen;
+  }
+  if (musicChosen !== null && musicChosen !== music.id) {
+    modified.musicId = Number(musicChosen);
+  }
+  if (emojiChosen.id !== undefined && emojiChosen.id !== feeling) {
+    modified.feeling = emojiChosen.id;
+  }
+  if (SelectedDiaryIsPublic !== isPublic) {
+    modified.isPublic = isPublic;
+  }
+
+  return Object.keys(modified).length === 0 ? false : modified;
+};

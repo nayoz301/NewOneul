@@ -80,6 +80,20 @@ export const removeDiary = (diaryId) => {
   };
 };
 
+export const changeToPublic = (newPublicDiary) => {
+  return {
+    type: "CHANGE_TO_PUBLIC",
+    newPublicDiary,
+  };
+};
+
+export const changeToPrivate = (diaryId) => {
+  return {
+    type: "CHANGE_TO_PRIVATE",
+    diaryId,
+  };
+};
+
 export const modifyDiary = (diaryId, modifiedDiary) => {
   return {
     type: "MODIFY_DIARY",

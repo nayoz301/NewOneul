@@ -42,6 +42,15 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
       });
   }, []);
 
+  console.log(
+    useFetch(
+      "https://oneul.site/O_NeulServer/main",
+      userInfo,
+      fetchAllLoginDiary,
+      fetchAllUnloginDiary
+    )
+  );
+
   useEffect(() => {
     if (clickmoment !== null) {
       return setIsClick((prev) => setIsClick(!prev));
@@ -57,8 +66,8 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
   };
 
   const passDiaryId = (diaryId) => {
-    setSelectedDiaryId(diaryId)
-  }
+    setSelectedDiaryId(diaryId);
+  };
 
   const next = useCallback(() => {
     setValue(value.add(1, "month").clone());
@@ -87,8 +96,11 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
               <Calendar value={value} modalHandle={momentHandler} />
             </CalendarWrapper>
             <DiaryWrapper>
-              <MyCards />
-              <OtherCards closeDiaryModal={closeDiaryModal} passDiaryId={passDiaryId} />
+              <MyCards modalHandle={momentHandler} />
+              <OtherCards
+                closeDiaryModal={closeDiaryModal}
+                passDiaryId={passDiaryId}
+              />
             </DiaryWrapper>
           </MainInnerWrapper>
         </MainInnerSection>

@@ -8,8 +8,6 @@ import Mypage from "./components/mypage/Mypage";
 import axios from "axios";
 import { connect } from "react-redux";
 import { login } from "./actions";
-import LoadingModal from "./components/loading/LoadingModal";
-// import Loading from "./components/loading/Loading";
 
 function App({ login }) {
   const [loading, setLoading] = useState(false);
@@ -28,6 +26,7 @@ function App({ login }) {
       login(accessToken, user);
       setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.log("err:::" + error);
     }
   }, []);

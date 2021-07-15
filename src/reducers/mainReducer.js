@@ -56,11 +56,11 @@ const mainReducer = (
         publicDiary: state.publicDiary.map((diary) =>
           diary.id === diaryId
             ? {
-              ...diary,
-              emphathies: diary.emphathies.filter(
-                (empathy) => empathy.id !== empathyId
-              ),
-            }
+                ...diary,
+                emphathies: diary.emphathies.filter(
+                  (empathy) => empathy.id !== empathyId
+                ),
+              }
             : diary
         ),
       };
@@ -83,6 +83,22 @@ const mainReducer = (
           return diary.id !== diaryId;
         }),
       };
+
+    case "CHANGE_TO_PUBLIC": {
+      return {
+        ...state,
+        publicDiary: [...state.publicDiary, newPublicDiary],
+      };
+    }
+
+    case "CHANGE_TO_PRIVATE": {
+      return {
+        ...state,
+        publicDiary: state.publicDiary.filter((diary) => {
+          return diary.id !== diaryId;
+        }),
+      };
+    }
 
     case "MODIFY_DIARY":
       return {
