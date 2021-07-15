@@ -402,6 +402,7 @@ body .player-wrapper {
 /**/
 /**/
 /* 일기 보기 모드 음악 창*/
+
 .current-song .controls .volume-controller-wrapper2 .mute-btn {
   position: relative;
   /* top: -4.6rem; */
