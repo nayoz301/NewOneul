@@ -888,7 +888,7 @@ const FooterHide = styled.div`
   margin: 1rem 1rem;
   padding: 0.6rem 1.5rem;
   border-radius: 0.5rem;
-  background-color: #837970;
+  background-color: rgba(255, 0, 0, 0);
   font-weight: 800;
   font-family: var(--thick-font);
   font-size: 1.4rem;
