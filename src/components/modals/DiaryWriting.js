@@ -112,6 +112,16 @@ const DiaryWriting = ({
   });
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (selectedDiary) {
+      SetIsPublic(selectedDiary.isPublic)
+    }
+  }, [])
+
+  useEffect(() => {
+    console.log("public 반영되나요? " + isPublic)
+  })
+
   const emojiModalOnOff = useCallback(() => {
     //이모지 모달창 끄고 닫기
     setEmojiOpen(!emojiOpen);
@@ -262,15 +272,15 @@ const DiaryWriting = ({
         .then((res) => res.data.data)
         .then((data) => {
           if (selectedDiary.isPublic && !data.isPublic) {
+            modifyDiary(data.id, data);
             changeToPrivate(data.id);
-            modifyDiary(data.id, data);
           } else if (!selectedDiary.isPublic && data.isPublic) {
+            modifyPublicDiary(data.id, data);
             changeToPublic(data);
-            modifyPublicDiary(data.id, data);
           } else if (data.isPublic) {
-            modifyDiary(data.id, data);
-          } else {
             modifyPublicDiary(data.id, data);
+          } else {
+            modifyDiary(data.id, data);
           }
           loadingModalOnOff(false);
           setIsEditing(false);
@@ -288,15 +298,15 @@ const DiaryWriting = ({
         .then((res) => res.data.data)
         .then((data) => {
           if (selectedDiary.isPublic && !data.isPublic) {
+            modifyDiary(data.id, data);
             changeToPrivate(data.id);
-            modifyDiary(data.id, data);
           } else if (!selectedDiary.isPublic && data.isPublic) {
+            modifyPublicDiary(data.id, data);
             changeToPublic(data);
-            modifyPublicDiary(data.id, data);
           } else if (data.isPublic) {
-            modifyDiary(data.id, data);
+            modifyPublicDiary(data.id, data);            
           } else {
-            modifyPublicDiary(data.id, data);
+            modifyDiary(data.id, data);
           }
           loadingModalOnOff(false);
           setIsEditing(false);
@@ -540,13 +550,21 @@ const DiaryWriting = ({
                 alignItems: "center",
               }}
             >
-              <input
+            { isPublic === false ? <input
                 type="checkbox"
                 id="check_box"
                 onChange={() => {
                   SetIsPublic(!isPublic);
                 }}
-              ></input>
+              ></input> : <input
+                type="checkbox"
+                id="check_box"
+                checked="true"
+                onChange={() => {
+                  SetIsPublic(!isPublic);
+                }}
+              ></input>}
+              
               <label
                 for="check_box"
                 className="private"
