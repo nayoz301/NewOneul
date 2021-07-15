@@ -31,9 +31,7 @@ O_Neul입니다.
 |임해성| :triangular_flag_on_post: 프론트엔드|
 
   > ## 사용 스택
-:triangular_flag_on_post: 프론트엔드
-React, nodejs, styled-component, axios, redux
-  
-🏁 백엔드 
-nodejs, express, aws, jwt, nginx, mysql, sequelizeOrm, OAuth, bcrypt
+<img width="550" alt="스크린샷 2021-07-15 오후 4 31 03" src="https://user-images.githubusercontent.com/79782594/125747633-1755118e-9ad2-4df7-bacb-fded35571c02.png">
+<img width="550" alt="스크린샷 2021-07-15 오후 4 32 20" src="https://user-images.githubusercontent.com/79782594/125747758-32d17c8b-5061-4a58-ac11-ac0c66091387.png">
+
 
