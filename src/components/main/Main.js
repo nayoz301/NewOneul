@@ -16,7 +16,7 @@ import MyCards from "./cards/MyCards";
 import OtherCards from "./cards/OtherCards";
 import { connect } from "react-redux";
 import { fetchAllLoginDiary, fetchAllUnloginDiary } from "../../actions";
-import useFetch from "./useFetch";
+import fetchAxios from "./useFetch";
 
 const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
   const [value, setValue] = useState(moment());
@@ -24,21 +24,32 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
   const [clickmoment, setClickmoment] = useState(null);
   const [selectedDiaryId, setSelectedDiaryId] = useState(0);
 
-  useFetch(
-    "https://oneul.site/O_NeulServer/main",
-    userInfo,
-    fetchAllLoginDiary,
-    fetchAllUnloginDiary
-  );
+  useEffect(() => {
+    fetchAxios(userInfo)
+      .then((result) => {
+        if (userInfo.login.accessToken) {
+          return fetchAllLoginDiary(
+            result.publicDiary,
+            result.myDiary,
+            result.musicList
+          );
+        } else {
+          return fetchAllUnloginDiary(result.publicDiary, result.musicList);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
-  console.log(
-    useFetch(
-      "https://oneul.site/O_NeulServer/main",
-      userInfo,
-      fetchAllLoginDiary,
-      fetchAllUnloginDiary
-    )
-  );
+  // console.log(
+  //   useFetch(
+  //     "https://oneul.site/O_NeulServer/main",
+  //     userInfo,
+  //     fetchAllLoginDiary,
+  //     fetchAllUnloginDiary
+  //   )
+  // );
 
   useEffect(() => {
     if (clickmoment !== null) {
