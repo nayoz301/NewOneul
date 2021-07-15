@@ -42,14 +42,14 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
       });
   }, []);
 
-  console.log(
-    useFetch(
-      "https://oneul.site/O_NeulServer/main",
-      userInfo,
-      fetchAllLoginDiary,
-      fetchAllUnloginDiary
-    )
-  );
+  // console.log(
+  //   useFetch(
+  //     "https://oneul.site/O_NeulServer/main",
+  //     userInfo,
+  //     fetchAllLoginDiary,
+  //     fetchAllUnloginDiary
+  //   )
+  // );
 
   useEffect(() => {
     if (clickmoment !== null) {

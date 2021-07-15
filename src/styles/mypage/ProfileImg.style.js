@@ -9,6 +9,7 @@ export const ImgUpload = styled.div`
   display: flex;
   margin-left: 1rem;
   flex-direction: column;
+
   @media screen and (max-width: 768px) {
     width: 15.5rem;
     height: 15.5rem;

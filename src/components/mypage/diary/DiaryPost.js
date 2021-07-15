@@ -9,21 +9,26 @@ import { connect } from "react-redux";
 import SelectFilter from './SelectFilter';
 import MyCardList from './MyCardList';
 import { fetchAllLoginDiary, fetchAllUnloginDiary } from "../../../actions";
-import useFetch from "../../main/useFetch";
+import fetchAxios from "../../main/useFetch";
 
 const DiaryPost = ({ diary, userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
-  const [myDiaries, setMyDiaries] = useState(() => {
-    return diary.myDiary
-  })
+  const [myDiaries, setMyDiaries] = useState(null)
   const [onPublic, setOnPublic] = useState("");
 
-  const fetch = useFetch(
-    "https://oneul.site/O_NeulServer/main",
-    userInfo,
-    fetchAllLoginDiary,
-    fetchAllUnloginDiary
-  );
-
+  useEffect(() => {
+    fetchAxios(userInfo)
+      .then((result) => {
+        fetchAllLoginDiary(
+          result.publicDiary,
+          result.myDiary,
+          result.musicList
+        );
+        setMyDiaries(result.myDiary);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   console.log(fetch)
   console.log(myDiaries)
@@ -48,8 +53,8 @@ const DiaryPost = ({ diary, userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }
         })
       )
     }
-    console.log(myDiaries);
   }
+  console.log(myDiaries);
 
   return (
     <BoxContainer>
@@ -61,10 +66,7 @@ const DiaryPost = ({ diary, userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }
           />
         </Div>
         <DiaryContainer>
-          <MyCardList
-            myDiaries={myDiaries}
-
-          />
+          {myDiaries && <MyCardList myDiaries={myDiaries} />}
         </DiaryContainer>
       </UserContentForm>
     </BoxContainer>
