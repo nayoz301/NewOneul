@@ -46,6 +46,6 @@ O_Neul입니다.
 |김훈| :triangular_flag_on_post: 프론트엔드|깃허브 연결 예정|
 |임해성| :triangular_flag_on_post: 프론트엔드|깃허브 연결 예정|
 
-  > ## 링크로 이동
+  > ## 로 이동
   ## [https://oneul.site](https://oneul.site)
   
