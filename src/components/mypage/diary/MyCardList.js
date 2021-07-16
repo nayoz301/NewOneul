@@ -7,24 +7,20 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { flexCenter } from "../../../styles/global.style";
 
-const MyCardList = ({ myDiaries, diary, handleMoment }) => {
-  console.log(myDiaries);
-  console.log(diary.myDiary);
+const MyCardList = ({ myDiaries, diary, modalHandle }) => {
+  console.log(myDiaries)
+  console.log(diary.myDiary)
 
   const content =
     myDiaries.length === 0 ? (
       <Link to="/main">
-        <DiaryLogin>📣 일기작성은 메인페이지로 이동 📣</DiaryLogin>
-        {/* <DiaryLogin>
-          일기작성은 메인페이지에서
-          <Icon icon={pencil} />
-        </DiaryLogin> */}
+        <DiaryLogin>
+          📣 "일기작성은 메인페이지로" >>> Click
+        </DiaryLogin>
       </Link>
     ) : (
       <CardFace>
-        {myDiaries.map((diary) => (
-          <MyCard key={diary.id} diary={diary} handleMoment={handleMoment} />
-        ))}
+        {myDiaries.map((diary) => <MyCard key={diary.id} diary={diary} modalHandle={modalHandle} />)}
       </CardFace>
     );
 
@@ -74,6 +70,8 @@ export const DiaryLogin = styled.button`
   }
 
   @media screen and (max-width: 768px) {
-    font-size: 3rem;
+    font-size: 1.6rem;
+    padding: 1.2rem 2rem;
+    margin-left: 1rem;
   }
 `;

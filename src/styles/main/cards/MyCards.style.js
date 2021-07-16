@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { makeHexCode } from "../../../components/main/cards/card/makehex";
 import {
+  BREAK_POINT_PHONE,
   BREAK_POINT_MOBILE,
   BREAK_POINT_MD_SCREEN,
   BREAK_POINT_16LG_SCREEN,
@@ -33,6 +34,10 @@ export const MyDiary = styled(Card)`
   @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN}px) {
     min-width: 18rem;
     min-height: 25.705rem;
+  }
+
+  @media only screen and (max-width: ${BREAK_POINT_PHONE}px) {
+    min-width: 15rem;
   }
 `;
 
