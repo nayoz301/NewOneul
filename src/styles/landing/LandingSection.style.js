@@ -17,6 +17,7 @@ export const HeaderSection = styled.header`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow-x: hidden;
 `;
 
 export const Overlay = styled.div`
