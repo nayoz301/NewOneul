@@ -12,8 +12,8 @@
 
 #diary ~ label {
   font-size: 1.8rem;
-  top: 13rem;
-  left: 50vmax;
+  top: 11rem;
+  left: 51vmax;
   cursor: pointer;
   background: #FF75C8;
   color: #fff;
@@ -33,8 +33,8 @@
 
 #diary ~ nav {
   width: 37vmax;
-  left: 11.5vmax;
-  top: 11.045rem;
+  left: 12.5vmax;
+  top: 9.045rem;
   margin-left: 1rem;
 }
 
@@ -43,7 +43,7 @@
     transform: translate3d(37vmax, 0, 0);
   }
   #diary ~ label {
-    left: 50.1vmax;
+    left: 51 dvmax;
   }
 
   #diary ~ nav {
@@ -57,7 +57,7 @@
     transform: translate3d(37vmax, 0, 0);
   }
   #diary ~ label {
-    left: 50vmax;
+    left: 49vmax;
   }
 
   #diary ~ nav {
@@ -70,9 +70,6 @@
   #diary:checked ~ * {
     transform: translate3d(37vmax, 0, 0);
   }
-  #diary ~ label {
-    left: 50vmax;
-  }
 
   #diary ~ nav {
     width: 37vmax;
@@ -84,9 +81,6 @@
   #diary:checked ~ * {
     transform: translate3d(37vmax, 0, 0);
   }
-  #diary ~ label {
-    left: 50.5vmax;
-  }
 
   #diary ~ nav {
     width: 37vmax;
@@ -94,16 +88,26 @@
   }
 }
 
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 800px) {
+  #diary ~ label {
+    top: 13rem;
+    left: 50vmax;
+  }
+
+}
+
+@media screen and (max-width: 750px) {
   #diary:checked ~ * {
     transform: translate3d(0, 76vmax, 0);
   }
   #diary ~ label {
-    left: 49vmax;
+    top: 15rem;
+    left: 47.5vmax;
   }
  
   #diary ~ nav {
     width: 37vmax;
-    left: 9vmax;
+    left: 8vmax;
+    top: 13.5vmax;
   }
 }

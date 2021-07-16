@@ -1,21 +1,12 @@
 import styled from "styled-components";
 
-
-export const BoxContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: block;
-  flex-wrap: wrap;
-  jutify-content: center;
-  font-family: var(--thick-font);
-  `;
-
 export const DiaryContainer = styled.div`
   min-width: 20%;
-  height: 70vh;
+  height: 63vh;
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-item: center;
   flex-wrap: wrap;
@@ -26,68 +17,6 @@ export const DiaryContainer = styled.div`
 export const Div = styled.div`
   display: flex;
   justify-content: flex-end;
-  padding: 0 8rem;
+  padding: 0 4rem;
 
-  @media screen and (max-width: 768px) {
-    margin-top: 1.5rem;
-  }
   `;
-
-export const UserContentForm = styled.div`
-  width: 37vmax;
-  height: 85vh;
-  border: 2px solid var(--primary-color);
-  border-radius: .7rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-color: #fff;
-  margin-bottom: 2.5rem;
-  color: #000;
-  
-  @media screen and (max-width: 945px) {
-    width: 37vmax;
-    top: 11.045rem;
-  }
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
-    height: 75vh;
-  }
-`;
-
-export const Button = styled.button`
-  font-family: var(--thick-font);
-  font-size: 1.8rem;
-  font-weight: 500;
-  width: 10rem;
-  height: 4rem;
-  background-color: #5999FF;
-  color: #fff;
-  padding: .5rem;
-  border: none;
-  border-radius: .7rem;
-
-  &:hover {
-    background: #1C82FF;
-  }
-`;
-
-// export const DiaryWrite = styled.button`
-//   padding: 1.2rem 4rem;
-//   font-size: 1.7rem;
-//   font-family: var(--thick-font);
-//   border-radius: 0rem;
-//   outline: none;
-//   transition: all 0.35s;
-//   & svg {
-//     width: 19px;
-//     height: 19px;
-//     color: var(--black-color);
-//     margin-left: 1rem;
-//   }
-
-//   &:hover {
-//     border-radius: 3rem;
-//     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-//   }
-// `;

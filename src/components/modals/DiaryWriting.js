@@ -37,6 +37,9 @@ const DiaryWriting = ({
   modifyPublicDiary,
   changeToPrivate,
   changeToPublic,
+  // onMoment,
+  // closeModal,
+  // checkDiaryId,
 }) => {
   const getSelectedImoji = () => {
     if (selectedDiary) {
@@ -304,7 +307,7 @@ const DiaryWriting = ({
             modifyPublicDiary(data.id, data);
             changeToPublic(data);
           } else if (data.isPublic) {
-            modifyPublicDiary(data.id, data);            
+            modifyPublicDiary(data.id, data);
           } else {
             modifyDiary(data.id, data);
           }
@@ -550,7 +553,7 @@ const DiaryWriting = ({
                 alignItems: "center",
               }}
             >
-            { isPublic === false ? <input
+              {isPublic === false ? <input
                 type="checkbox"
                 id="check_box"
                 onChange={() => {
@@ -564,7 +567,7 @@ const DiaryWriting = ({
                   SetIsPublic(!isPublic);
                 }}
               ></input>}
-              
+
               <label
                 for="check_box"
                 className="private"

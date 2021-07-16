@@ -27,7 +27,6 @@ const MyCard = ({
   removePublicDiary,
   userInfo,
   modalHandle,
-  handleMoment,
 }) => {
   const { faceIcons, weatherIcons } = icons;
   const { id, isPublic, date, feeling, text, weather } = diary;
@@ -55,7 +54,6 @@ const MyCard = ({
 
   const openModifyDiaryModal = () => {
     modalHandle(moment(date));
-    handleMoment(moment(date));
   };
 
   return (
