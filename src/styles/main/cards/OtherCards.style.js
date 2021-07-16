@@ -78,6 +78,7 @@ export const OtherDiaryWrapper = styled.div`
   margin-top: 1rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border-radius: 7px;
+  background-color: #e8e1decc;
   @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
     height: 45vh;
     overflow: scroll;
