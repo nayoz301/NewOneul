@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from "react";
-import {
-  DiaryContainer,
-  Div,
-} from "../../../styles/mypage/DiaryPost.style";
+import { DiaryContainer, Div } from "../../../styles/mypage/DiaryPost.style";
 import { connect } from "react-redux";
-import SelectFilter from './SelectFilter';
-import MyCardList from './MyCardList';
-
-
+import SelectFilter from "./SelectFilter";
+import MyCardList from "./MyCardList";
 
 const DiaryPost = ({ diary, myDiaries, setMyDiaries, modalHandle }) => {
   const [onPublic, setOnPublic] = useState("");
 
-  console.log(myDiaries)
+  console.log(myDiaries);
 
   const filteringPublic = (e) => {
     let selectCard = e.target.value;
@@ -37,18 +32,16 @@ const DiaryPost = ({ diary, myDiaries, setMyDiaries, modalHandle }) => {
   return (
     <>
       <Div>
-        <SelectFilter
-          filteringPublic={filteringPublic}
-          onPublic={onPublic}
-        />
+        <SelectFilter filteringPublic={filteringPublic} onPublic={onPublic} />
       </Div>
       <DiaryContainer>
-        {myDiaries && <MyCardList myDiaries={myDiaries} modalHandle={modalHandle} />}
+        {myDiaries && (
+          <MyCardList myDiaries={myDiaries} modalHandle={modalHandle} />
+        )}
       </DiaryContainer>
     </>
-  )
-}
-
+  );
+};
 
 const mapStateToProps = ({ loginReducer, mainReducer }) => {
   return {
@@ -57,10 +50,8 @@ const mapStateToProps = ({ loginReducer, mainReducer }) => {
   };
 };
 
-<<<<<<< HEAD
 export default connect(mapStateToProps)(DiaryPost);
-=======
-export default connect(mapStateToProps, {
-  fetchAllLoginDiary,
-})(DiaryPost);
->>>>>>> db4c45c40186db255ef980aa38fc6c9f6c7c7bc5
+
+// export default connect(mapStateToProps, {
+//   fetchAllLoginDiary,
+// })(DiaryPost);
