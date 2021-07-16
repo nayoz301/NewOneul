@@ -1,5 +1,6 @@
 import { createGlobalStyle, css, keyframes } from "styled-components";
 
+export const BREAK_POINT_PHONE = 480;
 export const BREAK_POINT_MOBILE = 768;
 export const BREAK_POINT_MD_SCREEN = 1024;
 export const BREAK_POINT_LG_SCREEN = 1200;
