@@ -19,6 +19,7 @@ export const MyCardWrapper = styled.div`
   min-height: 25rem;
   padding-top: 1rem;
   border-radius: 7px;
+  background-color: #dbdee8cf;
 `;
 
 export const MyDiary = styled(Card)`
