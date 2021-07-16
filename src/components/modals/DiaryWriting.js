@@ -37,6 +37,9 @@ const DiaryWriting = ({
   modifyPublicDiary,
   changeToPrivate,
   changeToPublic,
+  // onMoment,
+  // closeModal,
+  // checkDiaryId,
 }) => {
   const getSelectedImoji = () => {
     if (selectedDiary) {

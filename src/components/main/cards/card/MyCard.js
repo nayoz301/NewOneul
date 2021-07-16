@@ -53,7 +53,6 @@ const MyCard = ({
 
   const openModifyDiaryModal = () => {
     modalHandle(moment(date));
-    // handleMoment(moment(date));
   };
 
   return (
