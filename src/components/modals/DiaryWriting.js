@@ -747,7 +747,7 @@ const ModalWrapper = styled.div`
 
   @media screen and (max-width: 412px) {
     & {
-      width: 100%
+      width: 100%;
       height: 80%;
     }
   }

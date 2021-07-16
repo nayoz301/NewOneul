@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   MyDiary,
   MyDiaryFrontHeader,
@@ -8,13 +8,13 @@ import {
   MyDiaryBackText,
   IconWrapper,
 } from "../../../../styles/main/cards/MyCards.style";
-import mypic from "../../../../images/mypic.jpeg";
 import { findEmj, splitDate } from "./cardfunction";
+import { ic_more_horiz } from "react-icons-kit/md/ic_more_horiz";
 import { icons } from "../../../../../src/icons/icons";
 import { FaceWeather } from "../../../../styles/main/cards/OtherCards.style";
 import { removeDiary, removePublicDiary } from "../../../../actions/index";
 import { connect } from "react-redux";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Icon } from "react-icons-kit";
 import { trash2 } from "react-icons-kit/feather/trash2";
 import axios from "axios";
@@ -26,7 +26,9 @@ const MyCard = ({
   removePublicDiary,
   userInfo,
   modalHandle,
+  setDeleteLoading,
 }) => {
+  const [setting, setSetting] = useState(false);
   const { faceIcons, weatherIcons } = icons;
   const { id, isPublic, date, feeling, text, weather } = diary;
   const { accessToken } = userInfo.login;
@@ -35,6 +37,7 @@ const MyCard = ({
 
   const removePost = (e) => {
     e.stopPropagation();
+    setDeleteLoading(true);
     return axios
       .delete(deleteUrl, {
         headers: { authorization: "Bearer " + accessToken },
@@ -47,6 +50,7 @@ const MyCard = ({
         } else {
           removeDiary(id);
         }
+        setDeleteLoading(false);
       })
       .catch((err) => console.log(err));
   };
@@ -70,10 +74,34 @@ const MyCard = ({
         </IconWrapper>
       </MyDiaryCardFront>
       <MyDiaryBack>
-        <MyDiaryBackTextWrapper>
-          <RemoveBtn onClick={(e) => removePost(e)}>
-            <Icon icon={trash2} size={20} />
-          </RemoveBtn>
+        <MyDiaryBackTextWrapper
+          onClick={() => setSetting(setSetting(() => setting && false))}
+        >
+          <SettingDiv>
+            <Icon
+              icon={ic_more_horiz}
+              size={25}
+              onClick={(e) => {
+                e.stopPropagation();
+                setSetting(!setting);
+              }}
+            />
+            <DragDown
+              click={setting}
+              onClick={(e) => {
+                e.stopPropagation();
+                removePost(e);
+              }}
+            >
+              <Icon icon={trash2} size={20} />
+              <span>삭제하기</span>
+            </DragDown>
+          </SettingDiv>
+          {/* <MouseWrapper> */}
+          <Mouse>
+            <Wheel />
+          </Mouse>
+          {/* </MouseWrapper> */}
           <MyDiaryBackText>{text}</MyDiaryBackText>
         </MyDiaryBackTextWrapper>
       </MyDiaryBack>
@@ -89,18 +117,68 @@ export default connect(mapStateToProps, { removePublicDiary, removeDiary })(
   MyCard
 );
 
-const RemoveBtn = styled.button`
+const SettingDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   position: absolute;
-  right: 1rem;
-  bottom: 1rem;
-  border: none;
-  transition: transform 0.3s ease;
+  color: black;
+  font-size: 1.5rem;
+  top: 0.4rem;
+  right: 0.8rem;
+`;
+
+const DragDown = styled.div`
+  display: ${({ click }) => (click ? "flex" : "none")};
+  align-items: flex-end;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  background: white;
+  padding: 0.5rem 1rem;
+  transition: background 0.3s ease;
+
+  & span {
+    margin-left: 0.8rem;
+  }
 
   &:hover {
-    transform: scale(1.2);
+    background: #f2f3f4;
   }
+`;
 
-  &:active {
-    transform: scale(0.9);
+const wheel = keyframes`
+  0% {
+    top: 10%;
+    transform: translate(-50%,-10%);
+    opacity: 1;
   }
+  
+  100%{
+    top: 70%;
+    transform: translate(-50%,-70%);
+    opacity: 0;
+  }
+`;
+
+const Mouse = styled.div`
+  position: absolute;
+  height: 25px;
+  width: 16px;
+  border: 2px solid rgba(0, 0, 0, 0.4);
+  border-radius: 85px;
+  right: 6px;
+  bottom: 6px;
+  /* background-color: gray; */
+`;
+
+const Wheel = styled.div`
+  position: absolute;
+  width: 3px;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.4);
+  left: 50%;
+  /* transform: translateX(-50%); */
+  border-radius: 15px;
+  animation: ${wheel} 1.5s ease;
+  animation-iteration-count: 10;
 `;

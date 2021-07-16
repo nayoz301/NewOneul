@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import {
+  BREAK_POINT_PHONE,
   BREAK_POINT_MOBILE,
   BREAK_POINT_MD_SCREEN,
   BREAK_POINT_LG_SCREEN,
@@ -57,6 +58,11 @@ export const CardFront = styled(CardFace)`
     height: 10rem;
     position: absolute;
     top: 18%;
+
+    @media only screen and (max-width: ${BREAK_POINT_PHONE}px) {
+      width: 18rem;
+      height: 9rem;
+    }
   }
 
   @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
@@ -77,6 +83,11 @@ export const CardFrontHeader = styled.h1`
   font-size: 1.6rem;
   position: absolute;
   bottom: 18%;
+  text-align: center;
+
+  @media only screen and (max-width: ${BREAK_POINT_PHONE}px) {
+    font-size: 1.4rem;
+  }
 
   @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
     font-size: 1.8rem;
@@ -90,10 +101,19 @@ export const CardBackText = styled.h2`
   font-size: 1.45rem;
   color: var(--black-color);
   font-family: var(--thick-font);
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
     font-size: 1.7rem;
     height: 80%;
+  }
+
+  @media only screen and (max-width: ${BREAK_POINT_PHONE}px) {
+    font-size: 1.4rem;
   }
 `;
 
@@ -111,6 +131,11 @@ export const Card = styled.div`
 
   &:hover ${CardBack} {
     transform: rotateY(360deg);
+  }
+
+  @media only screen and (max-width: ${BREAK_POINT_PHONE}px) {
+    min-width: 15rem;
+    min-height: 22rem;
   }
 
   @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {

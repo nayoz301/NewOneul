@@ -59,9 +59,9 @@ export const GlobalStyle = createGlobalStyle`
     text-decoration: none;
   }
   
-  body{
+  /* body{
     overflow-x: hidden;
-  }
+  } */
 
   button{
     text-transform: none;
