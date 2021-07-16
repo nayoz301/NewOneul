@@ -101,7 +101,11 @@ export const CardBackText = styled.h2`
   font-size: 1.45rem;
   color: var(--black-color);
   font-family: var(--thick-font);
-  overflow: scroll;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
     font-size: 1.7rem;
