@@ -6,7 +6,7 @@ import {
   Text,
 } from "../../styles/loading/Loading.style";
 
-const Loading = () => {
+const Loading = ({ children }) => {
   return (
     <>
       <LoadingWrapper modal={true}>
@@ -15,7 +15,7 @@ const Loading = () => {
           <Page modal={true}></Page>
           <Page modal={true}></Page>
         </LoaderBook>
-        <Text modal={true}>오늘을 담는 중</Text>
+        <Text modal={true}>{children ? children : "오늘을 담는 중"}</Text>
       </LoadingWrapper>
     </>
   );

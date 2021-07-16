@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   MyDiary,
   MyDiaryFrontHeader,
@@ -8,8 +8,8 @@ import {
   MyDiaryBackText,
   IconWrapper,
 } from "../../../../styles/main/cards/MyCards.style";
-import mypic from "../../../../images/mypic.jpeg";
 import { findEmj, splitDate } from "./cardfunction";
+import { ic_more_horiz } from "react-icons-kit/md/ic_more_horiz";
 import { icons } from "../../../../../src/icons/icons";
 import { FaceWeather } from "../../../../styles/main/cards/OtherCards.style";
 import { removeDiary, removePublicDiary } from "../../../../actions/index";
@@ -26,7 +26,9 @@ const MyCard = ({
   removePublicDiary,
   userInfo,
   modalHandle,
+  setDeleteLoading,
 }) => {
+  const [setting, setSetting] = useState(false);
   const { faceIcons, weatherIcons } = icons;
   const { id, isPublic, date, feeling, text, weather } = diary;
   const { accessToken } = userInfo.login;
@@ -35,6 +37,7 @@ const MyCard = ({
 
   const removePost = (e) => {
     e.stopPropagation();
+    setDeleteLoading(true);
     return axios
       .delete(deleteUrl, {
         headers: { authorization: "Bearer " + accessToken },
@@ -47,6 +50,7 @@ const MyCard = ({
         } else {
           removeDiary(id);
         }
+        setDeleteLoading(false);
       })
       .catch((err) => console.log(err));
   };
@@ -70,10 +74,29 @@ const MyCard = ({
         </IconWrapper>
       </MyDiaryCardFront>
       <MyDiaryBack>
-        <MyDiaryBackTextWrapper>
-          <RemoveBtn onClick={(e) => removePost(e)}>
-            <Icon icon={trash2} size={20} />
-          </RemoveBtn>
+        <MyDiaryBackTextWrapper
+          onClick={() => setSetting(setSetting(() => setting && false))}
+        >
+          <SettingDiv>
+            <Icon
+              icon={ic_more_horiz}
+              size={25}
+              onClick={(e) => {
+                e.stopPropagation();
+                setSetting(!setting);
+              }}
+            />
+            <DragDown
+              click={setting}
+              onClick={(e) => {
+                e.stopPropagation();
+                removePost(e);
+              }}
+            >
+              <Icon icon={trash2} size={20} />
+              <span>삭제하기</span>
+            </DragDown>
+          </SettingDiv>
           <MyDiaryBackText>{text}</MyDiaryBackText>
         </MyDiaryBackTextWrapper>
       </MyDiaryBack>
@@ -89,18 +112,31 @@ export default connect(mapStateToProps, { removePublicDiary, removeDiary })(
   MyCard
 );
 
-const RemoveBtn = styled.button`
+const SettingDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   position: absolute;
-  right: 1rem;
-  bottom: 1rem;
-  border: none;
-  transition: transform 0.3s ease;
+  color: black;
+  font-size: 1.5rem;
+  top: 0.4rem;
+  right: 0.8rem;
+`;
 
-  &:hover {
-    transform: scale(1.2);
+const DragDown = styled.div`
+  display: ${({ click }) => (click ? "flex" : "none")};
+  align-items: flex-end;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  background: white;
+  padding: 0.5rem 1rem;
+  transition: background 0.3s ease;
+
+  & span {
+    margin-left: 0.8rem;
   }
 
-  &:active {
-    transform: scale(0.9);
+  &:hover {
+    background: #f2f3f4;
   }
 `;

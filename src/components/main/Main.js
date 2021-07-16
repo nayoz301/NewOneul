@@ -17,12 +17,14 @@ import OtherCards from "./cards/OtherCards";
 import { connect } from "react-redux";
 import { fetchAllLoginDiary, fetchAllUnloginDiary } from "../../actions";
 import fetchAxios from "./useFetch";
+import LoadingModal from "../modals/LoadingModal";
 
 const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
   const [value, setValue] = useState(moment());
   const [isClick, setIsClick] = useState(false);
   const [clickmoment, setClickmoment] = useState(null);
   const [selectedDiaryId, setSelectedDiaryId] = useState(0);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   useEffect(() => {
     fetchAxios(userInfo)
@@ -48,7 +50,7 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
     }
   }, [clickmoment]);
 
-  const closeDiaryModal = () => {
+  const closeDiaryModal = (func) => {
     setIsClick((prev) => setIsClick(!prev));
   };
 
@@ -87,7 +89,10 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
               <Calendar value={value} modalHandle={momentHandler} />
             </CalendarWrapper>
             <DiaryWrapper>
-              <MyCards modalHandle={momentHandler} />
+              <MyCards
+                modalHandle={momentHandler}
+                setDeleteLoading={setDeleteLoading}
+              />
               <OtherCards
                 closeDiaryModal={closeDiaryModal}
                 passDiaryId={passDiaryId}
@@ -96,6 +101,7 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
           </MainInnerWrapper>
         </MainInnerSection>
       </MainSection>
+      <LoadingModal loadingModalOpen={deleteLoading}>오늘 삭제 중</LoadingModal>
     </>
   );
 };

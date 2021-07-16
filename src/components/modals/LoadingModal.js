@@ -2,11 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import Loading from "./Loading";
 
-const LoadingModal = ({ loadingModalOpen }) => {
+const LoadingModal = ({ loadingModalOpen, children }) => {
   return (
     <>
       <Background loadingModalOpen={loadingModalOpen}>
-        <Loading />
+        <Loading children={children} />
       </Background>
     </>
   );
