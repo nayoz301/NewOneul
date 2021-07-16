@@ -65,7 +65,7 @@ const Music = ({
     if (selectedMusicId) {
       return setCurrentSong(selectedMusic);
     }
-  });
+  }, []);
 
   useEffect(() => {
     if (selectedMusic && isEditing === false) {
@@ -157,13 +157,15 @@ const Music = ({
     timelineRef.current.addEventListener("click", changeCurrentTime, false);
     timelineRef.current.addEventListener("mousemove", hoverTimeLine, false);
     timelineRef.current.addEventListener("mouseout", resetTimeLine, false);
-    // return () => {
-    //   playerRef.current.removeEventListener("timeupdate", timeUpdate);
-    //   playerRef.current.removeEventListener("ended", nextSong);
-    //   timelineRef.current.removeEventListener("click", changeCurrentTime);
-    //   timelineRef.current.removeEventListener("mousemove", hoverTimeLine);
-    //   timelineRef.current.removeEventListener("mouseout", resetTimeLine);
-    // };
+    return () => {
+      if (playerRef.current && timelineRef.current) {
+        playerRef.current.removeEventListener("timeupdate", timeUpdate);
+        playerRef.current.removeEventListener("ended", nextSong);
+        timelineRef.current.removeEventListener("click", changeCurrentTime);
+        timelineRef.current.removeEventListener("mousemove", hoverTimeLine);
+        timelineRef.current.removeEventListener("mouseout", resetTimeLine);
+      }
+    };
   });
 
   const changeCurrentTime = (e) => {
@@ -194,11 +196,12 @@ const Music = ({
       const currentTime = formatTime(parseInt(playerRef.current.currentTime));
       setCurrentTime(currentTime);
       console.log("타임업데이트 ", playheadRef.current.style.width);
-      //여기 실험
-      // if (playheadRef.current.style.width === "100%") {
-      //   console.log("백프로!");
-      //   updatePlayer();
-      // }
+      // 여기 실험
+      if (playheadRef.current.style.width === "100%") {
+        console.log("백프로!");
+        playheadRef.current.style.width = "0%";
+        // updatePlayer();
+      }
     }
   };
 
@@ -239,14 +242,14 @@ const Music = ({
     setCurrentSong(filtered[index]);
     // const audio = new Audio(currentSong.audio);
     console.log("실험", playerRef.current);
-    playerRef.current && playerRef.current.load();
+    playerRef.current.load();
   };
 
   const nextSong = () => {
     setIndex((index + 1) % filtered.length);
     updatePlayer();
     if (pause) {
-      playerRef.current && playerRef.current.play();
+      playerRef.current.play();
     }
   };
 
@@ -254,7 +257,7 @@ const Music = ({
     setIndex((index + filtered.length - 1) % filtered.length);
     updatePlayer();
     if (pause) {
-      playerRef.current && playerRef.current.play();
+      playerRef.current.play();
     }
   };
 
@@ -304,22 +307,6 @@ const Music = ({
             className={`close-btn ${musicOpen ? "open" : null}`}
             icon={ic_close}
             onClick={() => {
-              if (playerRef.current !== null && timelineRef.current !== null) {
-                playerRef.current.removeEventListener("timeupdate", timeUpdate);
-                playerRef.current.removeEventListener("ended", nextSong);
-                timelineRef.current.removeEventListener(
-                  "click",
-                  changeCurrentTime
-                );
-                timelineRef.current.removeEventListener(
-                  "mousemove",
-                  hoverTimeLine
-                );
-                timelineRef.current.removeEventListener(
-                  "mouseout",
-                  resetTimeLine
-                );
-              }
               musicModalOnOff();
             }}
           />
@@ -421,22 +408,6 @@ const Music = ({
             className={`close-btn ${musicOpen ? "open" : null}`}
             icon={ic_close}
             onClick={() => {
-              if (playerRef.current !== null && timelineRef.current !== null) {
-                playerRef.current.removeEventListener("timeupdate", timeUpdate);
-                playerRef.current.removeEventListener("ended", nextSong);
-                timelineRef.current.removeEventListener(
-                  "click",
-                  changeCurrentTime
-                );
-                timelineRef.current.removeEventListener(
-                  "mousemove",
-                  hoverTimeLine
-                );
-                timelineRef.current.removeEventListener(
-                  "mouseout",
-                  resetTimeLine
-                );
-              }
               musicModalOnOff();
             }}
           />
@@ -491,7 +462,7 @@ const Music = ({
               <span className="song_alert">
                 {selectedSong &&
                   musicLists &&
-                  `${musicLists[selectedSong].name} 곡이 배경음악으로 설정되었습니다.`}
+                  `${musicLists[selectedSong].name} 곡이 배경음악으로 설정되었습니다`}
               </span>
             </div>
 
@@ -596,22 +567,6 @@ const Music = ({
             className={`close-btn ${musicOpen ? "open" : null}`}
             icon={ic_close}
             onClick={() => {
-              if (playerRef.current !== null && timelineRef.current !== null) {
-                playerRef.current.removeEventListener("timeupdate", timeUpdate);
-                playerRef.current.removeEventListener("ended", nextSong);
-                timelineRef.current.removeEventListener(
-                  "click",
-                  changeCurrentTime
-                );
-                timelineRef.current.removeEventListener(
-                  "mousemove",
-                  hoverTimeLine
-                );
-                timelineRef.current.removeEventListener(
-                  "mouseout",
-                  resetTimeLine
-                );
-              }
               musicModalOnOff();
             }}
           />
@@ -666,7 +621,7 @@ const Music = ({
               <span className="song_alert">
                 {selectedSong &&
                   musicLists &&
-                  `${musicLists[selectedSong].name} 곡이 배경음악으로 설정되었습니다.`}
+                  `${musicLists[selectedSong].name} 곡이 배경음악으로 설정되었습니다`}
               </span>
             </div>
 

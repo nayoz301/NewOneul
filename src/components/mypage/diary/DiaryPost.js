@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   DiaryContainer,
   Div,
-} from '../../../styles/mypage/DiaryPost.style';
+} from "../../../styles/mypage/DiaryPost.style";
 import { connect } from "react-redux";
 import SelectFilter from './SelectFilter';
 import MyCardList from './MyCardList';
@@ -15,26 +15,24 @@ const DiaryPost = ({ diary, myDiaries, setMyDiaries, modalHandle }) => {
   console.log(myDiaries)
 
   const filteringPublic = (e) => {
-    let selectCard = e.target.value
-    console.log(selectCard);
-    setOnPublic(selectCard)
-    if (selectCard === '') {
-      setMyDiaries(diary.myDiary)
-    }
-    else if (selectCard === "true") {
+    let selectCard = e.target.value;
+    setOnPublic(selectCard);
+    if (selectCard === "") {
+      setMyDiaries(diary.myDiary);
+    } else if (selectCard === "true") {
       setMyDiaries(
         diary.myDiary.filter((diary) => {
-          return diary.isPublic === true
+          return diary.isPublic === true;
         })
-      )
+      );
     } else if (selectCard === "false") {
       setMyDiaries(
         diary.myDiary.filter((diary) => {
-          return diary.isPublic === false
+          return diary.isPublic === false;
         })
-      )
+      );
     }
-  }
+  };
 
   return (
     <>
@@ -59,4 +57,10 @@ const mapStateToProps = ({ loginReducer, mainReducer }) => {
   };
 };
 
+<<<<<<< HEAD
 export default connect(mapStateToProps)(DiaryPost);
+=======
+export default connect(mapStateToProps, {
+  fetchAllLoginDiary,
+})(DiaryPost);
+>>>>>>> db4c45c40186db255ef980aa38fc6c9f6c7c7bc5

@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
-import MyCard from '../../main/cards/card/MyCard';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from "react";
+import MyCard from "../../main/cards/card/MyCard";
+import { Link } from "react-router-dom";
 import { Icon } from "react-icons-kit";
 import { pencil } from "react-icons-kit/entypo/pencil";
 import { connect } from "react-redux";
-import styled from 'styled-components';
+import styled from "styled-components";
 import { flexCenter } from "../../../styles/global.style";
 
 const MyCardList = ({ myDiaries, diary, modalHandle }) => {
@@ -22,14 +22,10 @@ const MyCardList = ({ myDiaries, diary, modalHandle }) => {
       <CardFace>
         {myDiaries.map((diary) => <MyCard key={diary.id} diary={diary} modalHandle={modalHandle} />)}
       </CardFace>
-    )
+    );
 
-  return (
-    <div>
-      {(content)}
-    </div>
-  )
-}
+  return <div>{content}</div>;
+};
 const mapStateToProps = ({ mainReducer }) => {
   return {
     diary: mainReducer,
@@ -37,11 +33,10 @@ const mapStateToProps = ({ mainReducer }) => {
 };
 
 export default connect(mapStateToProps)(MyCardList);
-// export default MyCardList;
 
 export const CardFace = styled.div`
-display: flex;
-flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
   width: 100%;
   height: 65vh;
   transform-style: preserve-3d;

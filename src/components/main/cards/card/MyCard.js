@@ -20,7 +20,6 @@ import { trash2 } from "react-icons-kit/feather/trash2";
 import axios from "axios";
 import moment from "moment";
 
-
 const MyCard = ({
   diary,
   removeDiary,
