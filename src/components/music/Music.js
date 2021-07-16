@@ -462,7 +462,7 @@ const Music = ({
               <span className="song_alert">
                 {selectedSong &&
                   musicLists &&
-                  `${musicLists[selectedSong].name} 곡이 배경음악으로 설정되었습니다.`}
+                  `${musicLists[selectedSong].name} 곡이 배경음악으로 설정되었습니다`}
               </span>
             </div>
 
@@ -621,7 +621,7 @@ const Music = ({
               <span className="song_alert">
                 {selectedSong &&
                   musicLists &&
-                  `${musicLists[selectedSong].name} 곡이 배경음악으로 설정되었습니다.`}
+                  `${musicLists[selectedSong].name} 곡이 배경음악으로 설정되었습니다`}
               </span>
             </div>
 
