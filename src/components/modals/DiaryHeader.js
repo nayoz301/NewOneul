@@ -104,6 +104,41 @@ const HeaderDate = styled.div`
       margin-left: 1rem;
     }
   }
+
+  @media screen and (max-width: 497px) {
+    & {
+      font-size: 1.6rem;
+      margin-left: 1rem;
+    }
+  }
+
+  @media screen and (max-width: 451px) {
+    & {
+      font-size: 1.4rem;
+      margin-left: 1rem;
+    }
+  }
+
+  @media screen and (max-width: 406px) {
+    & {
+      font-size: 1.2rem;
+      margin-left: 1rem;
+    }
+  }
+
+  @media screen and (max-width: 406px) {
+    & {
+      font-size: 1.2rem;
+      margin-left: 1rem;
+    }
+  }
+
+  @media screen and (max-width: 340px) {
+    & {
+      font-size: 1.1rem;
+      margin-left: 1rem;
+    }
+  }
 `;
 
 const HeaderEmoji = styled.div`

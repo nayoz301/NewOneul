@@ -701,7 +701,7 @@ const ModalWrapper = styled.div`
   flex-direction: column;
   width: 50%;
   max-height: 95vh;
-  min-width: 50rem;
+  // min-width: 50rem;
   /* z-index: 50; */
   border-radius: 1rem;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -737,7 +737,15 @@ const ModalWrapper = styled.div`
   }
   @media screen and (max-width: 500px) {
     & {
+      width: 50rem;
       height: 92%;
+    }
+  }
+
+  @media screen and (max-width: 412px) {
+    & {
+      width: 100%
+      height: 80%;
     }
   }
 `;
@@ -762,9 +770,38 @@ const HeaderDate = styled.div`
   text-align: center;
   font-weight: 700;
   color: #595b5c;
+
   @media screen and (max-width: 570px) {
     & {
       font-size: 1.8rem;
+      margin-left: 1rem;
+    }
+  }
+
+  @media screen and (max-width: 497px) {
+    & {
+      font-size: 1.6rem;
+      margin-left: 1rem;
+    }
+  }
+
+  @media screen and (max-width: 451px) {
+    & {
+      font-size: 1.4rem;
+      margin-left: 1rem;
+    }
+  }
+
+  @media screen and (max-width: 406px) {
+    & {
+      font-size: 1.2rem;
+      margin-left: 1rem;
+    }
+  }
+
+  @media screen and (max-width: 340px) {
+    & {
+      font-size: 1.1rem;
       margin-left: 1rem;
     }
   }
