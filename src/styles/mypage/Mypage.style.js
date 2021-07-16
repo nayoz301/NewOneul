@@ -7,6 +7,7 @@ export const BoxContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   font-family: var(--thick-font);
 `;
 
@@ -14,12 +15,13 @@ export const FormContainer = styled.form`
   font-size: 2rem;
   width: 75vmax;
   height: 100%;
-  margin: 10rem 0 1rem 0;
+  margin: 8rem 0 1rem 0;
   border-radius: 1rem;
   color: #000;
   font-weight: bold;
   padding: 1rem;
   display: flex;
+  flex-wrap: wrap;
 `;
 
 export const Wrapper = styled.div`
@@ -28,12 +30,15 @@ export const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
+  flex-wrap: wrap;
 `;
 
 export const ContentContainer = styled.div`
   width:100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
   
   @media screen and (max-width: 768px) {
     flex-direction: column;
@@ -44,13 +49,10 @@ export const ContentContainer = styled.div`
 export const ContentTitle = styled.div`
   width: 25vmax;
   margin-top: 1rem;
-  font-size: 5rem;
+  font-size: 4rem;
   display: flex;
   justify-content: center;
   align-item: center;
-  @media screen and (max-width: 1200px) {
-    font-size: 4rem;
-  }
   @media screen and (max-width: 768px) {
     font-size: 3rem;
   }
@@ -97,7 +99,7 @@ width: 37vmax;
 height: 85vh;
 border: 2px solid var(--primary-color);
 border-radius: .7rem;
-display: flex;
+display: block;
 flex-direction: column;
 justify-content: center;
 align-items: center;
@@ -108,7 +110,7 @@ box-shadow: 10px 5px 5px #D3CCDB;
 
 @media screen and (max-width: 1024px) {
   width: 35vmax;
-  top: 11.045rem;
+  top: 2rem;
 }
 @media screen and (max-width: 930px) {
   width: 35vmax;
@@ -116,11 +118,8 @@ box-shadow: 10px 5px 5px #D3CCDB;
 @media screen and (max-width: 768px) {
   width: 37vmax;
   height: 75vh;
+  position: absolute;
 }
-`;
-
-export const UserContent = styled.div`
-  display: flex;
 `;
 
 export const Info = styled.div`

@@ -16,22 +16,71 @@ import {
   Frame,
   Info,
   Input,
-  UserContent,
   Button,
 } from '../../styles/mypage/Mypage.style';
 import { connect } from "react-redux";
-import { login } from '../../actions';
+import { login, fetchAllLoginDiary } from '../../actions';
+import Diary from '../modals/Diary';
+import fetchAxios from "../main/useFetch";
+import AOS from "aos";
 
 
-const Mypage = ({ login, userLogin }) => {
+const Mypage = ({ login, userLogin, userInfo, fetchAllLoginDiary }) => {
+  useEffect(() => {
+    AOS.init();
+  }, []);
   const [users, setUsers] = useState({
     nickname: userLogin.userInfo.nickname,
     email: userLogin.userInfo.email
   });
-  // console.log(userLogin.userInfo)
+  const [isClick, setIsClick] = useState(false);
+  const [clickmoment, setClickmoment] = useState(null);
+  const [selectedDiaryId, setSelectedDiaryId] = useState(0);
+  const [myDiaries, setMyDiaries] = useState(null)
+
+  useEffect(() => {
+    fetchAxios(userInfo)
+      .then((result) => {
+        fetchAllLoginDiary(
+          result.publicDiary,
+          result.myDiary,
+          result.musicList
+        );
+        setMyDiaries(result.myDiary);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (clickmoment !== null) {
+      return setIsClick((prev) => setIsClick(!prev));
+    }
+  }, [clickmoment]);
+
+  const closeDiaryModal = () => {
+    setIsClick((prev) => setIsClick(!prev));
+  };
+
+  const momentHandler = (day) => {
+    setClickmoment(day);
+  };
+
+  const passDiaryId = (diaryId) => {
+    setSelectedDiaryId(diaryId);
+  };
 
   return (
     <>
+      {isClick && (
+        <Diary
+          clickmoment={clickmoment}
+          closeDiaryModal={closeDiaryModal}
+          selectedDiaryId={selectedDiaryId}
+          passDiaryId={passDiaryId}
+        />
+      )}
       <BoxContainer>
         <MypageHeader />
         <Wrapper>
@@ -71,9 +120,7 @@ const Mypage = ({ login, userLogin }) => {
                 <label for="diary">나의일기</label>
                 <nav>
                   <UserContentForm>
-                    <UserContent>
-                      <DiaryPost />
-                    </UserContent>
+                    <DiaryPost myDiaries={myDiaries} setMyDiaries={setMyDiaries} modalHandle={momentHandler} />
                   </UserContentForm>
                 </nav>
               </div>
@@ -88,7 +135,8 @@ const Mypage = ({ login, userLogin }) => {
 const mapStateToProps = ({ loginReducer }) => {
   return {
     userLogin: loginReducer,
+    userInfo: loginReducer
   };
 };
 
-export default connect(mapStateToProps, { login })(Mypage);
+export default connect(mapStateToProps, { login, fetchAllLoginDiary })(Mypage);

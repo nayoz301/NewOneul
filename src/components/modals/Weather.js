@@ -58,7 +58,7 @@ const WeatherModal = ({
                   <Icon
                     icon={weather.weather}
                     // size={idx === weatherChosen ? 35 : 32}
-                    size={39}
+                    size={37}
                     style={{
                       color:
                         weather.id === selectedWeatherId
@@ -96,7 +96,7 @@ const WeatherModal = ({
                   <Icon
                     icon={weather.weather}
                     // size={idx === weatherChosen ? 35 : 32}
-                    size={39}
+                    size={37}
                     onClick={() => {
                       // setWeatherChosen(weather.id);
                       weatherData(weather.id);
@@ -134,29 +134,55 @@ const WeatherModal = ({
           <WeathersBody className="weathers-body">
             {weathers.map((weather) => {
               return (
-                <WeatherUnit key={uniqueId()}>
+                <IconWrapper
+                  key={uniqueId()}
+                  onClick={() => {
+                    weatherData(weather.id);
+                  }}
+                  id={weather.id}
+                  color={weather.color}
+                  weatherChosen={weatherChosen}
+                >
                   <Icon
                     icon={weather.weather}
-                    // size={idx === weatherChosen ? 35 : 32}
-                    size={39}
-                    onClick={() => {
-                      // setWeatherChosen(weather.id);
-                      weatherData(weather.id);
-                    }}
-                    style={{
-                      color:
-                        weather.id === weatherChosen
-                          ? weather.color
-                          : "#8a959e",
-                      backgroundColor:
-                        weather.id === weatherChosen
-                          ? weather.color + "45"
-                          : "transparent",
-                      borderRadius: "50%",
-                      fontWeight: 400,
-                    }}
+                    // size={37}
+
+                    // style={{
+                    //   color:
+                    //     weather.id === weatherChosen
+                    //       ? weather.color
+                    //       : "#8a959e",
+                    //   backgroundColor:
+                    //     weather.id === weatherChosen
+                    //       ? weather.color + "45"
+                    //       : "transparent",
+                    //   borderRadius: "50%",
+                    // }}
                   />
-                </WeatherUnit>
+                </IconWrapper>
+                // <WeatherUnit key={uniqueId()}>
+                //   <Icon
+                //     icon={weather.weather}
+                //     // size={idx === weatherChosen ? 35 : 32}
+                //     size={37}
+                //     onClick={() => {
+                //       // setWeatherChosen(weather.id);
+                //       weatherData(weather.id);
+                //     }}
+                //     style={{
+                //       color:
+                //         weather.id === weatherChosen
+                //           ? weather.color
+                //           : "#8a959e",
+                //       backgroundColor:
+                //         weather.id === weatherChosen
+                //           ? weather.color + "45"
+                //           : "transparent",
+                //       borderRadius: "50%",
+                //       fontWeight: 400,
+                //     }}
+                //   />
+                // </WeatherUnit>
               );
             })}
           </WeathersBody>
@@ -167,6 +193,77 @@ const WeatherModal = ({
 };
 
 export default React.memo(WeatherModal);
+
+const IconWrapper = styled.div`
+  svg {
+    width: 3.7rem;
+    height: 3.7rem;
+    fill: ${(props) =>
+      props.id === props.weatherChosen ? props.color : "#8a959e"};
+
+    background-color: ${(props) =>
+      props.id === props.weatherChosen ? props.color + "45" : "transparent"};
+
+    border-radius: 50%;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &:active {
+      transform: scale(1);
+    }
+
+    @media screen and (max-width: 489px) {
+      & {
+        width: 3.5rem;
+        height: 3.5rem;
+      }
+    }
+
+    @media screen and (max-width: 464px) {
+      & {
+        width: 3.3rem;
+        height: 3.3rem;
+      }
+    }
+
+    @media screen and (max-width: 439px) {
+      & {
+        width: 3.1rem;
+        height: 3.1rem;
+      }
+    }
+
+    @media screen and (max-width: 414px) {
+      & {
+        width: 2.9rem;
+        height: 2.9rem;
+      }
+    }
+
+    @media screen and (max-width: 389px) {
+      & {
+        width: 2.7rem;
+        height: 2.7rem;
+      }
+    }
+
+    @media screen and (max-width: 364px) {
+      & {
+        width: 2.5rem;
+        height: 2.5rem;
+      }
+    }
+
+    @media screen and (max-width: 339px) {
+      & {
+        width: 2.3rem;
+        height: 2.3rem;
+      }
+    }
+  }
+`;
 
 const WeathersBody = styled.div`
   display: flex;

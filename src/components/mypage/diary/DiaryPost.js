@@ -1,36 +1,13 @@
 import React, { useState, useEffect } from "react";
-import {
-  BoxContainer,
-  DiaryContainer,
-  UserContentForm,
-  Div,
-} from "../../../styles/mypage/DiaryPost.style";
+import { DiaryContainer, Div } from "../../../styles/mypage/DiaryPost.style";
 import { connect } from "react-redux";
 import SelectFilter from "./SelectFilter";
 import MyCardList from "./MyCardList";
-import { fetchAllLoginDiary } from "../../../actions";
-import fetchAxios from "../../main/useFetch";
 
-const DiaryPost = ({ diary, userInfo, fetchAllLoginDiary }) => {
-  const [myDiaries, setMyDiaries] = useState(null);
+const DiaryPost = ({ diary, myDiaries, setMyDiaries, modalHandle }) => {
   const [onPublic, setOnPublic] = useState("");
-  const [onClick, setOnClick] = useState(false);
-  const [onMoment, setOnMoment] = useState(null);
 
-  useEffect(() => {
-    fetchAxios(userInfo)
-      .then((result) => {
-        fetchAllLoginDiary(
-          result.publicDiary,
-          result.myDiary,
-          result.musicList
-        );
-        setMyDiaries(result.myDiary);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  console.log(myDiaries);
 
   const filteringPublic = (e) => {
     let selectCard = e.target.value;
@@ -52,29 +29,17 @@ const DiaryPost = ({ diary, userInfo, fetchAllLoginDiary }) => {
     }
   };
 
-  useEffect(() => {
-    if (onMoment !== null) {
-      return setOnClick((prev) => setOnClick(!prev));
-    }
-  }, [onMoment]);
-
-  const handleMoment = (day) => {
-    setOnMoment(day);
-  };
-
   return (
-    <BoxContainer>
-      <UserContentForm>
-        <Div>
-          <SelectFilter filteringPublic={filteringPublic} onPublic={onPublic} />
-        </Div>
-        <DiaryContainer>
-          {myDiaries && (
-            <MyCardList myDiaries={myDiaries} handleMoment={handleMoment} />
-          )}
-        </DiaryContainer>
-      </UserContentForm>
-    </BoxContainer>
+    <>
+      <Div>
+        <SelectFilter filteringPublic={filteringPublic} onPublic={onPublic} />
+      </Div>
+      <DiaryContainer>
+        {myDiaries && (
+          <MyCardList myDiaries={myDiaries} modalHandle={modalHandle} />
+        )}
+      </DiaryContainer>
+    </>
   );
 };
 
@@ -85,6 +50,8 @@ const mapStateToProps = ({ loginReducer, mainReducer }) => {
   };
 };
 
-export default connect(mapStateToProps, {
-  fetchAllLoginDiary,
-})(DiaryPost);
+export default connect(mapStateToProps)(DiaryPost);
+
+// export default connect(mapStateToProps, {
+//   fetchAllLoginDiary,
+// })(DiaryPost);
