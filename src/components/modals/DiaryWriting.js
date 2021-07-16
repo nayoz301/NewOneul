@@ -114,13 +114,13 @@ const DiaryWriting = ({
 
   useEffect(() => {
     if (selectedDiary) {
-      SetIsPublic(selectedDiary.isPublic)
+      SetIsPublic(selectedDiary.isPublic);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    console.log("public 반영되나요? " + isPublic)
-  })
+    console.log("public 반영되나요? " + isPublic);
+  });
 
   const emojiModalOnOff = useCallback(() => {
     //이모지 모달창 끄고 닫기
@@ -304,7 +304,7 @@ const DiaryWriting = ({
             modifyPublicDiary(data.id, data);
             changeToPublic(data);
           } else if (data.isPublic) {
-            modifyPublicDiary(data.id, data);            
+            modifyPublicDiary(data.id, data);
           } else {
             modifyDiary(data.id, data);
           }
@@ -550,21 +550,25 @@ const DiaryWriting = ({
                 alignItems: "center",
               }}
             >
-            { isPublic === false ? <input
-                type="checkbox"
-                id="check_box"
-                onChange={() => {
-                  SetIsPublic(!isPublic);
-                }}
-              ></input> : <input
-                type="checkbox"
-                id="check_box"
-                checked="true"
-                onChange={() => {
-                  SetIsPublic(!isPublic);
-                }}
-              ></input>}
-              
+              {isPublic === false ? (
+                <input
+                  type="checkbox"
+                  id="check_box"
+                  onChange={() => {
+                    SetIsPublic(!isPublic);
+                  }}
+                ></input>
+              ) : (
+                <input
+                  type="checkbox"
+                  id="check_box"
+                  checked="true"
+                  onChange={() => {
+                    SetIsPublic(!isPublic);
+                  }}
+                ></input>
+              )}
+
               <label
                 for="check_box"
                 className="private"

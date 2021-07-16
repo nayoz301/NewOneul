@@ -4,16 +4,18 @@ import {
   DiaryContainer,
   UserContentForm,
   Div,
-} from '../../../styles/mypage/DiaryPost.style';
+} from "../../../styles/mypage/DiaryPost.style";
 import { connect } from "react-redux";
-import SelectFilter from './SelectFilter';
-import MyCardList from './MyCardList';
-import { fetchAllLoginDiary, fetchAllUnloginDiary } from "../../../actions";
+import SelectFilter from "./SelectFilter";
+import MyCardList from "./MyCardList";
+import { fetchAllLoginDiary } from "../../../actions";
 import fetchAxios from "../../main/useFetch";
 
-const DiaryPost = ({ diary, userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
-  const [myDiaries, setMyDiaries] = useState(null)
+const DiaryPost = ({ diary, userInfo, fetchAllLoginDiary }) => {
+  const [myDiaries, setMyDiaries] = useState(null);
   const [onPublic, setOnPublic] = useState("");
+  const [onClick, setOnClick] = useState(false);
+  const [onMoment, setOnMoment] = useState(null);
 
   useEffect(() => {
     fetchAxios(userInfo)
@@ -30,49 +32,51 @@ const DiaryPost = ({ diary, userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }
       });
   }, []);
 
-  console.log(fetch)
-  console.log(myDiaries)
-
   const filteringPublic = (e) => {
-    let selectCard = e.target.value
-    console.log(selectCard);
-    setOnPublic(selectCard)
-    if (selectCard === '') {
-      setMyDiaries(diary.myDiary)
-    }
-    else if (selectCard === "true") {
+    let selectCard = e.target.value;
+    setOnPublic(selectCard);
+    if (selectCard === "") {
+      setMyDiaries(diary.myDiary);
+    } else if (selectCard === "true") {
       setMyDiaries(
         diary.myDiary.filter((diary) => {
-          return diary.isPublic === true
+          return diary.isPublic === true;
         })
-      )
+      );
     } else if (selectCard === "false") {
       setMyDiaries(
         diary.myDiary.filter((diary) => {
-          return diary.isPublic === false
+          return diary.isPublic === false;
         })
-      )
+      );
     }
-  }
-  console.log(myDiaries);
+  };
+
+  useEffect(() => {
+    if (onMoment !== null) {
+      return setOnClick((prev) => setOnClick(!prev));
+    }
+  }, [onMoment]);
+
+  const handleMoment = (day) => {
+    setOnMoment(day);
+  };
 
   return (
     <BoxContainer>
       <UserContentForm>
         <Div>
-          <SelectFilter
-            filteringPublic={filteringPublic}
-            onPublic={onPublic}
-          />
+          <SelectFilter filteringPublic={filteringPublic} onPublic={onPublic} />
         </Div>
         <DiaryContainer>
-          {myDiaries && <MyCardList myDiaries={myDiaries} />}
+          {myDiaries && (
+            <MyCardList myDiaries={myDiaries} handleMoment={handleMoment} />
+          )}
         </DiaryContainer>
       </UserContentForm>
     </BoxContainer>
-  )
-}
-
+  );
+};
 
 const mapStateToProps = ({ loginReducer, mainReducer }) => {
   return {
@@ -81,4 +85,6 @@ const mapStateToProps = ({ loginReducer, mainReducer }) => {
   };
 };
 
-export default connect(mapStateToProps, { fetchAllLoginDiary, fetchAllUnloginDiary })(DiaryPost);
+export default connect(mapStateToProps, {
+  fetchAllLoginDiary,
+})(DiaryPost);
