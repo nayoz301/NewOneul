@@ -91,7 +91,7 @@
   transform: scale(0);
 }
 
-#check_box input[type="checkbox"]:checked + label:before {
+#check_box[type="checkbox"]:checked + label:before {
   background-color: #837970;
   border-color: #837970;
   color: #fff;
