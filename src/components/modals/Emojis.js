@@ -60,6 +60,32 @@ const emojis = [
   { id: 20, emoji: farSadCry, color: "#147efb" },
 ];
 
+const Emojis = ({ emojiModalOnOff, whatEmoji }) => {
+  return (
+    <>
+      <EmojiWrapper className="emoji-wrapper">
+        <EmojisHeaders className="emojis-header">오늘의 나</EmojisHeaders>
+        <EmojisBody className="emojis-body">
+          {emojis.map((emoji) => {
+            return (
+              <EmojiUnit
+                key={uniqueId()}
+                onClick={() => {
+                  whatEmoji(emoji);
+                  emojiModalOnOff();
+                }}
+                color={emoji.color}
+              >
+                <FontAwesomeIcon icon={emoji.emoji} />
+              </EmojiUnit>
+            );
+          })}
+        </EmojisBody>
+      </EmojiWrapper>
+    </>
+  );
+};
+
 const EmojiWrapper = styled.div`
   display: flex;
   position: absolute;
@@ -120,109 +146,9 @@ const EmojiUnit = styled.div`
   &:active {
     transform: scale(0.9);
   }
-`;
 
-const Emojis = ({ emojiModalOnOff, whatEmoji }) => {
-  return (
-    <>
-      <EmojiWrapper className="emoji-wrapper">
-        <EmojisHeaders className="emojis-header">오늘의 나</EmojisHeaders>
-        <EmojisBody className="emojis-body">
-          {emojis.map((emoji) => {
-            return (
-              <EmojiUnit
-                key={uniqueId()}
-                onClick={() => {
-                  whatEmoji(emoji);
-                  emojiModalOnOff();
-                }}
-                style={{
-                  fontSize: 25,
-                  color: emoji.color,
-                  // color: emoji.id === emojiChosen ? emoji.color : "#c6d6df",
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={emoji.emoji}
-                  // size={emoji.id === emojiChosen ? 30 : 25}
-                />
-              </EmojiUnit>
-            );
-          })}
-        </EmojisBody>
-      </EmojiWrapper>
-    </>
-  );
-};
-const IconWrapper = styled.div`
-  svg {
-    width: 3.7rem;
-    height: 3.7rem;
-    fill: ${(props) =>
-      props.id === props.weatherChosen ? props.color : "#8a959e"};
-
-    background-color: ${(props) =>
-      props.id === props.weatherChosen ? props.color + "45" : "transparent"};
-
-    border-radius: 50%;
-
-    &:hover {
-      transform: scale(1.1);
-    }
-
-    &:active {
-      transform: scale(1);
-    }
-
-    @media screen and (max-width: 489px) {
-      & {
-        width: 3.5rem;
-        height: 3.5rem;
-      }
-    }
-
-    @media screen and (max-width: 464px) {
-      & {
-        width: 3.3rem;
-        height: 3.3rem;
-      }
-    }
-
-    @media screen and (max-width: 439px) {
-      & {
-        width: 3.1rem;
-        height: 3.1rem;
-      }
-    }
-
-    @media screen and (max-width: 414px) {
-      & {
-        width: 2.9rem;
-        height: 2.9rem;
-      }
-    }
-
-    @media screen and (max-width: 389px) {
-      & {
-        width: 2.7rem;
-        height: 2.7rem;
-      }
-    }
-
-    @media screen and (max-width: 364px) {
-      & {
-        width: 2.5rem;
-        height: 2.5rem;
-      }
-    }
-
-    @media screen and (max-width: 339px) {
-      & {
-        width: 2.3rem;
-        height: 2.3rem;
-      }
-    }
-  }
+  font-size: 2.5rem;
+  color: ${(props) => props.color};
 `;
 
 export default Emojis;

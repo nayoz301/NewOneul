@@ -158,6 +158,7 @@ export default React.memo(WeatherModal);
 
 const IconWrapper = styled.div`
   svg {
+    cursor: pointer;
     width: 3.7rem;
     height: 3.7rem;
     fill: ${(props) =>
