@@ -15,7 +15,14 @@ import { icons } from "../../../../icons/icons";
 import { addEmpathy, removeEmpathy } from "../../../../actions";
 import axios from "axios";
 
-const OtherCard = ({ diary, userInfo, addEmpathy, removeEmpathy, closeDiaryModal, passDiaryId }) => {
+const OtherCard = ({
+  diary,
+  userInfo,
+  addEmpathy,
+  removeEmpathy,
+  closeDiaryModal,
+  passDiaryId,
+}) => {
   const { faceIcons, weatherIcons } = icons;
   const { id, nickname } = userInfo.userInfo;
   const { accessToken } = userInfo.login;
@@ -73,7 +80,6 @@ const OtherCard = ({ diary, userInfo, addEmpathy, removeEmpathy, closeDiaryModal
       onClick={() => {
         passDiaryId(diary.id);
         closeDiaryModal();
-        // console.log(diary.id);
       }}
     >
       <MyDiaryFrontHeader>
