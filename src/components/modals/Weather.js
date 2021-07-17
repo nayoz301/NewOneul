@@ -35,12 +35,9 @@ const WeatherModal = ({
   // setWeatherChosen,
   weatherChosen,
 }) => {
-  console.log("from weather");
-
   useEffect(() => {
     weatherData(selectedWeatherId);
   }, [isEditing === false]);
-
   if (selectedWeatherId && isEditing === false) {
     return (
       <>
@@ -54,14 +51,24 @@ const WeatherModal = ({
           <WeathersBody className="weathers-body">
             {weathers.map((weather) => {
               return (
-                <IconWrapper
-                  key={uniqueId()}
-                  id={weather.id}
-                  color={weather.color}
-                  weatherChosen={weatherChosen}
-                >
-                  <Icon icon={weather.weather} />
-                </IconWrapper>
+                <WeatherUnit key={uniqueId()}>
+                  <Icon
+                    icon={weather.weather}
+                    size={37}
+                    style={{
+                      color:
+                        weather.id === selectedWeatherId
+                          ? weather.color
+                          : "#8a959e",
+                      backgroundColor:
+                        weather.id === selectedWeatherId
+                          ? weather.color + "45"
+                          : "transparent",
+                      borderRadius: "50%",
+                      fontWeight: 400,
+                    }}
+                  />
+                </WeatherUnit>
               );
             })}
           </WeathersBody>
@@ -122,29 +129,6 @@ const WeatherModal = ({
                 >
                   <Icon icon={weather.weather} />
                 </IconWrapper>
-                // <WeatherUnit key={uniqueId()}>
-                //   <Icon
-                //     icon={weather.weather}
-                //     // size={idx === weatherChosen ? 35 : 32}
-                //     size={37}
-                //     onClick={() => {
-                //       // setWeatherChosen(weather.id);
-                //       weatherData(weather.id);
-                //     }}
-                //     style={{
-                //       color:
-                //         weather.id === weatherChosen
-                //           ? weather.color
-                //           : "#8a959e",
-                //       backgroundColor:
-                //         weather.id === weatherChosen
-                //           ? weather.color + "45"
-                //           : "transparent",
-                //       borderRadius: "50%",
-                //       fontWeight: 400,
-                //     }}
-                //   />
-                // </WeatherUnit>
               );
             })}
           </WeathersBody>
@@ -240,12 +224,4 @@ const WeatherUnit = styled.div`
   font-size: 1.5rem;
   text-align: center;
   cursor: pointer;
-
-  &:hover {
-    transform: scale(1.1);
-  }
-
-  &:active {
-    transform: scale(1);
-  }
 `;

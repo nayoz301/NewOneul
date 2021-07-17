@@ -241,16 +241,6 @@ const Painting = ({
       setPainting(true);
       setErasing(false);
     }
-    console.log(
-      "eraser::",
-      eraser,
-      "erasing::",
-      erasing,
-      "painting::",
-      painting,
-      "filling::",
-      filling
-    );
   };
 
   const stopPainting = () => {
@@ -344,7 +334,9 @@ const Painting = ({
         getMouesPosition(nativeEvent).x,
         getMouesPosition(nativeEvent).y
       );
+      ctx.current.lineCap = "round";
       ctx.current.stroke();
+
       // console.log("x,y", nativeEvent.offsetX, nativeEvent.offsetY);
     } else if (erasing) {
       // ctx.current.globalCompositeOperation = "destination-out"; //이게 정석 지우개지만 이걸로 하면 검정화면 나타남
