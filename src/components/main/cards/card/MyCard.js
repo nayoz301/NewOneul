@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   MyDiary,
   MyDiaryFrontHeader,
@@ -32,6 +32,7 @@ const MyCard = ({
   const { faceIcons, weatherIcons } = icons;
   const { id, isPublic, date, feeling, text, weather } = diary;
   const { accessToken } = userInfo.login;
+  const textBoxRef = useRef(null);
 
   const deleteUrl = "https://oneul.site/O_NeulServer/diary/delete";
 
@@ -97,12 +98,15 @@ const MyCard = ({
               <span>삭제하기</span>
             </DragDown>
           </SettingDiv>
-          {/* <MouseWrapper> */}
-          <Mouse>
+          <Mouse
+            overflow={
+              textBoxRef.current &&
+              textBoxRef.current.scrollHeight > textBoxRef.current.offsetHeight
+            }
+          >
             <Wheel />
           </Mouse>
-          {/* </MouseWrapper> */}
-          <MyDiaryBackText>{text}</MyDiaryBackText>
+          <MyDiaryBackText ref={textBoxRef}>{text}</MyDiaryBackText>
         </MyDiaryBackTextWrapper>
       </MyDiaryBack>
     </MyDiary>
@@ -161,6 +165,7 @@ const wheel = keyframes`
 `;
 
 const Mouse = styled.div`
+  display: ${({ overflow }) => (overflow ? "block" : "none")};
   position: absolute;
   height: 25px;
   width: 16px;
@@ -168,7 +173,6 @@ const Mouse = styled.div`
   border-radius: 85px;
   right: 6px;
   bottom: 6px;
-  /* background-color: gray; */
 `;
 
 const Wheel = styled.div`
@@ -177,7 +181,6 @@ const Wheel = styled.div`
   height: 8px;
   background: rgba(0, 0, 0, 0.4);
   left: 50%;
-  /* transform: translateX(-50%); */
   border-radius: 15px;
   animation: ${wheel} 1.5s ease;
   animation-iteration-count: 10;
