@@ -455,3 +455,12 @@ body .player-wrapper {
   background: #dfd5c9;
   cursor: pointer;
 }
+
+@media screen and (max-width: 359px) {
+  .player-wrapper {
+    width: 99%;
+  }
+  .player-wrapper .current-song {
+    width: 99%;
+  }
+}

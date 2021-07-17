@@ -60,6 +60,32 @@ const emojis = [
   { id: 20, emoji: farSadCry, color: "#147efb" },
 ];
 
+const Emojis = ({ emojiModalOnOff, whatEmoji }) => {
+  return (
+    <>
+      <EmojiWrapper className="emoji-wrapper">
+        <EmojisHeaders className="emojis-header">오늘의 나</EmojisHeaders>
+        <EmojisBody className="emojis-body">
+          {emojis.map((emoji) => {
+            return (
+              <EmojiUnit
+                key={uniqueId()}
+                onClick={() => {
+                  whatEmoji(emoji);
+                  emojiModalOnOff();
+                }}
+                color={emoji.color}
+              >
+                <FontAwesomeIcon icon={emoji.emoji} />
+              </EmojiUnit>
+            );
+          })}
+        </EmojisBody>
+      </EmojiWrapper>
+    </>
+  );
+};
+
 const EmojiWrapper = styled.div`
   display: flex;
   position: absolute;
@@ -120,39 +146,9 @@ const EmojiUnit = styled.div`
   &:active {
     transform: scale(0.9);
   }
-`;
 
-const Emojis = ({ emojiModalOnOff, whatEmoji }) => {
-  return (
-    <>
-      <EmojiWrapper className="emoji-wrapper">
-        <EmojisHeaders className="emojis-header">오늘의 나</EmojisHeaders>
-        <EmojisBody className="emojis-body">
-          {emojis.map((emoji) => {
-            return (
-              <EmojiUnit
-                key={uniqueId()}
-                onClick={() => {
-                  whatEmoji(emoji);
-                  emojiModalOnOff();
-                }}
-                style={{
-                  fontSize: 25,
-                  color: emoji.color,
-                  // color: emoji.id === emojiChosen ? emoji.color : "#c6d6df",
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={emoji.emoji}
-                  // size={emoji.id === emojiChosen ? 30 : 25}
-                />
-              </EmojiUnit>
-            );
-          })}
-        </EmojisBody>
-      </EmojiWrapper>
-    </>
-  );
-};
+  font-size: 2.5rem;
+  color: ${(props) => props.color};
+`;
 
 export default Emojis;

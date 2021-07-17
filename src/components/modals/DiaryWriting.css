@@ -8,7 +8,7 @@
   border-top-right-radius: 0.7rem;
   border-bottom-right-radius: 0.7rem;
   cursor: pointer;
-  z-index: 500;
+  z-index: 200;
   background-color: #d3c4ae;
   border: 1px solid rgb(27, 27, 27, 0.2);
 }
@@ -26,7 +26,7 @@
   border-top-right-radius: 0.7rem;
   border-top-left-radius: 0.7rem;
   cursor: pointer;
-  z-index: 500;
+  z-index: 200;
   background-color: #d3c4ae;
   border: 1px solid rgb(27, 27, 27, 0.2);
 }
@@ -91,7 +91,7 @@
   transform: scale(0);
 }
 
-#check_box[type="checkbox"]:checked + label:before {
+#check_box input[type="checkbox"]:checked + label:before {
   background-color: #837970;
   border-color: #837970;
   color: #fff;
