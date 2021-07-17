@@ -5,7 +5,7 @@ body .player-wrapper {
   align-items: center;
   /* max-width: 35rem; */
   /* min-height: 35vh; */
-  min-width: 35rem;
+  /* min-width: 35rem; */
   border-radius: 2rem;
   color: rgba(105, 97, 97, 0.555); /*배경글자색*/
   font-weight: 350;
@@ -13,15 +13,16 @@ body .player-wrapper {
   overflow: hidden;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
     rgba(0, 0, 0, 0.22) 0px 15px 12px;
+
+  z-index: 510;
 }
 
 .player-wrapper .current-song {
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
   width: 100%;
-
-  /* padding: 1rem 0rem; */
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
   color: #dfd5c9; /*현재재생창 글씨색*/
@@ -31,11 +32,12 @@ body .player-wrapper {
   box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
     rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
     rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+  z-index: 510;
 }
 
 .current-song .close-btn {
-  position: relative;
-  right: -16rem;
+  position: absolute;
+  right: 1rem;
   top: 1rem;
   cursor: pointer;
 }
@@ -454,4 +456,13 @@ body .player-wrapper {
   border-radius: 50%;
   background: #dfd5c9;
   cursor: pointer;
+}
+
+@media screen and (max-width: 359px) {
+  .player-wrapper {
+    width: 99%;
+  }
+  .player-wrapper .current-song {
+    width: 99%;
+  }
 }

@@ -54,25 +54,14 @@ const WeatherModal = ({
           <WeathersBody className="weathers-body">
             {weathers.map((weather) => {
               return (
-                <WeatherUnit key={uniqueId()}>
-                  <Icon
-                    icon={weather.weather}
-                    // size={idx === weatherChosen ? 35 : 32}
-                    size={37}
-                    style={{
-                      color:
-                        weather.id === selectedWeatherId
-                          ? weather.color
-                          : "#8a959e",
-                      backgroundColor:
-                        weather.id === selectedWeatherId
-                          ? weather.color + "45"
-                          : "transparent",
-                      borderRadius: "50%",
-                      fontWeight: 400,
-                    }}
-                  />
-                </WeatherUnit>
+                <IconWrapper
+                  key={uniqueId()}
+                  id={weather.id}
+                  color={weather.color}
+                  weatherChosen={weatherChosen}
+                >
+                  <Icon icon={weather.weather} />
+                </IconWrapper>
               );
             })}
           </WeathersBody>
@@ -92,29 +81,17 @@ const WeatherModal = ({
           <WeathersBody className="weathers-body">
             {weathers.map((weather) => {
               return (
-                <WeatherUnit key={uniqueId()}>
-                  <Icon
-                    icon={weather.weather}
-                    // size={idx === weatherChosen ? 35 : 32}
-                    size={37}
-                    onClick={() => {
-                      // setWeatherChosen(weather.id);
-                      weatherData(weather.id);
-                    }}
-                    style={{
-                      color:
-                        weather.id === weatherChosen
-                          ? weather.color
-                          : "#8a959e",
-                      backgroundColor:
-                        weather.id === weatherChosen
-                          ? weather.color + "45"
-                          : "transparent",
-                      borderRadius: "50%",
-                      fontWeight: 400,
-                    }}
-                  />
-                </WeatherUnit>
+                <IconWrapper
+                  key={uniqueId()}
+                  onClick={() => {
+                    weatherData(weather.id);
+                  }}
+                  id={weather.id}
+                  color={weather.color}
+                  weatherChosen={weatherChosen}
+                >
+                  <Icon icon={weather.weather} />
+                </IconWrapper>
               );
             })}
           </WeathersBody>
@@ -143,22 +120,7 @@ const WeatherModal = ({
                   color={weather.color}
                   weatherChosen={weatherChosen}
                 >
-                  <Icon
-                    icon={weather.weather}
-                    // size={37}
-
-                    // style={{
-                    //   color:
-                    //     weather.id === weatherChosen
-                    //       ? weather.color
-                    //       : "#8a959e",
-                    //   backgroundColor:
-                    //     weather.id === weatherChosen
-                    //       ? weather.color + "45"
-                    //       : "transparent",
-                    //   borderRadius: "50%",
-                    // }}
-                  />
+                  <Icon icon={weather.weather} />
                 </IconWrapper>
                 // <WeatherUnit key={uniqueId()}>
                 //   <Icon
@@ -235,7 +197,7 @@ const IconWrapper = styled.div`
       }
     }
 
-    @media screen and (max-width: 414px) {
+    @media screen and (max-width: 418px) {
       & {
         width: 2.9rem;
         height: 2.9rem;

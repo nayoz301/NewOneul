@@ -154,5 +154,75 @@ const Emojis = ({ emojiModalOnOff, whatEmoji }) => {
     </>
   );
 };
+const IconWrapper = styled.div`
+  svg {
+    width: 3.7rem;
+    height: 3.7rem;
+    fill: ${(props) =>
+      props.id === props.weatherChosen ? props.color : "#8a959e"};
+
+    background-color: ${(props) =>
+      props.id === props.weatherChosen ? props.color + "45" : "transparent"};
+
+    border-radius: 50%;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &:active {
+      transform: scale(1);
+    }
+
+    @media screen and (max-width: 489px) {
+      & {
+        width: 3.5rem;
+        height: 3.5rem;
+      }
+    }
+
+    @media screen and (max-width: 464px) {
+      & {
+        width: 3.3rem;
+        height: 3.3rem;
+      }
+    }
+
+    @media screen and (max-width: 439px) {
+      & {
+        width: 3.1rem;
+        height: 3.1rem;
+      }
+    }
+
+    @media screen and (max-width: 414px) {
+      & {
+        width: 2.9rem;
+        height: 2.9rem;
+      }
+    }
+
+    @media screen and (max-width: 389px) {
+      & {
+        width: 2.7rem;
+        height: 2.7rem;
+      }
+    }
+
+    @media screen and (max-width: 364px) {
+      & {
+        width: 2.5rem;
+        height: 2.5rem;
+      }
+    }
+
+    @media screen and (max-width: 339px) {
+      & {
+        width: 2.3rem;
+        height: 2.3rem;
+      }
+    }
+  }
+`;
 
 export default Emojis;

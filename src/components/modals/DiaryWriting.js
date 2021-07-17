@@ -716,38 +716,38 @@ const ModalWrapper = styled.div`
   }
   @media screen and (max-width: 760px) {
     & {
-      width: 100%;
+      width: 99%;
       height: 92%;
     }
   }
   @media screen and (max-width: 670px) {
     & {
-      width: 100%;
+      width: 99%;
       height: 92%;
     }
   }
   @media screen and (max-width: 600px) {
     & {
-      width: 100%;
+      width: 99%;
       height: 92%;
     }
   }
   @media screen and (max-width: 570px) {
     & {
-      width: 100%;
+      width: 99%;
       height: 92%;
     }
   }
   @media screen and (max-width: 500px) {
     & {
-      width: 50rem;
+      width: 99%;
       height: 92%;
     }
   }
 
   @media screen and (max-width: 412px) {
     & {
-      width: 100%;
+      width: 99%;
       height: 80%;
     }
   }
