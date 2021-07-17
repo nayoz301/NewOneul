@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const DiaryContainer = styled.div`
   min-width: 20%;
-  height: 63vh;
+  height: 85%;
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;
