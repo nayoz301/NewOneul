@@ -48,7 +48,7 @@ const LandingSection = ({ userInfo, logout }) => {
   return (
     <HeaderSection>
       <Overlay>
-        <video src={video} muted="muted" autoPlay loop />
+        <video src={video} muted="muted" autoPlay loop playsInline />
       </Overlay>
       <LandingNav>
         <Link to="/">

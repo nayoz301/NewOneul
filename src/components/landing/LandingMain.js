@@ -45,7 +45,7 @@ const LandingMain = () => {
               data-aos={"fade-left"}
               data-aos-duration={"500"}
             >
-              <video src={background} muted autoPlay loop></video>
+              <video src={background} muted autoPlay loop playsInline></video>
             </VideoContainer>
           </MainInnerWrapper>
         </MainInnerSection>
