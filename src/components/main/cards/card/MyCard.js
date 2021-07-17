@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   MyDiary,
   MyDiaryFrontHeader,
@@ -33,6 +33,13 @@ const MyCard = ({
   const { id, isPublic, date, feeling, text, weather } = diary;
   const { accessToken } = userInfo.login;
   const textBoxRef = useRef(null);
+  const [scrollCheck, setScrollCheck] = useState(false);
+
+  useEffect(() => {
+    if (textBoxRef.current.scrollHeight > textBoxRef.current.offsetHeight) {
+      setScrollCheck(true);
+    }
+  }, []);
 
   const deleteUrl = "https://oneul.site/O_NeulServer/diary/delete";
 
@@ -98,12 +105,7 @@ const MyCard = ({
               <span>삭제하기</span>
             </DragDown>
           </SettingDiv>
-          <Mouse
-            overflow={
-              textBoxRef.current &&
-              textBoxRef.current.scrollHeight > textBoxRef.current.offsetHeight
-            }
-          >
+          <Mouse overflow={scrollCheck}>
             <Wheel />
           </Mouse>
           <MyDiaryBackText ref={textBoxRef}>{text}</MyDiaryBackText>

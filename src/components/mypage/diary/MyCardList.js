@@ -14,7 +14,7 @@ const MyCardList = ({ myDiaries, diary, modalHandle }) => {
   const content =
     myDiaries.length === 0 ? (
       <Link to="/main">
-        <DiaryLogin>📣 "일기작성은 메인페이지로" >>> Click</DiaryLogin>
+        {/* <DiaryLogin>📣 "일기작성은 메인페이지로" >>> Click</DiaryLogin> */}
       </Link>
     ) : (
       <CardFace>
