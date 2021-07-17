@@ -13,7 +13,7 @@ export const BoxContainer = styled.div`
 
 export const FormContainer = styled.form`
   font-size: 2rem;
-  width: 75vmax;
+  width: 80%;
   height: 100%;
   margin: 8rem 0 1rem 0;
   border-radius: 1rem;
@@ -59,8 +59,8 @@ export const ContentTitle = styled.div`
 `;
 
 export const UserInfoForm = styled.div`
-width: 37vmax;
-  height: 85vh;
+width: 50%;
+  height: 100vh;
   border: 2px solid var(--primary-color);
   border-radius: .7rem;
   display: flex;
@@ -72,11 +72,10 @@ width: 37vmax;
   color: #000;
   @media screen and (max-width: 768px) {
     width: 37vmax;
-    height: 75vh;
+    height: 75%;
     box-shadow: 2px 5px 5px #D3CCDB;
     flex-direction: column;
     position: absolute;
-    width: 37vmax;
     left: 10.5vmax;
     top: 11.045rem;
   }
@@ -95,8 +94,8 @@ export const Frame = styled.div`
 `;
 
 export const UserContentForm = styled.div`
-width: 37vmax;
-height: 85vh;
+width: 100%;
+height: 100vh;
 border: 2px solid var(--primary-color);
 border-radius: .7rem;
 display: block;
@@ -104,8 +103,8 @@ flex-direction: column;
 justify-content: center;
 align-items: center;
 background-color: #fff;
-padding-top: 2.5rem;
-margin-left: 1rem;
+padding-top: 1.5em;
+margin-left: 2rem;
 box-shadow: 10px 5px 5px #D3CCDB;
 
 @media screen and (max-width: 1024px) {
@@ -116,9 +115,10 @@ box-shadow: 10px 5px 5px #D3CCDB;
   width: 35vmax;
 }
 @media screen and (max-width: 768px) {
-  width: 37vmax;
-  height: 75vh;
-  position: absolute;
+  width: 100%;
+  height: 75%;
+  margin-top: 1.8rem;
+  margin-left: 1.8rem;
 }
 `;
 
