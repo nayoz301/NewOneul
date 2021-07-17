@@ -6,7 +6,6 @@ import Swal from 'sweetalert2';
 import {
   BoxContainer,
   ModalContainer,
-  Wrapper,
   ModifyText,
   ModifyForm,
   Input,
@@ -39,7 +38,7 @@ const Modify = ({ login, userLogin }) => {
     const { nickname, password, password2 } = modiValues;
 
     if (nickname.length > 0 &&
-      (password.length === 0 || password.length > 7) &&
+      password.length > 7 &&
       password2 === password) {
       console.log("Modify");
       handleModify(nickname, password);
