@@ -83,9 +83,11 @@ const DiaryWriting = ({
   const [isEditing, setIsEditing] = useState(false);
   const [isPublic, SetIsPublic] = useState(() => {
     if (isEditing) {
+      console.log(isEditing, "isEditing");
+      console.log(selectedDiary.isPublic, "isPublic");
       return selectedDiary.isPublic;
     }
-    return false;
+    // return false;
   });
   const [diaryText, setDiaryText] = useState("");
   const [weatherChosen, setWeatherChosen] = useState(null);
@@ -557,6 +559,7 @@ const DiaryWriting = ({
                 <input
                   type="checkbox"
                   id="check_box"
+                  checked={false}
                   onChange={() => {
                     SetIsPublic(!isPublic);
                   }}
@@ -565,7 +568,7 @@ const DiaryWriting = ({
                 <input
                   type="checkbox"
                   id="check_box"
-                  checked="true"
+                  checked={true}
                   onChange={() => {
                     SetIsPublic(!isPublic);
                   }}

@@ -6,6 +6,7 @@ import {
   OtherDiaryIconWrapper,
   FaceWeather,
   Heart,
+  Count,
 } from "../../../../styles/main/cards/OtherCards.style";
 import { Icon } from "react-icons-kit";
 import { heart, heartO } from "react-icons-kit/fa";
@@ -27,7 +28,7 @@ const OtherCard = ({
   const { id, nickname } = userInfo.userInfo;
   const { accessToken } = userInfo.login;
   const { date, image, feeling, user, weather, emphathies } = diary;
-  // const { picture } = diary.user;
+  console.log(diary);
   const addEpt = (e) => {
     // stop Bubbling of Event
     e.stopPropagation();
@@ -88,6 +89,7 @@ const OtherCard = ({
       <NameSpan>{user && user.nickname}</NameSpan>
       <OtherDiaryIconWrapper>
         <Heart>
+          <Count>{emphathies.length}</Count>
           {checkEmpha(emphathies, id) ? (
             <Icon
               icon={heart}
