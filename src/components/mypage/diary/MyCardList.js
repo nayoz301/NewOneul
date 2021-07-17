@@ -8,19 +8,19 @@ import styled from "styled-components";
 import { flexCenter } from "../../../styles/global.style";
 
 const MyCardList = ({ myDiaries, diary, modalHandle }) => {
-  console.log(myDiaries)
-  console.log(diary.myDiary)
+  console.log(myDiaries);
+  console.log(diary.myDiary);
 
   const content =
     myDiaries.length === 0 ? (
       <Link to="/main">
-        <DiaryLogin>
-          📣 "일기작성은 메인페이지로" >>> Click
-        </DiaryLogin>
+        <DiaryLogin>📣 "일기작성은 메인페이지로" >>> Click</DiaryLogin>
       </Link>
     ) : (
       <CardFace>
-        {myDiaries.map((diary) => <MyCard key={diary.id} diary={diary} modalHandle={modalHandle} />)}
+        {myDiaries.map((diary) => (
+          <MyCard key={diary.id} diary={diary} modalHandle={modalHandle} />
+        ))}
       </CardFace>
     );
 

@@ -66,8 +66,9 @@ export const MyDiaryCardFront = styled(CardFront)`
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
   & img {
-    width: 13rem;
-    height: 6.5rem;
+    width: 8rem;
+    height: 7rem;
+    object-position: top;
   }
 `;
 
