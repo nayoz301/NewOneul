@@ -16,6 +16,8 @@ O_Neul입니다.
 
   > ## 시연 영상
 
+   <img width="550" alt="스크린샷 2021-06-24 오후 10 26 57" src="https://user-images.githubusercontent.com/77098060/126061940-83ac21bc-9a61-4dd1-bf26-d3bba3495f5e.gif">
+   
    ## gif 추가 예정입니다.
    
   > ## 세부 기능 소개
