@@ -19,7 +19,7 @@ import "aos/dist/aos.css";
 
 const LandingCard = () => {
   return (
-    <CardSection>
+    <CardSection data-aos="fade-up" data-aos-duration={"800"}>
       {/* <Cardul data-aos="fade-up" data-aos-duration={"800"}> */}
       {/* <CardWrapper> */}
       <Carousel
