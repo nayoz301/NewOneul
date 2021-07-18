@@ -51,24 +51,14 @@ const WeatherModal = ({
           <WeathersBody className="weathers-body">
             {weathers.map((weather) => {
               return (
-                <WeatherUnit key={uniqueId()}>
-                  <Icon
-                    icon={weather.weather}
-                    size={37}
-                    style={{
-                      color:
-                        weather.id === selectedWeatherId
-                          ? weather.color
-                          : "#8a959e",
-                      backgroundColor:
-                        weather.id === selectedWeatherId
-                          ? weather.color + "45"
-                          : "transparent",
-                      borderRadius: "50%",
-                      fontWeight: 400,
-                    }}
-                  />
-                </WeatherUnit>
+                <IconWrapperView
+                  key={uniqueId()}
+                  id={weather.id}
+                  color={weather.color}
+                  selectedWeatherId={selectedWeatherId}
+                >
+                  <Icon icon={weather.weather} />
+                </IconWrapperView>
               );
             })}
           </WeathersBody>
@@ -160,6 +150,72 @@ const IconWrapper = styled.div`
     &:active {
       transform: scale(1);
     }
+
+    @media screen and (max-width: 489px) {
+      & {
+        width: 3.5rem;
+        height: 3.5rem;
+      }
+    }
+
+    @media screen and (max-width: 464px) {
+      & {
+        width: 3.3rem;
+        height: 3.3rem;
+      }
+    }
+
+    @media screen and (max-width: 439px) {
+      & {
+        width: 3.1rem;
+        height: 3.1rem;
+      }
+    }
+
+    @media screen and (max-width: 418px) {
+      & {
+        width: 2.9rem;
+        height: 2.9rem;
+      }
+    }
+
+    @media screen and (max-width: 389px) {
+      & {
+        width: 2.7rem;
+        height: 2.7rem;
+      }
+    }
+
+    @media screen and (max-width: 364px) {
+      & {
+        width: 2.5rem;
+        height: 2.5rem;
+      }
+    }
+
+    @media screen and (max-width: 339px) {
+      & {
+        width: 2.3rem;
+        height: 2.3rem;
+      }
+    }
+  }
+`;
+
+const IconWrapperView = styled.div`
+  svg {
+    cursor: pointer;
+    width: 3.7rem;
+    height: 3.7rem;
+    fill: ${(props) =>
+      props.id === props.selectedWeatherId ? props.color : "#8a959e"};
+
+    background-color: ${(props) =>
+      props.id === props.selectedWeatherId
+        ? props.color + "45"
+        : "transparent"};
+
+    border-radius: 50%;
 
     @media screen and (max-width: 489px) {
       & {
