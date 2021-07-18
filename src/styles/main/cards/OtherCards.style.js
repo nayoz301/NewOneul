@@ -1,12 +1,10 @@
 import styled from "styled-components";
 import {
   BREAK_POINT_MOBILE,
-  BREAK_POINT_MD_SCREEN,
   BREAK_POINT_LG_SCREEN,
   BREAK_POINT_16LG_SCREEN,
   flexCenter,
   flexSpaceBtw,
-  emojiModalShow,
 } from "../../global.style";
 import { IconWrapper, MyDiaryHeader } from "./MyCards.style";
 
@@ -113,12 +111,46 @@ export const FaceWeather = styled.div`
 export const Heart = styled.div`
   transform: scale(0.95);
   transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   &:hover {
     transform: scale(1.05);
+
+    & div {
+      display: flex;
+    }
   }
 
   &:active {
     transform: scale(0.8);
+  }
+`;
+
+export const Count = styled.div`
+  position: absolute;
+  bottom: 3.2rem;
+  width: 2.9rem;
+  height: 1.8rem;
+  border-radius: 3px;
+  background: #f1a1ad;
+  font-family: Noto Sans KR;
+  font-size: 1.4rem;
+  font-weight: 100;
+  ${flexCenter}
+  display: none;
+
+  &::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 7px solid #f1a1ad;
+    top: 97%;
+    left: 50%;
+    transform: translateX(-50%);
   }
 `;

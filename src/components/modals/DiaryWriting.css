@@ -62,7 +62,7 @@
 }
 
 /*footer하단 체크박스*/
-#check_box input[type="checkbox"] + label {
+#check_box[type="checkbox"] + label {
   display: block;
   margin: 0.2em;
   cursor: pointer;

@@ -15,7 +15,14 @@ const OtherCards = ({ diary, closeDiaryModal, passDiaryId }) => {
       <OtherDiaryHeader>타인의 오늘 .</OtherDiaryHeader>
       <OtherDiaryInnerWrapper>
         {publicDiary &&
-          publicDiary.map((d) => <OtherCard key={d.id} diary={d} closeDiaryModal={closeDiaryModal} passDiaryId={passDiaryId} />)}
+          publicDiary.map((d) => (
+            <OtherCard
+              key={d.id}
+              diary={d}
+              closeDiaryModal={closeDiaryModal}
+              passDiaryId={passDiaryId}
+            />
+          ))}
       </OtherDiaryInnerWrapper>
     </OtherDiaryWrapper>
   );
