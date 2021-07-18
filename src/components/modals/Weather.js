@@ -32,12 +32,19 @@ const WeatherModal = ({
   weatherData,
   selectedWeatherId,
   isEditing,
-  // setWeatherChosen,
   weatherChosen,
 }) => {
   useEffect(() => {
     weatherData(selectedWeatherId);
   }, [isEditing === false]);
+
+  const weatherClickHandler = React.useCallback(
+    (id) => {
+      weatherData(id);
+    },
+    [weatherData]
+  );
+
   if (selectedWeatherId && isEditing === false) {
     return (
       <>
@@ -91,7 +98,7 @@ const WeatherModal = ({
                 <IconWrapper
                   key={uniqueId()}
                   onClick={() => {
-                    weatherData(weather.id);
+                    weatherClickHandler(weather.id);
                   }}
                   id={weather.id}
                   color={weather.color}
@@ -121,7 +128,7 @@ const WeatherModal = ({
                 <IconWrapper
                   key={uniqueId()}
                   onClick={() => {
-                    weatherData(weather.id);
+                    weatherClickHandler(weather.id);
                   }}
                   id={weather.id}
                   color={weather.color}

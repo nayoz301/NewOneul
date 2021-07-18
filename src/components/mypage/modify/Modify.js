@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 // import useModify from './useModify';
-import axios from 'axios';
-import Swal from 'sweetalert2';
+import axios from "axios";
+import Swal from "sweetalert2";
 import {
   BoxContainer,
   ModalContainer,
@@ -10,26 +10,25 @@ import {
   ModifyForm,
   Input,
   ModifyBtn,
-  GoBackBtn
-} from '../../../styles/mypage/Modify.style';
+  GoBackBtn,
+} from "../../../styles/mypage/Modify.style";
 import { connect } from "react-redux";
-import { login } from '../../../actions';
-
+import { login } from "../../../actions";
 
 const Modify = ({ login, userLogin }) => {
   const history = useHistory();
   const [modiValues, setModiValues] = useState({
     nickname: userLogin.userInfo.nickname,
     email: userLogin.userInfo.email,
-    password: '',
-    password2: '',
+    password: "",
+    password2: "",
   });
 
   const handleModiChange = (e) => {
     const { name, value } = e.target;
     setModiValues({
       ...modiValues,
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -37,9 +36,7 @@ const Modify = ({ login, userLogin }) => {
     e.preventDefault();
     const { nickname, password, password2 } = modiValues;
 
-    if (nickname.length > 0 &&
-      password.length > 7 &&
-      password2 === password) {
+    if (nickname.length > 0 && password.length > 7 && password2 === password) {
       console.log("Modify");
       handleModify(nickname, password);
     } else if (nickname.length === 0) {
@@ -64,38 +61,39 @@ const Modify = ({ login, userLogin }) => {
         timer: 1500,
       });
     }
-  }
+  };
 
   const handleModify = async (nickname, password) => {
-    console.log("WoW")
+    console.log("WoW");
     await axios
-      .patch("https://oneul.site/O_NeulServer/user/edit",
+      .patch(
+        "https://oneul.site/O_NeulServer/user/edit",
         {
           nickname: nickname,
-          password: password
+          password: password,
         },
         {
           headers: {
             authorization: "Bearer " + userLogin.login.accessToken,
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
-          withCredentials: true
-        })
+          withCredentials: true,
+        }
+      )
       .then((res) => {
-        console.log(res.data)
-        history.push("/mypage")
+        console.log(res.data);
+        history.push("/mypage");
         Swal.fire({
-          icon: 'success',
-          title: '✨✨✨ 수정완료! ✨✨✨',
+          icon: "success",
+          title: "✨✨✨ 수정완료! ✨✨✨",
           showConfirmButton: true,
-          timer: 2000
-        })
+          timer: 2000,
+        });
       })
       .catch((err) => {
         console.log("error");
-      })
-  }
-
+      });
+  };
 
   return (
     <BoxContainer>
@@ -110,12 +108,7 @@ const Modify = ({ login, userLogin }) => {
             value={modiValues.nickname}
             name="nickname"
           />
-          <Input
-            type="email"
-            value={modiValues.email}
-            name="email"
-            readOnly
-          />
+          <Input type="email" value={modiValues.email} name="email" readOnly />
           <Input
             type="password"
             placeholder="비밀번호"
@@ -138,8 +131,8 @@ const Modify = ({ login, userLogin }) => {
         {/* </Wrapper> */}
       </ModalContainer>
     </BoxContainer>
-  )
-}
+  );
+};
 
 const mapStateToProps = ({ loginReducer }) => {
   return {

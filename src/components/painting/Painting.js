@@ -40,7 +40,6 @@ let arr_Colors = [
 
 const Painting = ({
   canvasRef,
-  musicModalOnOff,
   selectedImage,
   isEditing,
   paintingChangeCheck,
@@ -779,7 +778,7 @@ const Painting = ({
   }
 };
 
-export default Painting;
+export default React.memo(Painting);
 
 // function handleFileUpload() {
 //   canvasRef.current.toBlob(
