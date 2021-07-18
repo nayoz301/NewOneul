@@ -195,7 +195,7 @@ const DiaryWriting = ({
             }
             loadingModalOnOff(false);
             closeDiaryModal(); //모달창 닫기
-            alert("오늘도 수고하셨습니다");
+            // alert("오늘도 수고하셨습니다");
           })
           .catch((res) => {
             setLoadingModalOpen(false);
