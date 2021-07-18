@@ -83,8 +83,6 @@ const DiaryWriting = ({
   const [isEditing, setIsEditing] = useState(false);
   const [isPublic, SetIsPublic] = useState(() => {
     if (isEditing) {
-      console.log(isEditing, "isEditing");
-      console.log(selectedDiary.isPublic, "isPublic");
       return selectedDiary.isPublic;
     }
     // return false;
@@ -127,44 +125,34 @@ const DiaryWriting = ({
     console.log("public 반영되나요? " + isPublic);
   });
 
-  const emojiModalOnOff = useCallback(() => {
+  const emojiModalOnOff = () => {
     //이모지 모달창 끄고 닫기
     setEmojiOpen(!emojiOpen);
-  }, [emojiOpen]);
+  };
 
-  const musicModalOnOff = useCallback(() => {
+  const musicModalOnOff = () => {
     //뮤직 모달창 끄고 닫기
     setMusicOpen(!musicOpen);
-  }, [musicOpen]);
+  };
 
-  const whatEmoji = useCallback(
-    (emoji) => {
-      //이모지에서 선택한 놈 가져오는 함수
-      SetEmojiChosen({ emoji: emoji.emoji, color: emoji.color, id: emoji.id });
-      console.log(emojiChosen);
-    },
-    [emojiChosen]
-  );
-
+  const whatEmoji = (emoji) => {
+    //이모지에서 선택한 놈 가져오는 함수
+    SetEmojiChosen({ emoji: emoji.emoji, color: emoji.color, id: emoji.id });
+    console.log(emojiChosen);
+  };
   const editDiary = () => {
     setIsEditing(true);
   };
   const canvasHeight = (window.innerWidth / 2) * 0.4;
   const textAreaHeight = window.innerHeight - 135 - canvasHeight;
 
-  const weatherData = useCallback(
-    (weather) => {
-      setWeatherChosen(weather);
-    },
-    [weatherChosen]
-  );
+  const weatherData = (weather) => {
+    setWeatherChosen(weather);
+  };
 
-  const getMusicData = useCallback(
-    (music) => {
-      setMusicChosen(music);
-    },
-    [musicChosen]
-  );
+  const getMusicData = (music) => {
+    setMusicChosen(music);
+  };
 
   const completeDiary = async () => {
     if (emojiChosen.id && weatherChosen && diaryText && musicChosen) {
@@ -330,13 +318,9 @@ const DiaryWriting = ({
   console.log("private", isPublic);
   console.log("music", musicChosen);
 
-  const diaryTextHandler = useCallback(
-    (text) => {
-      setDiaryText(text);
-    },
-    [diaryText]
-  );
-
+  const diaryTextHandler = (text) => {
+    setDiaryText(text);
+  };
   if (selectedDiary !== undefined && isEditing === false) {
     return (
       <>
