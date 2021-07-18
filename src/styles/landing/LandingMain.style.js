@@ -6,6 +6,7 @@ import {
   BREAK_POINT_16LG_SCREEN,
   flexCenter,
 } from "../global.style";
+import { MainSecondHeader } from "./LandingThird.style";
 
 export const MainWrapper = styled.main`
   width: 100%;
@@ -30,11 +31,12 @@ export const MainInnerWrapper = styled.div`
   width: 100%;
   min-height: 80vh;
   flex-direction: column;
+  /* border: 1px solid black; */
 
   /* 768px */
   @media only screen and (min-width: ${BREAK_POINT_MOBILE}px) {
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: end;
     align-items: center;
   }
 
@@ -46,8 +48,8 @@ export const MainInnerWrapper = styled.div`
 export const MainInnerArticle = styled.article`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  min-height: 63%;
+  justify-content: space-evenly;
+  min-height: 50%;
   color: var(--black-color);
   z-index: 100;
   flex-shrink: 0;
@@ -65,8 +67,9 @@ export const MainInnerArticle = styled.article`
   }
 
   @media only screen and (min-width: ${BREAK_POINT_MOBILE}px) {
+    width: 30%;
     & h2 {
-      font-size: 2.4rem;
+      font-size: 2.1rem;
     }
     & p {
       font-size: 1.7rem;
@@ -76,19 +79,15 @@ export const MainInnerArticle = styled.article`
   /* 1200px */
   @media only screen and (min-width: ${BREAK_POINT_LG_SCREEN}px) {
     & h2 {
-      font-size: 2.8rem;
+      font-size: 2.3rem;
     }
     & p {
-      font-size: 1.9rem;
+      font-size: 1.8rem;
     }
   }
 
   @media only screen and (min-width: ${BREAK_POINT_16LG_SCREEN + 1}px) {
-    & h2 {
-      font-size: 3rem;
-    }
     & p {
-      /* font-size: 2.1rem; */
       line-height: 2;
     }
   }
@@ -96,15 +95,31 @@ export const MainInnerArticle = styled.article`
 
 export const VideoContainer = styled.div`
   width: 100%;
-  max-width: 43rem;
-  & video {
+
+  & img {
     width: 100%;
     object-fit: cover;
+    border-radius: 8px;
+  }
+
+  @media only screen and (min-width: ${BREAK_POINT_MOBILE}px) {
+    margin-left: 4rem;
   }
 
   @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
-    margin-left: 4rem;
     min-width: 20rem;
     max-width: 83rem;
+  }
+`;
+
+export const SecondSectionHeader = styled(MainSecondHeader)`
+  position: static;
+  margin-bottom: 1rem;
+  font-size: 2.5rem;
+
+  @media only screen and (min-width: ${BREAK_POINT_MD_SCREEN}px) {
+    & {
+      font-size: 3rem;
+    }
   }
 `;
