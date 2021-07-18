@@ -27,8 +27,8 @@ const OtherCard = ({
   const { faceIcons, weatherIcons } = icons;
   const { id, nickname } = userInfo.userInfo;
   const { accessToken } = userInfo.login;
-  const { date, image, feeling, user, weather, emphathies } = diary;
-  console.log(diary);
+  const { date, feeling, user, weather, emphathies } = diary;
+
   const addEpt = (e) => {
     // stop Bubbling of Event
     e.stopPropagation();
