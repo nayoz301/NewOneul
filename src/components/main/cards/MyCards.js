@@ -35,32 +35,58 @@ const MyCards = ({ diary, userInfo, modalHandle, setDeleteLoading }) => {
     setDiaryModal((prev) => !prev);
   };
 
-  const content =
-    diary.myDiary.length === 0 ? (
-      <DiaryLogin onClick={changeDiaryModal}>
-        첫 일기 남기기
-        <Icon icon={pencil} />
-      </DiaryLogin>
-    ) : (
-      <Carousel
-        breakPoints={diaryResponsive}
-        renderArrow={myDiaryArrow}
-        pagination={false}
-        itemPadding={[0, 50]}
-      >
-        {diary.myDiary &&
-          diary.myDiary.map((diary) => (
-            <MyCard
-              key={diary.id}
-              diary={diary}
-              modalHandle={modalHandle}
-              setDeleteLoading={setDeleteLoading}
-            />
-          ))}
-      </Carousel>
-    );
+  const content = React.useMemo(
+    () =>
+      diary.myDiary.length === 0 ? (
+        <DiaryLogin onClick={changeDiaryModal}>
+          첫 일기 남기기
+          <Icon icon={pencil} />
+        </DiaryLogin>
+      ) : (
+        <Carousel
+          breakPoints={diaryResponsive}
+          renderArrow={myDiaryArrow}
+          pagination={false}
+          itemPadding={[0, 50]}
+        >
+          {diary.myDiary &&
+            diary.myDiary.map((diary) => (
+              <MyCard
+                key={diary.id}
+                diary={diary}
+                modalHandle={modalHandle}
+                setDeleteLoading={setDeleteLoading}
+              />
+            ))}
+        </Carousel>
+      ),
+    [diary.myDiary]
+  );
 
-  // console.log(diary.myDiary);
+  // const content =
+  //   diary.myDiary.length === 0 ? (
+  //     <DiaryLogin onClick={changeDiaryModal}>
+  //       첫 일기 남기기
+  //       <Icon icon={pencil} />
+  //     </DiaryLogin>
+  //   ) : (
+  //     <Carousel
+  //       breakPoints={diaryResponsive}
+  //       renderArrow={myDiaryArrow}
+  //       pagination={false}
+  //       itemPadding={[0, 50]}
+  //     >
+  //       {diary.myDiary &&
+  //         diary.myDiary.map((diary) => (
+  //           <MyCard
+  //             key={diary.id}
+  //             diary={diary}
+  //             modalHandle={modalHandle}
+  //             setDeleteLoading={setDeleteLoading}
+  //           />
+  //         ))}
+  //     </Carousel>
+  //   );
 
   return (
     <MyCardWrapper>

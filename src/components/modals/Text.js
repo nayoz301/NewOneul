@@ -4,7 +4,6 @@ import styled from "styled-components";
 export const Text = ({ setDiaryText }) => {
   const canvasHeight = (window.innerWidth / 2) * 0.4;
   const textAreaHeight = window.innerHeight - 135 - canvasHeight;
-  console.log("from text");
 
   return (
     <TextArea
