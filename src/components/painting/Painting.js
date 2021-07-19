@@ -172,6 +172,9 @@ const Painting = ({
 
   function handleInsertImage(e) {
     e.preventDefault();
+    if (isEditing) {
+      paintingChangeCheck();
+    }
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
     var reader = new FileReader();
