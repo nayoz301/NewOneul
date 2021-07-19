@@ -10,25 +10,28 @@ import OtherCard from "./card/OtherCard";
 const OtherCards = ({ diary, closeDiaryModal, passDiaryId }) => {
   const { publicDiary } = diary;
 
+  const memo = React.useMemo(
+    () =>
+      publicDiary &&
+      publicDiary.map((d) => (
+        <OtherCard
+          key={d.id}
+          diary={d}
+          closeDiaryModal={closeDiaryModal}
+          passDiaryId={passDiaryId}
+        />
+      )),
+    [publicDiary]
+  );
   return (
     <OtherDiaryWrapper>
       <OtherDiaryHeader>타인의 오늘 .</OtherDiaryHeader>
-      <OtherDiaryInnerWrapper>
-        {publicDiary &&
-          publicDiary.map((d) => (
-            <OtherCard
-              key={d.id}
-              diary={d}
-              closeDiaryModal={closeDiaryModal}
-              passDiaryId={passDiaryId}
-            />
-          ))}
-      </OtherDiaryInnerWrapper>
+      <OtherDiaryInnerWrapper>{memo}</OtherDiaryInnerWrapper>
     </OtherDiaryWrapper>
   );
 };
 
-const mapStateToProps = ({ mainReducer }) => {
+const mapStateToProps = ({ mainReducer }, ownProps) => {
   return {
     diary: mainReducer,
   };

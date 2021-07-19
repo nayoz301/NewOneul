@@ -122,7 +122,7 @@ const DiaryWriting = ({
   }, []);
 
   useEffect(() => {
-    console.log("public 반영되나요? " + isPublic);
+    // console.log("public 반영되나요? " + isPublic);
   });
 
   const emojiModalOnOff = () => {
@@ -311,12 +311,12 @@ const DiaryWriting = ({
     }
   };
 
-  console.log("text", diaryText);
-  console.log("weather", weatherChosen);
-  console.log("emoji", emojiChosen);
-  // console.log("date", clickmoment.format("YYYY-M-D"));
-  console.log("private", isPublic);
-  console.log("music", musicChosen);
+  // console.log("text", diaryText);
+  // console.log("weather", weatherChosen);
+  // console.log("emoji", emojiChosen);
+  // // console.log("date", clickmoment.format("YYYY-M-D"));
+  // console.log("private", isPublic);
+  // console.log("music", musicChosen);
 
   const diaryTextHandler = (text) => {
     setDiaryText(text);

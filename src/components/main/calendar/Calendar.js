@@ -22,7 +22,7 @@ const Calendar = ({ value, modalHandle }) => {
   );
 };
 
-export default Calendar;
+export default React.memo(Calendar);
 
 const CalendarArticle = styled.article`
   font-size: 1.6rem;

@@ -19,17 +19,12 @@ const CalendarHeader = ({ value, next, before }) => {
           icon={ic_navigate_before}
           size={34}
           onClick={before}
-          style={{ cursor: "pointer" }}
+          style={style}
         />
         <Year>
           {value.format("YYYY")}년 {value.format("M")}월
         </Year>
-        <Icon
-          icon={ic_navigate_next}
-          size={34}
-          onClick={next}
-          style={{ cursor: "pointer" }}
-        />
+        <Icon icon={ic_navigate_next} size={34} onClick={next} style={style} />
       </CalHeader>
       <DaysWrapper>
         {days.map((day) => (
@@ -42,4 +37,6 @@ const CalendarHeader = ({ value, next, before }) => {
   );
 };
 
-export default CalendarHeader;
+export default React.memo(CalendarHeader);
+
+const style = { cursor: "pointer" };

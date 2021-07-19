@@ -50,7 +50,7 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
     }
   }, [clickmoment]);
 
-  const closeDiaryModal = (func) => {
+  const closeDiaryModal = () => {
     setIsClick((prev) => setIsClick(!prev));
   };
 

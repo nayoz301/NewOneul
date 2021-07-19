@@ -40,7 +40,6 @@ const Music = ({
   selectedMusicId,
   isEditing,
 }) => {
-  console.log("from music");
   const [pause, setPause] = useState(false);
   const [index, setIndex] = useState(0);
   const [currentTime, setCurrentTime] = useState("0:00");
@@ -59,7 +58,7 @@ const Music = ({
   let playheadRef = useRef();
   let volumeControllerRef = useRef(); //볼륨 슬라이더 보임 안보임 효과 때문에 넣었음
 
-  console.log("선택한 장르", genre);
+  // console.log("선택한 장르", genre);
 
   useEffect(() => {
     if (selectedMusicId) {
@@ -73,7 +72,7 @@ const Music = ({
     }
   }, [isEditing]);
 
-  console.log("셀릭티드 뮤직아이디:::", selectedMusicId);
+  // console.log("셀릭티드 뮤직아이디:::", selectedMusicId);
 
   const getSelectedMusic = () => {
     if (selectedMusicId !== undefined) {
@@ -174,12 +173,12 @@ const Music = ({
     const playheadWidth = timelineRef.current.offsetWidth; //offsetWidth CSS상으로 재생시간바의 길이
     const offsetWidth = timelineRef.current.offsetLeft; //offsetLeft CSS상으로 body박스의 가로 길이 right은 없나봄.
     const userClickWidth = e.clientX - offsetWidth; //e.clientX(body박스 가로 길의 전체 중 내가 클릭한 좌표의 x값 - 재생시간바의 길이
-    console.log("e.clientX", e.clientX);
-    console.log("offsetWidth", offsetWidth);
-    console.log(
-      "timelineRef.current.offsetLeft",
-      timelineRef.current.offsetLeft
-    );
+    // console.log("e.clientX", e.clientX);
+    // console.log("offsetWidth", offsetWidth);
+    // console.log(
+    //   "timelineRef.current.offsetLeft",
+    //   timelineRef.current.offsetLeft
+    // );
     const userClickWidthInPercent = (userClickWidth * 100) / playheadWidth; //재생시간바 대비 몇 퍼센트인지 계산해서 CSS에 효과주기
 
     playheadRef.current.style.width = userClickWidthInPercent + "%"; //CSS style.width에 %로 나타내줌
