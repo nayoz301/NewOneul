@@ -108,7 +108,7 @@ const HeaderDate = styled.div`
     }
   }
 
-  @media screen and (max-width: 497px) {
+  @media screen and (max-width: 502px) {
     & {
       font-size: 1.6rem;
       margin-left: 1rem;

@@ -170,10 +170,12 @@ const Music = ({
 
   const changeCurrentTime = (e) => {
     //재생시간바 시간 이동하기
-    const duration = playerRef.current.duration; //duration 동영상의 길이
-    const playheadWidth = timelineRef.current.offsetWidth; //offsetWidth CSS상으로 재생시간바의 길이
-    const offsetWidth = timelineRef.current.offsetLeft; //offsetLeft CSS상으로 body박스의 가로 길이 right은 없나봄.
-    const userClickWidth = e.clientX - offsetWidth; //e.clientX(body박스 가로 길의 전체 중 내가 클릭한 좌표의 x값 - 재생시간바의 길이
+    const duration = playerRef.current.duration; //duration 음원 길이 audio에 노래 들어간 상태에서 그 노래의 길이
+
+    const playheadWidth = timelineRef.current.offsetWidth; //offsetWidth CSS상으로 재생시간바의 전체 길이 240
+    const offsetWidth = timelineRef.current.offsetLeft; //offsetLeft /right은 없나봄/ window 전체의 맨 왼쪽 끝에서 해당 태그까지의 길이
+    const userClickWidth = e.clientX - offsetWidth; //e.clientX(window 가로 길이 전체 중 내가 클릭한 좌표의 x값 - 재생시간바의 길이
+    // userClickWidth 결국 이 값은 재생시간이동바 0을 기준으로 오른쪽으로 얼마나 움직였는가를 수치화 한 것이 됌.
     console.log("e.clientX", e.clientX);
     console.log("offsetWidth", offsetWidth);
     console.log(
@@ -192,10 +194,14 @@ const Music = ({
       // const timelineWidth =
       //   timelineRef.current.offsetWidth - playheadRef.current.offsetWidth;
       const playPercent = 100 * (playerRef.current.currentTime / duration);
+      console.log(
+        "playerRef.current.currentTime",
+        playerRef.current.currentTime
+      );
       playheadRef.current.style.width = playPercent + "%";
       const currentTime = formatTime(parseInt(playerRef.current.currentTime));
       setCurrentTime(currentTime);
-      console.log("타임업데이트 ", playheadRef.current.style.width);
+      console.log("타임업데이트 ", playerRef.current.duration);
       // 여기 실험
       if (playheadRef.current.style.width === "100%") {
         console.log("백프로!");
