@@ -17,7 +17,7 @@ const DiaryHeader = ({
   weatherChosen,
   setWeatherChosen,
 }) => {
-  console.log("from Header");
+  // console.log("from Header");
 
   const emojiModalHandler = React.useCallback(() => {
     emojiModalOnOff();

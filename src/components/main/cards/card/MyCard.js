@@ -120,7 +120,7 @@ const mapStateToProps = ({ loginReducer }) => {
 };
 
 export default connect(mapStateToProps, { removePublicDiary, removeDiary })(
-  MyCard
+  React.memo(MyCard)
 );
 
 const SettingDiv = styled.div`
