@@ -307,20 +307,23 @@ const Painting = ({
 
     // var mouseX = nativeEvent.clientX - ctx.canvas.offsetLeft;
     // var mouseY = nativeEvent.clientY - ctx.canvas.offsetTop;
-
+    // const result = nativeEvent.offsetX * canvas.width;
     // console.log(
-    //   "무브마우스",
-    //   getMouesPosition(nativeEvent),
-    //   window.innerWidth,
-    //   canvas.offsetLeft,
-    //   canvas.clientHeight,
-    //   window.innerWidth,
-    //   canvas.width,
-    //   nativeEvent.offsetX,
-    //   nativeEvent.clientX,
-    //   canvasBounds,
-    //   canvasBounds.left,
-    //   canvas.offsetBottom //캔버스안에서 탑 레프트 무조건 0
+    // "무브마우스",
+    // getMouesPosition(nativeEvent),
+    // window.innerWidth,
+    // canvas.offsetLeft,
+    // canvas.clientHeight,
+    // window.innerWidth,
+    // canvas.width,
+    // nativeEvent.offsetX,
+    // nativeEvent.clientX,
+    // canvas.clientHeight,
+    // result
+
+    // canvasBounds,
+    // canvasBounds.left,
+    // canvas.offsetBottom //캔버스안에서 탑 레프트 무조건 0
     // );
 
     if (ctx.current && !painting && !erasing) {
