@@ -28,9 +28,9 @@ const Diary = ({
 
   const selectedDiary = filterDiary();
 
-  useEffect(() => {
-    console.log(selectedDiary);
-  });
+  // useEffect(() => {
+  //   console.log(selectedDiary);
+  // });
 
   return (
     <Diarybackground data-aos={"zoom"} data-aos-duration={"500"}>

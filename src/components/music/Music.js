@@ -728,4 +728,4 @@ const mapStateToProps = ({ mainReducer }) => {
   };
 };
 
-export default connect(mapStateToProps)(React.memo(Music));
+export default connect(mapStateToProps)(Music);

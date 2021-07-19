@@ -75,29 +75,6 @@ const OtherCard = ({
       });
   };
 
-  const heartMemo = React.useMemo(
-    () =>
-      checkEmpha(emphathies, id) ? (
-        <Icon
-          icon={heart}
-          size={26}
-          style={{
-            color: "#f06f83",
-            cursor: "pointer",
-          }}
-          onClick={(e) => removeEpt(e)}
-        ></Icon>
-      ) : (
-        <Icon
-          icon={heartO}
-          size={26}
-          style={{ color: "#f06f83", cursor: "pointer" }}
-          onClick={(e) => addEpt(e)}
-        ></Icon>
-      ),
-    [diary.emphathies]
-  );
-
   return (
     <OtherDiary
       onClick={() => {
@@ -113,7 +90,24 @@ const OtherCard = ({
       <OtherDiaryIconWrapper>
         <Heart>
           <Count>{emphathies.length}</Count>
-          {heartMemo}
+          {checkEmpha(emphathies, id) ? (
+            <Icon
+              icon={heart}
+              size={26}
+              style={{
+                color: "#f06f83",
+                cursor: "pointer",
+              }}
+              onClick={(e) => removeEpt(e)}
+            ></Icon>
+          ) : (
+            <Icon
+              icon={heartO}
+              size={26}
+              style={{ color: "#f06f83", cursor: "pointer" }}
+              onClick={(e) => addEpt(e)}
+            ></Icon>
+          )}
         </Heart>
         <FaceWeather>
           {weather && findEmj(weatherIcons, weather).icon}

@@ -50,17 +50,23 @@ const Main = ({ userInfo, fetchAllLoginDiary, fetchAllUnloginDiary }) => {
     }
   }, [clickmoment]);
 
-  const closeDiaryModal = () => {
+  const closeDiaryModal = useCallback(() => {
     setIsClick((prev) => setIsClick(!prev));
-  };
+  }, [setIsClick]);
 
-  const momentHandler = (day) => {
-    setClickmoment(day);
-  };
+  const momentHandler = useCallback(
+    (day) => {
+      setClickmoment(day);
+    },
+    [setClickmoment]
+  );
 
-  const passDiaryId = (diaryId) => {
-    setSelectedDiaryId(diaryId);
-  };
+  const passDiaryId = useCallback(
+    (diaryId) => {
+      setSelectedDiaryId(diaryId);
+    },
+    [setSelectedDiaryId]
+  );
 
   const next = useCallback(() => {
     setValue(value.add(1, "month").clone());

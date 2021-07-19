@@ -113,17 +113,12 @@ const DiaryWriting = ({
       setIsWeatherSelected(true);
     }
   });
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (selectedDiary) {
       SetIsPublic(selectedDiary.isPublic);
     }
   }, []);
-
-  useEffect(() => {
-    // console.log("public 반영되나요? " + isPublic);
-  });
 
   const emojiModalOnOff = () => {
     //이모지 모달창 끄고 닫기
