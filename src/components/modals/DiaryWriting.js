@@ -195,7 +195,7 @@ const DiaryWriting = ({
             }
             loadingModalOnOff(false);
             closeDiaryModal(); //모달창 닫기
-            alert("오늘도 수고하셨습니다");
+            // alert("오늘도 수고하셨습니다");
           })
           .catch((res) => {
             setLoadingModalOpen(false);
@@ -703,38 +703,38 @@ const ModalWrapper = styled.div`
   }
   @media screen and (max-width: 760px) {
     & {
-      width: 99%;
+      width: 98%;
       height: 92%;
     }
   }
   @media screen and (max-width: 670px) {
     & {
-      width: 99%;
+      width: 98%;
       height: 92%;
     }
   }
   @media screen and (max-width: 600px) {
     & {
-      width: 99%;
+      width: 98%;
       height: 92%;
     }
   }
   @media screen and (max-width: 570px) {
     & {
-      width: 99%;
+      width: 98%;
       height: 92%;
     }
   }
   @media screen and (max-width: 500px) {
     & {
-      width: 99%;
+      width: 98%;
       height: 92%;
     }
   }
 
   @media screen and (max-width: 412px) {
     & {
-      width: 99%;
+      width: 98%;
       height: 80%;
     }
   }

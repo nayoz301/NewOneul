@@ -191,10 +191,14 @@ const Music = ({
       // const timelineWidth =
       //   timelineRef.current.offsetWidth - playheadRef.current.offsetWidth;
       const playPercent = 100 * (playerRef.current.currentTime / duration);
+      console.log(
+        "playerRef.current.currentTime",
+        playerRef.current.currentTime
+      );
       playheadRef.current.style.width = playPercent + "%";
       const currentTime = formatTime(parseInt(playerRef.current.currentTime));
       setCurrentTime(currentTime);
-      console.log("타임업데이트 ", playheadRef.current.style.width);
+      console.log("타임업데이트 ", playerRef.current.duration);
       // 여기 실험
       if (playheadRef.current.style.width === "100%") {
         console.log("백프로!");
