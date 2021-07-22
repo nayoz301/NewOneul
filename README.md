@@ -48,4 +48,8 @@ O_Neul입니다.
 
   > ## 서비스로 이동
   ## [https://oneul.site](https://oneul.site)
+
+  > ## 노션 문서로 이동
+  ## [노션문서](https://www.notion.so/codestates/2-O_Neul-O_Neul-18a83cbb45a0465ea3491d61985b36b7)
+
   
