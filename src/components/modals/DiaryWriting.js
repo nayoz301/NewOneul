@@ -395,7 +395,7 @@ const DiaryWriting = ({
               }}
             >
               <label
-                for="check_box"
+                htmlFor="check_box"
                 className="private"
                 style={{
                   fontSize: "1.5rem",
@@ -548,7 +548,7 @@ const DiaryWriting = ({
               )}
 
               <label
-                for="check_box"
+                htmlFor="check_box"
                 className="private"
                 style={{
                   fontSize: "1.5rem",
@@ -617,7 +617,7 @@ const DiaryWriting = ({
                 }}
               ></input>
               <label
-                for="check_box"
+                htmlFor="check_box"
                 className="private"
                 style={{
                   fontSize: "1.5rem",
