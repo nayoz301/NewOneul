@@ -5,7 +5,6 @@ import { pause2 } from "react-icons-kit/icomoon/pause2";
 import { ic_close } from "react-icons-kit/md/ic_close";
 import { plus } from "react-icons-kit/feather/plus";
 import uniqueId from "lodash/uniqueId";
-import axios from "axios";
 
 import {
   volumeMedium,
@@ -17,7 +16,6 @@ import {
 
 import "./Music.css";
 import SelectBar from "./SelectBar";
-// import musics from "./musics";
 import { connect } from "react-redux";
 
 const music = [
@@ -58,8 +56,6 @@ const Music = ({
   let playheadRef = useRef();
   let volumeControllerRef = useRef(); //볼륨 슬라이더 보임 안보임 효과 때문에 넣었음
 
-  // console.log("선택한 장르", genre);
-
   useEffect(() => {
     if (selectedMusicId) {
       return setCurrentSong(selectedMusic);
@@ -71,8 +67,6 @@ const Music = ({
       setPause(true);
     }
   }, [isEditing]);
-
-  // console.log("셀릭티드 뮤직아이디:::", selectedMusicId);
 
   const getSelectedMusic = () => {
     if (selectedMusicId !== undefined) {
@@ -99,31 +93,6 @@ const Music = ({
     setMusicLists(musicList.musicList);
     setFiltered(musicList.musicList);
   };
-
-  // useEffect(() => {
-  //   //개인 서버에서 정보 불러올 때 쓰는 함수
-  //   getGenreHandler();
-  // }, []);
-
-  // const getGenreHandler = async () => {
-  //   //개인 서버에서 정보 불러올 때 쓰는 함수
-  //   return await axios
-  //     .get("http://localhost:4000/genre", {
-  //       headers: { "content-type": "application/json", withCredentials: true },
-  //     })
-  //     .then((data) => {
-  //       //data === musics 배열인셈
-  //       let dataLists = genreKinds(data.data); //dataLists에 장르만 추출
-  //       console.log("뮤직리스츠", data.data);
-  //       setGenreList(dataLists);
-  //       setMusicLists(data.data);
-  //       setFiltered(data.data);
-  //       // console.log("받아온 데이터", data.data);
-  //     })
-  //     .catch((err) => {
-  //       alert("장르를 받아오지 못헀습니다");
-  //     });
-  // };
 
   const genreKinds = (data) => {
     //장르 종류 추출해서 셀렉트바에 보내줘야함
@@ -173,12 +142,6 @@ const Music = ({
     const playheadWidth = timelineRef.current.offsetWidth; //offsetWidth CSS상으로 재생시간바의 길이
     const offsetWidth = timelineRef.current.offsetLeft; //offsetLeft CSS상으로 body박스의 가로 길이 right은 없나봄.
     const userClickWidth = e.clientX - offsetWidth; //e.clientX(body박스 가로 길의 전체 중 내가 클릭한 좌표의 x값 - 재생시간바의 길이
-    // console.log("e.clientX", e.clientX);
-    // console.log("offsetWidth", offsetWidth);
-    // console.log(
-    //   "timelineRef.current.offsetLeft",
-    //   timelineRef.current.offsetLeft
-    // );
     const userClickWidthInPercent = (userClickWidth * 100) / playheadWidth; //재생시간바 대비 몇 퍼센트인지 계산해서 CSS에 효과주기
 
     playheadRef.current.style.width = userClickWidthInPercent + "%"; //CSS style.width에 %로 나타내줌
@@ -188,22 +151,12 @@ const Music = ({
   const timeUpdate = () => {
     if (playerRef.current !== null) {
       const duration = playerRef.current.duration;
-      // const timelineWidth =
-      //   timelineRef.current.offsetWidth - playheadRef.current.offsetWidth;
       const playPercent = 100 * (playerRef.current.currentTime / duration);
-      console.log(
-        "playerRef.current.currentTime",
-        playerRef.current.currentTime
-      );
       playheadRef.current.style.width = playPercent + "%";
       const currentTime = formatTime(parseInt(playerRef.current.currentTime));
       setCurrentTime(currentTime);
-      console.log("타임업데이트 ", playerRef.current.duration);
-      // 여기 실험
       if (playheadRef.current.style.width === "100%") {
-        console.log("백프로!");
         playheadRef.current.style.width = "0%";
-        // updatePlayer();
       }
     }
   };
@@ -243,8 +196,6 @@ const Music = ({
 
   const updatePlayer = () => {
     setCurrentSong(filtered[index]);
-    // const audio = new Audio(currentSong.audio);
-    console.log("실험", playerRef.current);
     playerRef.current.load();
   };
 
@@ -291,11 +242,8 @@ const Music = ({
     let filteredList = allList.filter((el) => el.genre.genre_name === genre);
     return filteredList;
   };
-  //실험
   useEffect(() => {
     let filteredList = filterListByGenre(musicLists);
-    // console.log("장르 바뀔 때마다 필터한 리스트", filteredList);
-    // setMusicLists(filteredList);
     setFiltered(filteredList);
     setIndex(0);
   }, [genre]);
@@ -306,7 +254,6 @@ const Music = ({
         <div className="current-song">
           <Icon
             size={18}
-            // className="close-btn"
             className={`close-btn ${musicOpen ? "open" : null}`}
             icon={ic_close}
             onClick={() => {
@@ -407,7 +354,6 @@ const Music = ({
         <div className="current-song">
           <Icon
             size={18}
-            // className="close-btn"
             className={`close-btn ${musicOpen ? "open" : null}`}
             icon={ic_close}
             onClick={() => {
@@ -566,7 +512,6 @@ const Music = ({
         <div className="current-song">
           <Icon
             size={18}
-            // className="close-btn"
             className={`close-btn ${musicOpen ? "open" : null}`}
             icon={ic_close}
             onClick={() => {

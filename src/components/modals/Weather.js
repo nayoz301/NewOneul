@@ -11,15 +11,6 @@ import {
   iosSnowy,
 } from "react-icons-kit/ionicons/";
 
-// const weathers = [
-//   {
-//     id: 0,
-//     weather: (
-//       <Icon icon={weatherSunny} size={30} style={{ color: "#c6d6df" }} />
-//     ),
-//   },
-// ];
-
 const weathers = [
   { id: 1, weather: iosSunnyOutline, color: "#e32119" },
   { id: 2, weather: iosPartlysunnyOutline, color: "#ff8a00" },
@@ -36,6 +27,7 @@ const WeatherModal = ({
 }) => {
   useEffect(() => {
     weatherData(selectedWeatherId);
+    console.log("작동되나?????");
   }, [isEditing === false]);
 
   const weatherClickHandler = React.useCallback(

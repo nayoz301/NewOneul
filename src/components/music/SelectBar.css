@@ -1,5 +1,4 @@
-.select {
-  /*오늘 무드창 창*/
+/* .select {
 
   width: 24rem;
   height: 4rem;
@@ -8,21 +7,21 @@
   border: 0.1rem solid #dfd5c9;
   position: relative;
   cursor: pointer;
-}
+} */
 
-.selected-option {
-  /*노래 장르 창*/
+/* .selected-option {
+
   height: inherit;
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
+} */
 
-.selected-option span {
+/* .selected-option span {
   font-size: 1.5rem;
-}
+} */
 
-.options {
+/* .options {
   position: absolute;
   left: 0;
   width: 24rem;
@@ -34,21 +33,19 @@
   border: 1px solid #c7c1b6;
   z-index: 300;
   background-color: #f8f8fa;
-  /* opacity: 0.85; */
-}
+} */
 
-.options::-webkit-scrollbar {
-  /*스크롤바 두께*/
+/* .options::-webkit-scrollbar {
   width: 0.3rem;
-}
+} */
 
-.options::-webkit-scrollbar-thumb {
-  /*스크롤바 색*/
+/* .options::-webkit-scrollbar-thumb {
+
   background: #d2c4adf0;
   border-radius: 1rem;
-}
+} */
 
-.options li {
+/* .options li {
   height: 32px;
   font-size: 1.4rem;
   list-style: none;
@@ -58,16 +55,16 @@
   border-radius: 0.6rem;
   color: rgb(175, 161, 161);
   transition: 0.3s linear;
-}
-.options li:hover {
+} */
+/* .options li:hover {
   color: #000;
   background: rgba(10, 39, 206, 0.082);
-}
-.options li:hover .active-option {
+} */
+/* .options li:hover .active-option {
   color: #000;
   background: rgba(10, 39, 206, 0.082);
-}
+} */
 
-input ::placeholder {
-  color: rgb(175, 161, 161);
-}
+/* input ::placeholder {
+  color: rgb(13, 184, 119);
+} */
