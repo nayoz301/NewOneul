@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
-import "./Painting.css";
 import uniqueId from "lodash/uniqueId";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -54,7 +53,8 @@ const Painting = ({
   const [buttonClicked, setButtonClicked] = useState("paint_btn");
 
   const buttonClickHandler = (e) => {
-    setButtonClicked(e.target.id);
+    console.log("버튼 클릭", e.target.title);
+    setButtonClicked(e.target.title);
   };
 
   const ctx = useRef();
@@ -381,111 +381,57 @@ const Painting = ({
     return (
       <div id="canvas_wrapper">
         <section id="controls">
-          <span className="control_btns">
-            <button id="clearBtn" onClick={handleClearClick}>
-              <FontAwesomeIcon
-                icon={farStickyNote}
-                style={{
-                  fontSize: 20,
-                  border: "none",
-                  padding: "0 0",
-                  color: "#7b716e",
-                  pointerEvents: "none",
-                }}
-              />
-            </button>
-            <button
-              id="paint_btn"
+          <ControlBtns>
+            <RefreshBtn onClick={handleClearClick}>
+              <FontAwesomeIcon icon={farStickyNote} />
+            </RefreshBtn>
+
+            <PaintBtn
               onClick={(e) => {
                 handlePaintClick();
                 buttonClickHandler(e);
               }}
-              style={{
-                backgroundColor:
-                  buttonClicked === "paint_btn" ? "#7b716e" : "#f2ede3", //자기 엘리먼트에 id를 불러오는 방법없나?
-              }}
+              buttonClicked={buttonClicked}
+              title={"PaintBtn"}
             >
-              <FontAwesomeIcon
-                icon={faPaintBrush}
-                style={{
-                  fontSize: 20,
-                  border: "none",
-                  padding: "0 0",
-                  color: buttonClicked === "paint_btn" ? "#d4c7b1" : "#555",
-                  pointerEvents: "none",
-                }}
-              />
-            </button>
-            <button
-              id="fill_btn"
+              <FontAwesomeIcon icon={faPaintBrush} />
+            </PaintBtn>
+
+            <FillBtn
               onClick={(e) => {
                 handleFillClick();
                 buttonClickHandler(e);
               }}
-              style={{
-                backgroundColor:
-                  buttonClicked === "fill_btn" ? "#7b716e" : "#f2ede3",
-              }}
+              buttonClicked={buttonClicked}
+              title={"FillBtn"}
             >
-              <FontAwesomeIcon
-                icon={faFillDrip}
-                style={{
-                  fontSize: 20,
-                  border: "none",
-                  padding: "0 0",
-                  color: buttonClicked === "fill_btn" ? "#d4c7b1" : "#555",
-                  pointerEvents: "none",
-                }}
-              />
-            </button>
-            <button
-              id="eraser_btn"
+              <FontAwesomeIcon icon={faFillDrip} />
+            </FillBtn>
+
+            <EraserBtn
               onClick={(e) => {
                 handleEraserClick();
                 buttonClickHandler(e);
               }}
-              style={{
-                backgroundColor:
-                  buttonClicked === "eraser_btn" ? "#7b716e" : "#f2ede3",
-              }}
+              buttonClicked={buttonClicked}
+              title={"EraserBtn"}
             >
-              <FontAwesomeIcon
-                icon={faEraser}
-                style={{
-                  fontSize: 20,
-                  border: "none",
-                  padding: "0 0",
-                  color: buttonClicked === "eraser_btn" ? "d4c7b1" : "#555",
-                  pointerEvents: "none",
-                }}
-              />
-            </button>
+              <FontAwesomeIcon icon={faEraser} />
+            </EraserBtn>
 
-            <button id="input_btn" onClick={handleFileButtonClick}>
-              <FontAwesomeIcon
-                icon={farImage}
-                style={{
-                  fontSize: 20,
-                  border: "none",
-                  padding: "0 0",
-                  color: "#7b716e",
-                  pointerEvents: "none",
-                }}
-              />
-            </button>
+            <LoadBtn onClick={handleFileButtonClick}>
+              <FontAwesomeIcon icon={farImage} />
+            </LoadBtn>
+
             <input
               ref={fileRef}
               type="file"
-              id="input_file"
-              name="file"
               accept="image/*"
               hidden={true}
               onChange={handleInsertImage}
             />
-
-            <span id="range_span">
-              <input
-                id="lineWeightRange"
+            <RangeBtnWrapper>
+              <RangeBtn
                 type="range"
                 min="0.1"
                 max="15"
@@ -493,19 +439,18 @@ const Painting = ({
                 step="0.1"
                 onChange={handleRangeChange}
               />
-            </span>
-          </span>
+            </RangeBtnWrapper>
+          </ControlBtns>
         </section>
-        <section id="colors">
+        <ColorWrapper>
           {arr_Colors.map((color) => (
-            <span
-              className="color"
+            <Colors
               key={uniqueId()}
               style={{ backgroundColor: `${color}` }}
               onClick={handleColorClick}
-            ></span>
+            />
           ))}
-        </section>
+        </ColorWrapper>
 
         <section style={{ position: "relative" }}>
           <Canvas
@@ -534,9 +479,109 @@ const Canvas = styled.canvas`
     0 1px 3px rgba(0, 0, 0, 0.08);
 `;
 
-const LoadedImg = styled.img`
-  max-width: 100%;
-  max-height: 100%;
+const ControlBtns = styled.span`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #f7f8e7;
+`;
+
+const Button = styled.button`
+  flex: 1 1 auto;
+  align-items: center;
+  cursor: pointer;
+  padding: 0.5rem 0rem;
+  margin: 0.05rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(27, 27, 27, 0.2);
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+
+  svg {
+    font-size: 2rem;
+    color: #7b716e;
+    pointer-events: none;
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+  &:active {
+    transform: scale(0.95);
+  }
+`;
+
+const RefreshBtn = styled(Button)`
+  background-color: #d4c7b1;
+`;
+
+const LoadBtn = styled(Button)`
+  background-color: #d4c7b1;
+`;
+
+const PaintBtn = styled(Button)`
+  background-color: ${(props) =>
+    props.title === props.buttonClicked ? "#7b716e" : "#f2ede3"};
+
+  svg {
+    color: ${(props) =>
+      props.title === props.buttonClicked ? "#d4c7b1" : "#555"};
+  }
+`;
+
+const FillBtn = styled(PaintBtn)``;
+
+const EraserBtn = styled(PaintBtn)``;
+
+const RangeBtnWrapper = styled.span`
+  flex: 0.5 1 auto;
+  display: flex;
+  justify-content: center;
+  background-color: #f2ede3;
+  padding: 1.45rem 0;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(27, 27, 27, 0.2);
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+`;
+
+const RangeBtn = styled.input`
+  align-items: center;
+  -webkit-appearance: none;
+  width: 7rem;
+  height: 0.2rem;
+  border-radius: 0.5rem;
+  background: #7b716e;
+  opacity: 0.7;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+
+  &::-webkit-slider-thumb {
+    appearance: none;
+    width: 1.3rem;
+    height: 1.3rem;
+    border-radius: 50%;
+    background: #7b716e;
+    cursor: pointer;
+  }
+`;
+
+const ColorWrapper = styled.section`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Colors = styled.span`
+  flex: 1 1 auto;
+  height: 2rem;
+  cursor: pointer; /*이거하면 커서 댔을 때 손가락 모양으로 바뀜*/
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+
+  &:active {
+    transform: scale(0.95);
+  }
 `;
 
 export default React.memo(Painting);
