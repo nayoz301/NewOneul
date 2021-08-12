@@ -50,10 +50,9 @@ const Painting = ({
   const [erasing, setErasing] = useState(false);
   const [lineWeight, setLineWeight] = useState(2.5);
 
-  const [buttonClicked, setButtonClicked] = useState("paint_btn");
+  const [buttonClicked, setButtonClicked] = useState("PaintBtn");
 
   const buttonClickHandler = (e) => {
-    console.log("버튼 클릭", e.target.title);
     setButtonClicked(e.target.title);
   };
 
@@ -233,154 +232,8 @@ const Painting = ({
     );
   } else if (selectedImage !== undefined && isEditing === true) {
     return (
-      <div id="canvas_wrapper">
-        <section id="controls">
-          <span className="control_btns">
-            <button id="clearBtn" onClick={handleClearClick}>
-              <FontAwesomeIcon
-                icon={farStickyNote}
-                style={{
-                  fontSize: 20,
-                  border: "none",
-                  padding: "0 0",
-                  color: "#7b716e",
-                  pointerEvents: "none",
-                }}
-              />
-            </button>
-            <button
-              id="paint_btn"
-              onClick={(e) => {
-                handlePaintClick();
-                buttonClickHandler(e);
-              }}
-              style={{
-                backgroundColor:
-                  buttonClicked === "paint_btn" ? "#7b716e" : "#f2ede3", //자기 엘리먼트에 id를 불러오는 방법없나?
-              }}
-            >
-              <FontAwesomeIcon
-                icon={faPaintBrush}
-                style={{
-                  fontSize: 20,
-                  border: "none",
-                  padding: "0 0",
-                  color: buttonClicked === "paint_btn" ? "#d4c7b1" : "#555",
-                  pointerEvents: "none",
-                }}
-              />
-            </button>
-            <button
-              id="fill_btn"
-              onClick={(e) => {
-                handleFillClick();
-                buttonClickHandler(e);
-              }}
-              style={{
-                backgroundColor:
-                  buttonClicked === "fill_btn" ? "#7b716e" : "#f2ede3",
-              }}
-            >
-              <FontAwesomeIcon
-                icon={faFillDrip}
-                style={{
-                  fontSize: 20,
-                  border: "none",
-                  padding: "0 0",
-                  color: buttonClicked === "fill_btn" ? "#d4c7b1" : "#555",
-                  pointerEvents: "none",
-                }}
-              />
-            </button>
-            <button
-              id="eraser_btn"
-              onClick={(e) => {
-                handleEraserClick();
-                buttonClickHandler(e);
-              }}
-              style={{
-                backgroundColor:
-                  buttonClicked === "eraser_btn" ? "#7b716e" : "#f2ede3",
-              }}
-            >
-              <FontAwesomeIcon
-                icon={faEraser}
-                style={{
-                  fontSize: 20,
-                  border: "none",
-                  padding: "0 0",
-                  color: buttonClicked === "eraser_btn" ? "d4c7b1" : "#555",
-                  pointerEvents: "none",
-                }}
-              />
-            </button>
-
-            <button id="input_btn" onClick={handleFileButtonClick}>
-              <FontAwesomeIcon
-                icon={farImage}
-                style={{
-                  fontSize: 20,
-                  border: "none",
-                  padding: "0 0",
-                  color: "#7b716e",
-                  pointerEvents: "none",
-                }}
-              />
-            </button>
-            <input
-              ref={fileRef}
-              type="file"
-              id="input_file"
-              name="file"
-              accept="image/*"
-              hidden={true}
-              onChange={handleInsertImage}
-            />
-
-            <span id="range_span">
-              <input
-                id="lineWeightRange"
-                type="range"
-                min="0.1"
-                max="15"
-                defaultValue={"3"}
-                step="0.1"
-                onChange={handleRangeChange}
-              />
-            </span>
-          </span>
-        </section>
-        <section id="colors">
-          {arr_Colors.map((color) => (
-            <span
-              className="color"
-              key={uniqueId()}
-              style={{ backgroundColor: `${color}` }}
-              onClick={handleColorClick}
-            ></span>
-          ))}
-        </section>
-
-        <section style={{ position: "relative" }}>
-          <Canvas
-            ref={canvasRef}
-            onContextMenu={disableRightClick}
-            width={CANVAS_WIDTH}
-            height={CANVAS_HEIGHT}
-            onMouseMove={onMouseMove}
-            onMouseDown={startPainting}
-            onMouseUp={stopPainting}
-            onMouseLeave={stopPainting}
-            onClick={handleCanvasClick}
-            onContextMenu={disableRightClick}
-          ></Canvas>
-        </section>
-      </div>
-    );
-  } else {
-    return (
-      <div id="canvas_wrapper">
-        <section id="controls">
+      <div>
+        <section>
           <ControlBtns>
             <RefreshBtn onClick={handleClearClick}>
               <FontAwesomeIcon icon={farStickyNote} />
@@ -452,7 +305,7 @@ const Painting = ({
           ))}
         </ColorWrapper>
 
-        <section style={{ position: "relative" }}>
+        <CanvasWrapper>
           <Canvas
             ref={canvasRef}
             onContextMenu={disableRightClick}
@@ -465,11 +318,106 @@ const Painting = ({
             onClick={handleCanvasClick}
             onContextMenu={disableRightClick}
           ></Canvas>
+        </CanvasWrapper>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <section>
+          <ControlBtns>
+            <RefreshBtn onClick={handleClearClick}>
+              <FontAwesomeIcon icon={farStickyNote} />
+            </RefreshBtn>
+
+            <PaintBtn
+              onClick={(e) => {
+                handlePaintClick();
+                buttonClickHandler(e);
+              }}
+              buttonClicked={buttonClicked}
+              title={"PaintBtn"}
+            >
+              <FontAwesomeIcon icon={faPaintBrush} />
+            </PaintBtn>
+
+            <FillBtn
+              onClick={(e) => {
+                handleFillClick();
+                buttonClickHandler(e);
+              }}
+              buttonClicked={buttonClicked}
+              title={"FillBtn"}
+            >
+              <FontAwesomeIcon icon={faFillDrip} />
+            </FillBtn>
+
+            <EraserBtn
+              onClick={(e) => {
+                handleEraserClick();
+                buttonClickHandler(e);
+              }}
+              buttonClicked={buttonClicked}
+              title={"EraserBtn"}
+            >
+              <FontAwesomeIcon icon={faEraser} />
+            </EraserBtn>
+
+            <LoadBtn onClick={handleFileButtonClick}>
+              <FontAwesomeIcon icon={farImage} />
+            </LoadBtn>
+
+            <input
+              ref={fileRef}
+              type="file"
+              accept="image/*"
+              hidden={true}
+              onChange={handleInsertImage}
+            />
+            <RangeBtnWrapper>
+              <RangeBtn
+                type="range"
+                min="0.1"
+                max="15"
+                defaultValue={"3"}
+                step="0.1"
+                onChange={handleRangeChange}
+              />
+            </RangeBtnWrapper>
+          </ControlBtns>
         </section>
+        <ColorWrapper>
+          {arr_Colors.map((color) => (
+            <Colors
+              key={uniqueId()}
+              style={{ backgroundColor: `${color}` }}
+              onClick={handleColorClick}
+            />
+          ))}
+        </ColorWrapper>
+
+        <CanvasWrapper>
+          <Canvas
+            ref={canvasRef}
+            onContextMenu={disableRightClick}
+            width={CANVAS_WIDTH}
+            height={CANVAS_HEIGHT}
+            onMouseMove={onMouseMove}
+            onMouseDown={startPainting}
+            onMouseUp={stopPainting}
+            onMouseLeave={stopPainting}
+            onClick={handleCanvasClick}
+            onContextMenu={disableRightClick}
+          ></Canvas>
+        </CanvasWrapper>
       </div>
     );
   }
 };
+
+const CanvasWrapper = styled.section`
+  position: relative;
+`;
 
 const Canvas = styled.canvas`
   height: ${(props) => props.height}px;
