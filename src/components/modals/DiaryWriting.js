@@ -306,13 +306,6 @@ const DiaryWriting = ({
     }
   };
 
-  // console.log("text", diaryText);
-  // console.log("weather", weatherChosen);
-  // console.log("emoji", emojiChosen);
-  // // console.log("date", clickmoment.format("YYYY-M-D"));
-  // console.log("private", isPublic);
-  // console.log("music", musicChosen);
-
   const diaryTextHandler = (text) => {
     setDiaryText(text);
   };
@@ -402,7 +395,7 @@ const DiaryWriting = ({
               }}
             >
               <label
-                htmlFor="check_box"
+                for="check_box"
                 className="private"
                 style={{
                   fontSize: "1.5rem",
@@ -555,7 +548,7 @@ const DiaryWriting = ({
               )}
 
               <label
-                htmlFor="check_box"
+                for="check_box"
                 className="private"
                 style={{
                   fontSize: "1.5rem",
@@ -624,7 +617,7 @@ const DiaryWriting = ({
                 }}
               ></input>
               <label
-                htmlFor="check_box"
+                for="check_box"
                 className="private"
                 style={{
                   fontSize: "1.5rem",
