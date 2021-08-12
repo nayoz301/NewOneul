@@ -85,7 +85,7 @@ const DiaryWriting = ({
     if (isEditing) {
       return selectedDiary.isPublic;
     }
-    // return false;
+    return false;
   });
   const [diaryText, setDiaryText] = useState("");
   const [weatherChosen, setWeatherChosen] = useState(null);
@@ -402,7 +402,7 @@ const DiaryWriting = ({
               }}
             >
               <label
-                for="check_box"
+                htmlFor="check_box"
                 className="private"
                 style={{
                   fontSize: "1.5rem",
@@ -555,7 +555,7 @@ const DiaryWriting = ({
               )}
 
               <label
-                for="check_box"
+                htmlFor="check_box"
                 className="private"
                 style={{
                   fontSize: "1.5rem",
@@ -624,7 +624,7 @@ const DiaryWriting = ({
                 }}
               ></input>
               <label
-                for="check_box"
+                htmlFor="check_box"
                 className="private"
                 style={{
                   fontSize: "1.5rem",
@@ -763,7 +763,7 @@ const HeaderDate = styled.div`
     }
   }
 
-  @media screen and (max-width: 497px) {
+  @media screen and (max-width: 507px) {
     & {
       font-size: 1.6rem;
       margin-left: 1rem;
@@ -772,21 +772,21 @@ const HeaderDate = styled.div`
 
   @media screen and (max-width: 451px) {
     & {
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       margin-left: 1rem;
     }
   }
 
   @media screen and (max-width: 406px) {
     & {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       margin-left: 1rem;
     }
   }
 
   @media screen and (max-width: 340px) {
     & {
-      font-size: 1.1rem;
+      font-size: 1rem;
       margin-left: 1rem;
     }
   }

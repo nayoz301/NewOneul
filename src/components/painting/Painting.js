@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import styled from "styled-components";
 import "./Painting.css";
 import uniqueId from "lodash/uniqueId";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -63,66 +64,6 @@ const Painting = ({
   const CANVAS_WIDTH = 1000;
   const CANVAS_HEIGHT = 500;
 
-  const [paintModified, setPaintModified] = useState(false);
-  const modifiedStatus = () => {
-    setPaintModified(!paintModified);
-  };
-
-  // const CANVAS_WIDTH = window.innerWidth / 2;
-  // const CANVAS_HEIGHT = window.innerWidth / 4;
-
-  // console.log("가로/세로:", window.innerWidth / 2, window.innerWidth / 4);
-
-  //세이브파일 구현 완료
-
-  // const handlePost = async () => { //이건 그냥 업로드할 때 쓰는 함수
-  //   if (selectedFile) {
-  //     const img = new FormData();
-  //     img.append("file", selectedFile);
-
-  //     await axios
-  //       .post("http://localhost:4000/upload", img, {
-  //         header: {
-  //           "content-type": "multipart/form-data",
-  //           credentials: true,
-  //         },
-  //       })
-  //       .then((res) => {
-  //         alert("파일이 성공적으로 저장되었습니다. 글을 작성해주세요");
-  //       })
-  //       .catch((err) => {
-  //         alert("파일이 저장되지 않았습니다. 다시 시도해주세요");
-  //       });
-  //   } else {
-  //     alert("파일을 업로드해주세요");
-  //   }
-  // };
-
-  // function handleFileUpload() { // 이거는 로컬에 업로드하는 경우.
-  //   console.log(canvasRef.current);
-  //   canvasRef.current.toBlob(
-  //     function (blob) {
-  //       const img = new FormData();
-  //       img.append("file", blob, `${Date.now()}.jpeg`);
-  //       console.log(blob);
-  //       axios
-  //         .post("http://localhost:4000/upload", img, {
-  //           header: {
-  //             "content-type": "multipart/form-data",
-  //             credentials: true,
-  //           },
-  //         })
-  //         .then((res) => {
-  //           alert("파일이 성공적으로 저장되었습니다. 글을 작성해주세요");
-  //         })
-  //         .catch((err) => {
-  //           alert("파일이 저장되지 않았습니다. 다시 시도해주세요");
-  //         });
-  //     },
-  //     "image/jpeg",
-  //     0.8 //내릴수록 화질 안좋고 용량 줄어듦
-  //   );
-  // }
   useEffect(() => {
     if (selectedImage !== "") {
       const canvas = canvasRef.current;
@@ -151,25 +92,6 @@ const Painting = ({
     }
   }, [isEditing === false]);
 
-  // const updateCanvas = async (e) => { //이거랑 handleInsertImage 차이 알아보기 이건 한번에 삽입이 안되고 그건 한번에 가능
-  //   setSelectedFile(e.target.files[0]);
-  //   e.preventDefault();
-  //   let reader = new FileReader();
-  //   let file = e.target.files[0];
-  //   console.log(reader);
-  //   reader.onloadend = () => {
-  //     setPreviewURL(reader.result);
-  //   };
-  //   reader.readAsDataURL(file);
-  //   const ctx = canvasRef.current.getContext("2d");
-  //   const img = new Image();
-  //   img.crossOrigin = "Anonymus";
-  //   img.src = previewURL;
-  //   img.onload = () => {
-  //     ctx.drawImage(img, 0, 0, 700, 400);
-  //   };
-  // };
-
   function handleInsertImage(e) {
     e.preventDefault();
     if (isEditing) {
@@ -187,50 +109,7 @@ const Painting = ({
     };
     reader.readAsDataURL(e.target.files[0]);
   }
-  //세이프파일 구현 완료
-  //이미지 혹은 그림판 선택 버튼
 
-  const [previewURL, setPreviewURL] = useState(null);
-  const [whichOne, setWhichOne] = useState("canvas");
-  const whichOneFunc = (e) => {
-    //useState에 의해서 버튼 innerText 변환 함수
-    console.log(e.target.innerText);
-    if (whichOne === "canvas") {
-      setWhichOne("picture");
-    } else {
-      setWhichOne("canvas");
-    }
-  };
-
-  // const handleImgPreview = (e) => {
-  //   setSelectedFile(e.target.files[0]);
-  //   e.preventDefault();
-  //   let reader = new FileReader();
-  //   let file = e.target.files[0];
-  //   console.log(reader);
-  //   reader.onloadend = () => {
-  //     setPreviewURL(reader.result);
-  //   };
-  //   reader.readAsDataURL(file);
-  // };
-
-  // let $preview = null;
-  // if (previewURL) {
-  //   $preview = <img src={previewURL} />;
-  // } else {
-  //   $preview = (
-  //     <div className="previewText">Please select an Image for Preview</div>
-  //   );
-  // }
-
-  // let profile_preview = null;
-  // if (selectedFile !== "") {
-  //   profile_preview = <img className="profile_preview" src={previewURL}></img>;
-
-  // }
-  //이미지 혹은 그림판 선택 버튼
-
-  //내꺼
   const startPainting = () => {
     if (isEditing) {
       paintingChangeCheck();
@@ -271,12 +150,6 @@ const Painting = ({
     setErasing(false);
   }
 
-  // function getMouesPosition(e) {
-  //   var mouseX = ((e.offsetX * canvas.width) / canvas.clientWidth) | 0;
-  //   var mouseY = ((e.offsetY * canvas.height) / canvas.clientHeight) | 0;
-  //   return { x: mouseX, y: mouseY };
-  // }
-
   const onMouseMove = ({ nativeEvent }) => {
     const getMouesPosition = (nativeEvent) => {
       var mouseX =
@@ -286,63 +159,16 @@ const Painting = ({
       return { x: mouseX, y: mouseY };
     };
     const canvas = canvasRef.current;
-    const canvasBounds = canvasRef.current.getBoundingClientRect();
-    // const x = getMouesPosition(nativeEvent).x;
-    // const y = getMouesPosition(nativeEvent).y;
-
-    // const x = nativeEvent.offsetX;
-    // const y = nativeEvent.offsetY;
-
-    // let x = nativeEvent.clientX - canvasBounds.left;
-    // let y = nativeEvent.clientY - canvasBounds.top;
-    // let x = nativeEvent.clientX - canvas.offsetLeft;
-    // let y = (nativeEvent.clientY - canvas.offsetTop)height;
-    // const x = (nativeEvent.offsetX / canvas.clientWidth) * 2 - 1;
-    // const y = (1 - nativeEvent.offsetY / canvas.clientHeight) * 2 - 1;
-    // let x = nativeEvent.clientX - canvas.offsetLeft;
-    // let y = (nativeEvent.clientY - canvas.offsetTop)height;
-
-    // var sx = canvas.width / window.innerWidth;
-    // var sy = canvas.height / window.innerHeight;
-
-    // let x = (nativeEvent.clientX - canvasBounds.left) / sx;
-    // let y = (nativeEvent.clientY - canvasBounds.top) / sy;
-
-    // var mouseX = nativeEvent.clientX - ctx.canvas.offsetLeft;
-    // var mouseY = nativeEvent.clientY - ctx.canvas.offsetTop;
-    // const result = nativeEvent.offsetX * canvas.width;
-    // console.log(
-    // "무브마우스",
-    // getMouesPosition(nativeEvent),
-    // window.innerWidth,
-    // canvas.offsetLeft,
-    // canvas.clientHeight,
-    // window.innerWidth,
-    // canvas.width,
-    // nativeEvent.offsetX,
-    // nativeEvent.clientX,
-    // canvas.clientHeight,
-    // result
-
-    // canvasBounds,
-    // canvasBounds.left,
-    // canvas.offsetBottom //캔버스안에서 탑 레프트 무조건 0
-    // );
+    const coordX = getMouesPosition(nativeEvent).x;
+    const coordY = getMouesPosition(nativeEvent).y;
 
     if (ctx.current && !painting && !erasing) {
       ctx.current.beginPath();
-      // console.log("CTX", ctx.current.beginPath());
-      // ctx.current.moveTo(x, y);
     } else if (painting) {
       ctx.current.globalCompositeOperation = "source-over";
-      ctx.current.lineTo(
-        getMouesPosition(nativeEvent).x,
-        getMouesPosition(nativeEvent).y
-      );
+      ctx.current.lineTo(coordX, coordY);
       ctx.current.lineCap = "round";
       ctx.current.stroke();
-
-      // console.log("x,y", nativeEvent.offsetX, nativeEvent.offsetY);
     } else if (erasing) {
       // ctx.current.globalCompositeOperation = "destination-out"; //이게 정석 지우개지만 이걸로 하면 검정화면 나타남
       ctx.current.globalCompositeOperation = "source-over";
@@ -352,22 +178,10 @@ const Painting = ({
 
       ctx.current.lineWidth = 15;
       ctx.current.beginPath();
-      ctx.current.arc(
-        getMouesPosition(nativeEvent).x,
-        getMouesPosition(nativeEvent).y,
-        10,
-        0,
-        4 * Math.PI
-      );
+      ctx.current.arc(coordX, coordY, 10, 0, 4 * Math.PI);
       ctx.current.fill();
-      ctx.current.moveTo(
-        getMouesPosition(nativeEvent).x,
-        getMouesPosition(nativeEvent).y
-      );
-      ctx.current.lineTo(
-        getMouesPosition(nativeEvent).x,
-        getMouesPosition(nativeEvent).y
-      );
+      ctx.current.moveTo(coordX, coordY);
+      ctx.current.lineTo(coordX, coordY);
       ctx.current.stroke();
 
       ctx.current.strokeStyle = colorExtra; //여기서 다시 아까 쓰던 색 넣어줌
@@ -379,7 +193,6 @@ const Painting = ({
   };
 
   const handleColorClick = (e) => {
-    console.log("버튼 컬러클릭");
     const color = e.target.style.backgroundColor;
     ctx.current.strokeStyle = color;
     ctx.current.fillStyle = color;
@@ -387,7 +200,6 @@ const Painting = ({
 
   const handleRangeChange = (e) => {
     setLineWeight(e.target.value);
-    console.log("선 굵기:::", lineWeight);
     ctx.current.lineWidth = lineWeight;
   };
 
@@ -408,46 +220,16 @@ const Painting = ({
     fileRef.current.click(); // file 불러오는 버튼을 대신 클릭함
   };
 
-  // useEffect(() => {
-  //   console.log("유즈이펙트 실행 되나요?")
-  //   const canvas = canvasRef.current;
-  //   if (canvas !== null) {
-  //     canvas.style.width = "100%";
-  //     canvas.style.height = "100%";
-
-  //     ctx.current = canvas.getContext("2d");
-  //     ctx.current.strokeStyle = BASE_COLOR;
-
-  //     ctx.current.fillStyle = "white"; //캔버스 기본 바탕색깔 흰색으로 세팅. PNG는 투명이 되지만 JPEG는 기본이 투명 안되고 검은색.
-  //     ctx.current.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); //캔버스 기본 바탕색깔 흰색으로 세팅.
-  //   }
-  // }, []);
-
   if (selectedImage !== undefined && isEditing === false) {
     return (
-      <div id="canvas_wrapper">
-        <section id="controls">
-          <span className="control_btns">
-            {/* <button
-              type="button"
-              className="input_file_button"
-              onClick={handleFileUpload}
-            >
-              upload
-            </button> */}
-          </span>
-        </section>
-
-        <section style={{ position: "relative" }}>
-          <canvas
-            id="canvas"
-            ref={canvasRef}
-            width={`${CANVAS_WIDTH}`}
-            height={`${CANVAS_HEIGHT}`}
-            onContextMenu={disableRightClick}
-          ></canvas>
-        </section>
-      </div>
+      <section style={{ position: "relative" }}>
+        <Canvas
+          ref={canvasRef}
+          onContextMenu={disableRightClick}
+          width={CANVAS_WIDTH}
+          height={CANVAS_HEIGHT}
+        ></Canvas>
+      </section>
     );
   } else if (selectedImage !== undefined && isEditing === true) {
     return (
@@ -566,14 +348,6 @@ const Painting = ({
                 onChange={handleRangeChange}
               />
             </span>
-
-            {/* <button
-              type="button"
-              className="input_file_button"
-              onClick={handleFileUpload}
-            >
-              upload
-            </button> */}
           </span>
         </section>
         <section id="colors">
@@ -588,18 +362,18 @@ const Painting = ({
         </section>
 
         <section style={{ position: "relative" }}>
-          <canvas
-            id="canvas"
+          <Canvas
             ref={canvasRef}
-            width={`${CANVAS_WIDTH}`}
-            height={`${CANVAS_HEIGHT}`}
+            onContextMenu={disableRightClick}
+            width={CANVAS_WIDTH}
+            height={CANVAS_HEIGHT}
             onMouseMove={onMouseMove}
             onMouseDown={startPainting}
             onMouseUp={stopPainting}
             onMouseLeave={stopPainting}
             onClick={handleCanvasClick}
             onContextMenu={disableRightClick}
-          ></canvas>
+          ></Canvas>
         </section>
       </div>
     );
@@ -720,14 +494,6 @@ const Painting = ({
                 onChange={handleRangeChange}
               />
             </span>
-
-            {/* <button
-              type="button"
-              className="input_file_button"
-              onClick={handleFileUpload}
-            >
-              upload
-            </button> */}
           </span>
         </section>
         <section id="colors">
@@ -742,74 +508,35 @@ const Painting = ({
         </section>
 
         <section style={{ position: "relative" }}>
-          <canvas
-            id="canvas"
+          <Canvas
             ref={canvasRef}
-            width={`${CANVAS_WIDTH}`}
-            height={`${CANVAS_HEIGHT}`}
+            onContextMenu={disableRightClick}
+            width={CANVAS_WIDTH}
+            height={CANVAS_HEIGHT}
             onMouseMove={onMouseMove}
             onMouseDown={startPainting}
             onMouseUp={stopPainting}
             onMouseLeave={stopPainting}
             onClick={handleCanvasClick}
             onContextMenu={disableRightClick}
-          ></canvas>
-
-          {/* <button id="music_btn" onClick={musicModalOnOff}>
-            <FontAwesomeIcon
-              icon={faMusic}
-              style={{
-                color: "#7a706d",
-                fontSize: 20,
-                border: "none",
-                pointerEvents: "none",
-              }}
-            />
-          </button>
-
-          <button id="music_btn_up" onClick={musicModalOnOff}>
-            <FontAwesomeIcon
-              icon={faMusic}
-              style={{
-                color: "#7a706d",
-                fontSize: 20,
-                border: "none",
-                pointerEvents: "none",
-              }}
-            />
-          </button> */}
+          ></Canvas>
         </section>
       </div>
     );
   }
 };
 
+const Canvas = styled.canvas`
+  height: ${(props) => props.height}px;
+  width: ${(props) => props.width}px;
+  background-color: white;
+  box-shadow: 0 0.4rem 0.6rem rgba(50, 50, 93, 0.11),
+    0 1px 3px rgba(0, 0, 0, 0.08);
+`;
+
+const LoadedImg = styled.img`
+  max-width: 100%;
+  max-height: 100%;
+`;
+
 export default React.memo(Painting);
-
-// function handleFileUpload() {
-//   canvasRef.current.toBlob(
-//     function (blob) {
-//       const img = new FormData();
-//       img.append("file", blob, `${Date.now()}.jpeg`);
-//       console.log(blob);
-
-//       const param = {
-//         Bucket: "oneulfile",
-//         Key: "image/" + "abc",
-//         ACL: "public-read",
-//         Body: blob,
-//         ContentType: "image/",
-//       };
-
-//       s3.upload(param, function (err, data) {
-//         console.log(err);
-//         console.log(data);
-//       });
-//     },
-//     "image/jpeg",
-//     0.8
-//   );
-// }
-
-// S3에 파일 저장 , 이름은 닉네임 + date.now()
-// 저장 후 URL응답 받아서 서버에 다른 데이터들과 함께 전달.
