@@ -674,4 +674,5 @@ const mapStateToProps = ({ mainReducer }) => {
   };
 };
 
+const SongName = styled.div``;
 export default connect(mapStateToProps)(Music);

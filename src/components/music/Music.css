@@ -48,14 +48,6 @@ body .player-wrapper {
   display: none;
 }
 
-.current-song .time {
-  /*재생 시간 숫자 앞 뒤*/
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1rem;
-  width: 24rem;
-  font-size: 1.3rem;
-}
 .current-song #timeline {
   position: relative;
   margin: 0 auto;
@@ -126,130 +118,15 @@ body .player-wrapper {
   margin-top: 0rem; /*이전 재생 다음 버튼 위 마진*/
 }
 
-.current-song .controls .controls_wrapper {
-  margin-top: 1rem;
-  position: relative;
-  z-index: 100; /* 뮤직 사운드바랑 겹치지 않으려고 */
-}
-
-.current-song .controls button {
-  color: #dfd5c9; /*재생 버튼*/
-  /* border-radius: 10%; */
-  margin: 0rem 0.5rem 0rem 0.5rem;
-  font-size: 1.8rem;
-  text-align: center;
-  transition: 0.2s;
-  cursor: pointer;
-  border: none;
-  background: 0;
-}
-.current-song .controls button:focus {
-  outline: none;
-}
-.current-song .controls button.play {
-  /* 재생버튼 */
-  width: 5rem;
-  height: 5rem;
-  /* border: 0.1rem solid #adb39a; */
-}
-.current-song .controls button.play:hover {
-  /* 재생버튼 호버*/
-  transform: scale(1.3);
-}
-
-.current-song .controls button.prev-next {
-  /*이전 다음 버튼 기본*/
-  width: 3.5rem;
-  height: 3.5rem;
-}
-.current-song .controls button.prev-next:hover {
-  /*이전 다음 버튼 호버*/
-  transform: scale(1.2);
-}
-
-.current-song .controls button.prev-next:active {
-  /*이전 다음 버튼 액티브*/
-  transform: scale(0.95);
-}
-
-.current-song .song_alert_wrapper {
-  display: flex;
-  position: relative;
-  justify-content: center;
-  /* align-items: center; */
-}
-
-.current-song .song_alert_wrapper .song_alert {
-  position: absolute;
-  width: 33rem;
-  top: -0.4rem;
-  font-size: 1.2rem;
-  animation: opacityOnAndOff 3s infinite;
-}
-
-@keyframes opacityOnAndOff {
-  0% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-
 .current-song .controls .volume-controller-wrapper .mute-btn {
   position: relative;
   /* top: -4.6rem;
-  right: -26.5rem;
-  width: 6rem; */
+      right: -26.5rem;
+      width: 6rem; */
 }
 
 .current-song .controls .volume-controller-wrapper .mute-btn:active {
   transform: scale(0.95);
-}
-
-.current-song .controls .volume-controller-wrapper {
-  /* padding-top: 88px; */
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  align-items: center;
-  right: -9rem;
-  top: -3.6rem;
-}
-
-.current-song .controls .volume-controller-wrapper .volume-controller {
-  position: absolute;
-  width: 6rem;
-  height: 0.2rem;
-  top: 1rem;
-  right: 0.6rem;
-  transform-origin: 1;
-  border-radius: 5px;
-  cursor: pointer;
-  /* transform: rotate(-90deg); */
-  -webkit-appearance: none;
-  background: #dfd5c9;
-  outline: none;
-  opacity: 0;
-  -webkit-transition: 0.2s;
-  transition: opacity 0.2s;
-}
-
-.volume-controller:hover {
-  opacity: 1;
-}
-
-.volume-controller::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  /* appearance: none; */
-  width: 1rem;
-  height: 1rem;
-  border-radius: 50%;
-  background: #dfd5c9;
-  cursor: pointer;
 }
 
 .player-wrapper .play-list {

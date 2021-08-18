@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import uniqueId from "lodash/uniqueId";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import "./Music.css";
 import SelectBar from "./SelectBar";
 import { connect } from "react-redux";
@@ -532,10 +532,10 @@ const Music = ({
                 <SongAuthor>{currentSong.author}</SongAuthor>
               </SongInfo>
 
-              <div className="time">
-                <div className="current-time">{currentTime}</div>
-                <div className="end-time">{currentSong.duration}</div>
-              </div>
+              <Time>
+                <CurrentTime>{currentTime}</CurrentTime>
+                <EndTime>{currentSong.duration}</EndTime>
+              </Time>
             </>
           )}
           <div ref={timelineRef} id="timeline">
@@ -547,8 +547,8 @@ const Music = ({
             ></div>
           </div>
 
-          <div className="controls">
-            <div className="controls_wrapper">
+          <BtnWrapper>
+            <Btns>
               <PrevBtn onClick={prevSong}>
                 <Icon icon={stepBackward} />
               </PrevBtn>
@@ -562,19 +562,18 @@ const Music = ({
               <NextBtn onClick={nextSong}>
                 <Icon icon={stepForward} />
               </NextBtn>
-            </div>
+            </Btns>
 
-            <div className="song_alert_wrapper">
-              <span className="song_alert">
+            <SongAlertWrapper>
+              <SongAlert>
                 {selectedSong &&
                   musicLists &&
                   `${musicLists[selectedSong].name} 곡이 배경음악으로 설정되었습니다`}
-              </span>
-            </div>
+              </SongAlert>
+            </SongAlertWrapper>
 
-            <span className="volume-controller-wrapper">
-              <button
-                className="mute-btn"
+            <VolumeControlWrapper>
+              <VolumeBtn
                 onClick={() => {
                   setMuteState(!muteState);
                 }}
@@ -587,7 +586,7 @@ const Music = ({
                   icon={
                     muteState
                       ? volumeMute2
-                      : volume < 0.01 //0으로 하면 안먹음
+                      : volume < 0.01
                       ? volumeMute
                       : volume < 0.34
                       ? volumeLow
@@ -596,9 +595,9 @@ const Music = ({
                       : volumeHigh
                   }
                 />
-              </button>
+              </VolumeBtn>
 
-              <input
+              <VolumeController
                 ref={volumeControllerRef}
                 className="volume-controller"
                 type="range"
@@ -616,8 +615,8 @@ const Music = ({
                   volumeControllerRef.current.style.opacity = 0;
                 }}
               />
-            </span>
-          </div>
+            </VolumeControlWrapper>
+          </BtnWrapper>
         </div>
         <div className="play-list">
           {filtered.map((music, arrayIndex) => (
@@ -688,6 +687,28 @@ const SongAuthor = styled.span`
   font-weight: 400;
 `;
 
+const Time = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  width: 24rem;
+  font-size: 1.3rem;
+`;
+const CurrentTime = styled.div``;
+const EndTime = styled.div``;
+
+const TimeBar = styled.div``;
+const PlayHead = styled.div``;
+const HoverPlayHead = styled.div``;
+
+const BtnWrapper = styled.div`
+  margin-top: 1rem;
+`;
+const Btns = styled.div`
+  margin-top: 1rem;
+  position: relative;
+  z-index: 100; /* 뮤직 사운드바랑 겹치지 않으려고 */
+`;
 const Button = styled.button`
   color: #dfd5c9;
   margin: 0rem 0.5rem 0rem 0.5rem;
@@ -730,6 +751,75 @@ const PlayBtn = styled(Button)`
   svg {
     size: ${(props) => (props.pause ? 20 : 23)};
   }
+`;
+const VolumeControlWrapper = styled.span`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+  right: -9rem;
+  top: -3.6rem;
+`;
+const VolumeBtn = styled(Button)`
+  position: relative;
+
+  &:active {
+    transform: scale(0.95);
+  }
+`;
+const VolumeController = styled.input`
+  position: absolute;
+  width: 6rem;
+  height: 0.2rem;
+  top: 1rem;
+  right: 0.6rem;
+  transform-origin: 1;
+  border-radius: 5px;
+  cursor: pointer;
+  /* transform: rotate(-90deg); */
+  -webkit-appearance: none;
+  background: #dfd5c9;
+  outline: none;
+  opacity: 0;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 1;
+  }
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    /* appearance: none; */
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: #dfd5c9;
+    cursor: pointer;
+  }
+`;
+
+const SongAlertWrapper = styled.div`
+  display: flex;
+  position: relative;
+  justify-content: center;
+`;
+const SongAlertAnimation = keyframes`
+0% {
+  opacity: 0;
+}
+50% {
+  opacity: 1;
+}
+100% {
+  opacity: 0;
+}
+ `;
+const SongAlert = styled.span`
+  position: absolute;
+  width: 33rem;
+  top: -0.4rem;
+  font-size: 1.2rem;
+  animation: ${SongAlertAnimation} 3s infinite;
 `;
 
 export default connect(mapStateToProps)(Music);
