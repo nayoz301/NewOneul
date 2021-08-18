@@ -48,25 +48,6 @@ body .player-wrapper {
   display: none;
 }
 
-.player-wrapper .current-song .song-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.current-song .song-info .song-name {
-  /*재생중 노래 이름*/
-  margin-top: 1rem;
-  font-size: 2.2rem;
-}
-.current-song .song-info .song-author {
-  /*재생중 가수 이름*/
-  color: #dfd5c9;
-  margin-top: 0.5rem;
-  font-size: 1.5rem;
-  font-weight: 400;
-}
-
 .current-song .time {
   /*재생 시간 숫자 앞 뒤*/
   display: flex;
@@ -142,10 +123,11 @@ body .player-wrapper {
   border-right: 8px solid transparent;
 }
 .current-song .controls {
-  margin-top: 1rem; /*이전 재생 다음 버튼 위 마진*/
+  margin-top: 0rem; /*이전 재생 다음 버튼 위 마진*/
 }
 
 .current-song .controls .controls_wrapper {
+  margin-top: 1rem;
   position: relative;
   z-index: 100; /* 뮤직 사운드바랑 겹치지 않으려고 */
 }
@@ -180,7 +162,6 @@ body .player-wrapper {
   width: 3.5rem;
   height: 3.5rem;
 }
-
 .current-song .controls button.prev-next:hover {
   /*이전 다음 버튼 호버*/
   transform: scale(1.2);

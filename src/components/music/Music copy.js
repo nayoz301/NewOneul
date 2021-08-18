@@ -1,15 +1,12 @@
 import React, { useRef, useEffect, useState } from "react";
-import uniqueId from "lodash/uniqueId";
-import styled from "styled-components";
-import "./Music.css";
-import SelectBar from "./SelectBar";
-import { connect } from "react-redux";
-
-import { circle, stepBackward, stepForward } from "react-icons-kit/iconic/";
 import { Icon } from "react-icons-kit";
+import { circle, stepBackward, stepForward } from "react-icons-kit/iconic/";
 import { pause2 } from "react-icons-kit/icomoon/pause2";
 import { ic_close } from "react-icons-kit/md/ic_close";
 import { plus } from "react-icons-kit/feather/plus";
+import uniqueId from "lodash/uniqueId";
+import styled from "styled-components";
+
 import {
   volumeMedium,
   volumeMute,
@@ -17,6 +14,10 @@ import {
   volumeLow,
   volumeHigh,
 } from "react-icons-kit/icomoon";
+
+import "./Music.css";
+import SelectBar from "./SelectBar";
+import { connect } from "react-redux";
 
 const music = [
   {
@@ -527,10 +528,10 @@ const Music = ({
                 Your browser does not support the audio element.
               </audio>
 
-              <SongInfo>
-                <SongName>{currentSong.name}</SongName>
-                <SongAuthor>{currentSong.author}</SongAuthor>
-              </SongInfo>
+              <div className="song-info">
+                <span className="song-name">{currentSong.name}</span>
+                <span className="song-author">{currentSong.author}</span>
+              </div>
 
               <div className="time">
                 <div className="current-time">{currentTime}</div>
@@ -549,19 +550,20 @@ const Music = ({
 
           <div className="controls">
             <div className="controls_wrapper">
-              <PrevBtn onClick={prevSong}>
+              <button onClick={prevSong} className="prev prev-next current-btn">
                 <Icon icon={stepBackward} />
-              </PrevBtn>
-              <PlayBtn onClick={playOrPause} pause={pause}>
+              </button>
+
+              <button onClick={playOrPause} className="play current-btn">
                 {!pause ? (
                   <Icon size={23} icon={circle} />
                 ) : (
                   <Icon size={20} icon={pause2} />
                 )}
-              </PlayBtn>
-              <NextBtn onClick={nextSong}>
+              </button>
+              <button onClick={nextSong} className="next prev-next current-btn">
                 <Icon icon={stepForward} />
-              </NextBtn>
+              </button>
             </div>
 
             <div className="song_alert_wrapper">
@@ -648,7 +650,7 @@ const Music = ({
                   onClick={(e) => {
                     sendSongInfo(e);
                     getMusicData(e.target.title);
-                    e.stopPropagation();
+                    e.stopPropagation(); //버튼 클릭할 때 재생 곡이 바뀌는 걸 방지해준다. 버블링 캡쳐링 금지
                   }}
                 >
                   <Icon
@@ -671,65 +673,5 @@ const mapStateToProps = ({ mainReducer }) => {
     musicList: mainReducer,
   };
 };
-
-const SongInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-const SongName = styled.span`
-  margin-top: 1rem;
-  font-size: 2.2rem;
-`;
-const SongAuthor = styled.span`
-  color: #dfd5c9;
-  margin-top: 0.5rem;
-  font-size: 1.5rem;
-  font-weight: 400;
-`;
-
-const Button = styled.button`
-  color: #dfd5c9;
-  margin: 0rem 0.5rem 0rem 0.5rem;
-  font-size: 1.8rem;
-  text-align: center;
-  transition: 0.2s;
-  cursor: pointer;
-  border: none;
-  background: 0;
-
-  svg {
-    font-size: 2rem;
-    color: #dfd5c9;
-    pointer-events: none;
-    &:active {
-      transform: scale(0.95);
-    }
-  }
-
-  &:hover {
-    transform: scale(1.2);
-  }
-
-  &:active {
-    transform: scale(0.95);
-  }
-`;
-const PrevBtn = styled(Button)`
-  width: 3.5rem;
-  height: 3.5rem;
-`;
-const NextBtn = styled(Button)`
-  width: 3.5rem;
-  height: 3.5rem;
-`;
-const PlayBtn = styled(Button)`
-  width: 5rem;
-  height: 5rem;
-
-  svg {
-    size: ${(props) => (props.pause ? 20 : 23)};
-  }
-`;
 
 export default connect(mapStateToProps)(Music);
