@@ -621,39 +621,46 @@ const Music = ({
         </div>
         <div className="play-list">
           {filtered.map((music, arrayIndex) => (
-            <div className="play-list-one" key={uniqueId()}>
-              <div
-                onClick={() => clickAudio(arrayIndex)}
-                className={
-                  "track " +
-                  (index === arrayIndex && !pause ? "current-audio" : "") +
-                  (index === arrayIndex && pause ? "play-now" : "")
-                }
+            <EachSong
+              index={index}
+              arrayIndex={arrayIndex}
+              pause={pause}
+              key={uniqueId()}
+              onClick={() => clickAudio(arrayIndex)}
+              className={
+                "track " +
+                (index === arrayIndex && !pause ? "current-audio" : "") +
+                (index === arrayIndex && pause ? "play-now" : "")
+              }
+            >
+              <TrackIMG
+                index={index}
+                arrayIndex={arrayIndex}
+                pause={pause}
+                src={music.img}
+              />
+              <TrackInfo>
+                <TrackName>
+                  {music.name.length >= 20
+                    ? `${music.name.slice(0, 18)}...`
+                    : music.name}
+                </TrackName>
+                <TrackAuthor>{music.author}</TrackAuthor>
+              </TrackInfo>
+              <TrackDuration>
+                {index === music.id ? currentTime : music.duration}
+              </TrackDuration>
+              <TrackSelectBtn
+                title={music.id}
+                onClick={(e) => {
+                  sendSongInfo(e);
+                  getMusicData(e.target.title);
+                  e.stopPropagation();
+                }}
               >
-                <img className="track-img" src={music.img} />
-                <TrackInfo>
-                  <TrackName>
-                    {music.name.length >= 20
-                      ? `${music.name.slice(0, 18)}...`
-                      : music.name}
-                  </TrackName>
-                  <TrackAuthor>{music.author}</TrackAuthor>
-                </TrackInfo>
-                <TrackDuration>
-                  {index === music.id ? currentTime : music.duration}
-                </TrackDuration>
-                <TrackSelectBtn
-                  title={music.id}
-                  onClick={(e) => {
-                    sendSongInfo(e);
-                    getMusicData(e.target.title);
-                    e.stopPropagation();
-                  }}
-                >
-                  <Icon size={22} icon={plus} />
-                </TrackSelectBtn>
-              </div>
-            </div>
+                <Icon size={22} icon={plus} />
+              </TrackSelectBtn>
+            </EachSong>
           ))}
         </div>
       </div>
@@ -879,6 +886,39 @@ const SongAlert = styled.span`
   animation: ${SongAlertAnimation} 3s infinite;
 `;
 
+const PlayList = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 0rem;
+  height: 34vh;
+  width: 100%; /*이건 다시 보기*/
+  overflow-y: scroll; /*이걸로 스크롤*/
+  align-items: center;
+  margin-left: 0.6rem;
+`;
+const EachSong = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 0.7rem 0.6rem 0 0;
+  border-radius: calc(2rem - 1rem);
+  border: 1px solid transparent;
+  transition: 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    background: #f9f9f9; /*재생목록 마우스 갖다대면 호버색깔*/
+    border-color: #eeeac1;
+    position: relative;
+    box-shadow: 0rem 0rem 1rem 0rem #274684;
+  }
+`;
+const TrackIMG = styled.img`
+  width: 5rem;
+  height: 5rem;
+  border-radius: 1rem;
+  filter: ${(props) =>
+    props.index === props.arrayIndex && props.pause ? "opacity(70%)" : ""};
+`;
 const TrackInfo = styled.div`
   margin-left: 0.7rem;
   display: flex;

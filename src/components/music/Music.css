@@ -49,29 +49,13 @@ body .player-wrapper {
   height: 34vh;
   width: 100%; /*이건 다시 보기*/
   overflow-y: scroll; /*이걸로 스크롤*/
-}
-
-.player-wrapper .play-list .play-list-one {
-  /*재생목록과 선택버튼 */
-  display: flex;
   align-items: center;
   margin-left: 0.6rem;
 }
 
 .player-wrapper .play-list .track {
-  display: flex;
-  align-items: center;
-  margin: 0.7rem 0.6rem 0 0;
-  border-radius: calc(20px - 10px);
-  border: 1px solid transparent;
-  transition: 0.3s;
-  cursor: pointer;
 }
 .player-wrapper .play-list .track:hover {
-  background: #f9f9f9; /*재생목록 마우스 갖다대면 호버색깔*/
-  border-color: #eeeac1;
-  position: relative;
-  box-shadow: 0rem 0rem 1rem 0rem #274684;
 }
 .player-wrapper .play-list .track.current-audio {
   background: #f9f9f9; /*재생목록 호버 선택창*/
@@ -92,14 +76,6 @@ body .player-wrapper {
   border-radius: calc(2rem - 1rem);
   font-size: 1.6rem;
   animation: play 2s linear infinite;
-}
-.player-wrapper .play-list .track.play-now .track-img {
-  filter: opacity(70%);
-}
-.player-wrapper .play-list .track .track-img {
-  width: 5rem;
-  height: 5rem;
-  border-radius: 1rem;
 }
 
 .player-wrapper .play-list::-webkit-scrollbar {
