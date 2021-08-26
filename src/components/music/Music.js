@@ -539,14 +539,14 @@ const Music = ({
               </Time>
             </>
           )}
-          <div ref={timelineRef} id="timeline">
-            <div ref={playheadRef} id="playhead"></div>
-            <div
+
+          <TimeLine ref={timelineRef}>
+            <PlayHead ref={playheadRef}></PlayHead>
+            <HoverPlayHead
               ref={hoverPlayheadRef}
-              className="hover-playhead"
               data-content="0:00"
-            ></div>
-          </div>
+            ></HoverPlayHead>
+          </TimeLine>
 
           <BtnWrapper>
             <Btns>
@@ -709,9 +709,60 @@ const Time = styled.div`
 const CurrentTime = styled.div``;
 const EndTime = styled.div``;
 
-const TimeBar = styled.div``;
-const PlayHead = styled.div``;
-const HoverPlayHead = styled.div``;
+const PlayHead = styled.div`
+  position: relative;
+  z-index: 200;
+  width: 0;
+  height: 5px;
+  border-radius: 5px;
+  background: #a9aec1; /*재생시간바 진행바 색깔*/
+`;
+const HoverPlayHead = styled.div`
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  height: 0.5rem;
+  border-radius: 5px;
+  background: #e3ba9a; /*재생시간 바 호버*/
+  transition: opacity 0.3s;
+`;
+const TimeLine = styled.div`
+  position: relative;
+  margin: 0 auto;
+  width: 24rem;
+  height: 0.5rem;
+  background: #dfd5c9; /*재생시간바 기본 색상*/
+  border-radius: 0.5rem;
+  cursor: pointer;
+
+  &:hover {
+    ${HoverPlayHead}::before {
+      opacity: 1;
+      content: attr(data-content);
+      display: block;
+      position: absolute;
+      top: -30px;
+      right: -23px;
+      width: 40px;
+      padding: 3px;
+      text-align: center;
+      color: #ffffff; /*시간 표시 화살표 위에 뜨는 재생시간 글자색*/
+      background: #a9aec1; /*시간 표시 화살표 위에 뜨는 재생시간 배경색깔*/
+      border-radius: calc(20px - 12px);
+    }
+    ${HoverPlayHead}::after {
+      opacity: 1;
+      content: "";
+      display: block;
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      border-top: 8px solid #a9aec1; /*보더바 화살표*/
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+    }
+  }
+`;
 
 const BtnWrapper = styled.div`
   margin-top: 1rem;
