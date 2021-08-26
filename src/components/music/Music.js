@@ -510,14 +510,15 @@ const Music = ({
     return (
       <div className="player-wrapper">
         <div className="current-song">
-          <Icon
-            size={18}
-            className={`close-btn ${musicOpen ? "open" : null}`}
-            icon={ic_close}
-            onClick={() => {
-              musicModalOnOff();
-            }}
-          />
+          <CloseBtn>
+            <Icon
+              size={18}
+              icon={ic_close}
+              onClick={() => {
+                musicModalOnOff();
+              }}
+            />
+          </CloseBtn>
 
           <SelectBar getGenre={getGenre} genreList={genreList} />
           {currentSong && (
@@ -671,6 +672,17 @@ const mapStateToProps = ({ mainReducer }) => {
   };
 };
 
+const CloseBtn = styled.div`
+  position: relative;
+  right: -16rem;
+  top: 1rem;
+  cursor: pointer;
+
+  &:active {
+    transform: scale(0.75);
+  }
+`;
+
 const SongInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -823,3 +835,16 @@ const SongAlert = styled.span`
 `;
 
 export default connect(mapStateToProps)(Music);
+
+function outerFn() {
+  let outerVar = "outer";
+  console.log(outerVar);
+
+  function innerFn() {
+    let innerVar = "input";
+    console.log(innerVar);
+  }
+  return innerFn;
+}
+let globalVar = "global";
+outerFn();
