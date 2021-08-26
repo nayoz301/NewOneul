@@ -631,19 +631,18 @@ const Music = ({
                 }
               >
                 <img className="track-img" src={music.img} />
-                <div className="track-info">
-                  <span className="track-name">
+                <TrackInfo>
+                  <TrackName>
                     {music.name.length >= 20
                       ? `${music.name.slice(0, 18)}...`
                       : music.name}
-                  </span>
-                  <span className="track-author">{music.author}</span>
-                </div>
-                <span className="track-duration">
+                  </TrackName>
+                  <TrackAuthor>{music.author}</TrackAuthor>
+                </TrackInfo>
+                <TrackDuration>
                   {index === music.id ? currentTime : music.duration}
-                </span>
-                <button
-                  className="track-select"
+                </TrackDuration>
+                <TrackSelectBtn
                   title={music.id}
                   onClick={(e) => {
                     sendSongInfo(e);
@@ -651,12 +650,8 @@ const Music = ({
                     e.stopPropagation();
                   }}
                 >
-                  <Icon
-                    size={22}
-                    icon={plus}
-                    style={{ pointerEvents: "none" }}
-                  />
-                </button>
+                  <Icon size={22} icon={plus} />
+                </TrackSelectBtn>
               </div>
             </div>
           ))}
@@ -782,8 +777,7 @@ const Button = styled.button`
   border: none;
   background: 0;
 
-  svg {
-    font-size: 2rem;
+  i {
     color: #dfd5c9;
     pointer-events: none;
     &:active {
@@ -885,17 +879,54 @@ const SongAlert = styled.span`
   animation: ${SongAlertAnimation} 3s infinite;
 `;
 
-export default connect(mapStateToProps)(Music);
+const TrackInfo = styled.div`
+  margin-left: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 1.7rem;
+  min-width: 17rem;
+  margin-bottom: 0.2rem;
+`;
+const TrackName = styled.span`
+  font-size: 1.6rem;
+  margin-bottom: 0.4rem;
+  overflow: hidden;
+  color: rgb(19, 18, 18);
+`;
+const TrackAuthor = styled.span`
+  font-weight: 400;
+  font-size: 1.3rem;
+  color: rgba(189, 195, 199, 1);
+  overflow: hidden;
+`;
+const TrackDuration = styled.span`
+  min-width: 3rem;
+  margin-left: 1rem;
+  margin-right: 0rem;
+  font-weight: 500;
+  font-size: 1.2rem;
+`;
+const TrackSelectBtn = styled.button`
+  cursor: pointer;
+  border: transparent;
+  margin: 0 0 0 1.6rem;
+  padding: 4rem 1rem;
+  color: #ded4c9;
+  background-color: #807a78;
+  padding: 1.3rem 1.3rem;
+  border-radius: 1rem;
+  transition: 0.3s;
 
-function outerFn() {
-  let outerVar = "outer";
-  console.log(outerVar);
-
-  function innerFn() {
-    let innerVar = "input";
-    console.log(innerVar);
+  &:hover {
+    background-color: #c9c2b4; /*바꾸기전 호버색*/
+    color: #786f69;
   }
-  return innerFn;
-}
-let globalVar = "global";
-outerFn();
+  &:active {
+    transform: scale(0.9);
+  }
+  i {
+    pointer-events: none;
+  }
+`;
+export default connect(mapStateToProps)(Music);

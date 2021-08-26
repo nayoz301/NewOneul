@@ -41,17 +41,6 @@ body .player-wrapper {
   margin-top: 0rem; /*이전 재생 다음 버튼 위 마진*/
 }
 
-.current-song .controls .volume-controller-wrapper .mute-btn {
-  position: relative;
-  /* top: -4.6rem;
-      right: -26.5rem;
-      width: 6rem; */
-}
-
-.current-song .controls .volume-controller-wrapper .mute-btn:active {
-  transform: scale(0.95);
-}
-
 .player-wrapper .play-list {
   /*재생목록 창*/
   display: flex;
@@ -111,59 +100,6 @@ body .player-wrapper {
   width: 5rem;
   height: 5rem;
   border-radius: 1rem;
-}
-.player-wrapper .play-list .track .track-info {
-  margin-left: 0.7rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-left: 1.7rem;
-  min-width: 17rem;
-  margin-bottom: 0.2rem;
-}
-.player-wrapper .play-list .track .track-info .track-name {
-  /*재생목록 노래 제목*/
-  font-size: 1.6rem;
-  margin-bottom: 0.4rem;
-  overflow: hidden;
-  color: rgb(19, 18, 18);
-}
-.player-wrapper .play-list .track .track-info .track-author {
-  /*재생목록 가수 이름*/
-  font-weight: 400;
-  font-size: 1.3rem;
-  color: rgba(189, 195, 199, 1);
-  overflow: hidden;
-}
-.player-wrapper .play-list .track .track-duration {
-  /*재생목록 노래 시간 숫자*/
-  min-width: 3rem;
-  margin-left: 1rem;
-  margin-right: 0rem;
-  font-weight: 500;
-  font-size: 1.2rem;
-}
-
-.player-wrapper .play-list .track-select {
-  /*재생 버튼*/
-  cursor: pointer;
-  border: transparent;
-  margin: 0 0 0 1.6rem;
-  padding: 4rem 1rem;
-  color: #ded4c9;
-  background-color: #807a78;
-  padding: 1.3rem 1.3rem;
-  border-radius: 1rem;
-  transition: 0.3s;
-}
-
-.player-wrapper .play-list .track-select:hover {
-  background-color: #c9c2b4; /*바꾸기전 호버색*/
-  color: #786f69;
-}
-
-.player-wrapper .play-list .track-select:active {
-  transform: scale(0.9);
 }
 
 .player-wrapper .play-list::-webkit-scrollbar {
