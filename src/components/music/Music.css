@@ -41,43 +41,6 @@ body .player-wrapper {
   margin-top: 0rem; /*이전 재생 다음 버튼 위 마진*/
 }
 
-.player-wrapper .play-list {
-  /*재생목록 창*/
-  display: flex;
-  flex-direction: column;
-  padding: 0rem;
-  height: 34vh;
-  width: 100%; /*이건 다시 보기*/
-  overflow-y: scroll; /*이걸로 스크롤*/
-  align-items: center;
-  margin-left: 0.6rem;
-}
-
-.player-wrapper .play-list .track {
-}
-.player-wrapper .play-list .track:hover {
-}
-.player-wrapper .play-list .track.current-audio {
-  background: #f9f9f9; /*재생목록 호버 선택창*/
-  box-shadow: 0rem 0rem 1rem 0rem #274684;
-}
-.player-wrapper .play-list .track.play-now {
-  background: white; /*재생목록 재생시 색깔*/
-  box-shadow: 0rem 0rem 1.5rem 0.2rem #353347;
-  position: relative;
-}
-.player-wrapper .play-list .track.play-now:after {
-  content: "";
-  display: block;
-  position: absolute;
-  left: 17rem;
-  width: 5.7rem;
-  height: 5.7rem;
-  border-radius: calc(2rem - 1rem);
-  font-size: 1.6rem;
-  animation: play 2s linear infinite;
-}
-
 .player-wrapper .play-list::-webkit-scrollbar {
   /*스크롤바 두께*/
   width: 0.5rem;

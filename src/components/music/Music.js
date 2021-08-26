@@ -619,19 +619,14 @@ const Music = ({
             </VolumeControlWrapper>
           </BtnWrapper>
         </div>
-        <div className="play-list">
+        <PlayList>
           {filtered.map((music, arrayIndex) => (
-            <EachSong
+            <EachTrack
               index={index}
               arrayIndex={arrayIndex}
               pause={pause}
               key={uniqueId()}
               onClick={() => clickAudio(arrayIndex)}
-              className={
-                "track " +
-                (index === arrayIndex && !pause ? "current-audio" : "") +
-                (index === arrayIndex && pause ? "play-now" : "")
-              }
             >
               <TrackIMG
                 index={index}
@@ -660,9 +655,9 @@ const Music = ({
               >
                 <Icon size={22} icon={plus} />
               </TrackSelectBtn>
-            </EachSong>
+            </EachTrack>
           ))}
-        </div>
+        </PlayList>
       </div>
     );
   }
@@ -896,7 +891,7 @@ const PlayList = styled.div`
   align-items: center;
   margin-left: 0.6rem;
 `;
-const EachSong = styled.div`
+const EachTrack = styled.div`
   display: flex;
   align-items: center;
   margin: 0.7rem 0.6rem 0 0;
@@ -911,13 +906,21 @@ const EachSong = styled.div`
     position: relative;
     box-shadow: 0rem 0rem 1rem 0rem #274684;
   }
+
+  ${(props) => props.index !== props.arrayIndex} {
+    background: #f9f9f9;
+    box-shadow: 0rem 0rem 1rem 0rem #274684;
+    ${(props) => !props.pause} {
+      box-shadow: 0rem 0rem 1.5rem 0.2rem #353347;
+    }
+  }
 `;
 const TrackIMG = styled.img`
   width: 5rem;
   height: 5rem;
   border-radius: 1rem;
   filter: ${(props) =>
-    props.index === props.arrayIndex && props.pause ? "opacity(70%)" : ""};
+    props.index === props.arrayIndex && props.pause ? "opacity(60%)" : ""};
 `;
 const TrackInfo = styled.div`
   margin-left: 0.7rem;
