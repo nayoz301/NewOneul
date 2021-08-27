@@ -54,7 +54,7 @@ const Music = ({
   let timelineRef = useRef();
   let hoverPlayheadRef = useRef();
   let playheadRef = useRef();
-  let volumeControllerRef = useRef(); //볼륨 슬라이더 보임 안보임 효과 때문에 넣었음
+  let volumeControllerRef = useRef();
 
   useEffect(() => {
     if (selectedMusicId) {
@@ -82,12 +82,10 @@ const Music = ({
   }, [index]);
 
   useEffect(() => {
-    //리덕스로 곡 불러올떄
     musicSetting();
   }, [musicOpen]);
 
   const musicSetting = () => {
-    //리덕스로 곡 불러올떄
     let dataLists = genreKinds(musicList.musicList);
     setGenreList(dataLists);
     setMusicLists(musicList.musicList);
@@ -95,7 +93,6 @@ const Music = ({
   };
 
   const genreKinds = (data) => {
-    //장르 종류 추출해서 셀렉트바에 보내줘야함
     let kinds = [];
     for (let i = 0; i < data.length; i++) {
       if (kinds.includes(data[i].genre.genre_name) === false) {
@@ -115,8 +112,10 @@ const Music = ({
   };
 
   useEffect(() => {
-    playerRef.current.volume = volume;
-    playerRef.current.muted = muteState;
+    if (playerRef && playerRef.current) {
+      playerRef.current.volume = volume;
+      playerRef.current.muted = muteState;
+    }
   }, [volume, muteState]);
 
   useEffect(() => {
@@ -137,15 +136,14 @@ const Music = ({
   });
 
   const changeCurrentTime = (e) => {
-    //재생시간바 시간 이동하기
-    const duration = playerRef.current.duration; //duration 동영상의 길이
-    const playheadWidth = timelineRef.current.offsetWidth; //offsetWidth CSS상으로 재생시간바의 길이
-    const offsetWidth = timelineRef.current.offsetLeft; //offsetLeft CSS상으로 body박스의 가로 길이 right은 없나봄.
-    const userClickWidth = e.clientX - offsetWidth; //e.clientX(body박스 가로 길의 전체 중 내가 클릭한 좌표의 x값 - 재생시간바의 길이
-    const userClickWidthInPercent = (userClickWidth * 100) / playheadWidth; //재생시간바 대비 몇 퍼센트인지 계산해서 CSS에 효과주기
+    const duration = playerRef.current.duration;
+    const playheadWidth = timelineRef.current.offsetWidth;
+    const offsetWidth = timelineRef.current.offsetLeft;
+    const userClickWidth = e.clientX - offsetWidth;
+    const userClickWidthInPercent = (userClickWidth * 100) / playheadWidth;
 
-    playheadRef.current.style.width = userClickWidthInPercent + "%"; //CSS style.width에 %로 나타내줌
-    playerRef.current.currentTime = (duration * userClickWidthInPercent) / 100; //플레이어에도 진척도 마찬가지로 넣어줌 CSS가 보여주는 것이랑 실제랑 같게 해야하므로
+    playheadRef.current.style.width = userClickWidthInPercent + "%";
+    playerRef.current.currentTime = (duration * userClickWidthInPercent) / 100;
   };
 
   const timeUpdate = () => {
@@ -216,7 +214,6 @@ const Music = ({
   };
 
   const playOrPause = () => {
-    //스테이트 고치기
     setCurrentSong(filtered[index]);
     const audio = new Audio(currentSong.audio);
     if (!pause) {
@@ -228,7 +225,6 @@ const Music = ({
   };
 
   const clickAudio = (key) => {
-    //스테이트 고치기
     setIndex(key);
 
     updatePlayer();
@@ -238,7 +234,6 @@ const Music = ({
   };
 
   const filterListByGenre = (allList) => {
-    //장르에 맞춰서 필터해주는 함수
     let filteredList = allList.filter((el) => el.genre.genre_name === genre);
     return filteredList;
   };
@@ -248,60 +243,62 @@ const Music = ({
     setIndex(0);
   }, [genre]);
 
-  if (selectedMusic && isEditing === false) {
+  if (
+    (selectedMusic && isEditing === false) ||
+    (selectedMusic && isEditing === true)
+  ) {
     return (
-      <div className="player-wrapper">
-        <div className="current-song">
-          <Icon
-            size={18}
-            className={`close-btn ${musicOpen ? "open" : null}`}
-            icon={ic_close}
-            onClick={() => {
-              musicModalOnOff();
-            }}
-          />
+      <PlayerWrapper>
+        <CurrentSongWrapper>
+          <CloseBtn>
+            <Icon
+              size={18}
+              icon={ic_close}
+              onClick={() => {
+                musicModalOnOff();
+              }}
+            />
+          </CloseBtn>
 
-          {selectedMusic && (
+          {currentSong && (
             <>
               <audio autoPlay loop ref={playerRef}>
                 <source src={selectedMusic.audio} type="audio/ogg" />
                 Your browser does not support the audio element.
               </audio>
 
-              <div className="song-info">
-                <span className="song-name">{selectedMusic.name}</span>
-                <span className="song-author">{selectedMusic.author}</span>
-              </div>
+              <SongInfo>
+                <SongName>{selectedMusic.name}</SongName>
+                <SongAuthor>{selectedMusic.author}</SongAuthor>
+              </SongInfo>
 
-              <div className="time">
-                <div className="current-time">{currentTime}</div>
-                <div className="end-time">{selectedMusic.duration}</div>
-              </div>
+              <Time>
+                <CurrentTime>{currentTime}</CurrentTime>
+                <EndTime>{currentSong.duration}</EndTime>
+              </Time>
             </>
           )}
-          <div ref={timelineRef} id="timeline">
-            <div ref={playheadRef} id="playhead"></div>
-            <div
+          <TimeLine ref={timelineRef}>
+            <PlayHead ref={playheadRef}></PlayHead>
+            <HoverPlayHead
               ref={hoverPlayheadRef}
-              className="hover-playhead"
               data-content="0:00"
-            ></div>
-          </div>
+            ></HoverPlayHead>
+          </TimeLine>
 
-          <div className="controls">
-            <div>
-              <button onClick={playOrPause} className="play current-btn">
+          <BtnWrapper>
+            <Btns>
+              <PlayBtn onClick={playOrPause} pause={pause}>
                 {!pause ? (
                   <Icon size={23} icon={circle} />
                 ) : (
                   <Icon size={20} icon={pause2} />
                 )}
-              </button>
-            </div>
+              </PlayBtn>
+            </Btns>
 
-            <span className="volume-controller-wrapper2">
-              <button
-                className="mute-btn"
+            <VolumeControlWrapper>
+              <VolumeBtn2
                 onClick={() => {
                   setMuteState(!muteState);
                 }}
@@ -314,7 +311,7 @@ const Music = ({
                   icon={
                     muteState
                       ? volumeMute2
-                      : volume < 0.01 //0으로 하면 안먹음
+                      : volume < 0.01
                       ? volumeMute
                       : volume < 0.34
                       ? volumeLow
@@ -323,11 +320,10 @@ const Music = ({
                       : volumeHigh
                   }
                 />
-              </button>
+              </VolumeBtn2>
 
-              <input
+              <VolumeController
                 ref={volumeControllerRef}
-                className="volume-controller2"
                 type="range"
                 min={0}
                 max={1}
@@ -343,173 +339,15 @@ const Music = ({
                   volumeControllerRef.current.style.opacity = 0;
                 }}
               />
-            </span>
-          </div>
-        </div>
-      </div>
-    );
-  } else if (selectedMusic && isEditing === true) {
-    return (
-      <div className="player-wrapper">
-        <div className="current-song">
-          <Icon
-            size={18}
-            className={`close-btn ${musicOpen ? "open" : null}`}
-            icon={ic_close}
-            onClick={() => {
-              musicModalOnOff();
-            }}
-          />
-
-          <SelectBar getGenre={getGenre} genreList={genreList} />
-          {currentSong && (
-            <>
-              <audio ref={playerRef}>
-                <source src={currentSong.audio} type="audio/ogg" />
-                Your browser does not support the audio element.
-              </audio>
-
-              <div className="song-info">
-                <span className="song-name">{currentSong.name}</span>
-                <span className="song-author">{currentSong.author}</span>
-              </div>
-
-              <div className="time">
-                <div className="current-time">{currentTime}</div>
-                <div className="end-time">{currentSong.duration}</div>
-              </div>
-            </>
-          )}
-          <div ref={timelineRef} id="timeline">
-            <div ref={playheadRef} id="playhead"></div>
-            <div
-              ref={hoverPlayheadRef}
-              className="hover-playhead"
-              data-content="0:00"
-            ></div>
-          </div>
-
-          <div className="controls">
-            <div>
-              <button onClick={prevSong} className="prev prev-next current-btn">
-                <Icon icon={stepBackward} />
-              </button>
-
-              <button onClick={playOrPause} className="play current-btn">
-                {!pause ? (
-                  <Icon size={23} icon={circle} />
-                ) : (
-                  <Icon size={20} icon={pause2} />
-                )}
-              </button>
-              <button onClick={nextSong} className="next prev-next current-btn">
-                <Icon icon={stepForward} />
-              </button>
-            </div>
-
-            <div className="song_alert_wrapper">
-              <span className="song_alert">
-                {selectedSong &&
-                  musicLists &&
-                  `${musicLists[selectedSong].name} 곡이 배경음악으로 설정되었습니다`}
-              </span>
-            </div>
-
-            <span className="volume-controller-wrapper">
-              <button
-                className="mute-btn"
-                onClick={() => {
-                  setMuteState(!muteState);
-                }}
-                onMouseOver={() => {
-                  volumeControllerRef.current.style.opacity = 1;
-                }}
-              >
-                <Icon
-                  size={12}
-                  icon={
-                    muteState
-                      ? volumeMute2
-                      : volume < 0.01 //0으로 하면 안먹음
-                      ? volumeMute
-                      : volume < 0.34
-                      ? volumeLow
-                      : volume < 0.67
-                      ? volumeMedium
-                      : volumeHigh
-                  }
-                />
-              </button>
-
-              <input
-                ref={volumeControllerRef}
-                className="volume-controller"
-                type="range"
-                min={0}
-                max={1}
-                step={0.01}
-                value={muteState ? 0 : volume}
-                onChange={(e) => {
-                  if (muteState) {
-                    setMuteState(false);
-                  }
-                  setVolume(e.target.value);
-                }}
-                onMouseOut={() => {
-                  volumeControllerRef.current.style.opacity = 0;
-                }}
-              />
-            </span>
-          </div>
-        </div>
-        <div className="play-list">
-          {filtered.map((music, arrayIndex) => (
-            <div className="play-list-one" key={uniqueId()}>
-              <div
-                onClick={() => clickAudio(arrayIndex)}
-                className={
-                  "track " +
-                  (index === arrayIndex && !pause ? "current-audio" : "") +
-                  (index === arrayIndex && pause ? "play-now" : "")
-                }
-              >
-                <img className="track-img" src={music.img} />
-                <div className="track-info">
-                  <span className="track-name">
-                    {music.name.length >= 20
-                      ? `${music.name.slice(0, 18)}...`
-                      : music.name}
-                  </span>
-                  <span className="track-author">{music.author}</span>
-                </div>
-                <span className="track-duration">
-                  {index === music.id ? currentTime : music.duration}
-                </span>
-                <button
-                  className="track-select"
-                  title={music.id}
-                  onClick={(e) => {
-                    sendSongInfo(e);
-                    getMusicData(e.target.title);
-                    e.stopPropagation(); //버튼 클릭할 때 재생 곡이 바뀌는 걸 방지해준다. 버블링 캡쳐링 금지
-                  }}
-                >
-                  <Icon
-                    size={22}
-                    icon={plus}
-                    style={{ pointerEvents: "none" }}
-                  />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+            </VolumeControlWrapper>
+          </BtnWrapper>
+        </CurrentSongWrapper>
+      </PlayerWrapper>
     );
   } else {
     return (
-      <div className="player-wrapper">
-        <div className="current-song">
+      <PlayerWrapper>
+        <CurrentSongWrapper>
           <CloseBtn>
             <Icon
               size={18}
@@ -600,7 +438,6 @@ const Music = ({
 
               <VolumeController
                 ref={volumeControllerRef}
-                className="volume-controller"
                 type="range"
                 min={0}
                 max={1}
@@ -618,7 +455,7 @@ const Music = ({
               />
             </VolumeControlWrapper>
           </BtnWrapper>
-        </div>
+        </CurrentSongWrapper>
         <PlayList>
           {filtered.map((music, arrayIndex) => (
             <EachTrack
@@ -658,7 +495,7 @@ const Music = ({
             </EachTrack>
           ))}
         </PlayList>
-      </div>
+      </PlayerWrapper>
     );
   }
 };
@@ -668,6 +505,36 @@ const mapStateToProps = ({ mainReducer }) => {
     musicList: mainReducer,
   };
 };
+
+const PlayerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 35rem;
+  border-radius: 2rem;
+  color: rgba(105, 97, 97, 0.555);
+  font-weight: 350;
+  background: #fff9ed;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+    rgba(0, 0, 0, 0.22) 0px 15px 12px;
+`;
+
+const CurrentSongWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+  color: #dfd5c9;
+  font-weight: 600;
+  background: #807a78;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+`;
 
 const CloseBtn = styled.div`
   position: relative;
@@ -826,16 +693,19 @@ const VolumeBtn = styled(Button)`
     transform: scale(0.95);
   }
 `;
+const VolumeBtn2 = styled(VolumeBtn)`
+  right: 3.8rem;
+  width: 6rem;
+`;
 const VolumeController = styled.input`
   position: absolute;
   width: 6rem;
   height: 0.2rem;
-  top: 1rem;
-  right: 0.6rem;
+  top: 1.1rem;
+  right: 0.5rem;
   transform-origin: 1;
-  border-radius: 5px;
+  border-radius: 0.5rem;
   cursor: pointer;
-  /* transform: rotate(-90deg); */
   -webkit-appearance: none;
   background: #dfd5c9;
   outline: none;
@@ -848,7 +718,6 @@ const VolumeController = styled.input`
   }
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
-    /* appearance: none; */
     width: 1rem;
     height: 1rem;
     border-radius: 50%;
@@ -886,8 +755,8 @@ const PlayList = styled.div`
   flex-direction: column;
   padding: 0rem;
   height: 34vh;
-  width: 100%; /*이건 다시 보기*/
-  overflow-y: scroll; /*이걸로 스크롤*/
+  width: 100%;
+  overflow-y: scroll;
   align-items: center;
   margin-left: 0.6rem;
 `;

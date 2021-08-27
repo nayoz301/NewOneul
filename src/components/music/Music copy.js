@@ -622,16 +622,16 @@ const Music = ({
           </div>
         </div>
         <div className="play-list">
-        {filtered.map((music, arrayIndex) => (
-            <div
-              key={uniqueId()}
-              onClick={() => clickAudio(arrayIndex)}
-              className={
-                "track " +
-                (index === arrayIndex && !pause ? "current-audio" : "") +
-                (index === arrayIndex && pause ? "play-now" : "")
-              }
-            >
+          {filtered.map((music, arrayIndex) => (
+            <div className="play-list-one" key={uniqueId()}>
+              <div
+                onClick={() => clickAudio(arrayIndex)}
+                className={
+                  "track " +
+                  (index === arrayIndex && !pause ? "current-audio" : "") +
+                  (index === arrayIndex && pause ? "play-now" : "")
+                }
+              >
                 <img className="track-img" src={music.img} />
                 <div className="track-info">
                   <span className="track-name">
