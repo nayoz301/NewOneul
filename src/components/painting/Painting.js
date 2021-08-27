@@ -75,7 +75,7 @@ const Painting = ({
         ctx.drawImage(img, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
       };
     }
-  }, [isEditing === false]);
+  }, [isEditing]);
 
   useEffect(() => {
     const canvas = canvasRef.current;

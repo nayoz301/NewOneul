@@ -519,6 +519,12 @@ const PlayerWrapper = styled.div`
   overflow: hidden;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
     rgba(0, 0, 0, 0.22) 0px 15px 12px;
+
+  @media screen and (max-width: 359px) {
+    & {
+      width: 99%;
+    }
+  }
 `;
 
 const CurrentSongWrapper = styled.div`
@@ -534,6 +540,12 @@ const CurrentSongWrapper = styled.div`
   box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
     rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
     rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+
+  @media screen and (max-width: 359px) {
+    & {
+      width: 99%;
+    }
+  }
 `;
 
 const CloseBtn = styled.div`
