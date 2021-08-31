@@ -127,7 +127,6 @@ const DiaryWriting = ({
 
   const whatEmoji = (emoji) => {
     SetEmojiChosen({ emoji: emoji.emoji, color: emoji.color, id: emoji.id });
-    console.log(emojiChosen);
   };
   const editDiary = () => {
     setIsEditing(true);
@@ -171,12 +170,10 @@ const DiaryWriting = ({
             }
           )
           .then((data) => {
-            console.log("data", data);
             setDataFromServer(data);
             return data.data.data;
           })
           .then((res) => {
-            console.log("res::", res);
             if (res.isPublic) {
               addNewPublicDiary(res);
             } else {
@@ -187,7 +184,6 @@ const DiaryWriting = ({
           })
           .catch((res) => {
             setLoadingModalOpen(false);
-            console.log(res, "Error has been occured");
           });
       });
     } else {
@@ -238,7 +234,6 @@ const DiaryWriting = ({
           setIsEditing(false);
         })
         .catch((err) => {
-          console.log(err);
           loadingModalOnOff(false);
         });
     } else if (!uploadUrl && diffObj) {
@@ -264,7 +259,6 @@ const DiaryWriting = ({
           setIsEditing(false);
         })
         .catch((err) => {
-          console.log(err);
           loadingModalOnOff(false);
         });
     } else {
@@ -290,7 +284,6 @@ const DiaryWriting = ({
           setIsEditing(false);
         })
         .catch((err) => {
-          console.log(err);
           loadingModalOnOff(false);
         });
     }

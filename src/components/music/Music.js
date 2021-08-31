@@ -119,11 +119,13 @@ const Music = ({
   }, [volume, muteState]);
 
   useEffect(() => {
-    playerRef.current.addEventListener("timeupdate", timeUpdate);
-    playerRef.current.addEventListener("ended", nextSong, false);
-    timelineRef.current.addEventListener("click", changeCurrentTime, false);
-    timelineRef.current.addEventListener("mousemove", hoverTimeLine, false);
-    timelineRef.current.addEventListener("mouseout", resetTimeLine, false);
+    if (playerRef.current && timelineRef.current) {
+      playerRef.current.addEventListener("timeupdate", timeUpdate);
+      playerRef.current.addEventListener("ended", nextSong, false);
+      timelineRef.current.addEventListener("click", changeCurrentTime, false);
+      timelineRef.current.addEventListener("mousemove", hoverTimeLine, false);
+      timelineRef.current.addEventListener("mouseout", resetTimeLine, false);
+    }
     return () => {
       if (playerRef.current && timelineRef.current) {
         playerRef.current.removeEventListener("timeupdate", timeUpdate);
