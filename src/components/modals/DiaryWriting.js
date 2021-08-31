@@ -295,13 +295,13 @@ const DiaryWriting = ({
   if (selectedDiary !== undefined && isEditing === false) {
     return (
       <>
-        <ModalWrapper className="modal-wrapper">
-          <Header className="header">
-            <HeaderDate className="date">
+        <ModalWrapper>
+          <Header>
+            <HeaderDate>
               <span> {selectedDate}</span>
             </HeaderDate>
 
-            <HeaderEmoji className="emoji">
+            <HeaderEmoji>
               <FontAwesomeIcon
                 icon={selectedImoji.emoji}
                 style={{
@@ -354,14 +354,13 @@ const DiaryWriting = ({
           />
 
           <TextArea
-            className="textarea"
             textAreaHeight={textAreaHeight}
             ref={textRef}
             defaultValue={selectedDiary.text}
             readOnly
           />
 
-          <Footer className="footer">
+          <Footer>
             <FooterClose
               onClick={() => {
                 closeDiaryModal();
@@ -394,9 +393,7 @@ const DiaryWriting = ({
                   : "비공개 일기입니다"}
               </label>
               {selectedDiary.isOtherDiary !== true ? (
-                <FooterPost className="post" onClick={editDiary}>
-                  수정하기
-                </FooterPost>
+                <FooterPost onClick={editDiary}>수정하기</FooterPost>
               ) : (
                 <FooterHide className="hidePost" />
               )}
@@ -419,13 +416,13 @@ const DiaryWriting = ({
   } else if (selectedDiary !== undefined && isEditing === true) {
     return (
       <>
-        <ModalWrapper className="modal-wrapper">
-          <Header className="header">
-            <HeaderDate className="date">
+        <ModalWrapper>
+          <Header>
+            <HeaderDate>
               <span> {selectedDate}</span>
             </HeaderDate>
 
-            <HeaderEmoji className="emoji">
+            <HeaderEmoji>
               <FontAwesomeIcon
                 icon={emojiChosen ? emojiChosen.emoji : selectedImoji.emoji}
                 onClick={(e) => {
@@ -491,7 +488,6 @@ const DiaryWriting = ({
           />
 
           <TextArea
-            className="textarea"
             textAreaHeight={textAreaHeight}
             ref={textRef}
             defaultValue={selectedDiary.text}
@@ -501,7 +497,7 @@ const DiaryWriting = ({
             }}
           />
 
-          <Footer className="footer">
+          <Footer>
             <FooterClose onClick={closeDiaryModal}>닫기</FooterClose>
             <div
               style={{
@@ -544,9 +540,7 @@ const DiaryWriting = ({
               >
                 글 공개
               </label>
-              <FooterPost className="post" onClick={recompleteDiary}>
-                재등록하기
-              </FooterPost>
+              <FooterPost onClick={recompleteDiary}>재등록하기</FooterPost>
             </div>
           </Footer>
         </ModalWrapper>
@@ -567,7 +561,7 @@ const DiaryWriting = ({
   } else {
     return (
       <>
-        <ModalWrapper className="modal-wrapper">
+        <ModalWrapper>
           <DiaryHeader
             clickmoment={clickmoment}
             emojiChosen={emojiChosen}
@@ -583,7 +577,7 @@ const DiaryWriting = ({
           <Painting canvasRef={canvasRef} musicModalOnOff={musicModalOnOff} />
           <Text setDiaryText={diaryTextHandler} />
 
-          <Footer className="footer">
+          <Footer>
             <FooterClose onClick={closeDiaryModal}>닫기</FooterClose>
             <div
               style={{
@@ -613,9 +607,7 @@ const DiaryWriting = ({
               >
                 글 공개
               </label>
-              <FooterPost className="post" onClick={completeDiary}>
-                등록하기
-              </FooterPost>
+              <FooterPost onClick={completeDiary}>등록하기</FooterPost>
             </div>
           </Footer>
         </ModalWrapper>

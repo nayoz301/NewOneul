@@ -22,12 +22,12 @@ const DiaryHeader = ({
   }, [emojiModalOnOff]);
 
   return (
-    <Header className="header">
-      <HeaderDate className="date">
+    <Header>
+      <HeaderDate>
         <span> {clickmoment.format("LL dddd")}</span>
       </HeaderDate>
 
-      <HeaderEmoji className="emoji">
+      <HeaderEmoji>
         <FontAwesomeIcon
           icon={emojiChosen ? emojiChosen.emoji : farSmile}
           onClick={emojiModalHandler}
@@ -45,7 +45,7 @@ const DiaryHeader = ({
         ></EmojiModal>
       </HeaderEmoji>
 
-      <HeaderWeather className="weather">
+      <HeaderWeather>
         <WeatherModal weatherData={weatherData} weatherChosen={weatherChosen} />
       </HeaderWeather>
 

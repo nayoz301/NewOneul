@@ -3,7 +3,6 @@ import styled from "styled-components";
 import uniqueId from "lodash/uniqueId";
 import { Icon } from "react-icons-kit";
 import { ic_arrow_drop_down, ic_arrow_drop_up } from "react-icons-kit/md/";
-import "./SelectBar.css";
 
 const SelectBar = ({ getGenre, genreList }) => {
   const [isVisibil, setIsVisibil] = useState(false);

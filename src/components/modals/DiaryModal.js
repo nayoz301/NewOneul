@@ -3,7 +3,7 @@ import DiaryWriting from "./DiaryWriting";
 
 const DiaryModal = ({ diaryOpen, diaryModalOnOff }) => {
   return (
-    <div className={diaryOpen ? "openModal modal" : "modal"}>
+    <div>
       <section>
         <main>
           <DiaryWriting diaryModalOnOff={diaryModalOnOff} />

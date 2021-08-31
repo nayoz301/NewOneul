@@ -86,10 +86,10 @@ const Painting = ({
       ctx.current = canvas.getContext("2d");
       ctx.current.strokeStyle = BASE_COLOR;
 
-      ctx.current.fillStyle = "white"; //캔버스 기본 바탕색깔 흰색으로 세팅. PNG는 투명이 되지만 JPEG는 기본이 투명 안되고 검은색.
-      ctx.current.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); //캔버스 기본 바탕색깔 흰색으로 세팅.
+      ctx.current.fillStyle = "white";
+      ctx.current.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     }
-  }, [isEditing === false]);
+  }, [isEditing]);
 
   function handleInsertImage(e) {
     e.preventDefault();
@@ -150,11 +150,12 @@ const Painting = ({
   }
 
   const onMouseMove = ({ nativeEvent }) => {
+    //네이티브는 캔버스 내부 안에서의 좌표
+    //캔버스.height, width 는 고정
+    //캔버스.clientHeight 은 줄어든 영역의 크기
     const getMouesPosition = (nativeEvent) => {
-      var mouseX =
-        ((nativeEvent.offsetX * canvas.width) / canvas.clientWidth) | 0;
-      var mouseY =
-        ((nativeEvent.offsetY * canvas.height) / canvas.clientHeight) | 0;
+      var mouseX = (nativeEvent.offsetX * canvas.width) / canvas.clientWidth;
+      var mouseY = (nativeEvent.offsetY * canvas.height) / canvas.clientHeight;
       return { x: mouseX, y: mouseY };
     };
     const canvas = canvasRef.current;
