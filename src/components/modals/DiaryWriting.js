@@ -37,9 +37,6 @@ const DiaryWriting = ({
   modifyPublicDiary,
   changeToPrivate,
   changeToPublic,
-  // onMoment,
-  // closeModal,
-  // checkDiaryId,
 }) => {
   const getSelectedImoji = () => {
     if (selectedDiary) {
@@ -77,8 +74,8 @@ const DiaryWriting = ({
   const textRef = useRef();
   const canvasRef = useRef(null);
 
-  const [emojiOpen, setEmojiOpen] = useState(false); //모달창 오픈 클로즈
-  const [emojiChosen, SetEmojiChosen] = useState(0); //선택한 이모티콘 정보 여기 담김
+  const [emojiOpen, setEmojiOpen] = useState(false);
+  const [emojiChosen, SetEmojiChosen] = useState(0);
   const [musicOpen, setMusicOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isPublic, SetIsPublic] = useState(() => {
@@ -121,17 +118,14 @@ const DiaryWriting = ({
   }, []);
 
   const emojiModalOnOff = () => {
-    //이모지 모달창 끄고 닫기
     setEmojiOpen(!emojiOpen);
   };
 
   const musicModalOnOff = () => {
-    //뮤직 모달창 끄고 닫기
     setMusicOpen(!musicOpen);
   };
 
   const whatEmoji = (emoji) => {
-    //이모지에서 선택한 놈 가져오는 함수
     SetEmojiChosen({ emoji: emoji.emoji, color: emoji.color, id: emoji.id });
     console.log(emojiChosen);
   };
@@ -189,8 +183,7 @@ const DiaryWriting = ({
               addNewPrivateDiary(res);
             }
             loadingModalOnOff(false);
-            closeDiaryModal(); //모달창 닫기
-            // alert("오늘도 수고하셨습니다");
+            closeDiaryModal();
           })
           .catch((res) => {
             setLoadingModalOpen(false);
@@ -226,11 +219,9 @@ const DiaryWriting = ({
     let uploadUrl =
       paintingChange && (await handleFileUpload(canvasRef, userInfo));
     if (!uploadUrl && !diffObj) {
-      // 아무것도 변경 안 했을 때 !
       loadingModalOnOff(false);
       return setIsEditing(false);
     } else if (uploadUrl && !diffObj) {
-      // 그림만 그린 경우
       return modifyAxios(
         url,
         { image: uploadUrl.Location, diaryId: selectedDiary.id },
@@ -251,7 +242,6 @@ const DiaryWriting = ({
           loadingModalOnOff(false);
         });
     } else if (!uploadUrl && diffObj) {
-      // 그림 빼고 바꿨을 때
       return modifyAxios(
         url,
         { ...diffObj, diaryId: selectedDiary.id },
@@ -648,15 +638,6 @@ const DiaryWriting = ({
     );
   }
 };
-
-//이렇게 써도됌
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     addNewPublicDiary: (newobj) => dispatch(addNewPublicDiary(newobj)),
-//     addNewPrivateDiary: (newobj) => dispatch(addNewPublicDiary(newobj)),
-//   };
-// };
-// export default connect(mapStateToProps, mapDispatchToProps)(DiaryWriting);
 
 const mapStateToProps = ({ loginReducer }) => {
   return {
