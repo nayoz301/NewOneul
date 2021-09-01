@@ -775,12 +775,6 @@ const HeaderWeather = styled.div`
   }
 `;
 
-const Canvas = styled.div`
-  /* border: 1px solid black; */
-  width: 100%;
-  height: calc(calc(100% - 8rem) * 0.6);
-`;
-
 const TextArea = styled.textarea`
   border: none;
   height: ${(props) => props.textAreaHeight}px;

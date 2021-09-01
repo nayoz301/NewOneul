@@ -23,21 +23,15 @@ const DiaryHeader = ({
 
   return (
     <Header>
-      <HeaderDate>
-        <span> {clickmoment.format("LL dddd")}</span>
-      </HeaderDate>
+      <HeaderDate>{clickmoment.format("LL dddd")}</HeaderDate>
 
       <HeaderEmoji>
-        <FontAwesomeIcon
-          icon={emojiChosen ? emojiChosen.emoji : farSmile}
-          onClick={emojiModalHandler}
-          style={{
-            fontSize: 40,
-            cursor: "pointer",
-            color: emojiChosen ? emojiChosen.color : "#86888a",
-            backgroundColor: "transparent",
-          }}
-        />
+        <CurrentEmoji emojiChosen={emojiChosen}>
+          <FontAwesomeIcon
+            icon={emojiChosen ? emojiChosen.emoji : farSmile}
+            onClick={emojiModalHandler}
+          />
+        </CurrentEmoji>
         <EmojiModal
           emojiModalOnOff={emojiModalOnOff}
           emojiOpen={emojiOpen}
@@ -49,29 +43,13 @@ const DiaryHeader = ({
         <WeatherModal weatherData={weatherData} weatherChosen={weatherChosen} />
       </HeaderWeather>
 
-      <button className="music_btn" onClick={musicModalOnOff}>
-        <FontAwesomeIcon
-          icon={faMusic}
-          style={{
-            color: "#7a706d",
-            fontSize: 20,
-            border: "none",
-            pointerEvents: "none",
-          }}
-        />
-      </button>
+      <MusicBtn onClick={musicModalOnOff}>
+        <FontAwesomeIcon icon={faMusic} />
+      </MusicBtn>
 
-      <button className="music_btn_up" onClick={musicModalOnOff}>
-        <FontAwesomeIcon
-          icon={faMusic}
-          style={{
-            color: "#7a706d",
-            fontSize: 20,
-            border: "none",
-            pointerEvents: "none",
-          }}
-        />
-      </button>
+      <MusicBtnUp onClick={musicModalOnOff}>
+        <FontAwesomeIcon icon={faMusic} />
+      </MusicBtnUp>
     </Header>
   );
 };
@@ -136,13 +114,20 @@ const HeaderDate = styled.div`
 `;
 
 const HeaderEmoji = styled.div`
-  /* border: 1px solid black; */
   position: relative;
   flex: 1 1 20%;
   text-align: center;
-  /* background-color: white; */
   padding: 0 -0.5rem;
   border-radius: 1rem;
+`;
+const CurrentEmoji = styled.div`
+  svg {
+    font-size: 4rem;
+    cursor: pointer;
+    color: ${(props) =>
+      props.emojiChosen ? props.emojiChosen.color : "#86888a"};
+    backgroundcolor: transparent;
+  }
 `;
 
 const HeaderWeather = styled.div`
@@ -156,6 +141,50 @@ const HeaderWeather = styled.div`
   @media screen and (max-width: 570px) {
     & {
       margin-right: 0.2rem;
+    }
+  }
+`;
+const MusicBtn = styled.button`
+  position: absolute;
+  top: 4.5rem;
+  right: -3.2rem;
+  padding: 2.5rem 0.5rem;
+  border-top-right-radius: 0.7rem;
+  border-bottom-right-radius: 0.7rem;
+  cursor: pointer;
+  z-index: 200;
+  background-color: #d3c4ae;
+  border: 1px solid rgb(27, 27, 27, 0.2);
+
+  svg {
+    color: #7a706d;
+    font-size: 2rem;
+    border: none;
+    pointer-events: none;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  @media screen and (max-width: 760px) {
+    & {
+      display: none;
+    }
+  }
+`;
+const MusicBtnUp = styled(MusicBtn)`
+  display: none;
+  top: -2.85rem;
+  right: 1rem;
+  padding: 0.3rem 2.5rem;
+  border-top-right-radius: 0.7rem;
+  border-top-left-radius: 0.7rem;
+  border-bottom-right-radius: 0rem;
+
+  @media screen and (max-width: 760px) {
+    & {
+      display: block;
     }
   }
 `;
