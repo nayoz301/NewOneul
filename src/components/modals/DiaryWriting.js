@@ -23,6 +23,7 @@ import { faMusic } from "@fortawesome/free-solid-svg-icons";
 import { diffCheck, handleFileUpload } from "./diaryfunc";
 import Text from "./Text";
 import DiaryHeader from "./DiaryHeader";
+import DiaryFooter from "./DiaryFooter";
 import modifyAxios from "./modifyFunction";
 
 const DiaryWriting = ({
@@ -576,8 +577,13 @@ const DiaryWriting = ({
 
           <Painting canvasRef={canvasRef} musicModalOnOff={musicModalOnOff} />
           <Text setDiaryText={diaryTextHandler} />
-
-          <Footer>
+          <DiaryFooter
+            isPublic={isPublic}
+            SetIsPublic={SetIsPublic}
+            closeDiaryModal={closeDiaryModal}
+            completeDiary={completeDiary}
+          />
+          {/* <Footer>
             <FooterClose onClick={closeDiaryModal}>닫기</FooterClose>
             <div
               style={{
@@ -609,7 +615,7 @@ const DiaryWriting = ({
               </label>
               <FooterPost onClick={completeDiary}>등록하기</FooterPost>
             </div>
-          </Footer>
+          </Footer> */}
         </ModalWrapper>
 
         <MusicModal
