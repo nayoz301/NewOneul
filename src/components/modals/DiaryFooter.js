@@ -9,7 +9,13 @@ const DiaryFooter = ({
 }) => {
   return (
     <Footer>
-      <FooterClose onClick={closeDiaryModal}>닫기</FooterClose>
+      <FooterClose
+        onClick={() => {
+          closeDiaryModal();
+        }}
+      >
+        닫기
+      </FooterClose>
       <FooterRightWrapper>
         <FooterCheckBox>
           <FooterInput
@@ -40,6 +46,10 @@ const DiaryFooter = ({
           >
             글 공개
           </label> */}
+          <Switch>
+            <SwitchInput />
+            <SwitchSlider />
+          </Switch>
         </FooterCheckBox>
         <FooterPost onClick={completeDiary}>등록하기</FooterPost>
       </FooterRightWrapper>
@@ -85,7 +95,13 @@ const FooterRightWrapper = styled.div`
 `;
 const FooterCheckBox = styled.div``;
 
+// const FooterInput = styled.input.attrs({ type: "checkbox" })`
+//   // opacity: 0;
+//   display: none;
+// `;
+
 const FooterLabel = styled.label`
+  poition: absolute;
   display: flex;
   align-items: center;
   font-size: 1.5rem;
@@ -93,41 +109,44 @@ const FooterLabel = styled.label`
   font-family: var(--thick-font);
   font-weight: 800;
 `;
+
 const FooterInput = styled.input.attrs({ type: "checkbox" })`
-  display: none;
-
-  + ${FooterLabel} {
-    display: block;
-    margin: 0.2em;
-    cursor: pointer;
-    padding: 0.2em;
-
-    &:before {
-      content: "";
-      border: 0.1rem solid #827870;
-      border-radius: 50%;
-      display: inline-block;
-      width: 1rem;
-      height: 1rem;
-      margin-right: 0.5rem;
-      vertical-align: center;
-      align-items: center;
-      color: transparent;
-      transition: 0.2s;
-    }
-
-    &:active {
+  + {
+    ${FooterLabel} {
+      display: block;
+      margin: 0.2em;
+      cursor: pointer;
+      padding: 0.2em;
       &:before {
-        transform: scale(0);
+        content: "";
+        border: 0.1rem solid #827870;
+        border-radius: 50%;
+        display: inline-block;
+        width: 1rem;
+        height: 1rem;
+        margin-right: 0.5rem;
+        vertical-align: center;
+        align-items: center;
+        color: transparent;
+        transition: 0.2s;
+      }
+      &:active {
+        &:before {
+          transform: scale(0);
+        }
       }
     }
   }
-
-  &:checked + ${FooterLabel} {
-    &:before {
-      background-color: #837970;
-      border-color: #837970;
-      color: #fff;
+  display: none;
+  &:checked {
+    + {
+      ${FooterLabel} {
+        &:before {
+          background-color: #837970;
+          border-color: #837970;
+          color: #fff;
+        }
+      }
     }
   }
 `;
@@ -145,5 +164,47 @@ const FooterPost = styled.button`
   padding: 0.5rem 1.5rem;
   &:active {
     transform: scale(0.95);
+  }
+`;
+
+const SwitchInput = styled.input.attrs({ type: "checkbox" })`
+  opacity: 0;
+`;
+
+const SwitchSlider = styled.span`
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #bbcdd9;
+  transition: 0.4s;
+  border-radius: 10px;
+
+  &:before {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    left: 1px;
+    bottom: 1px;
+    background-color: #fff;
+    transition: 0.4s;
+    border-radius: 50%;
+  }
+`;
+const Switch = styled.label`
+  position: relative;
+  display: inline-block;
+  width: 22px;
+  height: 12px;
+  margin-bottom: 0;
+  vertical-align: middle;
+  ${SwitchInput}:checked + ${SwitchSlider} {
+    background-color: #737a9b;
+  }
+  ${SwitchInput}:checked + ${SwitchSlider}:before {
+    transform: translateX(10px);
   }
 `;

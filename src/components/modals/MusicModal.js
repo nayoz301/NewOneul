@@ -1,4 +1,5 @@
-import React from "react";
+import React, { Component } from "react";
+import styled from "styled-components";
 import Music from "../music/Music";
 
 const MusicModal = (props) => {
@@ -13,18 +14,7 @@ const MusicModal = (props) => {
   } = props;
 
   return (
-    <section
-      className="mainNav"
-      style={
-        musicOpen
-          ? {
-              transform: "translateY(0)",
-              opacity: 1,
-              // zIndex: musicOpen ? 51 : 1,
-            }
-          : null
-      }
-    >
+    <MusicPlayerEffect musicOpen={musicOpen}>
       <Music
         musicModalOnOff={musicModalOnOff}
         getMusicData={getMusicData}
@@ -34,7 +24,24 @@ const MusicModal = (props) => {
         setMusicChosen={setMusicChosen}
         musicOpen={musicOpen}
       />
-    </section>
+    </MusicPlayerEffect>
   );
 };
 export default MusicModal;
+
+const MusicPlayerEffect = styled.section`
+  transform: ${(props) =>
+    props.musicOpen ? "translateY(0)" : "translateY(-90%)"};
+  opacity: ${(props) => (props.musicOpen ? 1 : 0)};
+  display: flex;
+  position: fixed;
+  z-index: 200;
+  transition: all 0.4s ease-in-out;
+  top: -10%;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+`;
