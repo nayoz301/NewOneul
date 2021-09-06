@@ -18,38 +18,15 @@ const DiaryFooter = ({
       </FooterClose>
       <FooterRightWrapper>
         <FooterCheckBox>
-          <FooterInput
-            type="checkbox"
-            onClick={() => {
-              SetIsPublic(!isPublic);
-            }}
-          ></FooterInput>
-          <FooterLabel>글 공개</FooterLabel>
-          {/* <input
-            type="checkbox"
-            id="check_box"
-            onClick={() => {
-              SetIsPublic(!isPublic);
-            }}
-          ></input>
-          <label
-            htmlFor="check_box"
-            className="private"
-            style={{
-              fontSize: "1.5rem",
-              color: "#605138",
-              fontFamily: "var(--thick-font)",
-              fontWeight: "800",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            글 공개
-          </label> */}
           <Switch>
-            <SwitchInput />
+            <SwitchInput
+              onClick={() => {
+                SetIsPublic(!isPublic);
+              }}
+            />
             <SwitchSlider />
           </Switch>
+          <TextSpan>{!isPublic ? "비공개" : "공개"}</TextSpan>
         </FooterCheckBox>
         <FooterPost onClick={completeDiary}>등록하기</FooterPost>
       </FooterRightWrapper>
@@ -93,7 +70,15 @@ const FooterRightWrapper = styled.div`
   flex-direction: row;
   align-items: center;
 `;
-const FooterCheckBox = styled.div``;
+const FooterCheckBox = styled.div`
+  display: flex;
+  font-size: 1.2rem;
+  color: #605138;
+  font-family: var(--thick-font);
+  font-weight: 800;
+
+  align-items: center;
+`;
 
 // const FooterInput = styled.input.attrs({ type: "checkbox" })`
 //   // opacity: 0;
@@ -178,15 +163,15 @@ const SwitchSlider = styled.span`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #bbcdd9;
+  background-color: #827870;
   transition: 0.4s;
-  border-radius: 10px;
+  border-radius: 1rem;
 
   &:before {
     content: "";
     position: absolute;
-    width: 10px;
-    height: 10px;
+    width: 1.3rem;
+    height: 1.3rem;
     left: 1px;
     bottom: 1px;
     background-color: #fff;
@@ -196,15 +181,23 @@ const SwitchSlider = styled.span`
 `;
 const Switch = styled.label`
   position: relative;
-  display: inline-block;
-  width: 22px;
-  height: 12px;
+  display: flex;
+  width: 3.2rem;
+  height: 1.5rem;
+  right: 0.7rem;
   margin-bottom: 0;
   vertical-align: middle;
   ${SwitchInput}:checked + ${SwitchSlider} {
-    background-color: #737a9b;
+    background-color: #827870;
   }
   ${SwitchInput}:checked + ${SwitchSlider}:before {
-    transform: translateX(10px);
+    transform: translateX(1.7rem);
   }
+`;
+
+const TextSpan = styled.span`
+  justify-content: center;
+  font-size: 1.4rem;
+  width: 5rem;
+  margin: 0rem;
 `;
