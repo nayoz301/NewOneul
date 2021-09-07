@@ -63,9 +63,9 @@ const emojis = [
 const Emojis = ({ emojiModalOnOff, whatEmoji }) => {
   return (
     <>
-      <EmojiWrapper className="emoji-wrapper">
-        <EmojisHeaders className="emojis-header">오늘의 나</EmojisHeaders>
-        <EmojisBody className="emojis-body">
+      <EmojiWrapper>
+        <EmojisHeaders>오늘의 나</EmojisHeaders>
+        <EmojisBody>
           {emojis.map((emoji) => {
             return (
               <EmojiUnit

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Icon } from "react-icons-kit";
 import uniqueId from "lodash/uniqueId";
@@ -19,84 +19,68 @@ const weathers = [
   { id: 5, weather: iosSnowy, color: "#44c7f4" },
 ];
 
-const WeatherModal = ({
-  weatherData,
-  selectedWeatherId,
-  isEditing,
-  weatherChosen,
-}) => {
-  useEffect(() => {
-    weatherData(selectedWeatherId);
-  }, [isEditing]);
-
-  const weatherClickHandler = React.useCallback(
-    (id) => {
-      weatherData(id);
-    },
-    [weatherData]
+const Weather = ({ isEditing, weatherChosen, setWeatherChosen }) => {
+  // if (weatherChosen && isEditing === false) {
+  //   return (
+  //     <>
+  //       <div
+  //         className="weather-wrapper"
+  //         style={{
+  //           display: "flex",
+  //           flexDirection: "column",
+  //         }}
+  //       >
+  //         <WeathersBody className="weathers-body">
+  //           {weathers.map((weather) => {
+  //             return (
+  //               <IconWrapperView
+  //                 key={uniqueId()}
+  //                 id={weather.id}
+  //                 color={weather.color}
+  //                 weatherChosen={weatherChosen}
+  //               >
+  //                 <Icon icon={weather.weather} />
+  //               </IconWrapperView>
+  //             );
+  //           })}
+  //         </WeathersBody>
+  //       </div>
+  //     </>
+  //   );
+  // } else {
+  return (
+    <>
+      <div
+        className="weather-wrapper"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <WeathersBody className="weathers-body">
+          {weathers.map((weather) => {
+            return (
+              <IconWrapper
+                key={uniqueId()}
+                onClick={() => {
+                  setWeatherChosen(weather.id);
+                }}
+                id={weather.id}
+                color={weather.color}
+                weatherChosen={weatherChosen}
+              >
+                <Icon icon={weather.weather} />
+              </IconWrapper>
+            );
+          })}
+        </WeathersBody>
+      </div>
+    </>
   );
-
-  if (selectedWeatherId && isEditing === false) {
-    return (
-      <>
-        <div
-          className="weather-wrapper"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <WeathersBody className="weathers-body">
-            {weathers.map((weather) => {
-              return (
-                <IconWrapperView
-                  key={uniqueId()}
-                  id={weather.id}
-                  color={weather.color}
-                  selectedWeatherId={selectedWeatherId}
-                >
-                  <Icon icon={weather.weather} />
-                </IconWrapperView>
-              );
-            })}
-          </WeathersBody>
-        </div>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <div
-          className="weather-wrapper"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <WeathersBody className="weathers-body">
-            {weathers.map((weather) => {
-              return (
-                <IconWrapper
-                  key={uniqueId()}
-                  onClick={() => {
-                    weatherClickHandler(weather.id);
-                  }}
-                  id={weather.id}
-                  color={weather.color}
-                  weatherChosen={weatherChosen}
-                >
-                  <Icon icon={weather.weather} />
-                </IconWrapper>
-              );
-            })}
-          </WeathersBody>
-        </div>
-      </>
-    );
-  }
+  // }
 };
 
-export default React.memo(WeatherModal);
+export default React.memo(Weather);
 
 const IconWrapper = styled.div`
   svg {
@@ -176,12 +160,10 @@ const IconWrapperView = styled.div`
     width: 3.7rem;
     height: 3.7rem;
     fill: ${(props) =>
-      props.id === props.selectedWeatherId ? props.color : "#8a959e"};
+      props.id === props.weatherChosen ? props.color : "#8a959e"};
 
     background-color: ${(props) =>
-      props.id === props.selectedWeatherId
-        ? props.color + "45"
-        : "transparent"};
+      props.id === props.weatherChosen ? props.color + "45" : "transparent"};
 
     border-radius: 50%;
 

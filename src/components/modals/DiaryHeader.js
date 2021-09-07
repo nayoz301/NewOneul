@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSmile as farSmile } from "@fortawesome/free-regular-svg-icons";
 import { faMusic } from "@fortawesome/free-solid-svg-icons";
 import EmojiModal from "./EmojiModal";
-import WeatherModal from "./Weather";
+import Weather from "./Weather";
 
 const DiaryHeader = ({
   clickmoment,
@@ -13,19 +13,14 @@ const DiaryHeader = ({
   emojiOpen,
   musicModalOnOff,
   whatEmoji,
-  weatherData,
   weatherChosen,
+  setWeatherChosen,
   isEditing,
 
-  setWeatherChosen,
   selectedDate,
-  selectedEmoji,
+
   selectedDiary,
 }) => {
-  const emojiModalHandler = React.useCallback(() => {
-    emojiModalOnOff();
-  }, [emojiModalOnOff]);
-
   return (
     <Header>
       <HeaderDate>{clickmoment && clickmoment.format("LL dddd")}</HeaderDate>
@@ -33,14 +28,12 @@ const DiaryHeader = ({
       <HeaderEmoji>
         <CurrentEmoji emojiChosen={emojiChosen}>
           <FontAwesomeIcon
-            icon={
-              selectedEmoji
-                ? selectedEmoji.emoji
-                : emojiChosen
-                ? emojiChosen.emoji
-                : farSmile
+            icon={emojiChosen ? emojiChosen.emoji : farSmile}
+            onClick={
+              selectedDiary !== undefined && isEditing === false
+                ? null
+                : emojiModalOnOff
             }
-            onClick={emojiModalHandler}
           />
         </CurrentEmoji>
         <EmojiModal
@@ -51,7 +44,11 @@ const DiaryHeader = ({
       </HeaderEmoji>
 
       <HeaderWeather>
-        <WeatherModal weatherData={weatherData} weatherChosen={weatherChosen} />
+        <Weather
+          setWeatherChosen={setWeatherChosen}
+          weatherChosen={weatherChosen}
+          isEditing={isEditing}
+        />
       </HeaderWeather>
 
       <MusicBtn onClick={musicModalOnOff}>

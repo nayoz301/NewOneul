@@ -20,9 +20,11 @@ const DiaryFooter = ({
         닫기
       </FooterClose>
       <FooterRightWrapper>
-        {selectedDiary !== undefined && isEditing === false
-          ? "<>"
-          : `${(<DiaryFooterCheckBox></DiaryFooterCheckBox>)}`}
+        {selectedDiary !== undefined && isEditing === false ? (
+          "<>"
+        ) : (
+          <DiaryFooterCheckBox></DiaryFooterCheckBox>
+        )}
 
         {/* <FooterCheckBox>
           <Switch>
