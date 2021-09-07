@@ -22,19 +22,14 @@ const DiaryFooter = ({
         닫기
       </FooterClose>
       <FooterRightWrapper>
-        {/* {selectedDiary !== undefined && isEditing === false ? (
+        {!selectedDiary ? (
+          <DiaryFooterCheckBox isPublic={isPublic} setIsPublic={setIsPublic} />
+        ) : isEditing === true ? (
+          <DiaryFooterCheckBox isPublic={isPublic} setIsPublic={setIsPublic} />
+        ) : (
           <TextSpan>
             {isPublic ? "공개 일기입니다" : "비공개 일기입니다"}
           </TextSpan>
-        ) : (
-          <DiaryFooterCheckBox isPublic={isPublic} setIsPublic={setIsPublic} />
-        )} */}
-        {selectedDiary !== undefined && isEditing === false ? (
-          <TextSpan>
-            {isPublic ? "공개 일기입니다" : "비공개 일기입니다"}
-          </TextSpan>
-        ) : (
-          <DiaryFooterCheckBox isPublic={isPublic} setIsPublic={setIsPublic} />
         )}
 
         {!selectedDiary ? (

@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 
-const DiaryFooterCheckBox = ({ isPublic, SetIsPublic }) => {
+const DiaryFooterCheckBox = ({ isPublic, setIsPublic }) => {
   return (
     <FooterCheckBox>
       <Switch>
         <SwitchInput
           onClick={() => {
-            SetIsPublic(!isPublic);
+            setIsPublic(!isPublic);
           }}
         />
         <SwitchSlider />
