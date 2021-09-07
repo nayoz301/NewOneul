@@ -13,10 +13,11 @@ const DiaryHeader = ({
   emojiOpen,
   musicModalOnOff,
   whatEmoji,
+  weatherData,
   weatherChosen,
-  setWeatherChosen,
   isEditing,
 
+  setWeatherChosen,
   selectedDate,
 
   selectedDiary,
@@ -45,9 +46,10 @@ const DiaryHeader = ({
 
       <HeaderWeather>
         <Weather
-          setWeatherChosen={setWeatherChosen}
           weatherChosen={weatherChosen}
           isEditing={isEditing}
+          selectedDiary={selectedDiary}
+          setWeatherChosen={setWeatherChosen}
         />
       </HeaderWeather>
 

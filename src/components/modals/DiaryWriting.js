@@ -244,25 +244,21 @@ const DiaryWriting = ({
           emojiOpen={emojiOpen}
           musicModalOnOff={musicModalOnOff}
           whatEmoji={whatEmoji}
-          setWeatherChosen={setWeatherChosen}
           weatherChosen={weatherChosen}
           isEditing={isEditing}
+          setWeatherChosen={setWeatherChosen}
+          selectedDate={selectedDiary ? selectedDiary.date : null}
           emojiChosen={emojiChosen}
           selectedDiary={selectedDiary}
         />
 
-        <Painting
-          canvasRef={canvasRef}
-          musicModalOnOff={musicModalOnOff}
-          paintingChangeCheck={paintingChangeCheck}
-        />
+        <Painting canvasRef={canvasRef} musicModalOnOff={musicModalOnOff} />
         <Text setDiaryText={setDiaryText} />
         <DiaryFooter
           isPublic={isPublic}
           SetIsPublic={SetIsPublic}
           closeDiaryModal={closeDiaryModal}
           completeDiary={completeDiary}
-          recompleteDiary={recompleteDiary}
         />
       </ModalWrapper>
 

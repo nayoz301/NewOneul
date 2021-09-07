@@ -19,35 +19,12 @@ const weathers = [
   { id: 5, weather: iosSnowy, color: "#44c7f4" },
 ];
 
-const Weather = ({ isEditing, weatherChosen, setWeatherChosen }) => {
-  // if (weatherChosen && isEditing === false) {
-  //   return (
-  //     <>
-  //       <div
-  //         className="weather-wrapper"
-  //         style={{
-  //           display: "flex",
-  //           flexDirection: "column",
-  //         }}
-  //       >
-  //         <WeathersBody className="weathers-body">
-  //           {weathers.map((weather) => {
-  //             return (
-  //               <IconWrapperView
-  //                 key={uniqueId()}
-  //                 id={weather.id}
-  //                 color={weather.color}
-  //                 weatherChosen={weatherChosen}
-  //               >
-  //                 <Icon icon={weather.weather} />
-  //               </IconWrapperView>
-  //             );
-  //           })}
-  //         </WeathersBody>
-  //       </div>
-  //     </>
-  //   );
-  // } else {
+const Weather = ({
+  setWeatherChosen,
+  selectedDiary,
+  isEditing,
+  weatherChosen,
+}) => {
   return (
     <>
       <div
@@ -57,17 +34,23 @@ const Weather = ({ isEditing, weatherChosen, setWeatherChosen }) => {
           flexDirection: "column",
         }}
       >
-        <WeathersBody className="weathers-body">
+        <WeathersBody>
           {weathers.map((weather) => {
             return (
               <IconWrapper
                 key={uniqueId()}
                 onClick={() => {
-                  setWeatherChosen(weather.id);
+                  if (selectedDiary !== undefined && isEditing === false) {
+                    return null;
+                  } else {
+                    setWeatherChosen(weather.id);
+                  }
                 }}
                 id={weather.id}
                 color={weather.color}
                 weatherChosen={weatherChosen}
+                selectedDiary={selectedDiary}
+                isEditing={isEditing}
               >
                 <Icon icon={weather.weather} />
               </IconWrapper>
@@ -96,11 +79,17 @@ const IconWrapper = styled.div`
     border-radius: 50%;
 
     &:hover {
-      transform: scale(1.1);
+      transform: ${(props) =>
+        props.selectedDiary !== undefined && props.isEditing === false
+          ? "none"
+          : "scale(1.1)"};
     }
 
     &:active {
-      transform: scale(1);
+      transform: ${(props) =>
+        props.selectedDiary !== undefined && props.isEditing === false
+          ? "none"
+          : "scale(1)"};
     }
 
     @media screen and (max-width: 489px) {
@@ -224,10 +213,4 @@ const WeathersBody = styled.div`
   align-items: center;
   justify-content: space-around;
   margin: auto 0;
-`;
-
-const WeatherUnit = styled.div`
-  font-size: 1.5rem;
-  text-align: center;
-  cursor: pointer;
 `;
