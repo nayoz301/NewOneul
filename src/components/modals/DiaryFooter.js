@@ -3,12 +3,14 @@ import styled from "styled-components";
 import DiaryFooterCheckBox from "./DiaryFooterCheckBox";
 
 const DiaryFooter = ({
-  isPublic,
-  SetIsPublic,
-  closeDiaryModal,
-  completeDiary,
   selectedDiary,
   isEditing,
+  isPublic,
+  setIsPublic,
+  setIsEditing,
+  closeDiaryModal,
+  completeDiary,
+  recompleteDiary,
 }) => {
   return (
     <Footer>
@@ -21,23 +23,20 @@ const DiaryFooter = ({
       </FooterClose>
       <FooterRightWrapper>
         {selectedDiary !== undefined && isEditing === false ? (
-          "<>"
+          <TextSpan>
+            {isPublic ? "공개 일기입니다" : "비공개 일기입니다"}
+          </TextSpan>
         ) : (
-          <DiaryFooterCheckBox></DiaryFooterCheckBox>
+          <DiaryFooterCheckBox isPublic={isPublic} setIsPublic={setIsPublic} />
         )}
 
-        {/* <FooterCheckBox>
-          <Switch>
-            <SwitchInput
-              onClick={() => {
-                SetIsPublic(!isPublic);
-              }}
-            />
-            <SwitchSlider />
-          </Switch>
-          <TextSpan>{!isPublic ? "비공개" : "공개"}</TextSpan>
-        </FooterCheckBox> */}
-        <FooterPost onClick={completeDiary}>등록하기</FooterPost>
+        {!selectedDiary ? (
+          <FooterPost onClick={completeDiary}>등록하기</FooterPost>
+        ) : isEditing === true ? (
+          <FooterPost onClick={recompleteDiary}>재등록하기</FooterPost>
+        ) : (
+          <FooterPost onClick={() => setIsEditing(true)}>수정하기</FooterPost>
+        )}
       </FooterRightWrapper>
     </Footer>
   );
@@ -205,8 +204,10 @@ const Switch = styled.label`
 `;
 
 const TextSpan = styled.span`
-  justify-content: center;
-  font-size: 1.4rem;
-  width: 5rem;
-  margin: 0rem;
+  display: flex;
+  align-items: center;
+  font-family: var(--thick-font);
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: #605138;
 `;

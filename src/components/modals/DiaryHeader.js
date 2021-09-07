@@ -8,19 +8,15 @@ import Weather from "./Weather";
 
 const DiaryHeader = ({
   clickmoment,
-  emojiChosen,
-  emojiModalOnOff,
-  emojiOpen,
-  musicModalOnOff,
-  whatEmoji,
-  weatherData,
-  weatherChosen,
-  isEditing,
-
-  setWeatherChosen,
-  selectedDate,
-
   selectedDiary,
+  isEditing,
+  whatEmoji,
+  emojiChosen,
+  emojiOpen,
+  emojiModalOnOff,
+  musicModalOnOff,
+  weatherChosen,
+  setWeatherChosen,
 }) => {
   return (
     <Header>
