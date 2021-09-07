@@ -25,6 +25,7 @@ import Text from "./Text";
 import DiaryHeader from "./DiaryHeader";
 import DiaryFooter from "./DiaryFooter";
 import modifyAxios from "./modifyFunction";
+import moment from "moment";
 
 const DiaryWriting = ({
   clickmoment,
@@ -76,21 +77,23 @@ const DiaryWriting = ({
   const canvasRef = useRef(null);
 
   const [emojiOpen, setEmojiOpen] = useState(false);
-  const [emojiChosen, SetEmojiChosen] = useState(0);
+  const [emojiChosen, setEmojiChosen] = useState(() => {
+    if (selectedDiary) {
+      return emojis.filter((el) => el.id === selectedDiary.feeling)[0];
+    } else {
+      return 0;
+    }
+  });
   const [musicOpen, setMusicOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [isPublic, SetIsPublic] = useState(() => {
-    if (isEditing) {
-      return selectedDiary.isPublic;
-    }
-    return false;
-  });
+  const [isPublic, SetIsPublic] = useState(() =>
+    selectedDiary ? selectedDiary.isPublic : false
+  );
   const [diaryText, setDiaryText] = useState("");
-  const [weatherChosen, setWeatherChosen] = useState(null);
+  const [weatherChosen, setWeatherChosen] = useState(() =>
+    selectedDiary ? selectedDiary.weather : null
+  );
   const [musicChosen, setMusicChosen] = useState(null);
-  const [dataFromServer, setDataFromServer] = useState(null);
-  const [selectedImage, setSelectedImage] = useState("");
-  const [isWeatherSelected, setIsWeatherSelected] = useState(false);
   const [loadingModalOpen, setLoadingModalOpen] = useState(false);
   const [paintingChange, setPaintingChange] = useState(false);
 
@@ -101,23 +104,6 @@ const DiaryWriting = ({
     setPaintingChange(true);
   }, [paintingChange]);
 
-  const loadingModalOnOff = (state) => {
-    setLoadingModalOpen(state);
-  };
-
-  useEffect(() => {
-    if (selectedDiary) {
-      setSelectedImage(selectedDiary.image);
-      setIsWeatherSelected(true);
-    }
-  });
-
-  useEffect(() => {
-    if (selectedDiary) {
-      SetIsPublic(selectedDiary.isPublic);
-    }
-  }, []);
-
   const emojiModalOnOff = () => {
     setEmojiOpen(!emojiOpen);
   };
@@ -127,10 +113,7 @@ const DiaryWriting = ({
   };
 
   const whatEmoji = (emoji) => {
-    SetEmojiChosen({ emoji: emoji.emoji, color: emoji.color, id: emoji.id });
-  };
-  const editDiary = () => {
-    setIsEditing(true);
+    setEmojiChosen({ emoji: emoji.emoji, color: emoji.color, id: emoji.id });
   };
   const canvasHeight = (window.innerWidth / 2) * 0.4;
   const textAreaHeight = window.innerHeight - 135 - canvasHeight;
@@ -145,7 +128,7 @@ const DiaryWriting = ({
 
   const completeDiary = async () => {
     if (emojiChosen.id && weatherChosen && diaryText && musicChosen) {
-      loadingModalOnOff(true);
+      setLoadingModalOpen(true);
       await handleFileUpload(canvasRef, userInfo).then((res) => {
         const url = res.Location;
         return axios
@@ -171,7 +154,6 @@ const DiaryWriting = ({
             }
           )
           .then((data) => {
-            setDataFromServer(data);
             return data.data.data;
           })
           .then((res) => {
@@ -180,7 +162,7 @@ const DiaryWriting = ({
             } else {
               addNewPrivateDiary(res);
             }
-            loadingModalOnOff(false);
+            setLoadingModalOpen(false);
             closeDiaryModal();
           })
           .catch((res) => {
@@ -212,11 +194,11 @@ const DiaryWriting = ({
       isPublic
     );
 
-    loadingModalOnOff(true);
+    setLoadingModalOpen(true);
     let uploadUrl =
       paintingChange && (await handleFileUpload(canvasRef, userInfo));
     if (!uploadUrl && !diffObj) {
-      loadingModalOnOff(false);
+      setLoadingModalOpen(false);
       return setIsEditing(false);
     } else if (uploadUrl && !diffObj) {
       return modifyAxios(
@@ -231,11 +213,11 @@ const DiaryWriting = ({
           } else {
             modifyDiary(data.id, data);
           }
-          loadingModalOnOff(false);
+          setLoadingModalOpen(false);
           setIsEditing(false);
         })
         .catch((err) => {
-          loadingModalOnOff(false);
+          setLoadingModalOpen(false);
         });
     } else if (!uploadUrl && diffObj) {
       return modifyAxios(
@@ -256,11 +238,11 @@ const DiaryWriting = ({
           } else {
             modifyDiary(data.id, data);
           }
-          loadingModalOnOff(false);
+          setLoadingModalOpen(false);
           setIsEditing(false);
         })
         .catch((err) => {
-          loadingModalOnOff(false);
+          setLoadingModalOpen(false);
         });
     } else {
       return modifyAxios(
@@ -281,18 +263,15 @@ const DiaryWriting = ({
           } else {
             modifyDiary(data.id, data);
           }
-          loadingModalOnOff(false);
+          setLoadingModalOpen(false);
           setIsEditing(false);
         })
         .catch((err) => {
-          loadingModalOnOff(false);
+          setLoadingModalOpen(false);
         });
     }
   };
 
-  const diaryTextHandler = (text) => {
-    setDiaryText(text);
-  };
   if (selectedDiary !== undefined && isEditing === false) {
     return (
       <>
@@ -394,7 +373,9 @@ const DiaryWriting = ({
                   : "비공개 일기입니다"}
               </label>
               {selectedDiary.isOtherDiary !== true ? (
-                <FooterPost onClick={editDiary}>수정하기</FooterPost>
+                <FooterPost onClick={() => setIsEditing(true)}>
+                  수정하기
+                </FooterPost>
               ) : (
                 <FooterHide className="hidePost" />
               )}
@@ -450,8 +431,6 @@ const DiaryWriting = ({
                 isEditing={isEditing}
                 setWeatherChosen={setWeatherChosen}
                 weatherChosen={weatherChosen}
-                isWeatherSelected={isWeatherSelected}
-                setIsWeatherSelected={setIsWeatherSelected}
               />
             </HeaderWeather>
 
@@ -484,7 +463,7 @@ const DiaryWriting = ({
             canvasRef={canvasRef}
             musicModalOnOff={musicModalOnOff}
             isEditing={isEditing}
-            selectedImage={selectedImage}
+            selectedImage={selectedDiary.image}
             paintingChangeCheck={paintingChangeCheck}
           />
 
@@ -564,7 +543,9 @@ const DiaryWriting = ({
       <>
         <ModalWrapper>
           <DiaryHeader
-            clickmoment={clickmoment}
+            clickmoment={
+              selectedDiary ? moment(selectedDiary.date) : clickmoment
+            }
             emojiChosen={emojiChosen}
             emojiModalOnOff={emojiModalOnOff}
             emojiOpen={emojiOpen}
@@ -573,14 +554,14 @@ const DiaryWriting = ({
             weatherData={weatherData}
             weatherChosen={weatherChosen}
             setWeatherChosen={setWeatherChosen}
+            isEditing={isEditing}
             selectedDate={selectedDate}
             selectedEmoji={selectedEmoji}
             selectedDiary={selectedDiary}
-            isEditing={isEditing}
           />
 
           <Painting canvasRef={canvasRef} musicModalOnOff={musicModalOnOff} />
-          <Text setDiaryText={diaryTextHandler} />
+          <Text setDiaryText={setDiaryText} />
           <DiaryFooter
             isPublic={isPublic}
             SetIsPublic={SetIsPublic}

@@ -15,11 +15,12 @@ const DiaryHeader = ({
   whatEmoji,
   weatherData,
   weatherChosen,
+  isEditing,
+
   setWeatherChosen,
   selectedDate,
   selectedEmoji,
   selectedDiary,
-  isEditing,
 }) => {
   const emojiModalHandler = React.useCallback(() => {
     emojiModalOnOff();
