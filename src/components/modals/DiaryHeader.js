@@ -16,6 +16,10 @@ const DiaryHeader = ({
   weatherData,
   weatherChosen,
   setWeatherChosen,
+  selectedDate,
+  selectedEmoji,
+  selectedDiary,
+  isEditing,
 }) => {
   const emojiModalHandler = React.useCallback(() => {
     emojiModalOnOff();
@@ -23,12 +27,18 @@ const DiaryHeader = ({
 
   return (
     <Header>
-      <HeaderDate>{clickmoment.format("LL dddd")}</HeaderDate>
+      <HeaderDate>{clickmoment && clickmoment.format("LL dddd")}</HeaderDate>
 
       <HeaderEmoji>
         <CurrentEmoji emojiChosen={emojiChosen}>
           <FontAwesomeIcon
-            icon={emojiChosen ? emojiChosen.emoji : farSmile}
+            icon={
+              selectedEmoji
+                ? selectedEmoji.emoji
+                : emojiChosen
+                ? emojiChosen.emoji
+                : farSmile
+            }
             onClick={emojiModalHandler}
           />
         </CurrentEmoji>

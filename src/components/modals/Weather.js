@@ -27,8 +27,7 @@ const WeatherModal = ({
 }) => {
   useEffect(() => {
     weatherData(selectedWeatherId);
-    console.log("작동되나?????");
-  }, [isEditing === false]);
+  }, [isEditing]);
 
   const weatherClickHandler = React.useCallback(
     (id) => {
@@ -58,36 +57,6 @@ const WeatherModal = ({
                 >
                   <Icon icon={weather.weather} />
                 </IconWrapperView>
-              );
-            })}
-          </WeathersBody>
-        </div>
-      </>
-    );
-  } else if (selectedWeatherId && isEditing === true) {
-    return (
-      <>
-        <div
-          className="weather-wrapper"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <WeathersBody className="weathers-body">
-            {weathers.map((weather) => {
-              return (
-                <IconWrapper
-                  key={uniqueId()}
-                  onClick={() => {
-                    weatherClickHandler(weather.id);
-                  }}
-                  id={weather.id}
-                  color={weather.color}
-                  weatherChosen={weatherChosen}
-                >
-                  <Icon icon={weather.weather} />
-                </IconWrapper>
               );
             })}
           </WeathersBody>

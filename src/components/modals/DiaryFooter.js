@@ -1,11 +1,14 @@
 import React from "react";
 import styled from "styled-components";
+import DiaryFooterCheckBox from "./DiaryFooterCheckBox";
 
 const DiaryFooter = ({
   isPublic,
   SetIsPublic,
   closeDiaryModal,
   completeDiary,
+  selectedDiary,
+  isEditing,
 }) => {
   return (
     <Footer>
@@ -17,7 +20,11 @@ const DiaryFooter = ({
         닫기
       </FooterClose>
       <FooterRightWrapper>
-        <FooterCheckBox>
+        {selectedDiary !== undefined && isEditing === false
+          ? "<>"
+          : `${(<DiaryFooterCheckBox></DiaryFooterCheckBox>)}`}
+
+        {/* <FooterCheckBox>
           <Switch>
             <SwitchInput
               onClick={() => {
@@ -27,7 +34,7 @@ const DiaryFooter = ({
             <SwitchSlider />
           </Switch>
           <TextSpan>{!isPublic ? "비공개" : "공개"}</TextSpan>
-        </FooterCheckBox>
+        </FooterCheckBox> */}
         <FooterPost onClick={completeDiary}>등록하기</FooterPost>
       </FooterRightWrapper>
     </Footer>

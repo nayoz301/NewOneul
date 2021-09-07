@@ -18,6 +18,7 @@ const Diary = ({
         (el) => el.id === selectedDiaryId
       )[0];
       otherDiary.isOtherDiary = true;
+
       return otherDiary;
     } else if (clickmoment) {
       return diary.myDiary.filter(

@@ -9,7 +9,7 @@ import Painting from "../painting/Painting";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./DiaryWriting.css";
 import { connect } from "react-redux";
-import emojis from "../../icons/imojis";
+import emojis from "../../icons/emojis";
 import {
   addNewPublicDiary,
   addNewPrivateDiary,
@@ -39,14 +39,14 @@ const DiaryWriting = ({
   changeToPrivate,
   changeToPublic,
 }) => {
-  const getSelectedImoji = () => {
+  const getSelectedEmoji = () => {
     if (selectedDiary) {
       return emojis.filter((el) => el.id === selectedDiary.feeling)[0];
     }
     return;
   };
 
-  const selectedImoji = getSelectedImoji();
+  const selectedEmoji = getSelectedEmoji();
 
   const getDateForm = () => {
     if (selectedDiary) {
@@ -304,11 +304,11 @@ const DiaryWriting = ({
 
             <HeaderEmoji>
               <FontAwesomeIcon
-                icon={selectedImoji.emoji}
+                icon={selectedEmoji.emoji}
                 style={{
                   fontSize: 40,
                   cursor: "pointer",
-                  color: selectedImoji.color,
+                  color: selectedEmoji.color,
                   backgroundColor: "transparent",
                 }}
               />
@@ -346,7 +346,7 @@ const DiaryWriting = ({
               />
             </button>
           </Header>
-
+          {/* <DiaryHeader /> */}
           <Painting
             canvasRef={canvasRef}
             musicModalOnOff={musicModalOnOff}
@@ -425,14 +425,14 @@ const DiaryWriting = ({
 
             <HeaderEmoji>
               <FontAwesomeIcon
-                icon={emojiChosen ? emojiChosen.emoji : selectedImoji.emoji}
+                icon={emojiChosen ? emojiChosen.emoji : selectedEmoji.emoji}
                 onClick={(e) => {
                   emojiModalOnOff();
                 }}
                 style={{
                   fontSize: 40,
                   cursor: "pointer",
-                  color: emojiChosen ? emojiChosen.color : selectedImoji.color,
+                  color: emojiChosen ? emojiChosen.color : selectedEmoji.color,
                   backgroundColor: "transparent",
                 }}
               />
@@ -573,6 +573,10 @@ const DiaryWriting = ({
             weatherData={weatherData}
             weatherChosen={weatherChosen}
             setWeatherChosen={setWeatherChosen}
+            selectedDate={selectedDate}
+            selectedEmoji={selectedEmoji}
+            selectedDiary={selectedDiary}
+            isEditing={isEditing}
           />
 
           <Painting canvasRef={canvasRef} musicModalOnOff={musicModalOnOff} />

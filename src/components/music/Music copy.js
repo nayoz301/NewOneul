@@ -1,678 +1,191 @@
-import React, { useRef, useEffect, useState } from "react";
-import { Icon } from "react-icons-kit";
-import { circle, stepBackward, stepForward } from "react-icons-kit/iconic/";
-import { pause2 } from "react-icons-kit/icomoon/pause2";
-import { ic_close } from "react-icons-kit/md/ic_close";
-import { plus } from "react-icons-kit/feather/plus";
-import uniqueId from "lodash/uniqueId";
+import React from "react";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSmile as farSmile } from "@fortawesome/free-regular-svg-icons";
+import { faMusic } from "@fortawesome/free-solid-svg-icons";
+import EmojiModal from "./EmojiModal";
+import WeatherModal from "./Weather";
 
-import {
-  volumeMedium,
-  volumeMute,
-  volumeMute2,
-  volumeLow,
-  volumeHigh,
-} from "react-icons-kit/icomoon";
-
-import "./Music.css";
-import SelectBar from "./SelectBar";
-import { connect } from "react-redux";
-
-const music = [
-  {
-    id: 1,
-    name: "장르를 선택하고",
-    author: "음악을 선택해주세요",
-    img: "https://www.bensound.com/bensound-img/thejazzpiano.jpg",
-    audio: "https://www.bensound.com/bensound-music/bensound-thejazzpiano.mp3",
-    duration: "0:00",
-    genre: { genre_name: "오늘" },
-  },
-];
-
-const Music = ({
+const DiaryHeader = ({
+  clickmoment,
+  emojiChosen,
+  emojiModalOnOff,
+  emojiOpen,
   musicModalOnOff,
-  musicOpen,
-  getMusicData,
-  musicList,
-  selectedMusicId,
-  isEditing,
+  whatEmoji,
+  weatherData,
+  weatherChosen,
+  setWeatherChosen,
+  selectedDate,
 }) => {
-  const [pause, setPause] = useState(false);
-  const [index, setIndex] = useState(0);
-  const [currentTime, setCurrentTime] = useState("0:00");
-  const [musicLists, setMusicLists] = useState(music);
-  const [filtered, setFiltered] = useState(music);
-  const [genre, setGenre] = useState("");
-  const [genreList, setGenreList] = useState("");
-  const [selectedSong, setSelectedSong] = useState(null);
-  const [volume, setVolume] = useState(0.05);
-  const [muteState, setMuteState] = useState(false);
-  const [currentSong, setCurrentSong] = useState(musicList.musicList[index]);
+  const emojiModalHandler = React.useCallback(() => {
+    emojiModalOnOff();
+  }, [emojiModalOnOff]);
 
-  let playerRef = useRef();
-  let timelineRef = useRef();
-  let hoverPlayheadRef = useRef();
-  let playheadRef = useRef();
-  let volumeControllerRef = useRef(); //볼륨 슬라이더 보임 안보임 효과 때문에 넣었음
+  return (
+    <Header>
+      <HeaderDate>{clickmoment.format("LL dddd")}</HeaderDate>
 
-  useEffect(() => {
-    if (selectedMusicId) {
-      return setCurrentSong(selectedMusic);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (selectedMusic && isEditing === false) {
-      setPause(true);
-    }
-  }, [isEditing]);
-
-  const getSelectedMusic = () => {
-    if (selectedMusicId !== undefined) {
-      return musicList.musicList.filter((el) => el.id === selectedMusicId)[0];
-    }
-    return;
-  };
-
-  const selectedMusic = getSelectedMusic();
-
-  useEffect(() => {
-    setCurrentSong(filtered[index]);
-  }, [index]);
-
-  useEffect(() => {
-    //리덕스로 곡 불러올떄
-    musicSetting();
-  }, [musicOpen]);
-
-  const musicSetting = () => {
-    //리덕스로 곡 불러올떄
-    let dataLists = genreKinds(musicList.musicList);
-    setGenreList(dataLists);
-    setMusicLists(musicList.musicList);
-    setFiltered(musicList.musicList);
-  };
-
-  const genreKinds = (data) => {
-    //장르 종류 추출해서 셀렉트바에 보내줘야함
-    let kinds = [];
-    for (let i = 0; i < data.length; i++) {
-      if (kinds.includes(data[i].genre.genre_name) === false) {
-        kinds = [...kinds, data[i].genre.genre_name];
-      }
-      kinds = kinds;
-    }
-    return kinds;
-  };
-
-  const getGenre = (selectedGenre) => {
-    setGenre(selectedGenre);
-  };
-
-  const sendSongInfo = (e) => {
-    setSelectedSong(e.target.title);
-  };
-
-  useEffect(() => {
-    playerRef.current.volume = volume;
-    playerRef.current.muted = muteState;
-  }, [volume, muteState]);
-
-  useEffect(() => {
-    playerRef.current.addEventListener("timeupdate", timeUpdate);
-    playerRef.current.addEventListener("ended", nextSong, false);
-    timelineRef.current.addEventListener("click", changeCurrentTime, false);
-    timelineRef.current.addEventListener("mousemove", hoverTimeLine, false);
-    timelineRef.current.addEventListener("mouseout", resetTimeLine, false);
-    return () => {
-      if (playerRef.current && timelineRef.current) {
-        playerRef.current.removeEventListener("timeupdate", timeUpdate);
-        playerRef.current.removeEventListener("ended", nextSong);
-        timelineRef.current.removeEventListener("click", changeCurrentTime);
-        timelineRef.current.removeEventListener("mousemove", hoverTimeLine);
-        timelineRef.current.removeEventListener("mouseout", resetTimeLine);
-      }
-    };
-  });
-
-  const changeCurrentTime = (e) => {
-    //재생시간바 시간 이동하기
-    const duration = playerRef.current.duration; //duration 동영상의 길이
-    const playheadWidth = timelineRef.current.offsetWidth; //offsetWidth CSS상으로 재생시간바의 길이
-    const offsetWidth = timelineRef.current.offsetLeft; //offsetLeft CSS상으로 body박스의 가로 길이 right은 없나봄.
-    const userClickWidth = e.clientX - offsetWidth; //e.clientX(body박스 가로 길의 전체 중 내가 클릭한 좌표의 x값 - 재생시간바의 길이
-    const userClickWidthInPercent = (userClickWidth * 100) / playheadWidth; //재생시간바 대비 몇 퍼센트인지 계산해서 CSS에 효과주기
-
-    playheadRef.current.style.width = userClickWidthInPercent + "%"; //CSS style.width에 %로 나타내줌
-    playerRef.current.currentTime = (duration * userClickWidthInPercent) / 100; //플레이어에도 진척도 마찬가지로 넣어줌 CSS가 보여주는 것이랑 실제랑 같게 해야하므로
-  };
-
-  const timeUpdate = () => {
-    if (playerRef.current !== null) {
-      const duration = playerRef.current.duration;
-      const playPercent = 100 * (playerRef.current.currentTime / duration);
-      playheadRef.current.style.width = playPercent + "%";
-      const currentTime = formatTime(parseInt(playerRef.current.currentTime));
-      setCurrentTime(currentTime);
-      if (playheadRef.current.style.width === "100%") {
-        playheadRef.current.style.width = "0%";
-      }
-    }
-  };
-
-  const hoverTimeLine = (e) => {
-    const duration = playerRef.current.duration;
-    const playheadWidth = timelineRef.current.offsetWidth;
-    const offsetWidth = timelineRef.current.offsetLeft;
-    const userClickWidth = e.clientX - offsetWidth;
-    const userClickWidthInPercent = (userClickWidth * 100) / playheadWidth;
-
-    if (userClickWidthInPercent <= 100) {
-      hoverPlayheadRef.current.style.width = userClickWidthInPercent + "%";
-    }
-
-    const time = (duration * userClickWidthInPercent) / 100;
-
-    if (time >= 0 && time <= duration) {
-      hoverPlayheadRef.current.dataset.content = formatTime(time);
-    }
-  };
-
-  const resetTimeLine = () => {
-    hoverPlayheadRef.current.style.width = 0;
-  };
-
-  const formatTime = (currentTime) => {
-    const minutes = Math.floor(currentTime / 60);
-    let seconds = Math.floor(currentTime % 60);
-
-    seconds = seconds >= 10 ? seconds : "0" + (seconds % 60);
-
-    const formatTime = minutes + ":" + seconds;
-
-    return formatTime;
-  };
-
-  const updatePlayer = () => {
-    setCurrentSong(filtered[index]);
-    playerRef.current.load();
-  };
-
-  const nextSong = () => {
-    setIndex((index + 1) % filtered.length);
-    updatePlayer();
-    if (pause) {
-      playerRef.current.play();
-    }
-  };
-
-  const prevSong = () => {
-    setIndex((index + filtered.length - 1) % filtered.length);
-    updatePlayer();
-    if (pause) {
-      playerRef.current.play();
-    }
-  };
-
-  const playOrPause = () => {
-    //스테이트 고치기
-    setCurrentSong(filtered[index]);
-    const audio = new Audio(currentSong.audio);
-    if (!pause) {
-      playerRef.current.play();
-    } else {
-      playerRef.current.pause();
-    }
-    setPause(!pause);
-  };
-
-  const clickAudio = (key) => {
-    //스테이트 고치기
-    setIndex(key);
-
-    updatePlayer();
-    if (pause) {
-      playerRef.current.play();
-    }
-  };
-
-  const filterListByGenre = (allList) => {
-    //장르에 맞춰서 필터해주는 함수
-    let filteredList = allList.filter((el) => el.genre.genre_name === genre);
-    return filteredList;
-  };
-  useEffect(() => {
-    let filteredList = filterListByGenre(musicLists);
-    setFiltered(filteredList);
-    setIndex(0);
-  }, [genre]);
-
-  if (selectedMusic && isEditing === false) {
-    return (
-      <div className="player-wrapper">
-        <div className="current-song">
-          <Icon
-            size={18}
-            className={`close-btn ${musicOpen ? "open" : null}`}
-            icon={ic_close}
-            onClick={() => {
-              musicModalOnOff();
-            }}
+      <HeaderEmoji>
+        <CurrentEmoji emojiChosen={emojiChosen}>
+          <FontAwesomeIcon
+            icon={emojiChosen ? emojiChosen.emoji : farSmile}
+            onClick={emojiModalHandler}
           />
+        </CurrentEmoji>
+        <EmojiModal
+          emojiModalOnOff={emojiModalOnOff}
+          emojiOpen={emojiOpen}
+          whatEmoji={whatEmoji}
+        ></EmojiModal>
+      </HeaderEmoji>
 
-          {selectedMusic && (
-            <>
-              <audio autoPlay loop ref={playerRef}>
-                <source src={selectedMusic.audio} type="audio/ogg" />
-                Your browser does not support the audio element.
-              </audio>
+      <HeaderWeather>
+        <WeatherModal weatherData={weatherData} weatherChosen={weatherChosen} />
+      </HeaderWeather>
 
-              <div className="song-info">
-                <span className="song-name">{selectedMusic.name}</span>
-                <span className="song-author">{selectedMusic.author}</span>
-              </div>
+      <MusicBtn onClick={musicModalOnOff}>
+        <FontAwesomeIcon icon={faMusic} />
+      </MusicBtn>
 
-              <div className="time">
-                <div className="current-time">{currentTime}</div>
-                <div className="end-time">{selectedMusic.duration}</div>
-              </div>
-            </>
-          )}
-          <div ref={timelineRef} id="timeline">
-            <div ref={playheadRef} id="playhead"></div>
-            <div
-              ref={hoverPlayheadRef}
-              className="hover-playhead"
-              data-content="0:00"
-            ></div>
-          </div>
+      <MusicBtnUp onClick={musicModalOnOff}>
+        <FontAwesomeIcon icon={faMusic} />
+      </MusicBtnUp>
+    </Header>
+  );
+};
 
-          <div className="controls">
-            <div>
-              <button onClick={playOrPause} className="play current-btn">
-                {!pause ? (
-                  <Icon size={23} icon={circle} />
-                ) : (
-                  <Icon size={20} icon={pause2} />
-                )}
-              </button>
-            </div>
+export default React.memo(DiaryHeader);
 
-            <span className="volume-controller-wrapper2">
-              <button
-                className="mute-btn"
-                onClick={() => {
-                  setMuteState(!muteState);
-                }}
-                onMouseOver={() => {
-                  volumeControllerRef.current.style.opacity = 1;
-                }}
-              >
-                <Icon
-                  size={12}
-                  icon={
-                    muteState
-                      ? volumeMute2
-                      : volume < 0.01 //0으로 하면 안먹음
-                      ? volumeMute
-                      : volume < 0.34
-                      ? volumeLow
-                      : volume < 0.67
-                      ? volumeMedium
-                      : volumeHigh
-                  }
-                />
-              </button>
+const Header = styled.div`
+  border: none;
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 4.5rem;
+  background-color: #f7f8e7;
+  background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+  border-top-right-radius: 1rem;
+  border-top-left-radius: 1rem;
+`;
 
-              <input
-                ref={volumeControllerRef}
-                className="volume-controller2"
-                type="range"
-                min={0}
-                max={1}
-                step={0.01}
-                value={muteState ? 0 : volume}
-                onChange={(e) => {
-                  if (muteState) {
-                    setMuteState(false);
-                  }
-                  setVolume(e.target.value);
-                }}
-                onMouseOut={() => {
-                  volumeControllerRef.current.style.opacity = 0;
-                }}
-              />
-            </span>
-          </div>
-        </div>
-      </div>
-    );
-  } else if (selectedMusic && isEditing === true) {
-    return (
-      <div className="player-wrapper">
-        <div className="current-song">
-          <Icon
-            size={18}
-            className={`close-btn ${musicOpen ? "open" : null}`}
-            icon={ic_close}
-            onClick={() => {
-              musicModalOnOff();
-            }}
-          />
+const HeaderDate = styled.div`
+  flex: 5 1 40%;
+  font-size: 2rem;
+  font-family: var(--thick-font);
+  text-align: center;
+  font-weight: 700;
+  color: #595b5c;
 
-          <SelectBar getGenre={getGenre} genreList={genreList} />
-          {currentSong && (
-            <>
-              <audio ref={playerRef}>
-                <source src={currentSong.audio} type="audio/ogg" />
-                Your browser does not support the audio element.
-              </audio>
-
-              <div className="song-info">
-                <span className="song-name">{currentSong.name}</span>
-                <span className="song-author">{currentSong.author}</span>
-              </div>
-
-              <div className="time">
-                <div className="current-time">{currentTime}</div>
-                <div className="end-time">{currentSong.duration}</div>
-              </div>
-            </>
-          )}
-          <div ref={timelineRef} id="timeline">
-            <div ref={playheadRef} id="playhead"></div>
-            <div
-              ref={hoverPlayheadRef}
-              className="hover-playhead"
-              data-content="0:00"
-            ></div>
-          </div>
-
-          <div className="controls">
-            <div>
-              <button onClick={prevSong} className="prev prev-next current-btn">
-                <Icon icon={stepBackward} />
-              </button>
-
-              <button onClick={playOrPause} className="play current-btn">
-                {!pause ? (
-                  <Icon size={23} icon={circle} />
-                ) : (
-                  <Icon size={20} icon={pause2} />
-                )}
-              </button>
-              <button onClick={nextSong} className="next prev-next current-btn">
-                <Icon icon={stepForward} />
-              </button>
-            </div>
-
-            <div className="song_alert_wrapper">
-              <span className="song_alert">
-                {selectedSong &&
-                  musicLists &&
-                  `${musicLists[selectedSong].name} 곡이 배경음악으로 설정되었습니다`}
-              </span>
-            </div>
-
-            <span className="volume-controller-wrapper">
-              <button
-                className="mute-btn"
-                onClick={() => {
-                  setMuteState(!muteState);
-                }}
-                onMouseOver={() => {
-                  volumeControllerRef.current.style.opacity = 1;
-                }}
-              >
-                <Icon
-                  size={12}
-                  icon={
-                    muteState
-                      ? volumeMute2
-                      : volume < 0.01 //0으로 하면 안먹음
-                      ? volumeMute
-                      : volume < 0.34
-                      ? volumeLow
-                      : volume < 0.67
-                      ? volumeMedium
-                      : volumeHigh
-                  }
-                />
-              </button>
-
-              <input
-                ref={volumeControllerRef}
-                className="volume-controller"
-                type="range"
-                min={0}
-                max={1}
-                step={0.01}
-                value={muteState ? 0 : volume}
-                onChange={(e) => {
-                  if (muteState) {
-                    setMuteState(false);
-                  }
-                  setVolume(e.target.value);
-                }}
-                onMouseOut={() => {
-                  volumeControllerRef.current.style.opacity = 0;
-                }}
-              />
-            </span>
-          </div>
-        </div>
-        <div className="play-list">
-          {filtered.map((music, arrayIndex) => (
-            <div className="play-list-one" key={uniqueId()}>
-              <div
-                onClick={() => clickAudio(arrayIndex)}
-                className={
-                  "track " +
-                  (index === arrayIndex && !pause ? "current-audio" : "") +
-                  (index === arrayIndex && pause ? "play-now" : "")
-                }
-              >
-                <img className="track-img" src={music.img} />
-                <div className="track-info">
-                  <span className="track-name">
-                    {music.name.length >= 20
-                      ? `${music.name.slice(0, 18)}...`
-                      : music.name}
-                  </span>
-                  <span className="track-author">{music.author}</span>
-                </div>
-                <span className="track-duration">
-                  {index === music.id ? currentTime : music.duration}
-                </span>
-                <button
-                  className="track-select"
-                  title={music.id}
-                  onClick={(e) => {
-                    sendSongInfo(e);
-                    getMusicData(e.target.title);
-                    e.stopPropagation(); //버튼 클릭할 때 재생 곡이 바뀌는 걸 방지해준다. 버블링 캡쳐링 금지
-                  }}
-                >
-                  <Icon
-                    size={22}
-                    icon={plus}
-                    style={{ pointerEvents: "none" }}
-                  />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  } else {
-    return (
-      <div className="player-wrapper">
-        <div className="current-song">
-          <Icon
-            size={18}
-            className={`close-btn ${musicOpen ? "open" : null}`}
-            icon={ic_close}
-            onClick={() => {
-              musicModalOnOff();
-            }}
-          />
-
-          <SelectBar getGenre={getGenre} genreList={genreList} />
-          {currentSong && (
-            <>
-              <audio ref={playerRef}>
-                <source src={currentSong.audio} type="audio/ogg" />
-                Your browser does not support the audio element.
-              </audio>
-
-              <div className="song-info">
-                <span className="song-name">{currentSong.name}</span>
-                <span className="song-author">{currentSong.author}</span>
-              </div>
-
-              <div className="time">
-                <div className="current-time">{currentTime}</div>
-                <div className="end-time">{currentSong.duration}</div>
-              </div>
-            </>
-          )}
-          <div ref={timelineRef} id="timeline">
-            <div ref={playheadRef} id="playhead"></div>
-            <div
-              ref={hoverPlayheadRef}
-              className="hover-playhead"
-              data-content="0:00"
-            ></div>
-          </div>
-
-          <div className="controls">
-            <div className="controls_wrapper">
-              <button onClick={prevSong} className="prev prev-next current-btn">
-                <Icon icon={stepBackward} />
-              </button>
-
-              <button onClick={playOrPause} className="play current-btn">
-                {!pause ? (
-                  <Icon size={23} icon={circle} />
-                ) : (
-                  <Icon size={20} icon={pause2} />
-                )}
-              </button>
-              <button onClick={nextSong} className="next prev-next current-btn">
-                <Icon icon={stepForward} />
-              </button>
-            </div>
-
-            <div className="song_alert_wrapper">
-              <span className="song_alert">
-                {selectedSong &&
-                  musicLists &&
-                  `${musicLists[selectedSong].name} 곡이 배경음악으로 설정되었습니다`}
-              </span>
-            </div>
-
-            <span className="volume-controller-wrapper">
-              <button
-                className="mute-btn"
-                onClick={() => {
-                  setMuteState(!muteState);
-                }}
-                onMouseOver={() => {
-                  volumeControllerRef.current.style.opacity = 1;
-                }}
-              >
-                <Icon
-                  size={12}
-                  icon={
-                    muteState
-                      ? volumeMute2
-                      : volume < 0.01 //0으로 하면 안먹음
-                      ? volumeMute
-                      : volume < 0.34
-                      ? volumeLow
-                      : volume < 0.67
-                      ? volumeMedium
-                      : volumeHigh
-                  }
-                />
-              </button>
-
-              <input
-                ref={volumeControllerRef}
-                className="volume-controller"
-                type="range"
-                min={0}
-                max={1}
-                step={0.01}
-                value={muteState ? 0 : volume}
-                onChange={(e) => {
-                  if (muteState) {
-                    setMuteState(false);
-                  }
-                  setVolume(e.target.value);
-                }}
-                onMouseOut={() => {
-                  volumeControllerRef.current.style.opacity = 0;
-                }}
-              />
-            </span>
-          </div>
-        </div>
-        <div className="play-list">
-          {filtered.map((music, arrayIndex) => (
-            <div className="play-list-one" key={uniqueId()}>
-              <div
-                onClick={() => clickAudio(arrayIndex)}
-                className={
-                  "track " +
-                  (index === arrayIndex && !pause ? "current-audio" : "") +
-                  (index === arrayIndex && pause ? "play-now" : "")
-                }
-              >
-                <img className="track-img" src={music.img} />
-                <div className="track-info">
-                  <span className="track-name">
-                    {music.name.length >= 20
-                      ? `${music.name.slice(0, 18)}...`
-                      : music.name}
-                  </span>
-                  <span className="track-author">{music.author}</span>
-                </div>
-                <span className="track-duration">
-                  {index === music.id ? currentTime : music.duration}
-                </span>
-                <button
-                  className="track-select"
-                  title={music.id}
-                  onClick={(e) => {
-                    sendSongInfo(e);
-                    getMusicData(e.target.title);
-                    e.stopPropagation(); //버튼 클릭할 때 재생 곡이 바뀌는 걸 방지해준다. 버블링 캡쳐링 금지
-                  }}
-                >
-                  <Icon
-                    size={22}
-                    icon={plus}
-                    style={{ pointerEvents: "none" }}
-                  />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
+  @media screen and (max-width: 570px) {
+    & {
+      font-size: 1.8rem;
+      margin-left: 1rem;
+    }
   }
-};
 
-const mapStateToProps = ({ mainReducer }) => {
-  return {
-    musicList: mainReducer,
-  };
-};
+  @media screen and (max-width: 502px) {
+    & {
+      font-size: 1.6rem;
+      margin-left: 1rem;
+    }
+  }
 
-const SongName = styled.div``;
-export default connect(mapStateToProps)(Music);
+  @media screen and (max-width: 455px) {
+    & {
+      font-size: 1.4rem;
+      margin-left: 1rem;
+    }
+  }
+
+  @media screen and (max-width: 406px) {
+    & {
+      font-size: 1.2rem;
+      margin-left: 1rem;
+    }
+  }
+
+  @media screen and (max-width: 340px) {
+    & {
+      font-size: 1.1rem;
+      margin-left: 1rem;
+    }
+  }
+`;
+
+const HeaderEmoji = styled.div`
+  position: relative;
+  flex: 1 1 20%;
+  text-align: center;
+  padding: 0 -0.5rem;
+  border-radius: 1rem;
+`;
+const CurrentEmoji = styled.div`
+  svg {
+    font-size: 4rem;
+    cursor: pointer;
+    color: ${(props) =>
+      props.emojiChosen ? props.emojiChosen.color : "#86888a"};
+    backgroundcolor: transparent;
+  }
+`;
+
+const HeaderWeather = styled.div`
+  flex: 5 1 40%;
+  text-align: center;
+  font-size: 30;
+  /* background-color: white; */
+  /* border-radius: 1rem; */
+  /* margin-right: 1rem; */
+
+  @media screen and (max-width: 570px) {
+    & {
+      margin-right: 0.2rem;
+    }
+  }
+`;
+const MusicBtn = styled.button`
+  position: absolute;
+  top: 4.5rem;
+  right: -3.2rem;
+  padding: 2.5rem 0.5rem;
+  border-top-right-radius: 0.7rem;
+  border-bottom-right-radius: 0.7rem;
+  cursor: pointer;
+  z-index: 200;
+  background-color: #d3c4ae;
+  border: 1px solid rgb(27, 27, 27, 0.2);
+
+  svg {
+    color: #7a706d;
+    font-size: 2rem;
+    border: none;
+    pointer-events: none;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  @media screen and (max-width: 760px) {
+    & {
+      display: none;
+    }
+  }
+`;
+const MusicBtnUp = styled(MusicBtn)`
+  display: none;
+  top: -2.85rem;
+  right: 1rem;
+  padding: 0.3rem 2.5rem;
+  border-top-right-radius: 0.7rem;
+  border-top-left-radius: 0.7rem;
+  border-bottom-right-radius: 0rem;
+
+  @media screen and (max-width: 760px) {
+    & {
+      display: block;
+    }
+  }
+`;
