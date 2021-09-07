@@ -78,3 +78,72 @@ const TextSpan = styled.span`
   width: 5rem;
   margin: 0rem;
 `;
+
+/*
+기존의 체크 박스 고쳐볼 것
+const FooterCheckBox = styled.div`
+  display: flex;
+  font-size: 1.2rem;
+  color: #605138;
+  font-family: var(--thick-font);
+  font-weight: 800;
+
+  align-items: center;
+`;
+
+const FooterInput = styled.input.attrs({ type: "checkbox" })`
+  // opacity: 0;
+  display: none;
+`;
+
+const FooterLabel = styled.label`
+  poition: absolute;
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  color: #605138;
+  font-family: var(--thick-font);
+  font-weight: 800;
+`;
+
+const FooterInput = styled.input.attrs({ type: "checkbox" })`
+  + {
+    ${FooterLabel} {
+      display: block;
+      margin: 0.2em;
+      cursor: pointer;
+      padding: 0.2em;
+      &:before {
+        content: "";
+        border: 0.1rem solid #827870;
+        border-radius: 50%;
+        display: inline-block;
+        width: 1rem;
+        height: 1rem;
+        margin-right: 0.5rem;
+        vertical-align: center;
+        align-items: center;
+        color: transparent;
+        transition: 0.2s;
+      }
+      &:active {
+        &:before {
+          transform: scale(0);
+        }
+      }
+    }
+  }
+  display: none;
+  &:checked {
+    + {
+      ${FooterLabel} {
+        &:before {
+          background-color: #837970;
+          border-color: #837970;
+          color: #fff;
+        }
+      }
+    }
+  }
+`;
+*/

@@ -1,19 +1,37 @@
 import React from "react";
 import styled from "styled-components";
 
-export const Text = ({ setDiaryText }) => {
+export const Text = ({ selectedDiary, isEditing, setDiaryText }) => {
   const canvasHeight = (window.innerWidth / 2) * 0.4;
   const textAreaHeight = window.innerHeight - 135 - canvasHeight;
 
   return (
-    <TextArea
-      className="textarea"
-      placeholder="오늘은 어떠셨나요?"
-      textAreaHeight={textAreaHeight}
-      onChange={(e) => {
-        setDiaryText(e.target.value);
-      }}
-    />
+    <>
+      {!selectedDiary ? (
+        <TextArea
+          placeholder="오늘은 어떠셨나요?"
+          textAreaHeight={textAreaHeight}
+          onChange={(e) => {
+            setDiaryText(e.target.value);
+          }}
+        />
+      ) : isEditing === true ? (
+        <TextArea
+          textAreaHeight={textAreaHeight}
+          defaultValue={selectedDiary.text}
+          placeholder="오늘은 어떠셨나요?"
+          onChange={(e) => {
+            setDiaryText(e.target.value);
+          }}
+        />
+      ) : (
+        <TextArea
+          textAreaHeight={textAreaHeight}
+          defaultValue={selectedDiary.text}
+          readOnly
+        />
+      )}
+    </>
   );
 };
 
