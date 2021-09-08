@@ -1,12 +1,10 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import "moment/locale/ko";
-import WeatherModal from "./Weather";
-import EmojiModal from "./EmojiModal";
+
 import MusicModal from "./MusicModal";
 import Painting from "../painting/Painting";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./DiaryWriting.css";
 import { connect } from "react-redux";
 import emojis from "../../icons/emojis";
@@ -19,14 +17,12 @@ import {
   changeToPrivate,
 } from "../../actions";
 import LoadingModal from "./LoadingModal";
-import { faMusic } from "@fortawesome/free-solid-svg-icons";
 import { diffCheck, handleFileUpload } from "./diaryfunc";
 import Text from "./Text";
 import DiaryHeader from "./DiaryHeader";
 import DiaryFooter from "./DiaryFooter";
 import modifyAxios from "./modifyFunction";
 import moment from "moment";
-import DiaryFooterCheckBox from "./DiaryFooterCheckBox";
 
 const DiaryWriting = ({
   clickmoment,
@@ -42,7 +38,6 @@ const DiaryWriting = ({
   changeToPublic,
 }) => {
   const canvasRef = useRef(null);
-  const canvasHeight = (window.innerWidth / 2) * 0.4;
 
   const [emojiOpen, setEmojiOpen] = useState(false);
   const [emojiChosen, setEmojiChosen] = useState(() => {
@@ -278,6 +273,8 @@ const DiaryWriting = ({
         musicOpen={musicOpen}
         musicModalOnOff={musicModalOnOff}
         getMusicData={getMusicData}
+        isEditing={isEditing}
+        selectedMusicId={selectedDiary && selectedDiary.music.id}
         style={{ display: "flex", position: "relative" }}
       />
       <LoadingModal loadingModalOpen={loadingModalOpen} />

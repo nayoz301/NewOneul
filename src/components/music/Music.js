@@ -31,12 +31,12 @@ const music = [
 ];
 
 const Music = ({
-  musicModalOnOff,
   musicOpen,
+  musicModalOnOff,
   getMusicData,
-  musicList,
-  selectedMusicId,
   isEditing,
+  selectedMusicId,
+  musicList,
 }) => {
   const [pause, setPause] = useState(false);
   const [index, setIndex] = useState(0);

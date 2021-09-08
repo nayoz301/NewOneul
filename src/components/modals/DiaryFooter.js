@@ -36,6 +36,8 @@ const DiaryFooter = ({
           <FooterPost onClick={completeDiary}>등록하기</FooterPost>
         ) : isEditing === true ? (
           <FooterPost onClick={recompleteDiary}>재등록하기</FooterPost>
+        ) : selectedDiary.isOtherDiary ? (
+          <FooterHide />
         ) : (
           <FooterPost onClick={() => setIsEditing(true)}>수정하기</FooterPost>
         )}
@@ -88,6 +90,22 @@ const FooterPost = styled.button`
   padding: 0.6rem 1.5rem;
   border-radius: 0.5rem;
   background-color: #837970;
+  font-weight: 800;
+  font-family: var(--thick-font);
+  font-size: 1.4rem;
+  padding: 0.5rem 1.5rem;
+  &:active {
+    transform: scale(0.95);
+  }
+`;
+
+const FooterHide = styled.div`
+  color: rgba(255, 0, 0, 0);
+  border: none;
+  margin: 1rem 1rem;
+  padding: 0.6rem 1.5rem;
+  border-radius: 0.5rem;
+  background-color: rgba(255, 0, 0, 0);
   font-weight: 800;
   font-family: var(--thick-font);
   font-size: 1.4rem;

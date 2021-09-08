@@ -1,28 +1,22 @@
-import React, { Component } from "react";
+import React from "react";
 import styled from "styled-components";
 import Music from "../music/Music";
 
-const MusicModal = (props) => {
-  const {
-    musicOpen,
-    musicModalOnOff,
-    getMusicData,
-    selectedMusicId,
-    isEditing,
-    musicChosen,
-    setMusicChosen,
-  } = props;
-
+const MusicModal = ({
+  musicOpen,
+  musicModalOnOff,
+  getMusicData,
+  isEditing,
+  selectedMusicId,
+}) => {
   return (
     <MusicPlayerEffect musicOpen={musicOpen}>
       <Music
+        musicOpen={musicOpen}
         musicModalOnOff={musicModalOnOff}
         getMusicData={getMusicData}
-        selectedMusicId={selectedMusicId}
         isEditing={isEditing}
-        musicChosen={musicChosen}
-        setMusicChosen={setMusicChosen}
-        musicOpen={musicOpen}
+        selectedMusicId={selectedMusicId}
       />
     </MusicPlayerEffect>
   );
