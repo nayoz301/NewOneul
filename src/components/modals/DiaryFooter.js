@@ -11,12 +11,14 @@ const DiaryFooter = ({
   closeDiaryModal,
   completeDiary,
   recompleteDiary,
+  passDiaryId,
 }) => {
   return (
     <Footer>
       <FooterClose
         onClick={() => {
           closeDiaryModal();
+          passDiaryId(0);
         }}
       >
         닫기

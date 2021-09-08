@@ -266,6 +266,7 @@ const DiaryWriting = ({
           closeDiaryModal={closeDiaryModal}
           completeDiary={completeDiary}
           recompleteDiary={recompleteDiary}
+          passDiaryId={passDiaryId}
         />
       </ModalWrapper>
 
