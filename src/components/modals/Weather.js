@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Icon } from "react-icons-kit";
 import uniqueId from "lodash/uniqueId";
@@ -60,7 +60,6 @@ const Weather = ({
       </div>
     </>
   );
-  // }
 };
 
 export default React.memo(Weather);
@@ -91,70 +90,6 @@ const IconWrapper = styled.div`
           ? "none"
           : "scale(1)"};
     }
-
-    @media screen and (max-width: 489px) {
-      & {
-        width: 3.5rem;
-        height: 3.5rem;
-      }
-    }
-
-    @media screen and (max-width: 464px) {
-      & {
-        width: 3.3rem;
-        height: 3.3rem;
-      }
-    }
-
-    @media screen and (max-width: 439px) {
-      & {
-        width: 3.1rem;
-        height: 3.1rem;
-      }
-    }
-
-    @media screen and (max-width: 418px) {
-      & {
-        width: 2.9rem;
-        height: 2.9rem;
-      }
-    }
-
-    @media screen and (max-width: 389px) {
-      & {
-        width: 2.7rem;
-        height: 2.7rem;
-      }
-    }
-
-    @media screen and (max-width: 364px) {
-      & {
-        width: 2.5rem;
-        height: 2.5rem;
-      }
-    }
-
-    @media screen and (max-width: 339px) {
-      & {
-        width: 2.3rem;
-        height: 2.3rem;
-      }
-    }
-  }
-`;
-
-const IconWrapperView = styled.div`
-  svg {
-    cursor: pointer;
-    width: 3.7rem;
-    height: 3.7rem;
-    fill: ${(props) =>
-      props.id === props.weatherChosen ? props.color : "#8a959e"};
-
-    background-color: ${(props) =>
-      props.id === props.weatherChosen ? props.color + "45" : "transparent"};
-
-    border-radius: 50%;
 
     @media screen and (max-width: 489px) {
       & {
