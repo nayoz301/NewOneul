@@ -13,6 +13,7 @@ import {
   MusicBtn,
   MusicBtnUp,
 } from "../../styles/modals/DiaryHeader.style";
+
 const DiaryHeader = ({
   clickmoment,
   selectedDiary,

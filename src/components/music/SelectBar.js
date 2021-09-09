@@ -9,6 +9,7 @@ import {
   List,
   Genre,
 } from "../../styles/music/SelectBar.style";
+
 const SelectBar = ({ getGenre, genreList }) => {
   const [isVisibil, setIsVisibil] = useState(false);
   const [selectedGenre, setSelectedGenre] = useState("");

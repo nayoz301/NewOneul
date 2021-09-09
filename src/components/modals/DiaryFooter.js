@@ -8,6 +8,7 @@ import {
   FooterHide,
   TextSpan,
 } from "../../styles/modals/DiaryFooter.style";
+
 const DiaryFooter = ({
   selectedDiary,
   isEditing,

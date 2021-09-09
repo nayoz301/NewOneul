@@ -1,5 +1,4 @@
 import React from "react";
-
 import {
   FooterCheckBox,
   SwitchInput,
@@ -7,6 +6,7 @@ import {
   Switch,
   TextSpan,
 } from "../../styles/modals/DiaryFooterCheckBox.style";
+
 const DiaryFooterCheckBox = ({ isPublic, setIsPublic }) => {
   return (
     <FooterCheckBox>

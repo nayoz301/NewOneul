@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { flexCenter } from "../../styles/global.style";
-import DiaryWriting from "../modals/DiaryWriting";
 import { connect } from "react-redux";
+import DiaryWriting from "../modals/DiaryWriting";
 import "aos/dist/aos.css";
 
 const Diary = ({
