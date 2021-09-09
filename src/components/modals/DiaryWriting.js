@@ -2,12 +2,17 @@ import React, { useState, useRef, useCallback } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import "moment/locale/ko";
-
+import moment from "moment";
+import { connect } from "react-redux";
+import LoadingModal from "./LoadingModal";
+import DiaryHeader from "./DiaryHeader";
+import emojis from "../../icons/emojis";
 import MusicModal from "./MusicModal";
 import Painting from "../painting/Painting";
-import "./DiaryWriting.css";
-import { connect } from "react-redux";
-import emojis from "../../icons/emojis";
+import Text from "./Text";
+import DiaryFooter from "./DiaryFooter";
+import modifyAxios from "./modifyFunction";
+import { diffCheck, handleFileUpload } from "./diaryfunc";
 import {
   addNewPublicDiary,
   addNewPrivateDiary,
@@ -16,13 +21,6 @@ import {
   changeToPublic,
   changeToPrivate,
 } from "../../actions";
-import LoadingModal from "./LoadingModal";
-import { diffCheck, handleFileUpload } from "./diaryfunc";
-import Text from "./Text";
-import DiaryHeader from "./DiaryHeader";
-import DiaryFooter from "./DiaryFooter";
-import modifyAxios from "./modifyFunction";
-import moment from "moment";
 
 const DiaryWriting = ({
   clickmoment,

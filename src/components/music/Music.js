@@ -1,9 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import uniqueId from "lodash/uniqueId";
-import "./Music.css";
 import SelectBar from "./SelectBar";
 import { connect } from "react-redux";
-
 import { circle, stepBackward, stepForward } from "react-icons-kit/iconic/";
 import { Icon } from "react-icons-kit";
 import { pause2 } from "react-icons-kit/icomoon/pause2";
