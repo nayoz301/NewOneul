@@ -264,10 +264,7 @@ const Music = ({
     setIndex(0);
   }, [genre]);
 
-  if (
-    (selectedMusic && isEditing === false) ||
-    (selectedMusic && isEditing === true)
-  ) {
+  if (selectedMusic && isEditing === false) {
     return (
       <PlayerWrapper>
         <CurrentSongWrapper>
