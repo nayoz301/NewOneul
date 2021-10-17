@@ -139,7 +139,7 @@ const Music = ({
 
   useEffect(() => {
     if (playerRef.current && timelineRef.current) {
-      playerRef.current.addEventListener("timeupdate", timeUpdate);
+      playerRef.current.addEventListener("timeupdate", timeUpdate, false);
       playerRef.current.addEventListener("ended", nextSong, false);
       timelineRef.current.addEventListener("click", changeCurrentTime, false);
       timelineRef.current.addEventListener("mousemove", hoverTimeLine, false);
